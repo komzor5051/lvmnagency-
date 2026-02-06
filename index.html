@@ -944,6 +944,14 @@
             inset: 0;
             background: radial-gradient(circle at 30% 70%, var(--accent-glow), transparent 60%);
         }
+        .about-photo {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center top;
+            position: relative;
+            z-index: 1;
+        }
         .about-initials {
             font-family: var(--font-display);
             font-size: 80px;
@@ -1840,7 +1848,7 @@
             <div class="about-layout">
                 <div class="about-visual reveal">
                     <div class="about-visual-box">
-                        <span class="about-initials">VL</span>
+                        <img src="founder.jpg" alt="Влад Лямин — основатель LVMN" class="about-photo">
                     </div>
                     <div class="about-products">
                         <span class="about-product-tag">Swipely</span>
