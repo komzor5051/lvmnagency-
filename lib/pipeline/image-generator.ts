@@ -1,10 +1,27 @@
-import { generateImage as openrouterGenerateImage } from "@/lib/openrouter";
+import { GoogleGenAI } from "@google/genai";
 import { supabase } from "@/lib/supabase";
+
+const genAI = new GoogleGenAI({ apiKey: process.env.GOOGLE_AI_API_KEY ?? "placeholder-for-build" });
 
 const MEME_PLACEHOLDER_REGEX = /!\[MEME:\s*(.+?)\]\(placeholder\)/g;
 
 async function generateImage(prompt: string): Promise<Buffer> {
-  return openrouterGenerateImage(prompt);
+  const response = await genAI.models.generateContent({
+    model: "gemini-3-pro-image-preview",
+    contents: prompt,
+    config: {
+      responseModalities: ["IMAGE", "TEXT"],
+    },
+  });
+
+  const parts = response.candidates?.[0]?.content?.parts ?? [];
+  for (const part of parts) {
+    if (part.inlineData?.data) {
+      return Buffer.from(part.inlineData.data, "base64");
+    }
+  }
+
+  throw new Error("Gemini returned no image data");
 }
 
 async function uploadToStorage(
