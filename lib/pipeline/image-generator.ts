@@ -1,27 +1,22 @@
-import { GoogleGenAI } from "@google/genai";
+import { generateImage as openrouterGenerateImage } from "@/lib/openrouter";
 import { supabase } from "@/lib/supabase";
-
-const genAI = new GoogleGenAI({ apiKey: process.env.GOOGLE_AI_API_KEY ?? "placeholder-for-build" });
 
 const MEME_PLACEHOLDER_REGEX = /!\[MEME:\s*(.+?)\]\(placeholder\)/g;
 
-async function generateImage(prompt: string): Promise<Buffer> {
-  const response = await genAI.models.generateContent({
-    model: "gemini-3-pro-image-preview",
-    contents: prompt,
-    config: {
-      responseModalities: ["IMAGE", "TEXT"],
-    },
-  });
-
-  const parts = response.candidates?.[0]?.content?.parts ?? [];
-  for (const part of parts) {
-    if (part.inlineData?.data) {
-      return Buffer.from(part.inlineData.data, "base64");
+async function generateImage(prompt: string, retries = 2): Promise<Buffer> {
+  for (let attempt = 0; attempt <= retries; attempt++) {
+    try {
+      return await openrouterGenerateImage(prompt);
+    } catch (err) {
+      if (attempt < retries) {
+        console.log(`[image-gen] Attempt ${attempt + 1} failed, retrying in 3s...`);
+        await new Promise((r) => setTimeout(r, 3000));
+      } else {
+        throw err;
+      }
     }
   }
-
-  throw new Error("Gemini returned no image data");
+  throw new Error("Unreachable");
 }
 
 async function uploadToStorage(

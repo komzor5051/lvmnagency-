@@ -8,13 +8,30 @@ const HEADERS = {
   "X-Title": "LVMN Blog",
 };
 
-/** Strip wrapping ```markdown ... ``` that LLMs sometimes add */
-function stripCodeFence(text: string): string {
-  const trimmed = text.trim();
-  const match = trimmed.match(
+/** Strip wrapping ```markdown ... ``` and LLM preamble artifacts */
+function stripArtifacts(text: string): string {
+  let clean = text.trim();
+
+  // Strip code fences
+  const fenceMatch = clean.match(
     /^```(?:markdown|md|html|json)?\s*\n([\s\S]*?)\n```\s*$/
   );
-  return match ? match[1] : trimmed;
+  if (fenceMatch) clean = fenceMatch[1];
+
+  // Strip LLM preamble ("Вот исправленная статья...", "Here is...", etc.)
+  clean = clean.replace(
+    /^(?:Вот\s+(?:исправленная|отредактированная|готовая|обновлённая|переработанная)\s+статья[^:]*:\s*\n*)/i,
+    ""
+  );
+
+  // Strip article delimiters from editor prompts
+  clean = clean.replace(/^---\s*СТАТЬЯ\s*---\s*\n*/m, "");
+  clean = clean.replace(/\n*---\s*КОНЕЦ СТАТЬИ\s*---\s*$/m, "");
+
+  // Strip stray date line at the very start (e.g. "19 февраля 2026 г.")
+  clean = clean.replace(/^\d{1,2}\s+(?:января|февраля|марта|апреля|мая|июня|июля|августа|сентября|октября|ноября|декабря)\s+\d{4}\s*г?\.?\s*\n+/i, "");
+
+  return clean.trim();
 }
 
 export async function chatCompletion(
@@ -43,7 +60,7 @@ export async function chatCompletion(
   const data = await res.json();
   const content = data.choices?.[0]?.message?.content;
   if (!content) throw new Error("Empty response from OpenRouter");
-  return stripCodeFence(content);
+  return stripArtifacts(content);
 }
 
 export async function generateImage(prompt: string): Promise<Buffer> {
@@ -65,27 +82,28 @@ export async function generateImage(prompt: string): Promise<Buffer> {
   }
 
   const data = await res.json();
-  const parts = data.choices?.[0]?.message?.content;
+  const message = data.choices?.[0]?.message;
 
-  // Response can be array of parts (multimodal) or string
-  if (Array.isArray(parts)) {
-    for (const part of parts) {
-      if (part.type === "image_url" && part.image_url?.url) {
-        const url: string = part.image_url.url;
-        if (url.startsWith("data:")) {
-          const b64 = url.split(",")[1];
-          return Buffer.from(b64, "base64");
-        }
-        // If it's an actual URL, fetch the image
+  // OpenRouter returns images in message.images[] array
+  const images = message?.images;
+  if (Array.isArray(images)) {
+    for (const img of images) {
+      const url: string = img?.image_url?.url ?? img?.url ?? "";
+      if (url.startsWith("data:")) {
+        const b64 = url.split(",")[1];
+        return Buffer.from(b64, "base64");
+      }
+      if (url) {
         const imgRes = await fetch(url);
         return Buffer.from(await imgRes.arrayBuffer());
       }
     }
   }
 
-  // Try parsing string content for base64 data
-  if (typeof parts === "string") {
-    const b64Match = parts.match(
+  // Fallback: check content for inline base64
+  const content = message?.content;
+  if (typeof content === "string") {
+    const b64Match = content.match(
       /data:image\/[^;]+;base64,([A-Za-z0-9+/=]+)/
     );
     if (b64Match) {
