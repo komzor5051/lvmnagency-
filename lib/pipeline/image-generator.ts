@@ -1,27 +1,10 @@
-import { GoogleGenAI } from "@google/genai";
+import { generateImage as openrouterGenerateImage } from "@/lib/openrouter";
 import { supabase } from "@/lib/supabase";
-
-const genAI = new GoogleGenAI({ apiKey: process.env.GOOGLE_AI_API_KEY ?? "placeholder-for-build" });
 
 const MEME_PLACEHOLDER_REGEX = /!\[MEME:\s*(.+?)\]\(placeholder\)/g;
 
 async function generateImage(prompt: string): Promise<Buffer> {
-  const response = await genAI.models.generateContent({
-    model: "gemini-3-pro-image-preview",
-    contents: prompt,
-    config: {
-      responseModalities: ["IMAGE", "TEXT"],
-    },
-  });
-
-  const parts = response.candidates?.[0]?.content?.parts ?? [];
-  for (const part of parts) {
-    if (part.inlineData?.data) {
-      return Buffer.from(part.inlineData.data, "base64");
-    }
-  }
-
-  throw new Error("Nano Banana returned no image");
+  return openrouterGenerateImage(prompt);
 }
 
 async function uploadToStorage(
@@ -89,7 +72,6 @@ export async function generateArticleImages(
   // Cap at 3 images max
   if (matches.length > 3) {
     console.log(`[image-gen] Found ${matches.length} placeholders, limiting to 3`);
-    // Remove extra placeholders from markdown
     for (let i = 3; i < matches.length; i++) {
       markdown = markdown.replace(matches[i].full, "");
     }
