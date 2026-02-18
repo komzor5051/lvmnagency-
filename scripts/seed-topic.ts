@@ -1,7 +1,8 @@
 import { config } from "dotenv";
 config({ path: ".env.local" });
 
-import { supabase } from "../lib/supabase";
+import { createClient } from "@supabase/supabase-js";
+const supabase = createClient(process.env.SUPABASE_URL!, process.env.SUPABASE_SERVICE_KEY!);
 
 async function seed() {
   const { error } = await supabase.from("lvmn_blog_topics").insert({
