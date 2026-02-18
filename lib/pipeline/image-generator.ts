@@ -1,7 +1,7 @@
 import { GoogleGenAI } from "@google/genai";
 import { supabase } from "@/lib/supabase";
 
-const genAI = new GoogleGenAI({ apiKey: process.env.GOOGLE_AI_API_KEY! });
+const genAI = new GoogleGenAI({ apiKey: process.env.GOOGLE_AI_API_KEY ?? "placeholder-for-build" });
 
 const MEME_PLACEHOLDER_REGEX = /!\[MEME:\s*(.+?)\]\(placeholder\)/g;
 
