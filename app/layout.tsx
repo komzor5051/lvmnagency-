@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Outfit, Cormorant_Garamond, JetBrains_Mono } from "next/font/google";
+import { YandexMetrika } from "@/components/YandexMetrika";
 import "./globals.css";
 
 const outfit = Outfit({
@@ -20,14 +21,15 @@ const jetbrainsMono = JetBrains_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "Блог LVMN — AI-автоматизация для бизнеса",
-    template: "%s | Блог LVMN",
+    default: "LVMN — AI-продукты для бизнеса за дни, не за месяцы",
+    template: "%s | LVMN",
   },
-  description: "Практичные статьи об AI-автоматизации бизнеса. Кейсы внедрения, тренды нейросетей, инструменты и ROI автоматизации.",
+  description:
+    "Строим AI-продукты для бизнеса: боты, автоматизации, MVP-сервисы — за 3-5 дней. 13 кейсов с цифрами. С гарантией результата.",
   metadataBase: new URL("https://lvmn.vercel.app"),
   openGraph: {
     type: "website",
-    siteName: "Блог LVMN",
+    siteName: "LVMN — AI-агентство",
     locale: "ru_RU",
   },
   twitter: {
@@ -54,6 +56,7 @@ export default function RootLayout({
         className={`${outfit.variable} ${cormorant.variable} ${jetbrainsMono.variable} antialiased`}
       >
         {children}
+        <YandexMetrika />
       </body>
     </html>
   );

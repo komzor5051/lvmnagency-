@@ -2,17 +2,39 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Блог LVMN — AI-автоматизация для бизнеса",
-  description: "Практичные статьи об автоматизации бизнеса с помощью AI. Кейсы, тренды нейросетей, инструменты.",
+  description:
+    "Практичные статьи об автоматизации бизнеса с помощью AI. Кейсы, тренды нейросетей, инструменты.",
 };
 
-export default function BlogLayout({ children }: { children: React.ReactNode }) {
+export default function BlogLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <div className="min-h-screen bg-white dark:bg-[#08090c]">
       <header className="border-b border-zinc-200 dark:border-zinc-800">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 py-4 sm:py-6 flex items-center justify-between">
-          <a href="/blog" className="text-xl font-bold text-zinc-900 dark:text-zinc-100">
-            Блог LVMN
-          </a>
+          <div className="flex items-center gap-6">
+            <a
+              href="/"
+              className="text-xl font-bold text-zinc-900 dark:text-zinc-100 tracking-wider hover:text-[var(--accent)] transition-colors"
+            >
+              LVMN
+            </a>
+            <nav className="hidden sm:flex items-center gap-4 text-sm text-zinc-500 dark:text-zinc-400">
+              <a
+                href="/"
+                className="hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors"
+              >
+                Главная
+              </a>
+              <span className="text-zinc-300 dark:text-zinc-700">/</span>
+              <span className="text-zinc-900 dark:text-zinc-100 font-medium">
+                Блог
+              </span>
+            </nav>
+          </div>
           <a
             href="https://t.me/lyaminvl?text=Аудит"
             target="_blank"
@@ -23,11 +45,19 @@ export default function BlogLayout({ children }: { children: React.ReactNode }) 
           </a>
         </div>
       </header>
-      <main className="max-w-6xl mx-auto px-4 sm:px-6 py-6 sm:py-8">{children}</main>
+      <main className="max-w-6xl mx-auto px-4 sm:px-6 py-6 sm:py-8">
+        {children}
+      </main>
       <footer className="border-t border-zinc-200 dark:border-zinc-800 mt-12">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 py-6 sm:py-8">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-zinc-500 dark:text-zinc-400">
             <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-6">
+              <a
+                href="/"
+                className="hover:text-[var(--accent)] transition-colors font-medium"
+              >
+                LVMN — Главная
+              </a>
               <a
                 href="https://t.me/lyaminvl"
                 target="_blank"
@@ -35,14 +65,6 @@ export default function BlogLayout({ children }: { children: React.ReactNode }) 
                 className="hover:text-[var(--accent)] transition-colors"
               >
                 Telegram @lyaminvl
-              </a>
-              <a
-                href="https://lvmn.vercel.app"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hover:text-[var(--accent)] transition-colors"
-              >
-                lvmn.vercel.app
               </a>
             </div>
             <span className="text-zinc-400 dark:text-zinc-600">
