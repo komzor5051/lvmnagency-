@@ -71,7 +71,7 @@ export async function generateImage(prompt: string): Promise<Buffer> {
       Authorization: `Bearer ${process.env.OPENROUTER_API_KEY ?? ""}`,
     },
     body: JSON.stringify({
-      model: "google/gemini-2.5-flash-image",
+      model: "google/gemini-3-pro-image-preview",
       messages: [{ role: "user", content: prompt }],
     }),
   });
