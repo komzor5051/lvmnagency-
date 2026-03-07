@@ -20,12 +20,12 @@ export default function LandingInteractivity() {
       (entries) => {
         entries.forEach((entry, i) => {
           if (entry.isIntersecting) {
-            setTimeout(() => entry.target.classList.add("visible"), i * 80);
+            setTimeout(() => entry.target.classList.add("visible"), i * 60);
             io.unobserve(entry.target);
           }
         });
       },
-      { threshold: 0.1, rootMargin: "0px 0px -40px 0px" }
+      { threshold: 0.08, rootMargin: "0px 0px -60px 0px" }
     );
     reveals.forEach((el) => io.observe(el));
 
@@ -41,7 +41,6 @@ export default function LandingInteractivity() {
           target.scrollIntoView({ behavior: "smooth", block: "start" });
         }
       }
-      // Close mobile menu
       document.querySelector(".landing .nav-links")?.classList.remove("open");
       document
         .querySelector(".landing .nav-burger")

@@ -2,26 +2,25 @@ import type { Metadata } from "next";
 import LandingInteractivity from "@/components/landing/LandingInteractivity";
 
 export const metadata: Metadata = {
-  title: "LVMN — Продуктовое AI-агентство | AI-продукты для бизнеса",
+  title: "LVMN — AI-автоматизация для бизнеса за дни, не за месяцы",
   description:
-    "Строим AI-продукты для бизнеса: боты, автоматизации, MVP-сервисы — за 3-5 дней. 6 кейсов с цифрами. Telegram-бот вместо менеджера. С гарантией результата.",
+    "Делаю ботов и автоматизации, которые берут рутину на себя. 13 проектов с цифрами. 3-5 дней до результата. Гарантия возврата денег.",
   openGraph: {
-    title: "LVMN — AI-продукты для бизнеса за дни, не за месяцы",
+    title: "LVMN — AI-автоматизация для бизнеса за дни, не за месяцы",
     description:
-      "Строим Telegram-ботов, автоматизации и AI-сервисы для малого бизнеса. 3-5 дней до результата. С гарантией.",
+      "Боты и автоматизации для малого бизнеса. 3-5 дней до результата. 13 кейсов. Гарантия возврата.",
     type: "website",
     url: "https://lvmn.vercel.app/",
     locale: "ru_RU",
   },
   twitter: {
     card: "summary_large_image",
-    title: "LVMN — AI-продукты для бизнеса",
+    title: "LVMN — AI-автоматизация для бизнеса",
     description:
-      "Строим AI-продукты для малого бизнеса: боты, автоматизации, MVP-сервисы. 3-5 дней до результата.",
+      "Боты и автоматизации для малого бизнеса. 13 проектов с цифрами. 3-5 дней до результата.",
   },
 };
 
-/* Reusable checkmark SVG for package features and about chips */
 function CheckIcon({ size = 16 }: { size?: number }) {
   return (
     <svg
@@ -30,14 +29,13 @@ function CheckIcon({ size = 16 }: { size?: number }) {
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
-      strokeWidth="2"
+      strokeWidth="2.5"
     >
       <path d="M20 6L9 17l-5-5" />
     </svg>
   );
 }
 
-/* FAQ plus icon */
 function PlusIcon() {
   return (
     <svg
@@ -46,14 +44,13 @@ function PlusIcon() {
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
-      strokeWidth="2"
+      strokeWidth="2.5"
     >
       <path d="M12 5v14M5 12h14" />
     </svg>
   );
 }
 
-/* Arrow icon for CTAs */
 function ArrowIcon({ size = 18 }: { size?: number }) {
   return (
     <svg
@@ -74,9 +71,7 @@ export default function LandingPage() {
     <div className="landing">
       <LandingInteractivity />
 
-      {/* Background effects */}
-      <div className="grid-bg" />
-      <div className="grain-overlay" />
+      <div className="grain" />
 
       {/* ===== NAV ===== */}
       <nav className="landing-nav">
@@ -97,7 +92,7 @@ export default function LandingPage() {
               rel="noopener noreferrer"
               style={{ display: "none" }}
             >
-              Написать в Telegram
+              Написать Владу
             </a>
           </div>
           <a
@@ -106,7 +101,7 @@ export default function LandingPage() {
             target="_blank"
             rel="noopener noreferrer"
           >
-            Написать в Telegram
+            Написать Владу
             <ArrowIcon size={14} />
           </a>
           <button className="nav-burger" aria-label="Меню">
@@ -119,22 +114,19 @@ export default function LandingPage() {
 
       {/* ===== HERO ===== */}
       <section className="hero">
-        <div className="hero-orb hero-orb-1" />
-        <div className="hero-orb hero-orb-2" />
         <div className="container">
           <div className="hero-content">
             <div className="hero-badge anim-fade-up">
-              <span className="hero-badge-dot" />
-              Продуктовое AI-агентство
+              AI-агентство для малого бизнеса
             </div>
             <h1 className="anim-fade-up d1">
-              AI-продукты для бизнеса.
+              Ваши сотрудники тратят часы
               <br />
-              <em>За дни, не за месяцы.</em>
+              <em>на то, что AI делает за минуты</em>
             </h1>
             <p className="hero-sub anim-fade-up d2">
-              Строим ботов, автоматизации и AI-сервисы, которые работают за
-              ваших сотрудников 24/7.
+              Я делаю ботов и автоматизации, которые берут рутину на себя —
+              чтобы ваша команда занималась тем, что приносит деньги.
             </p>
             <div className="hero-ctas anim-fade-up d3">
               <a
@@ -143,25 +135,25 @@ export default function LandingPage() {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                Обсудить проект
+                Написать Владу
                 <ArrowIcon />
               </a>
               <a href="#cases" className="btn-ghost">
-                Смотреть кейсы
+                Посмотреть, что уже сделал
               </a>
             </div>
             <div className="hero-stats anim-fade-up d4">
               <div>
-                <div className="hero-stat-num">6</div>
-                <div className="hero-stat-label">Продуктов построено</div>
+                <div className="hero-stat-num">13</div>
+                <div className="hero-stat-label">проектов запущено</div>
               </div>
               <div>
                 <div className="hero-stat-num">3-5</div>
-                <div className="hero-stat-label">Дней до результата</div>
+                <div className="hero-stat-label">дней до запуска</div>
               </div>
               <div>
                 <div className="hero-stat-num">60%</div>
-                <div className="hero-stat-label">Экономия времени</div>
+                <div className="hero-stat-label">рутины уходит</div>
               </div>
             </div>
           </div>
@@ -172,9 +164,9 @@ export default function LandingPage() {
       <section className="pains">
         <div className="container">
           <div className="reveal">
-            <span className="section-label">Знакомо?</span>
+            <span className="section-label">Узнаёте себя?</span>
             <h2 className="section-title">
-              Если вы здесь — значит, <em>пора</em>
+              Эти штуки <em>съедают</em> ваши деньги
             </h2>
           </div>
           <div className="pains-grid">
@@ -193,8 +185,8 @@ export default function LandingPage() {
                 </svg>
               </div>
               <p>
-                Менеджеры тратят 4-5 часов в день на копипаст между таблицами,
-                CRM и мессенджерами. А вы платите им за это 40 000 &#8381;/мес
+                Менеджер 4 часа копирует данные из таблицы в CRM и обратно.
+                Вы платите ему 40 000 &#8381;/мес — за работу робота
               </p>
             </div>
             <div className="pain-card reveal">
@@ -213,8 +205,8 @@ export default function LandingPage() {
                 </svg>
               </div>
               <p>
-                Заявка пришла в 22:00 — менеджер увидел в 10:00. Клиент уже
-                купил у конкурента, который ответил за 30 секунд
+                Клиент написал в 22:00. Ваш менеджер увидел в 10 утра.
+                А конкурент ответил за 30 секунд — и забрал заказ
               </p>
             </div>
             <div className="pain-card reveal">
@@ -232,8 +224,8 @@ export default function LandingPage() {
                 </svg>
               </div>
               <p>
-                Пробовали ChatGPT, но дальше пары промптов не пошло — непонятно,
-                как встроить AI в реальные процессы
+                Потыкали ChatGPT, написали пару промптов — и на этом всё.
+                Непонятно, как прикрутить это к реальной работе
               </p>
             </div>
             <div className="pain-card reveal">
@@ -252,8 +244,8 @@ export default function LandingPage() {
                 </svg>
               </div>
               <p>
-                Знаете, что AI нужен, но между «знать» и «внедрить» — пропасть
-                из непонятных терминов и завышенных ценников
+                Понимаете, что AI — это важно. Но студии просят миллион,
+                фрилансеры пропадают, а сами разобраться — нет времени
               </p>
             </div>
           </div>
@@ -264,45 +256,29 @@ export default function LandingPage() {
       <section className="niches">
         <div className="container">
           <div className="reveal">
-            <span className="section-label">Для кого</span>
+            <span className="section-label">Кому подходит</span>
             <h2 className="section-title">
-              Работаю с <em>разными</em> нишами
+              Если у вас есть <em>люди и рутина</em> — я помогу
             </h2>
             <p className="section-subtitle">
-              Опыт в 8+ отраслях — от медицины до логистики. Знаю специфику
-              каждой.
+              13 проектов в 8 отраслях. Везде одно и то же — люди делают
+              работу, которую давно пора отдать машине.
             </p>
           </div>
           <div className="niches-grid">
             <div className="niche-card reveal">
               <div className="niche-icon">
-                <svg
-                  width="22"
-                  height="22"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="1.5"
-                >
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
                   <path d="M12 2L3 7v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-9-5z" />
                   <path d="M9 12l2 2 4-4" />
                 </svg>
               </div>
               <h3>Юридические компании</h3>
-              <p>
-                Анализ договоров, обработка обращений, подготовка документов
-              </p>
+              <p>Анализ договоров, обработка обращений, подготовка документов</p>
             </div>
             <div className="niche-card reveal">
               <div className="niche-icon">
-                <svg
-                  width="22"
-                  height="22"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="1.5"
-                >
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
                   <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
                 </svg>
               </div>
@@ -311,34 +287,18 @@ export default function LandingPage() {
             </div>
             <div className="niche-card reveal">
               <div className="niche-icon">
-                <svg
-                  width="22"
-                  height="22"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="1.5"
-                >
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
                   <circle cx="9" cy="21" r="1" />
                   <circle cx="20" cy="21" r="1" />
                   <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
                 </svg>
               </div>
               <h3>E-commerce и торговля</h3>
-              <p>
-                Реферальные программы, обработка заказов, аналитика продаж
-              </p>
+              <p>Реферальные программы, обработка заказов, аналитика продаж</p>
             </div>
             <div className="niche-card reveal">
               <div className="niche-icon">
-                <svg
-                  width="22"
-                  height="22"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="1.5"
-                >
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
                   <path d="M18 8h1a4 4 0 0 1 0 8h-1" />
                   <path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z" />
                   <line x1="6" y1="1" x2="6" y2="4" />
@@ -351,14 +311,7 @@ export default function LandingPage() {
             </div>
             <div className="niche-card reveal">
               <div className="niche-icon">
-                <svg
-                  width="22"
-                  height="22"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="1.5"
-                >
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
                   <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" />
                   <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" />
                 </svg>
@@ -368,14 +321,7 @@ export default function LandingPage() {
             </div>
             <div className="niche-card reveal">
               <div className="niche-icon">
-                <svg
-                  width="22"
-                  height="22"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="1.5"
-                >
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
                   <rect x="1" y="3" width="15" height="13" rx="2" />
                   <polyline points="16 8 20 8 23 11 23 16 20 16" />
                   <circle cx="5.5" cy="18.5" r="2.5" />
@@ -383,9 +329,7 @@ export default function LandingPage() {
                 </svg>
               </div>
               <h3>Логистика и доставка</h3>
-              <p>
-                Автораспределение заказов, маршруты, уведомления курьерам
-              </p>
+              <p>Автораспределение заказов, маршруты, уведомления курьерам</p>
             </div>
           </div>
         </div>
@@ -395,32 +339,21 @@ export default function LandingPage() {
       <section className="packages" id="services">
         <div className="container">
           <div className="reveal">
-            <span className="section-label">Продукты</span>
+            <span className="section-label">Тарифы</span>
             <h2 className="section-title">
-              Выберите свой <em>AI-продукт</em>
+              Три варианта — <em>выбирайте под задачу</em>
             </h2>
             <p className="section-subtitle">
-              От первого бота до полной продуктовой экосистемы для бизнеса.
+              Можно начать с одного бота за неделю. А можно автоматизировать
+              всё разом.
             </p>
-            <div
-              className="guarantee-banner"
-              style={{
-                marginTop: "24px",
-                display: "inline-flex",
-                alignItems: "center",
-                gap: "10px",
-                padding: "12px 20px",
-                background: "var(--green-subtle)",
-                border: "1px solid rgba(61,214,140,0.2)",
-                borderRadius: "10px",
-              }}
-            >
+            <div className="guarantee-banner" style={{ marginTop: "24px" }}>
               <svg
                 width="18"
                 height="18"
                 viewBox="0 0 24 24"
                 fill="none"
-                stroke="var(--green)"
+                stroke="#10B981"
                 strokeWidth="2"
               >
                 <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
@@ -428,12 +361,11 @@ export default function LandingPage() {
               <span
                 style={{
                   fontSize: "14px",
-                  color: "var(--green)",
-                  fontWeight: 500,
+                  color: "#059669",
+                  fontWeight: 600,
                 }}
               >
-                Гарантия результата — не увидите эффект за первый месяц, вернём
-                деньги
+                Если за месяц не увидите результат — верну деньги. Без вопросов
               </span>
             </div>
           </div>
@@ -445,23 +377,23 @@ export default function LandingPage() {
                 50 000 <span>&#8381;</span>
               </div>
               <div className="pkg-desc">
-                Один AI-продукт под ключ. Бот, автоматизация или интеграция.
+                Один бот или автоматизация. Попробовать, как это работает.
               </div>
               <ul className="pkg-features">
                 <li>
-                  <CheckIcon /> Аудит бизнес-процессов
+                  <CheckIcon /> Разберёмся, что автоматизировать
                 </li>
                 <li>
-                  <CheckIcon /> 1 AI-продукт под ключ
+                  <CheckIcon /> Сделаю одного бота или интеграцию
                 </li>
                 <li>
-                  <CheckIcon /> Документация и инструкция
+                  <CheckIcon /> Напишу инструкцию для команды
                 </li>
                 <li>
-                  <CheckIcon /> Срок: 3-5 дней
+                  <CheckIcon /> Готово за 3-5 дней
                 </li>
                 <li>
-                  <CheckIcon /> Первый результат через 3-5 дней
+                  <CheckIcon /> Результат видно сразу
                 </li>
               </ul>
               <div
@@ -480,7 +412,7 @@ export default function LandingPage() {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                Выбрать Старт
+                Начать с малого
               </a>
             </div>
 
@@ -492,26 +424,26 @@ export default function LandingPage() {
                 120 000 <span>&#8381;</span>
               </div>
               <div className="pkg-desc">
-                Комплекс AI-продуктов для ключевых процессов.
+                Автоматизирую 2-3 ключевых процесса + обучу команду.
               </div>
               <ul className="pkg-features">
                 <li>
-                  <CheckIcon /> Полный аудит процессов
+                  <CheckIcon /> Аудит всех процессов — найду, где теряете
                 </li>
                 <li>
-                  <CheckIcon /> 3 AI-продукта под ключ
+                  <CheckIcon /> 3 бота или автоматизации под ключ
                 </li>
                 <li>
-                  <CheckIcon /> Обучение команды
+                  <CheckIcon /> Покажу команде, как пользоваться
                 </li>
                 <li>
-                  <CheckIcon /> 2 недели поддержки
+                  <CheckIcon /> 2 недели на связи после запуска
                 </li>
                 <li>
-                  <CheckIcon /> Срок: 1-2 недели
+                  <CheckIcon /> Готово за 1-2 недели
                 </li>
                 <li>
-                  <CheckIcon /> Первый результат через 5-7 дней
+                  <CheckIcon /> Первый эффект через 5-7 дней
                 </li>
               </ul>
               <div
@@ -530,7 +462,7 @@ export default function LandingPage() {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                Выбрать Рост
+                Хочу этот
               </a>
             </div>
 
@@ -541,26 +473,26 @@ export default function LandingPage() {
                 250 000 <span>&#8381;</span>
               </div>
               <div className="pkg-desc">
-                Полная продуктовая экосистема для бизнеса.
+                Перестраиваю процессы целиком. Максимум автоматизации.
               </div>
               <ul className="pkg-features">
                 <li>
-                  <CheckIcon /> Глубокий аудит + стратегия
+                  <CheckIcon /> Глубокий аудит + план на полгода
                 </li>
                 <li>
-                  <CheckIcon /> 5+ AI-продуктов под ключ
+                  <CheckIcon /> 5+ ботов и автоматизаций
                 </li>
                 <li>
-                  <CheckIcon /> Обучение всей команды
+                  <CheckIcon /> Обучу всю команду
                 </li>
                 <li>
-                  <CheckIcon /> 1 месяц поддержки
+                  <CheckIcon /> Месяц поддержки после запуска
                 </li>
                 <li>
-                  <CheckIcon /> Стратегия масштабирования
+                  <CheckIcon /> Помогу масштабировать дальше
                 </li>
                 <li>
-                  <CheckIcon /> Первый результат через 5-7 дней
+                  <CheckIcon /> Первый эффект через 5-7 дней
                 </li>
               </ul>
               <div
@@ -579,7 +511,7 @@ export default function LandingPage() {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                Обсудить проект
+                Обсудить масштаб
               </a>
             </div>
           </div>
@@ -592,14 +524,14 @@ export default function LandingPage() {
           <div className="reveal">
             <span className="section-label">Кейсы</span>
             <h2 className="section-title">
-              Реальные проекты, <em>реальные</em> результаты
+              Вот что я уже <em>сделал</em>
             </h2>
             <p className="section-subtitle">
-              Не теория — живые внедрения, которые работают прямо сейчас.
+              Каждый проект — рабочий. Не макет в Figma, а штука, которая
+              прямо сейчас экономит людям время и деньги.
             </p>
           </div>
           <div className="cases-grid">
-            {/* Case 1 */}
             <div className="case-card reveal">
               <div className="case-inner">
                 <div className="case-top">
@@ -634,7 +566,6 @@ export default function LandingPage() {
               </div>
             </div>
 
-            {/* Case 2 */}
             <div className="case-card reveal">
               <div className="case-inner">
                 <div className="case-top">
@@ -669,15 +600,12 @@ export default function LandingPage() {
               </div>
             </div>
 
-            {/* Case 3 */}
             <div className="case-card reveal">
               <div className="case-inner">
                 <div className="case-top">
                   <span className="case-tag">E-commerce</span>
                 </div>
-                <h3>
-                  Реферальная система для магазина натуральной косметики
-                </h3>
+                <h3>Реферальная система для магазина натуральной косметики</h3>
                 <div className="case-cols">
                   <div className="case-col">
                     <div className="case-col-label">Задача</div>
@@ -706,7 +634,6 @@ export default function LandingPage() {
               </div>
             </div>
 
-            {/* Case 4 */}
             <div className="case-card reveal">
               <div className="case-inner">
                 <div className="case-top">
@@ -738,7 +665,6 @@ export default function LandingPage() {
               </div>
             </div>
 
-            {/* Case 5 */}
             <div className="case-card reveal">
               <div className="case-inner">
                 <div className="case-top">
@@ -773,15 +699,12 @@ export default function LandingPage() {
               </div>
             </div>
 
-            {/* Case 6 */}
             <div className="case-card reveal">
               <div className="case-inner">
                 <div className="case-top">
                   <span className="case-tag">Ресторанный бизнес</span>
                 </div>
-                <h3>
-                  Автоматизация закупок и перемещений для сети ресторанов
-                </h3>
+                <h3>Автоматизация закупок и перемещений для сети ресторанов</h3>
                 <div className="case-cols">
                   <div className="case-col">
                     <div className="case-col-label">Задача</div>
@@ -811,7 +734,6 @@ export default function LandingPage() {
               </div>
             </div>
 
-            {/* Case 7 */}
             <div className="case-card reveal">
               <div className="case-inner">
                 <div className="case-top">
@@ -847,7 +769,6 @@ export default function LandingPage() {
               </div>
             </div>
 
-            {/* Case 8 */}
             <div className="case-card reveal">
               <div className="case-inner">
                 <div className="case-top">
@@ -884,7 +805,6 @@ export default function LandingPage() {
               </div>
             </div>
 
-            {/* Case 9 */}
             <div className="case-card reveal">
               <div className="case-inner">
                 <div className="case-top">
@@ -920,7 +840,6 @@ export default function LandingPage() {
               </div>
             </div>
 
-            {/* Case 10 */}
             <div className="case-card reveal">
               <div className="case-inner">
                 <div className="case-top">
@@ -957,7 +876,6 @@ export default function LandingPage() {
               </div>
             </div>
 
-            {/* Case 11 */}
             <div className="case-card reveal">
               <div className="case-inner">
                 <div className="case-top">
@@ -993,7 +911,6 @@ export default function LandingPage() {
               </div>
             </div>
 
-            {/* Case 12 */}
             <div className="case-card reveal">
               <div className="case-inner">
                 <div className="case-top">
@@ -1029,15 +946,12 @@ export default function LandingPage() {
               </div>
             </div>
 
-            {/* Case 13 */}
             <div className="case-card reveal">
               <div className="case-inner">
                 <div className="case-top">
                   <span className="case-tag">Финансы</span>
                 </div>
-                <h3>
-                  AI-ассистент финансового учёта для сети магазинов
-                </h3>
+                <h3>AI-ассистент финансового учёта для сети магазинов</h3>
                 <div className="case-cols">
                   <div className="case-col">
                     <div className="case-col-label">Задача</div>
@@ -1076,19 +990,20 @@ export default function LandingPage() {
           <div className="reveal">
             <span className="section-label">Отзывы</span>
             <h2 className="section-title">
-              Что говорят <em>клиенты</em>
+              Люди, которым я уже <em>помог</em>
             </h2>
             <p className="section-subtitle">
-              Реальные отзывы от людей, которые уже внедрили AI в свой бизнес.
+              Не анонимные цитаты — реальные предприниматели, которые
+              запустили AI у себя.
             </p>
           </div>
           <div className="testimonials-grid">
             <div className="testimonial-card reveal">
               <div className="testimonial-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
               <p className="testimonial-text">
-                «Менеджеры тратили 5 часов на обработку заявок. Сейчас — 40
+                &laquo;Менеджеры тратили 5 часов на обработку заявок. Сейчас — 40
                 минут. За 2 недели Влад сделал то, что мы пытались решить
-                полгода.»
+                полгода.&raquo;
               </p>
               <div className="testimonial-author">
                 <div className="testimonial-avatar">
@@ -1108,9 +1023,9 @@ export default function LandingPage() {
             <div className="testimonial-card reveal">
               <div className="testimonial-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
               <p className="testimonial-text">
-                «Раньше теряли 30% обращений вечером. Теперь бот записывает
+                &laquo;Раньше теряли 30% обращений вечером. Теперь бот записывает
                 пациентов 24/7. Загрузка врачей выросла на 25% за первый
-                месяц.»
+                месяц.&raquo;
               </p>
               <div className="testimonial-author">
                 <div className="testimonial-avatar">
@@ -1130,9 +1045,9 @@ export default function LandingPage() {
             <div className="testimonial-card reveal">
               <div className="testimonial-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
               <p className="testimonial-text">
-                «AI-скрининг кандидатов сэкономил нам 85% времени рекрутера.
+                &laquo;AI-скрининг кандидатов сэкономил нам 85% времени рекрутера.
                 Закрываем вакансии на 2 недели быстрее. Окупилось за первый
-                месяц.»
+                месяц.&raquo;
               </p>
               <div className="testimonial-author">
                 <div className="testimonial-avatar">
@@ -1150,9 +1065,9 @@ export default function LandingPage() {
             <div className="testimonial-card reveal">
               <div className="testimonial-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
               <p className="testimonial-text">
-                «Самое ценное — Влад объясняет всё по-человечески. Без
+                &laquo;Самое ценное — Влад объясняет всё по-человечески. Без
                 технического жаргона. Мы за 10 дней запустили AI-куратора для
-                400 студентов.»
+                400 студентов.&raquo;
               </p>
               <div className="testimonial-author">
                 <div className="testimonial-avatar">
@@ -1175,41 +1090,41 @@ export default function LandingPage() {
       <section className="process" id="process">
         <div className="container">
           <div className="reveal">
-            <span className="section-label">Процесс</span>
+            <span className="section-label">Как это работает</span>
             <h2 className="section-title">
-              Четыре шага до <em>результата</em>
+              От «привет» до <em>работающего бота</em> — 4 шага
             </h2>
             <p className="section-subtitle">
-              Без технического жаргона. Без сложных интеграций на вашей стороне.
+              Вам не нужно ничего настраивать. Просто расскажите, что болит.
             </p>
           </div>
           <div className="process-steps">
             <div className="process-step reveal">
               <div className="process-num">1</div>
-              <h3>Заявка</h3>
+              <h3>Напишите мне</h3>
               <p>
-                Опишите бизнес и задачу в Telegram — буквально пару предложений
+                Пара предложений в Telegram — что за бизнес и что хотите автоматизировать
               </p>
             </div>
             <div className="process-step reveal">
               <div className="process-num">2</div>
-              <h3>Созвон</h3>
+              <h3>Разберёмся</h3>
               <p>
-                Уточняем цели, рисуем карту возможностей AI для вашей ситуации
+                Созвонимся на 15 минут — пойму задачу и скажу, что можно сделать
               </p>
             </div>
             <div className="process-step reveal">
               <div className="process-num">3</div>
-              <h3>Проект</h3>
+              <h3>Делаю</h3>
               <p>
-                Фокус на 1-2 быстрых победах — чтобы вы увидели эффект сразу
+                Начну с того, что даст эффект быстрее всего — увидите результат за дни
               </p>
             </div>
             <div className="process-step reveal">
               <div className="process-num">4</div>
-              <h3>Развитие</h3>
+              <h3>Растём</h3>
               <p>
-                Масштабируем удачные решения, подключаем новые сценарии
+                Если зашло — подключаем новые процессы. Если нет — верну деньги
               </p>
             </div>
           </div>
@@ -1230,36 +1145,36 @@ export default function LandingPage() {
               </div>
             </div>
             <div className="about-text reveal">
-              <span className="section-label">Обо мне</span>
+              <span className="section-label">Кто делает</span>
               <h2>
-                Влад Лямин — предприниматель и{" "}
-                <em>создатель AI-продуктов</em>
+                Привет, я Влад.{" "}
+                <em>Делаю AI-штуки для бизнеса</em>
               </h2>
               <p>
-                Строю AI-продукты для бизнеса — от Telegram-ботов до
-                полноценных SaaS-сервисов. Не верю в хайп — верю в работающие
-                решения с измеримым результатом.
+                Не продаю хайп про «нейросети изменят мир». Просто нахожу
+                в вашем бизнесе рутину, которую можно отдать боту — и делаю
+                этого бота. За дни, не за месяцы.
               </p>
               <p>
-                Основатель продуктового AI-агентства LVMN. В портфеле — от
-                цветочного магазина в Дубае до системы реабилитации для
-                Минобороны. Автор курса по n8n + AI автоматизации.
+                В портфеле — от цветочного магазина в Дубае до системы
+                реабилитации для Минобороны. Веду курс по AI-автоматизации.
+                Объясняю сложное простым языком — это мой принцип.
               </p>
               <div className="about-chips">
                 <span className="about-chip">
-                  <CheckIcon size={14} />6 продуктов с реальными цифрами
+                  <CheckIcon size={14} />13 проектов с цифрами
                 </span>
                 <span className="about-chip">
                   <CheckIcon size={14} />
-                  Собственные AI-продукты
+                  Свои AI-продукты
                 </span>
                 <span className="about-chip">
                   <CheckIcon size={14} />
-                  Без техножаргона
+                  Говорю по-человечески
                 </span>
                 <span className="about-chip">
                   <CheckIcon size={14} />
-                  Продуктовый подход
+                  Гарантия результата
                 </span>
               </div>
             </div>
@@ -1273,65 +1188,66 @@ export default function LandingPage() {
           <div className="reveal">
             <span className="section-label">Вопросы</span>
             <h2 className="section-title">
-              Частые <em>вопросы</em>
+              Вас наверняка <em>интересует</em>
             </h2>
           </div>
           <div className="faq-grid">
             <div className="faq-item reveal">
               <div className="faq-q">
-                <h3>Если я вообще не понимаю в ИИ — это нормально?</h3>
+                <h3>Я вообще ничего не понимаю в AI — это ок?</h3>
                 <div className="faq-toggle">
                   <PlusIcon />
                 </div>
               </div>
               <div className="faq-a">
                 <p>
-                  Абсолютно. Моя задача — объяснить всё на понятном языке и
-                  взять техническую часть на себя. Вам не нужно разбираться в
-                  промптах и нейросетях.
+                  Конечно. Большинство моих клиентов не отличают GPT от
+                  Claude — и это нормально. Я всё объясню простыми словами
+                  и сделаю техническую часть сам.
                 </p>
               </div>
             </div>
             <div className="faq-item reveal">
               <div className="faq-q">
-                <h3>Сколько времени занимает создание продукта?</h3>
+                <h3>Как быстро будет готово?</h3>
                 <div className="faq-toggle">
                   <PlusIcon />
                 </div>
               </div>
               <div className="faq-a">
                 <p>
-                  От 3 до 7 дней для стандартного продукта. Сложные проекты (5+
-                  продуктов) — до 2-3 недель. Начинаем с быстрых побед, чтобы
-                  результат был виден сразу.
+                  Один бот или автоматизация — 3-5 дней. Комплексный
+                  проект на 5+ штук — 2-3 недели. Но первый результат вы
+                  увидите уже в первую неделю.
                 </p>
               </div>
             </div>
             <div className="faq-item reveal">
               <div className="faq-q">
-                <h3>Нужны ли программисты на моей стороне?</h3>
+                <h3>Мне нужно нанимать программиста?</h3>
                 <div className="faq-toggle">
                   <PlusIcon />
                 </div>
               </div>
               <div className="faq-a">
                 <p>
-                  Нет. Все решения делаю сам. От вас нужен только доступ к
-                  нужным сервисам и время на обсуждение задач.
+                  Нет. Я и есть ваш программист на этом проекте. От вас —
+                  только доступы к нужным сервисам и 15 минут на созвон.
                 </p>
               </div>
             </div>
             <div className="faq-item reveal">
               <div className="faq-q">
-                <h3>Можно начать с маленького пилота?</h3>
+                <h3>Хочу сначала попробовать на чём-то маленьком</h3>
                 <div className="faq-toggle">
                   <PlusIcon />
                 </div>
               </div>
               <div className="faq-a">
                 <p>
-                  Да, и это рекомендуемый путь. Пакет &quot;Старт&quot; именно
-                  для этого — одно решение, быстрый результат, минимальный риск.
+                  Отличная идея — так и советую. Тариф «Старт» за 50к:
+                  один бот, быстрый результат, минимальный риск. Понравится —
+                  масштабируем.
                 </p>
               </div>
             </div>
@@ -1344,9 +1260,9 @@ export default function LandingPage() {
               </div>
               <div className="faq-a">
                 <p>
-                  Гарантия результата: если за первый месяц вы не увидите
-                  измеримой экономии времени — верну деньги. Без вопросов. За
-                  20+ проектов этим не воспользовался никто.
+                  Верну деньги, если за месяц не будет измеримого результата.
+                  Без мелкого шрифта. За 13 проектов этой гарантией не
+                  воспользовался никто.
                 </p>
               </div>
             </div>
@@ -1359,9 +1275,9 @@ export default function LandingPage() {
               </div>
               <div className="faq-a">
                 <p>
-                  Зависит от процессов, но в среднем: бизнес с 3 менеджерами
-                  экономит 50-90 тыс. &#8381;/мес на рутинных операциях. Пакет
-                  «Старт» за 50k обычно окупается за 3-4 недели.
+                  Зависит от процессов. Но вот ориентир: бизнес с 3
+                  менеджерами обычно экономит 50-90 тыс. &#8381;/мес на рутине.
+                  Тариф «Старт» за 50к окупается за 3-4 недели.
                 </p>
               </div>
             </div>
@@ -1371,16 +1287,14 @@ export default function LandingPage() {
 
       {/* ===== FINAL CTA ===== */}
       <section className="final-cta">
-        <div className="final-cta-orb" />
         <div className="container">
           <div className="final-cta-content reveal">
             <h2>
-              Какой AI-продукт нужен <em>вашему</em> бизнесу?
+              Давайте посмотрим, где у вас <em>утекают деньги</em>
             </h2>
             <p className="final-cta-sub">
-              Напишите в Telegram — за 15 минут покажу, какие процессы можно
-              заменить AI-продуктом и сколько это сэкономит. Бесплатно, без
-              обязательств.
+              Напишите мне — за 15 минут разберём ваши процессы и я покажу,
+              что можно автоматизировать и сколько это сэкономит. Бесплатно.
             </p>
             <a
               href="https://t.me/lyaminvl?text=%D0%90%D1%83%D0%B4%D0%B8%D1%82"
@@ -1388,11 +1302,11 @@ export default function LandingPage() {
               target="_blank"
               rel="noopener noreferrer"
             >
-              Написать «Аудит» в Telegram
+              Написать Владу в Telegram
               <ArrowIcon />
             </a>
             <p className="final-cta-note">
-              Без обязательств. Без продаж. Просто диагностика вашего бизнеса.
+              Это не продажа. Просто разговор — покажу, что возможно.
             </p>
           </div>
         </div>

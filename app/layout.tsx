@@ -1,17 +1,21 @@
 import type { Metadata } from "next";
-import { Outfit, Cormorant_Garamond, JetBrains_Mono } from "next/font/google";
+import { Outfit, Manrope, JetBrains_Mono, Geist } from "next/font/google";
 import { YandexMetrika } from "@/components/YandexMetrika";
 import "./globals.css";
+import { cn } from "@/lib/utils";
+
+const geist = Geist({subsets:['latin'],variable:'--font-sans'});
 
 const outfit = Outfit({
-  variable: "--font-outfit",
+  variable: "--font-display",
   subsets: ["latin", "latin-ext"],
+  weight: ["400", "500", "600", "700", "800"],
 });
 
-const cormorant = Cormorant_Garamond({
-  variable: "--font-cormorant",
+const manrope = Manrope({
+  variable: "--font-body",
   subsets: ["latin", "cyrillic"],
-  weight: ["400", "600", "700"],
+  weight: ["400", "500", "600", "700"],
 });
 
 const jetbrainsMono = JetBrains_Mono({
@@ -51,9 +55,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ru">
+    <html lang="ru" className={cn("font-sans", geist.variable)}>
       <body
-        className={`${outfit.variable} ${cormorant.variable} ${jetbrainsMono.variable} antialiased`}
+        className={`${outfit.variable} ${manrope.variable} ${jetbrainsMono.variable} antialiased`}
       >
         {children}
         <YandexMetrika />
