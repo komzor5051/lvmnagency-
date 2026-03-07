@@ -1,5 +1,14 @@
 import type { Metadata } from "next";
 import LandingInteractivity from "@/components/landing/LandingInteractivity";
+import { HeroBadge } from "@/components/landing/HeroBadge";
+import { HeroTitle } from "@/components/landing/HeroTitle";
+import { HeroStats } from "@/components/landing/HeroStats";
+import { NicheCards } from "@/components/landing/NicheCards";
+import { FeaturedPricingBeam } from "@/components/landing/FeaturedPricing";
+import { TestimonialsMarquee } from "@/components/landing/TestimonialsMarquee";
+import { ScrollProgressBar } from "@/components/landing/ScrollProgressBar";
+import { ShimmerCTA } from "@/components/landing/ShimmerCTA";
+import { CasesCarousel } from "@/components/landing/CasesCarousel";
 
 export const metadata: Metadata = {
   title: "LVMN — AI-автоматизация для бизнеса за дни, не за месяцы",
@@ -70,6 +79,7 @@ export default function LandingPage() {
   return (
     <div className="landing">
       <LandingInteractivity />
+      <ScrollProgressBar />
 
       <div className="grain" />
 
@@ -116,46 +126,22 @@ export default function LandingPage() {
       <section className="hero">
         <div className="container">
           <div className="hero-content">
-            <div className="hero-badge anim-fade-up">
-              AI-агентство для малого бизнеса
-            </div>
-            <h1 className="anim-fade-up d1">
-              Ваши сотрудники тратят часы
-              <br />
-              <em>на то, что AI делает за минуты</em>
-            </h1>
+            <HeroBadge />
+            <HeroTitle />
             <p className="hero-sub anim-fade-up d2">
               Я делаю ботов и автоматизации, которые берут рутину на себя —
               чтобы ваша команда занималась тем, что приносит деньги.
             </p>
             <div className="hero-ctas anim-fade-up d3">
-              <a
-                href="https://t.me/lyaminvl"
-                className="btn-primary"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
+              <ShimmerCTA href="https://t.me/lyaminvl">
                 Написать Владу
                 <ArrowIcon />
-              </a>
+              </ShimmerCTA>
               <a href="#cases" className="btn-ghost">
                 Посмотреть, что уже сделал
               </a>
             </div>
-            <div className="hero-stats anim-fade-up d4">
-              <div>
-                <div className="hero-stat-num">13</div>
-                <div className="hero-stat-label">проектов запущено</div>
-              </div>
-              <div>
-                <div className="hero-stat-num">3-5</div>
-                <div className="hero-stat-label">дней до запуска</div>
-              </div>
-              <div>
-                <div className="hero-stat-num">60%</div>
-                <div className="hero-stat-label">рутины уходит</div>
-              </div>
-            </div>
+            <HeroStats />
           </div>
         </div>
       </section>
@@ -265,73 +251,7 @@ export default function LandingPage() {
               работу, которую давно пора отдать машине.
             </p>
           </div>
-          <div className="niches-grid">
-            <div className="niche-card reveal">
-              <div className="niche-icon">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                  <path d="M12 2L3 7v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-9-5z" />
-                  <path d="M9 12l2 2 4-4" />
-                </svg>
-              </div>
-              <h3>Юридические компании</h3>
-              <p>Анализ договоров, обработка обращений, подготовка документов</p>
-            </div>
-            <div className="niche-card reveal">
-              <div className="niche-icon">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                  <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
-                </svg>
-              </div>
-              <h3>Клиники и медцентры</h3>
-              <p>AI-запись 24/7, напоминания, обработка входящих обращений</p>
-            </div>
-            <div className="niche-card reveal">
-              <div className="niche-icon">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                  <circle cx="9" cy="21" r="1" />
-                  <circle cx="20" cy="21" r="1" />
-                  <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
-                </svg>
-              </div>
-              <h3>E-commerce и торговля</h3>
-              <p>Реферальные программы, обработка заказов, аналитика продаж</p>
-            </div>
-            <div className="niche-card reveal">
-              <div className="niche-icon">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                  <path d="M18 8h1a4 4 0 0 1 0 8h-1" />
-                  <path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z" />
-                  <line x1="6" y1="1" x2="6" y2="4" />
-                  <line x1="10" y1="1" x2="10" y2="4" />
-                  <line x1="14" y1="1" x2="14" y2="4" />
-                </svg>
-              </div>
-              <h3>Рестораны и HoReCa</h3>
-              <p>Закупки, управление поставщиками, контроль остатков</p>
-            </div>
-            <div className="niche-card reveal">
-              <div className="niche-icon">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                  <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" />
-                  <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" />
-                </svg>
-              </div>
-              <h3>Онлайн-образование</h3>
-              <p>AI-кураторы, проверка домашек, аналитика студентов</p>
-            </div>
-            <div className="niche-card reveal">
-              <div className="niche-icon">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                  <rect x="1" y="3" width="15" height="13" rx="2" />
-                  <polyline points="16 8 20 8 23 11 23 16 20 16" />
-                  <circle cx="5.5" cy="18.5" r="2.5" />
-                  <circle cx="18.5" cy="18.5" r="2.5" />
-                </svg>
-              </div>
-              <h3>Логистика и доставка</h3>
-              <p>Автораспределение заказов, маршруты, уведомления курьерам</p>
-            </div>
-          </div>
+          <NicheCards />
         </div>
       </section>
 
@@ -418,6 +338,7 @@ export default function LandingPage() {
 
             {/* РОСТ */}
             <div className="pkg-card featured reveal">
+              <FeaturedPricingBeam />
               <span className="pkg-badge">Популярный</span>
               <div className="pkg-name">Рост</div>
               <div className="pkg-price">
@@ -531,456 +452,7 @@ export default function LandingPage() {
               прямо сейчас экономит людям время и деньги.
             </p>
           </div>
-          <div className="cases-grid">
-            <div className="case-card reveal">
-              <div className="case-inner">
-                <div className="case-top">
-                  <span className="case-tag">Гос. проект</span>
-                </div>
-                <h3>AI-система психологической реабилитации</h3>
-                <div className="case-cols">
-                  <div className="case-col">
-                    <div className="case-col-label">Задача</div>
-                    <p>
-                      Масштабируемая система поддержки участников СВО с ПТСР —
-                      без зависимости от количества психологов
-                    </p>
-                  </div>
-                  <div className="case-col">
-                    <div className="case-col-label">Решение</div>
-                    <p>
-                      Telegram-бот с AI-психологом, 10 уроков курса,
-                      анкетирование из 32 вопросов, автоматическая оценка рисков
-                    </p>
-                  </div>
-                  <div className="case-col">
-                    <div className="case-result-box">
-                      <div className="case-col-label">Результат</div>
-                      <p>
-                        10 автоматизированных воркфлоу, AI-диагностика 24/7,
-                        эскалация кризисных ситуаций
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="case-card reveal">
-              <div className="case-inner">
-                <div className="case-top">
-                  <span className="case-tag">Кибербезопасность</span>
-                </div>
-                <h3>SaaS-платформа анализа безопасности кода</h3>
-                <div className="case-cols">
-                  <div className="case-col">
-                    <div className="case-col-label">Задача</div>
-                    <p>
-                      Разработчикам нужен быстрый автоматический аудит кода на
-                      уязвимости без ручной проверки
-                    </p>
-                  </div>
-                  <div className="case-col">
-                    <div className="case-col-label">Решение</div>
-                    <p>
-                      Анализ по OWASP Top 10, классификация уязвимостей,
-                      рекомендации с исправленным кодом
-                    </p>
-                  </div>
-                  <div className="case-col">
-                    <div className="case-result-box">
-                      <div className="case-col-label">Результат</div>
-                      <p>
-                        Security Score 0-100, мульти-LLM (GPT-4o + Claude +
-                        Gemini), поддержка RU/EN
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="case-card reveal">
-              <div className="case-inner">
-                <div className="case-top">
-                  <span className="case-tag">E-commerce</span>
-                </div>
-                <h3>Реферальная система для магазина натуральной косметики</h3>
-                <div className="case-cols">
-                  <div className="case-col">
-                    <div className="case-col-label">Задача</div>
-                    <p>
-                      Нет системы привлечения клиентов через рекомендации — весь
-                      трафик платный
-                    </p>
-                  </div>
-                  <div className="case-col">
-                    <div className="case-col-label">Решение</div>
-                    <p>
-                      Telegram-бот с 2-уровневой реферальной программой
-                      (L1=15%, L2=5%) и синхронизацией с AmoCRM
-                    </p>
-                  </div>
-                  <div className="case-col">
-                    <div className="case-result-box">
-                      <div className="case-col-label">Результат</div>
-                      <p>
-                        Полностью автоматическая реферальная система, интеграция
-                        с CRM, трекинг балансов
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="case-card reveal">
-              <div className="case-inner">
-                <div className="case-top">
-                  <span className="case-tag">Недвижимость</span>
-                </div>
-                <h3>AI-ассистент для сервиса краткосрочной аренды</h3>
-                <div className="case-cols">
-                  <div className="case-col">
-                    <div className="case-col-label">Задача</div>
-                    <p>
-                      Менеджеры тратили часы на однотипные ответы гостям, время
-                      реакции страдало
-                    </p>
-                  </div>
-                  <div className="case-col">
-                    <div className="case-col-label">Решение</div>
-                    <p>
-                      AI-ассистент с контекстом бронирований — отвечает
-                      моментально и по существу
-                    </p>
-                  </div>
-                  <div className="case-col">
-                    <div className="case-result-box">
-                      <div className="case-col-label">Результат</div>
-                      <p>Скорость ответа x4, нагрузка на менеджеров -60%</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="case-card reveal">
-              <div className="case-inner">
-                <div className="case-top">
-                  <span className="case-tag">Монетизация</span>
-                </div>
-                <h3>Бот монетизации закрытого Telegram-канала</h3>
-                <div className="case-cols">
-                  <div className="case-col">
-                    <div className="case-col-label">Задача</div>
-                    <p>
-                      Эксперту нужна автоматическая монетизация закрытого канала
-                      без ручного контроля подписок
-                    </p>
-                  </div>
-                  <div className="case-col">
-                    <div className="case-col-label">Решение</div>
-                    <p>
-                      Telegram-бот с воронкой подписки, интеграция YooKassa,
-                      автопроверка истечения подписок
-                    </p>
-                  </div>
-                  <div className="case-col">
-                    <div className="case-result-box">
-                      <div className="case-col-label">Результат</div>
-                      <p>
-                        Автоприём платежей 3 500 &#8381;/мес, управление
-                        доступом, напоминания — всё на автопилоте
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="case-card reveal">
-              <div className="case-inner">
-                <div className="case-top">
-                  <span className="case-tag">Ресторанный бизнес</span>
-                </div>
-                <h3>Автоматизация закупок и перемещений для сети ресторанов</h3>
-                <div className="case-cols">
-                  <div className="case-col">
-                    <div className="case-col-label">Задача</div>
-                    <p>
-                      Управляющие тратили 3-4 часа ежедневно на ручное
-                      оформление закупок и перемещений между точками
-                    </p>
-                  </div>
-                  <div className="case-col">
-                    <div className="case-col-label">Решение</div>
-                    <p>
-                      Telegram-бот интегрированный с iiko: автозаявки на
-                      закупку, перемещения между складами, контроль остатков в
-                      реальном времени
-                    </p>
-                  </div>
-                  <div className="case-col">
-                    <div className="case-result-box">
-                      <div className="case-col-label">Результат</div>
-                      <p>
-                        Время на закупки -80%, ноль потерянных заявок,
-                        автоматический контроль по 3 точкам
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="case-card reveal">
-              <div className="case-inner">
-                <div className="case-top">
-                  <span className="case-tag">Онлайн-образование</span>
-                </div>
-                <h3>AI-куратор для онлайн-школы на 400+ студентов</h3>
-                <div className="case-cols">
-                  <div className="case-col">
-                    <div className="case-col-label">Задача</div>
-                    <p>
-                      Школа тратила 350 000 &#8381;/мес на кураторов, при этом
-                      студенты ждали ответа по 6-8 часов
-                    </p>
-                  </div>
-                  <div className="case-col">
-                    <div className="case-col-label">Решение</div>
-                    <p>
-                      AI-куратор с базой знаний курса: отвечает на вопросы 24/7,
-                      проверяет домашки, отслеживает прогресс и предупреждает
-                      отток
-                    </p>
-                  </div>
-                  <div className="case-col">
-                    <div className="case-result-box">
-                      <div className="case-col-label">Результат</div>
-                      <p>
-                        Затраты на кураторов -50%, доходимость курса +22%, время
-                        ответа — мгновенно
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="case-card reveal">
-              <div className="case-inner">
-                <div className="case-top">
-                  <span className="case-tag">Медицина</span>
-                </div>
-                <h3>AI-администратор для стоматологической клиники</h3>
-                <div className="case-cols">
-                  <div className="case-col">
-                    <div className="case-col-label">Задача</div>
-                    <p>
-                      Администраторы не справлялись с потоком звонков и
-                      сообщений — 30% обращений оставались без ответа, особенно
-                      вечером
-                    </p>
-                  </div>
-                  <div className="case-col">
-                    <div className="case-col-label">Решение</div>
-                    <p>
-                      AI-бот в Telegram и WhatsApp: запись на приём,
-                      напоминания, ответы на типовые вопросы, подбор свободных
-                      слотов врачей
-                    </p>
-                  </div>
-                  <div className="case-col">
-                    <div className="case-result-box">
-                      <div className="case-col-label">Результат</div>
-                      <p>
-                        0 потерянных обращений, запись 24/7, загрузка врачей
-                        +25%, no-show -40%
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="case-card reveal">
-              <div className="case-inner">
-                <div className="case-top">
-                  <span className="case-tag">HR / Рекрутинг</span>
-                </div>
-                <h3>AI-скрининг кандидатов для кадрового агентства</h3>
-                <div className="case-cols">
-                  <div className="case-col">
-                    <div className="case-col-label">Задача</div>
-                    <p>
-                      HR-менеджер тратил 5 часов в день на просмотр резюме и
-                      первичный скрининг — 80% кандидатов не подходили
-                    </p>
-                  </div>
-                  <div className="case-col">
-                    <div className="case-col-label">Решение</div>
-                    <p>
-                      AI-система парсит отклики с HH.ru, оценивает соответствие
-                      вакансии, ранжирует кандидатов и отправляет TOP-10
-                      рекрутеру
-                    </p>
-                  </div>
-                  <div className="case-col">
-                    <div className="case-result-box">
-                      <div className="case-col-label">Результат</div>
-                      <p>
-                        Время на скрининг -85%, точность подбора +40%, закрытие
-                        вакансий быстрее на 2 недели
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="case-card reveal">
-              <div className="case-inner">
-                <div className="case-top">
-                  <span className="case-tag">Юриспруденция</span>
-                </div>
-                <h3>AI-анализ договоров для юридической фирмы</h3>
-                <div className="case-cols">
-                  <div className="case-col">
-                    <div className="case-col-label">Задача</div>
-                    <p>
-                      Юристы тратили 2-3 часа на анализ каждого договора и
-                      выявление рисков — при 15-20 договорах в неделю это съедало
-                      весь ресурс
-                    </p>
-                  </div>
-                  <div className="case-col">
-                    <div className="case-col-label">Решение</div>
-                    <p>
-                      AI-система анализирует договор за 2 минуты: выделяет
-                      ключевые условия, находит риски, сравнивает с шаблонами и
-                      формирует отчёт
-                    </p>
-                  </div>
-                  <div className="case-col">
-                    <div className="case-result-box">
-                      <div className="case-col-label">Результат</div>
-                      <p>
-                        Анализ договора: 3 часа &#8594; 15 минут, пропущенные
-                        риски -90%, пропускная способность x4
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="case-card reveal">
-              <div className="case-inner">
-                <div className="case-top">
-                  <span className="case-tag">Маркетинг</span>
-                </div>
-                <h3>AI-генератор контента для SMM-агентства</h3>
-                <div className="case-cols">
-                  <div className="case-col">
-                    <div className="case-col-label">Задача</div>
-                    <p>
-                      Агентство ведёт 12 клиентов — на создание каруселей,
-                      постов и сториз уходило 70% времени всей команды
-                    </p>
-                  </div>
-                  <div className="case-col">
-                    <div className="case-col-label">Решение</div>
-                    <p>
-                      Telegram-бот для генерации готовых каруселей: AI пишет
-                      тексты, подбирает визуал, рендерит в PNG — 15+ шаблонов
-                      дизайна
-                    </p>
-                  </div>
-                  <div className="case-col">
-                    <div className="case-result-box">
-                      <div className="case-col-label">Результат</div>
-                      <p>
-                        Производство контента x5, себестоимость поста -70%,
-                        агентство взяло ещё 8 клиентов без найма
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="case-card reveal">
-              <div className="case-inner">
-                <div className="case-top">
-                  <span className="case-tag">Логистика</span>
-                </div>
-                <h3>Автоматизация диспетчерской для службы доставки</h3>
-                <div className="case-cols">
-                  <div className="case-col">
-                    <div className="case-col-label">Задача</div>
-                    <p>
-                      Диспетчер вручную распределял 80+ заказов в день между 12
-                      курьерами — ошибки, задержки, хаос
-                    </p>
-                  </div>
-                  <div className="case-col">
-                    <div className="case-col-label">Решение</div>
-                    <p>
-                      AI-система автоматически распределяет заказы по зонам,
-                      рассчитывает оптимальные маршруты, уведомляет курьеров
-                      через Telegram
-                    </p>
-                  </div>
-                  <div className="case-col">
-                    <div className="case-result-box">
-                      <div className="case-col-label">Результат</div>
-                      <p>
-                        Время распределения 2 часа &#8594; 5 минут, опоздания
-                        -65%, диспетчер высвобожден на другие задачи
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="case-card reveal">
-              <div className="case-inner">
-                <div className="case-top">
-                  <span className="case-tag">Финансы</span>
-                </div>
-                <h3>AI-ассистент финансового учёта для сети магазинов</h3>
-                <div className="case-cols">
-                  <div className="case-col">
-                    <div className="case-col-label">Задача</div>
-                    <p>
-                      Бухгалтер тратил неделю на сверку данных по 5 точкам —
-                      ручной ввод чеков, накладных и отчётов
-                    </p>
-                  </div>
-                  <div className="case-col">
-                    <div className="case-col-label">Решение</div>
-                    <p>
-                      AI распознаёт фото чеков и накладных, автоматически заносит
-                      в таблицы, формирует сводку по точкам и алертит об
-                      отклонениях
-                    </p>
-                  </div>
-                  <div className="case-col">
-                    <div className="case-result-box">
-                      <div className="case-col-label">Результат</div>
-                      <p>
-                        Сверка: 5 дней &#8594; 4 часа, ошибки ручного ввода — 0,
-                        еженедельная аналитика на автопилоте
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+          <CasesCarousel />
         </div>
       </section>
 
@@ -997,92 +469,7 @@ export default function LandingPage() {
               запустили AI у себя.
             </p>
           </div>
-          <div className="testimonials-grid">
-            <div className="testimonial-card reveal">
-              <div className="testimonial-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-              <p className="testimonial-text">
-                &laquo;Менеджеры тратили 5 часов на обработку заявок. Сейчас — 40
-                минут. За 2 недели Влад сделал то, что мы пытались решить
-                полгода.&raquo;
-              </p>
-              <div className="testimonial-author">
-                <div className="testimonial-avatar">
-                  <img
-                    src="https://randomuser.me/api/portraits/men/32.jpg"
-                    alt="Алексей К."
-                  />
-                </div>
-                <div>
-                  <div className="testimonial-name">Алексей К.</div>
-                  <div className="testimonial-role">
-                    Сеть ресторанов, Новосибирск
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="testimonial-card reveal">
-              <div className="testimonial-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-              <p className="testimonial-text">
-                &laquo;Раньше теряли 30% обращений вечером. Теперь бот записывает
-                пациентов 24/7. Загрузка врачей выросла на 25% за первый
-                месяц.&raquo;
-              </p>
-              <div className="testimonial-author">
-                <div className="testimonial-avatar">
-                  <img
-                    src="https://randomuser.me/api/portraits/women/44.jpg"
-                    alt="Марина С."
-                  />
-                </div>
-                <div>
-                  <div className="testimonial-name">Марина С.</div>
-                  <div className="testimonial-role">
-                    Стоматологическая клиника
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="testimonial-card reveal">
-              <div className="testimonial-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-              <p className="testimonial-text">
-                &laquo;AI-скрининг кандидатов сэкономил нам 85% времени рекрутера.
-                Закрываем вакансии на 2 недели быстрее. Окупилось за первый
-                месяц.&raquo;
-              </p>
-              <div className="testimonial-author">
-                <div className="testimonial-avatar">
-                  <img
-                    src="https://randomuser.me/api/portraits/men/75.jpg"
-                    alt="Дмитрий В."
-                  />
-                </div>
-                <div>
-                  <div className="testimonial-name">Дмитрий В.</div>
-                  <div className="testimonial-role">Кадровое агентство</div>
-                </div>
-              </div>
-            </div>
-            <div className="testimonial-card reveal">
-              <div className="testimonial-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-              <p className="testimonial-text">
-                &laquo;Самое ценное — Влад объясняет всё по-человечески. Без
-                технического жаргона. Мы за 10 дней запустили AI-куратора для
-                400 студентов.&raquo;
-              </p>
-              <div className="testimonial-author">
-                <div className="testimonial-avatar">
-                  <img
-                    src="https://randomuser.me/api/portraits/women/68.jpg"
-                    alt="Елена Н."
-                  />
-                </div>
-                <div>
-                  <div className="testimonial-name">Елена Н.</div>
-                  <div className="testimonial-role">Онлайн-школа</div>
-                </div>
-              </div>
-            </div>
-          </div>
+          <TestimonialsMarquee />
         </div>
       </section>
 
@@ -1296,15 +683,10 @@ export default function LandingPage() {
               Напишите мне — за 15 минут разберём ваши процессы и я покажу,
               что можно автоматизировать и сколько это сэкономит. Бесплатно.
             </p>
-            <a
-              href="https://t.me/lyaminvl?text=%D0%90%D1%83%D0%B4%D0%B8%D1%82"
-              className="btn-primary"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
+            <ShimmerCTA href="https://t.me/lyaminvl?text=%D0%90%D1%83%D0%B4%D0%B8%D1%82">
               Написать Владу в Telegram
               <ArrowIcon />
-            </a>
+            </ShimmerCTA>
             <p className="final-cta-note">
               Это не продажа. Просто разговор — покажу, что возможно.
             </p>

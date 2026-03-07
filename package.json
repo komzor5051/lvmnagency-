@@ -19,6 +19,7 @@
     "inngest": "^3.52.0",
     "lucide-react": "^0.577.0",
     "marked": "^17.0.2",
+    "motion": "^12.35.0",
     "next": "16.1.6",
     "react": "19.2.3",
     "react-dom": "19.2.3",
