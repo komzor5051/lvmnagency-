@@ -1618,45 +1618,50 @@ body {
 }
 
 /* =============================================================================
-   LVMN HERO — sticky card + fixed video bg + scroll-recede effect
+   LVMN HERO — sticky card + video inside + scroll-recede effect
    ============================================================================= */
 
-/* Fixed video layer — persists behind entire page */
-.lo-video-wrap {
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  overflow: hidden;
-  pointer-events: none;
-}
-
-.lo-video-fixed {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-/* Blur + darken scrim that fades in as hero recedes */
-.lo-blur-overlay {
-  position: absolute;
-  inset: 0;
-  backdrop-filter: blur(18px) brightness(0.55);
-  -webkit-backdrop-filter: blur(18px) brightness(0.55);
-  opacity: 0;
-  transition: opacity 0.05s linear;
-}
-
-/* Sticky hero card */
+/* Sticky hero card — recedes as next section slides over */
 .lo-hero {
   position: sticky;
   top: 0;
   height: 100vh;
-  z-index: 10;
+  z-index: 5;
   display: flex;
   flex-direction: column;
   overflow: hidden;
   transform-origin: center top;
-  will-change: transform, border-radius;
+}
+
+/* Video fills hero — no overlay */
+.lo-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+}
+
+/* Bottom gradient — blends hero into page background */
+.lo-gradient-bottom {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 220px;
+  background: linear-gradient(to bottom, transparent 0%, var(--bg) 100%);
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* Content sections sit above the sticky hero */
+.pains, .niches, .packages, .cases,
+.testimonials, .process, .about,
+.faq, .final-cta {
+  position: relative;
+  z-index: 10;
+  background: var(--bg);
 }
 
 /* ── Floating nav pill ─────────────────────────── */
@@ -1666,15 +1671,6 @@ body {
   left: 20px;
   right: 20px;
   z-index: 20;
-}
-
-/* Content sections stack above fixed video layer */
-.pains, .niches, .packages, .cases,
-.testimonials, .process, .about,
-.faq, .final-cta, .landing > section {
-  position: relative;
-  z-index: 20;
-  background: var(--bg);
 }
 
 .lo-nav-inner {
