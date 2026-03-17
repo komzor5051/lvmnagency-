@@ -1618,6 +1618,195 @@ body {
 }
 
 /* =============================================================================
+   LOGOISUM HERO — full-screen video + floating white pill nav
+   ============================================================================= */
+
+.lo-hero {
+  position: relative;
+  min-height: 90vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Video — fills full section, no overlay */
+.lo-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+}
+
+/* ── Floating nav pill ─────────────────────────── */
+.lo-nav {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  right: 20px;
+  z-index: 20;
+}
+
+.lo-nav-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 10px 14px 10px 18px;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.10);
+}
+
+.lo-logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-barlow), Barlow, sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  color: #111;
+  letter-spacing: -0.01em;
+  text-decoration: none;
+}
+
+.lo-links {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+}
+
+.lo-links a {
+  font-family: var(--font-barlow), Barlow, sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+  text-decoration: none;
+  transition: color 0.18s;
+}
+.lo-links a:hover { color: #111; }
+
+.lo-book-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 8px 8px 16px;
+  background: #111;
+  color: #fff;
+  font-family: var(--font-barlow), Barlow, sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  border-radius: 100px;
+  border: none;
+  cursor: pointer;
+  transition: background 0.18s;
+  white-space: nowrap;
+}
+.lo-book-btn:hover { background: #333; }
+
+.lo-arrow-wrap {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  background: #fff;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* ── Hero content (centered over video) ─────────── */
+.lo-content {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  flex: 1;
+  padding: 0 24px 80px;
+  text-align: center;
+}
+
+.lo-headlines {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin-bottom: 20px;
+}
+
+.lo-line1 {
+  font-family: var(--font-barlow), Barlow, sans-serif;
+  font-size: clamp(40px, 6.5vw, 80px);
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: -0.04em;
+  line-height: 1;
+  margin: 0;
+}
+
+.lo-line2 {
+  font-family: var(--font-instrument-serif), 'Instrument Serif', Georgia, serif;
+  font-style: italic;
+  font-size: clamp(44px, 7vw, 84px);
+  font-weight: 400;
+  color: #fff;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  margin: 0;
+}
+
+.lo-sub {
+  font-family: var(--font-barlow), Barlow, sans-serif;
+  font-size: clamp(15px, 1.6vw, 18px);
+  font-weight: 500;
+  color: rgba(255,255,255,0.80);
+  margin: 0 0 28px;
+  max-width: 480px;
+  line-height: 1.5;
+}
+
+.lo-workreel-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 22px 12px 12px;
+  background: rgba(255,255,255,0.15);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255,255,255,0.30);
+  border-radius: 100px;
+  color: #fff;
+  font-family: var(--font-barlow), Barlow, sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+}
+.lo-workreel-btn:hover {
+  background: rgba(255,255,255,0.25);
+  border-color: rgba(255,255,255,0.50);
+}
+
+.lo-play-circle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background: rgba(255,255,255,0.25);
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* Responsive: hide nav links on mobile, keep logo + CTA */
+@media (max-width: 768px) {
+  .lo-links { display: none; }
+  .lo-nav-inner { padding: 10px 10px 10px 16px; }
+  .lo-book-btn { font-size: 12px; padding: 7px 7px 7px 14px; }
+}
+
+/* =============================================================================
    Accessibility: respect user motion preferences
    ============================================================================= */
 @media (prefers-reduced-motion: reduce) {

@@ -81,44 +81,6 @@ export default function LandingPage() {
 
       <div className="grain" />
 
-      {/* ===== NAV ===== */}
-      <nav className="landing-nav">
-        <div className="container">
-          <a href="#" className="logo">
-            LVMN
-          </a>
-          <div className="nav-links">
-            <a href="#services">Продукты</a>
-            <a href="#cases">Кейсы</a>
-            <a href="#process">Процесс</a>
-            <a href="#about">Обо мне</a>
-            <a href="/blog">Блог</a>
-            <a
-              href="https://t.me/lyaminvl"
-              className="nav-cta mobile-only"
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{ display: "none" }}
-            >
-              Написать Владу
-            </a>
-          </div>
-          <a
-            href="https://t.me/lyaminvl"
-            className="nav-cta desktop-only"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Написать Владу
-            <ArrowIcon size={14} />
-          </a>
-          <button className="nav-burger" aria-label="Меню">
-            <span />
-            <span />
-            <span />
-          </button>
-        </div>
-      </nav>
 
       {/* ===== HERO ===== */}
       <HeroVideoSection />

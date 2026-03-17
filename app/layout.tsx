@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Outfit, Manrope, JetBrains_Mono, Geist, Source_Serif_4 } from "next/font/google";
+import { Outfit, Manrope, JetBrains_Mono, Geist, Source_Serif_4, Barlow, Instrument_Serif } from "next/font/google";
 import { YandexMetrika } from "@/components/YandexMetrika";
 import "./globals.css";
 import { cn } from "@/lib/utils";
@@ -28,6 +28,21 @@ const sourceSerif = Source_Serif_4({
   subsets: ["latin"],
   style: ["italic"],
   weight: ["300", "400"],
+  display: "swap",
+});
+
+const barlow = Barlow({
+  variable: "--font-barlow",
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  display: "swap",
+});
+
+const instrumentSerif = Instrument_Serif({
+  variable: "--font-instrument-serif",
+  subsets: ["latin"],
+  style: ["normal", "italic"],
+  weight: ["400"],
   display: "swap",
 });
 
@@ -65,7 +80,7 @@ export default function RootLayout({
   return (
     <html lang="ru" className={cn("font-sans", geist.variable)}>
       <body
-        className={`${outfit.variable} ${manrope.variable} ${jetbrainsMono.variable} ${sourceSerif.variable} antialiased`}
+        className={`${outfit.variable} ${manrope.variable} ${jetbrainsMono.variable} ${sourceSerif.variable} ${barlow.variable} ${instrumentSerif.variable} antialiased`}
       >
         {children}
         <YandexMetrika />
