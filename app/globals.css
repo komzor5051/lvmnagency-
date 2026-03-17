@@ -1264,7 +1264,362 @@ body {
   color: #fff !important;
 }
 
-/* Accessibility: respect user motion preferences */
+/* =============================================================================
+   NAV — transparent over video hero, cream on scroll
+   ============================================================================= */
+.landing-nav {
+  background: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  transition: background 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;
+}
+
+/* White text/icons when nav is transparent */
+.landing-nav:not(.scrolled) .logo { color: #fff; }
+.landing-nav:not(.scrolled) .nav-links a { color: rgba(255,255,255,0.75); }
+.landing-nav:not(.scrolled) .nav-links a:hover { color: #fff; }
+.landing-nav:not(.scrolled) .nav-cta {
+  background: rgba(255,255,255,0.14);
+  color: #fff;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+.landing-nav:not(.scrolled) .nav-cta:hover {
+  background: rgba(255,255,255,0.22);
+  transform: translateY(-1px);
+  box-shadow: none;
+}
+.landing-nav:not(.scrolled) .nav-burger span { background: #fff; }
+
+/* Restore cream background after scrolling past the hero */
+.landing-nav.scrolled {
+  background: rgba(247,246,243,0.92);
+  backdrop-filter: blur(16px) saturate(1.6);
+  -webkit-backdrop-filter: blur(16px) saturate(1.6);
+  border-bottom-color: var(--border);
+  box-shadow: var(--sh-xs);
+}
+
+/* =============================================================================
+   LIQUID GLASS UTILITIES
+   ============================================================================= */
+
+/* Light tier — used for pills, small cards */
+.hero-glass {
+  background: rgba(255,255,255,0.04);
+  background-blend-mode: luminosity;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  box-shadow: inset 0 1px 1px rgba(255,255,255,0.1);
+  position: relative;
+  overflow: hidden;
+}
+.hero-glass::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1.4px;
+  background: linear-gradient(
+    180deg,
+    rgba(255,255,255,0.45) 0%,
+    rgba(255,255,255,0.15) 20%,
+    transparent 40%,
+    transparent 60%,
+    rgba(255,255,255,0.15) 80%,
+    rgba(255,255,255,0.45) 100%
+  );
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+/* Strong tier — used for main panel, feature block */
+.hero-glass-strong {
+  background: rgba(255,255,255,0.04);
+  background-blend-mode: luminosity;
+  backdrop-filter: blur(50px);
+  -webkit-backdrop-filter: blur(50px);
+  box-shadow:
+    4px 4px 4px rgba(0,0,0,0.05),
+    inset 0 1px 1px rgba(255,255,255,0.15);
+  position: relative;
+  overflow: hidden;
+}
+.hero-glass-strong::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1.4px;
+  background: linear-gradient(
+    180deg,
+    rgba(255,255,255,0.5) 0%,
+    rgba(255,255,255,0.2) 20%,
+    transparent 40%,
+    transparent 60%,
+    rgba(255,255,255,0.2) 80%,
+    rgba(255,255,255,0.5) 100%
+  );
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+/* =============================================================================
+   HERO VIDEO SECTION
+   ============================================================================= */
+.hero-video {
+  position: relative;
+  min-height: 100svh;
+  display: flex;
+  align-items: stretch;
+  overflow: hidden;
+}
+
+/* Full-screen video */
+.hero-video-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+.hero-video-bg video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.hero-video-bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.36);
+}
+
+/* Two-panel flex row */
+.hero-video-layout {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  width: 100%;
+  min-height: 100svh;
+}
+
+/* Left panel — 56% width, glass backing */
+.hero-video-left {
+  width: 56%;
+  padding: 1.25rem;
+  display: flex;
+  position: relative;
+}
+
+/* The glass card sits behind the content */
+.hero-video-left-glass {
+  position: absolute;
+  inset: 1.25rem;
+  border-radius: 1.75rem;
+}
+
+/* Content above the glass card */
+.hero-video-panel {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 7rem 2.25rem 2.5rem;
+
+  /* Override CSS vars so all child components render correctly on dark bg */
+  --text: #ffffff;
+  --text-2: rgba(255,255,255,0.72);
+  --text-3: rgba(255,255,255,0.48);
+  --accent: rgba(255,255,255,0.92);
+  --accent-hover: #ffffff;
+  --accent-subtle: rgba(255,255,255,0.1);
+  --accent-muted: rgba(255,255,255,0.25);
+  --border: rgba(255,255,255,0.14);
+  --surface: rgba(255,255,255,0.06);
+  --bg: transparent;
+}
+
+.hero-video-panel .hero-stats {
+  border-top-color: rgba(255,255,255,0.12);
+}
+
+.hero-video-panel .hero-ghost-btn {
+  color: rgba(255,255,255,0.8);
+  border-color: rgba(255,255,255,0.2);
+}
+.hero-video-panel .hero-ghost-btn:hover {
+  color: #fff;
+  border-color: rgba(255,255,255,0.5);
+  background: transparent;
+}
+
+/* Right panel — 44%, desktop only */
+.hero-video-right {
+  display: none;
+  width: 44%;
+  flex-direction: column;
+  padding: 1.25rem 1.25rem 1.25rem 0;
+  gap: 0.875rem;
+}
+@media (min-width: 1024px) {
+  .hero-video-right { display: flex; }
+  .hero-video-left { width: 56%; }
+}
+
+/* Status pills row */
+.hero-right-top {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 0.625rem;
+  padding-top: 5.5rem;
+}
+
+.hero-glass-pill {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.45rem 1rem;
+  border-radius: 9999px;
+  font-size: 0.7rem;
+  font-weight: 500;
+  color: rgba(255,255,255,0.75);
+  white-space: nowrap;
+}
+
+.hero-status-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #4ade80;
+  flex-shrink: 0;
+  box-shadow: 0 0 0 2px rgba(74,222,128,0.25);
+}
+
+/* Services block wrapper */
+.hero-services {
+  margin-top: auto;
+  padding: 1rem;
+  border-radius: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+}
+
+/* Individual service card */
+.hero-service-card {
+  padding: 0.875rem 1rem;
+  border-radius: 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.875rem;
+  transition: transform 0.2s;
+  cursor: default;
+}
+.hero-service-card:hover { transform: scale(1.015); }
+
+.hero-feat-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: rgba(255,255,255,0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: rgba(255,255,255,0.8);
+}
+
+.hero-service-card h4 {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #fff;
+  margin-bottom: 0.15rem;
+  letter-spacing: -0.01em;
+}
+.hero-service-card p {
+  font-size: 0.65rem;
+  color: rgba(255,255,255,0.5);
+  line-height: 1.4;
+}
+
+/* Bottom case card */
+.hero-case-card {
+  padding: 0.875rem 1rem;
+  border-radius: 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.875rem;
+}
+
+.hero-case-thumb {
+  width: 48px;
+  height: 48px;
+  border-radius: 10px;
+  background: rgba(255,255,255,0.06);
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero-case-text { flex: 1; }
+.hero-case-text h4 {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #fff;
+  margin-bottom: 0.15rem;
+  letter-spacing: -0.01em;
+}
+.hero-case-text p {
+  font-size: 0.65rem;
+  color: rgba(255,255,255,0.5);
+  line-height: 1.4;
+}
+
+.hero-case-plus {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: rgba(255,255,255,0.6);
+  font-size: 16px;
+  font-weight: 300;
+  line-height: 1;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+.hero-case-plus:hover { transform: scale(1.1); }
+
+/* Mobile: full-width left panel */
+@media (max-width: 1023px) {
+  .hero-video-left {
+    width: 100%;
+  }
+  .hero-video-left-glass {
+    border-radius: 1.25rem;
+    inset: 0.75rem;
+  }
+  .hero-video-panel {
+    padding: 6rem 1.5rem 2rem;
+  }
+}
+
+/* =============================================================================
+   Accessibility: respect user motion preferences
+   ============================================================================= */
 @media (prefers-reduced-motion: reduce) {
   .anim-fade-up, .reveal {
     animation: none !important;

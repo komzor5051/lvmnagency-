@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import LandingInteractivity from "@/components/landing/LandingInteractivity";
-import { HeroBadge } from "@/components/landing/HeroBadge";
-import { HeroTitle } from "@/components/landing/HeroTitle";
-import { HeroStats } from "@/components/landing/HeroStats";
+import { HeroVideoSection } from "@/components/landing/HeroVideoSection";
 import { NicheCards } from "@/components/landing/NicheCards";
 import { FeaturedPricingBeam } from "@/components/landing/FeaturedPricing";
 import { TestimonialsMarquee } from "@/components/landing/TestimonialsMarquee";
@@ -123,28 +121,7 @@ export default function LandingPage() {
       </nav>
 
       {/* ===== HERO ===== */}
-      <section className="hero">
-        <div className="container">
-          <div className="hero-content">
-            <HeroBadge />
-            <HeroTitle />
-            <p className="hero-sub anim-fade-up d2">
-              Я делаю ботов и автоматизации, которые берут рутину на себя —
-              чтобы ваша команда занималась тем, что приносит деньги.
-            </p>
-            <div className="hero-ctas anim-fade-up d3">
-              <ShimmerCTA href="https://t.me/lyaminvl">
-                Написать Владу
-                <ArrowIcon />
-              </ShimmerCTA>
-              <a href="#cases" className="btn-ghost">
-                Посмотреть, что уже сделал
-              </a>
-            </div>
-            <HeroStats />
-          </div>
-        </div>
-      </section>
+      <HeroVideoSection />
 
       {/* ===== PAINS ===== */}
       <section className="pains">

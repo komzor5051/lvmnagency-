@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Outfit, Manrope, JetBrains_Mono, Geist } from "next/font/google";
+import { Outfit, Manrope, JetBrains_Mono, Geist, Source_Serif_4 } from "next/font/google";
 import { YandexMetrika } from "@/components/YandexMetrika";
 import "./globals.css";
 import { cn } from "@/lib/utils";
@@ -21,6 +21,14 @@ const manrope = Manrope({
 const jetbrainsMono = JetBrains_Mono({
   variable: "--font-mono",
   subsets: ["latin", "cyrillic"],
+});
+
+const sourceSerif = Source_Serif_4({
+  variable: "--font-serif-accent",
+  subsets: ["latin"],
+  style: ["italic"],
+  weight: ["300", "400"],
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -57,7 +65,7 @@ export default function RootLayout({
   return (
     <html lang="ru" className={cn("font-sans", geist.variable)}>
       <body
-        className={`${outfit.variable} ${manrope.variable} ${jetbrainsMono.variable} antialiased`}
+        className={`${outfit.variable} ${manrope.variable} ${jetbrainsMono.variable} ${sourceSerif.variable} antialiased`}
       >
         {children}
         <YandexMetrika />
