@@ -1643,6 +1643,21 @@ body {
   z-index: 0;
 }
 
+/* Dark scrim — heavier at top (sky/text area), fades toward flowers */
+.lo-video-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(0,0,0,0.52) 0%,
+    rgba(0,0,0,0.28) 45%,
+    rgba(0,0,0,0.08) 75%,
+    rgba(0,0,0,0.0) 100%
+  );
+  z-index: 1;
+  pointer-events: none;
+}
+
 /* Bottom gradient — blends hero into page background */
 .lo-gradient-bottom {
   position: absolute;
@@ -1768,6 +1783,7 @@ body {
   letter-spacing: -0.04em;
   line-height: 1;
   margin: 0;
+  text-shadow: 0 2px 20px rgba(0,0,0,0.45), 0 0 60px rgba(0,0,0,0.25);
 }
 
 .lo-line2 {
@@ -1779,13 +1795,15 @@ body {
   letter-spacing: -0.02em;
   line-height: 1;
   margin: 0;
+  text-shadow: 0 2px 20px rgba(0,0,0,0.45), 0 0 60px rgba(0,0,0,0.25);
 }
 
 .lo-sub {
   font-family: var(--font-barlow), Barlow, sans-serif;
   font-size: clamp(15px, 1.6vw, 18px);
   font-weight: 500;
-  color: rgba(255,255,255,0.80);
+  color: #fff;
+  text-shadow: 0 1px 12px rgba(0,0,0,0.65), 0 0 40px rgba(0,0,0,0.45);
   margin: 0 0 28px;
   max-width: 480px;
   line-height: 1.5;

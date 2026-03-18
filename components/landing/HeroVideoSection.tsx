@@ -40,6 +40,9 @@ export function HeroVideoSection() {
         />
       </video>
 
+      {/* Dark scrim — contrast for text over bright sky */}
+      <div className="lo-video-overlay" aria-hidden="true" />
+
       {/* Bottom gradient — blends into page bg */}
       <div className="lo-gradient-bottom" aria-hidden="true" />
 
