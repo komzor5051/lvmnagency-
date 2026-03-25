@@ -11,7 +11,10 @@ import { CasesCarousel } from "@/components/landing/CasesCarousel";
 export const metadata: Metadata = {
   title: "LVMN — AI-автоматизация для бизнеса за дни, не за месяцы",
   description:
-    "Делаю ботов и автоматизации, которые берут рутину на себя. 13 проектов с цифрами. 3-5 дней до результата. Гарантия возврата денег.",
+    "Делаю ботов и автоматизации, которые берут рутину на себя. 11 проектов с цифрами. 3-5 дней до результата. Гарантия возврата денег.",
+  alternates: {
+    canonical: "https://lvmn.vercel.app/",
+  },
   openGraph: {
     title: "LVMN — AI-автоматизация для бизнеса за дни, не за месяцы",
     description:
@@ -19,12 +22,21 @@ export const metadata: Metadata = {
     type: "website",
     url: "https://lvmn.vercel.app/",
     locale: "ru_RU",
+    images: [
+      {
+        url: "/founder.jpg",
+        width: 1200,
+        height: 630,
+        alt: "LVMN — AI-автоматизация для бизнеса",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "LVMN — AI-автоматизация для бизнеса",
     description:
-      "Боты и автоматизации для малого бизнеса. 13 проектов с цифрами. 3-5 дней до результата.",
+      "Боты и автоматизации для малого бизнеса. 11 проектов с цифрами. 3-5 дней до результата.",
+    images: ["/founder.jpg"],
   },
 };
 
@@ -186,7 +198,7 @@ export default function LandingPage() {
               Если у вас есть <em>люди и рутина</em> — я помогу
             </h2>
             <p className="section-subtitle">
-              13 проектов в 8 отраслях. Везде одно и то же — люди делают
+              11 реальных проектов. Везде одно и то же — люди делают
               работу, которую давно пора отдать машине.
             </p>
           </div>
@@ -488,7 +500,7 @@ export default function LandingPage() {
               </p>
               <div className="about-chips">
                 <span className="about-chip">
-                  <CheckIcon size={14} />13 проектов с цифрами
+                  <CheckIcon size={14} />11 проектов с цифрами
                 </span>
                 <span className="about-chip">
                   <CheckIcon size={14} />
@@ -587,7 +599,7 @@ export default function LandingPage() {
               <div className="faq-a">
                 <p>
                   Верну деньги, если за месяц не будет измеримого результата.
-                  Без мелкого шрифта. За 13 проектов этой гарантией не
+                  Без мелкого шрифта. За 11 проектов этой гарантией не
                   воспользовался никто.
                 </p>
               </div>
