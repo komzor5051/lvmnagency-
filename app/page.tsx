@@ -6,7 +6,7 @@ import Link from "next/link";
 export const metadata: Metadata = {
   title: "LVMN — AI-автоматизация для бизнеса за дни, не за месяцы",
   description:
-    "Строим ботов и автоматизации, которые берут рутину на себя. 13 проектов с цифрами. 3-5 дней до результата. Гарантия возврата денег.",
+    "Строим ботов и автоматизации, которые берут рутину на себя. 15 проектов с цифрами. 3-5 дней до результата. Гарантия возврата денег.",
   alternates: { canonical: "https://lvmn.vercel.app/" },
   openGraph: {
     title: "LVMN — AI-автоматизация для бизнеса за дни, не за месяцы",
@@ -79,7 +79,7 @@ export default function LandingPage() {
           </div>
           <div className="v2-hero-stats">
             <div className="v2-stat">
-              <span className="v2-stat-num">13</span>
+              <span className="v2-stat-num">15</span>
               <span className="v2-stat-label">проектов</span>
             </div>
             <div className="v2-stat-divider" />
