@@ -60,13 +60,14 @@ export function HeroVideoSection() {
           </div>
 
           <div className="lo-links">
-            <a href="#about">О нас</a>
             <a href="#cases">Кейсы</a>
             <a href="#services">Услуги</a>
             <a href="#testimonials">Отзывы</a>
+            <a href="#about">О нас</a>
+            <a href="/blog">Блог</a>
           </div>
 
-          <button className="lo-book-btn">
+          <a href="https://t.me/lyaminvl" target="_blank" rel="noopener noreferrer" className="lo-book-btn">
             Консультация
             <span className="lo-arrow-wrap">
               <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
@@ -74,7 +75,7 @@ export function HeroVideoSection() {
                 <path d="M4.5 2.5H10.5V8.5" stroke="#222" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
             </span>
-          </button>
+          </a>
 
         </div>
       </nav>
@@ -82,22 +83,23 @@ export function HeroVideoSection() {
       {/* Hero copy */}
       <div className="lo-content">
         <div className="lo-headlines">
-          <p className="lo-line1">Строим AI-продукты</p>
-          <p className="lo-line2">за дни, не за месяцы</p>
+          <p className="lo-line1">Убираем рутину</p>
+          <p className="lo-line2">из вашего бизнеса</p>
         </div>
 
         <p className="lo-sub">
-          Боты, автоматизации и MVP-сервисы для бизнеса — с гарантией результата
+          Строим ботов, автоматизации и AI-сервисы — за дни, не за месяцы.
+          13 проектов с измеримым результатом.
         </p>
 
-        <button className="lo-workreel-btn">
+        <a href="#cases" className="lo-workreel-btn">
           <span className="lo-play-circle">
             <svg width="11" height="13" viewBox="0 0 11 13" fill="none">
               <path d="M1 1.5L10 6.5L1 11.5V1.5Z" fill="white" />
             </svg>
           </span>
           Смотреть кейсы
-        </button>
+        </a>
       </div>
 
     </section>

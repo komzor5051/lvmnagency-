@@ -26,7 +26,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   if (!post) return {};
 
-  const blogUrl = process.env.BLOG_URL ?? "https://lvmn-blog.vercel.app";
+  const blogUrl = process.env.BLOG_URL ?? "https://lvmn.vercel.app";
 
   return {
     title: post.title,
@@ -91,7 +91,7 @@ export default async function ArticlePage({ params }: Props) {
   });
 
   const minutes = readingTime(post.content_md);
-  const blogUrl = process.env.BLOG_URL ?? "https://lvmn-blog.vercel.app";
+  const blogUrl = process.env.BLOG_URL ?? "https://lvmn.vercel.app";
   const contentHtml = post.content_html ?? "";
 
   return (

@@ -2,7 +2,7 @@ import { supabase } from "@/lib/supabase";
 import type { MetadataRoute } from "next";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const blogUrl = process.env.BLOG_URL ?? "https://lvmn.vercel.app";
+  const siteUrl = "https://lvmn.vercel.app";
 
   const { data: posts } = await supabase
     .from("lvmn_blog_posts")
@@ -11,14 +11,15 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     .order("published_at", { ascending: false });
 
   const postEntries = (posts ?? []).map((post) => ({
-    url: `${blogUrl}/blog/${post.slug}`,
+    url: `${siteUrl}/blog/${post.slug}`,
     lastModified: post.published_at,
     changeFrequency: "weekly" as const,
     priority: 0.8,
   }));
 
   return [
-    { url: `${blogUrl}/blog`, lastModified: new Date(), changeFrequency: "daily", priority: 1 },
+    { url: siteUrl, lastModified: new Date(), changeFrequency: "weekly", priority: 1 },
+    { url: `${siteUrl}/blog`, lastModified: new Date(), changeFrequency: "daily", priority: 0.9 },
     ...postEntries,
   ];
 }

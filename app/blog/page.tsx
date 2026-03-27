@@ -1,7 +1,25 @@
 import { supabase } from "@/lib/supabase";
 import { PostCard } from "@/components/post-card";
+import type { Metadata } from "next";
 
 export const revalidate = 60;
+
+export const metadata: Metadata = {
+  title: "Блог об AI-автоматизации для бизнеса",
+  description:
+    "Практичные статьи об автоматизации бизнеса с помощью AI. Кейсы, инструменты, пошаговые руководства.",
+  alternates: {
+    canonical: "https://lvmn.vercel.app/blog",
+  },
+  openGraph: {
+    title: "Блог об AI-автоматизации для бизнеса — LVMN",
+    description:
+      "Практичные статьи об автоматизации бизнеса с помощью AI. Кейсы, инструменты, пошаговые руководства.",
+    type: "website",
+    url: "https://lvmn.vercel.app/blog",
+    locale: "ru_RU",
+  },
+};
 
 export default async function BlogPage() {
   const { data: posts } = await supabase
@@ -14,7 +32,7 @@ export default async function BlogPage() {
   return (
     <div>
       <h1 className="text-3xl font-bold text-zinc-900 dark:text-zinc-100 mb-2">
-        Блог
+        AI-автоматизация для бизнеса
       </h1>
       <p className="text-zinc-500 dark:text-zinc-400 mb-8">
         AI-автоматизация для бизнеса: кейсы, тренды, инструменты

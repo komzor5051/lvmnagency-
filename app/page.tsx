@@ -11,7 +11,7 @@ import { CasesCarousel } from "@/components/landing/CasesCarousel";
 export const metadata: Metadata = {
   title: "LVMN — AI-автоматизация для бизнеса за дни, не за месяцы",
   description:
-    "Делаю ботов и автоматизации, которые берут рутину на себя. 11 проектов с цифрами. 3-5 дней до результата. Гарантия возврата денег.",
+    "Строим ботов и автоматизации, которые берут рутину на себя. 13 проектов с цифрами. 3-5 дней до результата. Гарантия возврата денег.",
   alternates: {
     canonical: "https://lvmn.vercel.app/",
   },
@@ -195,10 +195,10 @@ export default function LandingPage() {
           <div className="reveal">
             <span className="section-label">Кому подходит</span>
             <h2 className="section-title">
-              Если у вас есть <em>люди и рутина</em> — я помогу
+              Если у вас есть <em>люди и рутина</em> — поможем
             </h2>
             <p className="section-subtitle">
-              11 реальных проектов. Везде одно и то же — люди делают
+              13 реальных проектов в разных нишах. Везде одно и то же — люди делают
               работу, которую давно пора отдать машине.
             </p>
           </div>
@@ -206,7 +206,142 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* ===== PACKAGES ===== */}
+      {/* ===== CASES (moved before packages) ===== */}
+      <section className="cases" id="cases">
+        <div className="container">
+          <div className="reveal">
+            <span className="section-label">Кейсы</span>
+            <h2 className="section-title">
+              Что мы уже <em>построили</em>
+            </h2>
+            <p className="section-subtitle">
+              Каждый проект — рабочий. Не макет в Figma, а система, которая
+              прямо сейчас экономит людям время и деньги.
+            </p>
+          </div>
+          <CasesCarousel />
+        </div>
+      </section>
+
+      {/* ===== TESTIMONIALS (moved before packages) ===== */}
+      <section className="testimonials" id="testimonials">
+        <div className="container">
+          <div className="reveal">
+            <span className="section-label">Отзывы</span>
+            <h2 className="section-title">
+              Что говорят <em>клиенты</em>
+            </h2>
+            <p className="section-subtitle">
+              Не анонимные цитаты — реальные предприниматели, которые
+              запустили AI у себя.
+            </p>
+          </div>
+          <TestimonialsMarquee />
+        </div>
+      </section>
+
+      {/* ===== WHY US ===== */}
+      <section className="why-us">
+        <div className="container">
+          <div className="reveal">
+            <span className="section-label">Почему мы</span>
+            <h2 className="section-title">
+              Чем LVMN <em>отличается</em>
+            </h2>
+          </div>
+          <div className="why-us-grid">
+            <div className="why-us-card reveal">
+              <h3>3-5 дней, не 3 месяца</h3>
+              <p>
+                Первый результат за дни. Полное внедрение — 1-3 недели.
+                Не затягиваем и не раздуваем scope.
+              </p>
+            </div>
+            <div className="why-us-card reveal">
+              <h3>Гарантия результата</h3>
+              <p>
+                Если за месяц не увидите измеримой экономии — вернём деньги.
+                Без мелкого шрифта. За 13 проектов этим не воспользовался никто.
+              </p>
+            </div>
+            <div className="why-us-card reveal">
+              <h3>Всё под ключ</h3>
+              <p>
+                От аудита до запуска и обучения команды. Вам не нужно нанимать
+                программиста или разбираться в технологиях.
+              </p>
+            </div>
+            <div className="why-us-card reveal">
+              <h3>13 проектов с цифрами</h3>
+              <p>
+                От цветочного магазина в Дубае до системы реабилитации
+                для Минобороны. Каждый кейс — с измеримым результатом.
+              </p>
+            </div>
+            <div className="why-us-card reveal">
+              <h3>Говорим по-человечески</h3>
+              <p>
+                Без «имплементации AI-driven решений». Объясняем, что сделаем,
+                зачем и сколько сэкономите — простым языком.
+              </p>
+            </div>
+            <div className="why-us-card reveal">
+              <h3>Поддержка после запуска</h3>
+              <p>
+                Не бросаем после сдачи. Обучаем команду, остаёмся на связи,
+                помогаем масштабировать.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ===== PROCESS ===== */}
+      <section className="process" id="process">
+        <div className="container">
+          <div className="reveal">
+            <span className="section-label">Как это работает</span>
+            <h2 className="section-title">
+              От заявки до <em>работающей системы</em> — 4 шага
+            </h2>
+            <p className="section-subtitle">
+              Вам не нужно ничего настраивать. Просто расскажите, что болит.
+            </p>
+          </div>
+          <div className="process-steps">
+            <div className="process-step reveal">
+              <div className="process-num">1</div>
+              <h3>Напишите нам</h3>
+              <p>
+                Пара предложений в Telegram — что за бизнес и что хотите автоматизировать
+              </p>
+            </div>
+            <div className="process-step reveal">
+              <div className="process-num">2</div>
+              <h3>Разберёмся</h3>
+              <p>
+                Созвонимся на 15 минут — поймём задачу и скажем, что можно сделать
+              </p>
+            </div>
+            <div className="process-step reveal">
+              <div className="process-num">3</div>
+              <h3>Строим</h3>
+              <p>
+                Начнём с того, что даст эффект быстрее всего — увидите результат за дни
+              </p>
+            </div>
+            <div className="process-step reveal">
+              <div className="process-num">4</div>
+              <h3>Растём</h3>
+              <p>
+                Если зашло — подключаем новые процессы. Если нет — вернём деньги
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ===== PACKAGES (moved after proof sections) ===== */}
       <section className="packages" id="services">
         <div className="container">
           <div className="reveal">
@@ -236,7 +371,7 @@ export default function LandingPage() {
                   fontWeight: 600,
                 }}
               >
-                Если за месяц не увидите результат — верну деньги. Без вопросов
+                Если за месяц не увидите результат — вернём деньги. Без вопросов
               </span>
             </div>
           </div>
@@ -255,10 +390,10 @@ export default function LandingPage() {
                   <CheckIcon /> Разберёмся, что автоматизировать
                 </li>
                 <li>
-                  <CheckIcon /> Сделаю одного бота или интеграцию
+                  <CheckIcon /> Один бот или интеграция под ключ
                 </li>
                 <li>
-                  <CheckIcon /> Напишу инструкцию для команды
+                  <CheckIcon /> Инструкция для команды
                 </li>
                 <li>
                   <CheckIcon /> Готово за 3-5 дней
@@ -296,20 +431,20 @@ export default function LandingPage() {
                 120 000 <span>&#8381;</span>
               </div>
               <div className="pkg-desc">
-                Автоматизирую 2-3 ключевых процесса + обучу команду.
+                Автоматизируем 2-3 ключевых процесса + обучим команду.
               </div>
               <ul className="pkg-features">
                 <li>
-                  <CheckIcon /> Аудит всех процессов — найду, где теряете
+                  <CheckIcon /> Аудит всех процессов — найдём, где теряете
                 </li>
                 <li>
                   <CheckIcon /> 3 бота или автоматизации под ключ
                 </li>
                 <li>
-                  <CheckIcon /> Покажу команде, как пользоваться
+                  <CheckIcon /> Обучение команды
                 </li>
                 <li>
-                  <CheckIcon /> 2 недели на связи после запуска
+                  <CheckIcon /> 2 недели поддержки после запуска
                 </li>
                 <li>
                   <CheckIcon /> Готово за 1-2 недели
@@ -334,7 +469,7 @@ export default function LandingPage() {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                Хочу этот
+                Выбрать
               </a>
             </div>
 
@@ -345,7 +480,7 @@ export default function LandingPage() {
                 250 000 <span>&#8381;</span>
               </div>
               <div className="pkg-desc">
-                Перестраиваю процессы целиком. Максимум автоматизации.
+                Перестраиваем процессы целиком. Максимум автоматизации.
               </div>
               <ul className="pkg-features">
                 <li>
@@ -355,13 +490,13 @@ export default function LandingPage() {
                   <CheckIcon /> 5+ ботов и автоматизаций
                 </li>
                 <li>
-                  <CheckIcon /> Обучу всю команду
+                  <CheckIcon /> Обучение всей команды
                 </li>
                 <li>
                   <CheckIcon /> Месяц поддержки после запуска
                 </li>
                 <li>
-                  <CheckIcon /> Помогу масштабировать дальше
+                  <CheckIcon /> Помощь с масштабированием
                 </li>
                 <li>
                   <CheckIcon /> Первый эффект через 5-7 дней
@@ -390,85 +525,6 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* ===== CASES ===== */}
-      <section className="cases" id="cases">
-        <div className="container">
-          <div className="reveal">
-            <span className="section-label">Кейсы</span>
-            <h2 className="section-title">
-              Вот что я уже <em>сделал</em>
-            </h2>
-            <p className="section-subtitle">
-              Каждый проект — рабочий. Не макет в Figma, а штука, которая
-              прямо сейчас экономит людям время и деньги.
-            </p>
-          </div>
-          <CasesCarousel />
-        </div>
-      </section>
-
-      {/* ===== TESTIMONIALS ===== */}
-      <section className="testimonials" id="testimonials">
-        <div className="container">
-          <div className="reveal">
-            <span className="section-label">Отзывы</span>
-            <h2 className="section-title">
-              Люди, которым я уже <em>помог</em>
-            </h2>
-            <p className="section-subtitle">
-              Не анонимные цитаты — реальные предприниматели, которые
-              запустили AI у себя.
-            </p>
-          </div>
-          <TestimonialsMarquee />
-        </div>
-      </section>
-
-      {/* ===== PROCESS ===== */}
-      <section className="process" id="process">
-        <div className="container">
-          <div className="reveal">
-            <span className="section-label">Как это работает</span>
-            <h2 className="section-title">
-              От «привет» до <em>работающего бота</em> — 4 шага
-            </h2>
-            <p className="section-subtitle">
-              Вам не нужно ничего настраивать. Просто расскажите, что болит.
-            </p>
-          </div>
-          <div className="process-steps">
-            <div className="process-step reveal">
-              <div className="process-num">1</div>
-              <h3>Напишите мне</h3>
-              <p>
-                Пара предложений в Telegram — что за бизнес и что хотите автоматизировать
-              </p>
-            </div>
-            <div className="process-step reveal">
-              <div className="process-num">2</div>
-              <h3>Разберёмся</h3>
-              <p>
-                Созвонимся на 15 минут — пойму задачу и скажу, что можно сделать
-              </p>
-            </div>
-            <div className="process-step reveal">
-              <div className="process-num">3</div>
-              <h3>Делаю</h3>
-              <p>
-                Начну с того, что даст эффект быстрее всего — увидите результат за дни
-              </p>
-            </div>
-            <div className="process-step reveal">
-              <div className="process-num">4</div>
-              <h3>Растём</h3>
-              <p>
-                Если зашло — подключаем новые процессы. Если нет — верну деньги
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* ===== ABOUT ===== */}
       <section className="about" id="about">
         <div className="container">
@@ -483,24 +539,23 @@ export default function LandingPage() {
               </div>
             </div>
             <div className="about-text reveal">
-              <span className="section-label">Кто делает</span>
+              <span className="section-label">Кто стоит за LVMN</span>
               <h2>
-                Привет, я Влад.{" "}
-                <em>Делаю AI-штуки для бизнеса</em>
+                Влад Лямин, <em>основатель</em>
               </h2>
               <p>
-                Не продаю хайп про «нейросети изменят мир». Просто нахожу
-                в вашем бизнесе рутину, которую можно отдать боту — и делаю
+                Не продаём хайп про «нейросети изменят мир». Находим
+                в бизнесе рутину, которую можно отдать боту — и строим
                 этого бота. За дни, не за месяцы.
               </p>
               <p>
                 В портфеле — от цветочного магазина в Дубае до системы
-                реабилитации для Минобороны. Веду курс по AI-автоматизации.
-                Объясняю сложное простым языком — это мой принцип.
+                реабилитации для Минобороны. Ведём курс по AI-автоматизации.
+                Объясняем сложное простым языком — это наш принцип.
               </p>
               <div className="about-chips">
                 <span className="about-chip">
-                  <CheckIcon size={14} />11 проектов с цифрами
+                  <CheckIcon size={14} />13 проектов с цифрами
                 </span>
                 <span className="about-chip">
                   <CheckIcon size={14} />
@@ -508,7 +563,7 @@ export default function LandingPage() {
                 </span>
                 <span className="about-chip">
                   <CheckIcon size={14} />
-                  Говорю по-человечески
+                  Говорим по-человечески
                 </span>
                 <span className="about-chip">
                   <CheckIcon size={14} />
@@ -532,16 +587,16 @@ export default function LandingPage() {
           <div className="faq-grid">
             <div className="faq-item reveal">
               <div className="faq-q">
-                <h3>Я вообще ничего не понимаю в AI — это ок?</h3>
+                <h3>Мы ничего не понимаем в AI — это ок?</h3>
                 <div className="faq-toggle">
                   <PlusIcon />
                 </div>
               </div>
               <div className="faq-a">
                 <p>
-                  Конечно. Большинство моих клиентов не отличают GPT от
-                  Claude — и это нормально. Я всё объясню простыми словами
-                  и сделаю техническую часть сам.
+                  Конечно. Большинство наших клиентов не отличают GPT от
+                  Claude — и это нормально. Мы всё объясним простыми словами
+                  и возьмём техническую часть на себя.
                 </p>
               </div>
             </div>
@@ -555,35 +610,35 @@ export default function LandingPage() {
               <div className="faq-a">
                 <p>
                   Один бот или автоматизация — 3-5 дней. Комплексный
-                  проект на 5+ штук — 2-3 недели. Но первый результат вы
+                  проект на 5+ систем — 2-3 недели. Первый результат
                   увидите уже в первую неделю.
                 </p>
               </div>
             </div>
             <div className="faq-item reveal">
               <div className="faq-q">
-                <h3>Мне нужно нанимать программиста?</h3>
+                <h3>Нужно нанимать программиста?</h3>
                 <div className="faq-toggle">
                   <PlusIcon />
                 </div>
               </div>
               <div className="faq-a">
                 <p>
-                  Нет. Я и есть ваш программист на этом проекте. От вас —
+                  Нет. Мы и есть ваша техническая команда на этом проекте. От вас —
                   только доступы к нужным сервисам и 15 минут на созвон.
                 </p>
               </div>
             </div>
             <div className="faq-item reveal">
               <div className="faq-q">
-                <h3>Хочу сначала попробовать на чём-то маленьком</h3>
+                <h3>Хотим сначала попробовать на чём-то маленьком</h3>
                 <div className="faq-toggle">
                   <PlusIcon />
                 </div>
               </div>
               <div className="faq-a">
                 <p>
-                  Отличная идея — так и советую. Тариф «Старт» за 50к:
+                  Отличная идея — так и рекомендуем. Тариф «Старт» за 50к:
                   один бот, быстрый результат, минимальный риск. Понравится —
                   масштабируем.
                 </p>
@@ -598,26 +653,63 @@ export default function LandingPage() {
               </div>
               <div className="faq-a">
                 <p>
-                  Верну деньги, если за месяц не будет измеримого результата.
-                  Без мелкого шрифта. За 11 проектов этой гарантией не
+                  Вернём деньги, если за месяц не будет измеримого результата.
+                  Без мелкого шрифта. За 13 проектов этой гарантией не
                   воспользовался никто.
                 </p>
               </div>
             </div>
             <div className="faq-item reveal">
               <div className="faq-q">
-                <h3>Сколько я сэкономлю в деньгах?</h3>
+                <h3>Сколько мы сэкономим в деньгах?</h3>
                 <div className="faq-toggle">
                   <PlusIcon />
                 </div>
               </div>
               <div className="faq-a">
                 <p>
-                  Зависит от процессов. Но вот ориентир: бизнес с 3
+                  Зависит от процессов. Ориентир: бизнес с 3
                   менеджерами обычно экономит 50-90 тыс. &#8381;/мес на рутине.
                   Тариф «Старт» за 50к окупается за 3-4 недели.
                 </p>
               </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ===== AUDIT LEAD MAGNET ===== */}
+      <section className="audit-magnet">
+        <div className="container">
+          <div className="audit-magnet-content reveal">
+            <div className="audit-magnet-text">
+              <span className="section-label">Бесплатно</span>
+              <h2>
+                AI-аудит вашего бизнеса <em>за 2 минуты</em>
+              </h2>
+              <p>
+                Ответьте на 6 вопросов о вашем бизнесе — и AI покажет,
+                какие процессы можно автоматизировать, сколько времени
+                и денег это сэкономит.
+              </p>
+              <ul className="audit-magnet-points">
+                <li>
+                  <CheckIcon size={14} />
+                  Персональный разбор под вашу нишу
+                </li>
+                <li>
+                  <CheckIcon size={14} />
+                  3-5 конкретных автоматизаций с приоритетами
+                </li>
+                <li>
+                  <CheckIcon size={14} />
+                  Расчёт экономии в часах и рублях
+                </li>
+              </ul>
+              <a href="/audit" className="audit-magnet-btn">
+                Пройти аудит
+                <ArrowIcon size={16} />
+              </a>
             </div>
           </div>
         </div>
@@ -631,15 +723,15 @@ export default function LandingPage() {
               Давайте посмотрим, где у вас <em>утекают деньги</em>
             </h2>
             <p className="final-cta-sub">
-              Напишите мне — за 15 минут разберём ваши процессы и я покажу,
+              Напишите нам — за 15 минут разберём ваши процессы и покажем,
               что можно автоматизировать и сколько это сэкономит. Бесплатно.
             </p>
             <ShimmerCTA href="https://t.me/lyaminvl?text=%D0%90%D1%83%D0%B4%D0%B8%D1%82">
-              Написать Владу в Telegram
+              Написать в Telegram
               <ArrowIcon />
             </ShimmerCTA>
             <p className="final-cta-note">
-              Это не продажа. Просто разговор — покажу, что возможно.
+              Это не продажа. Просто разговор — покажем, что возможно.
             </p>
           </div>
         </div>
@@ -660,7 +752,7 @@ export default function LandingPage() {
               </a>
               <a href="#services">Продукты</a>
               <a href="#cases">Кейсы</a>
-              <a href="#about">Обо мне</a>
+              <a href="#about">О нас</a>
               <a href="/blog">Блог</a>
             </div>
             <div className="footer-copy">

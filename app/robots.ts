@@ -9,6 +9,6 @@ export default function robots(): MetadataRoute.Robots {
         disallow: ["/api/"],
       },
     ],
-    sitemap: "https://lvmn.vercel.app/blog/sitemap.xml",
+    sitemap: "https://lvmn.vercel.app/sitemap.xml",
   };
 }
