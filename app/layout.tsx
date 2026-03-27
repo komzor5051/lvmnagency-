@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Outfit, Manrope, JetBrains_Mono, Geist, Source_Serif_4, Barlow, Instrument_Serif } from "next/font/google";
+import { Outfit, Manrope, JetBrains_Mono, Geist, Source_Serif_4, Barlow, Instrument_Serif, Playfair_Display, Inter } from "next/font/google";
 import { YandexMetrika } from "@/components/YandexMetrika";
 import "./globals.css";
 import { cn } from "@/lib/utils";
@@ -46,6 +46,21 @@ const instrumentSerif = Instrument_Serif({
   display: "swap",
 });
 
+const playfair = Playfair_Display({
+  variable: "--font-playfair",
+  subsets: ["latin", "cyrillic"],
+  style: ["normal", "italic"],
+  weight: ["400", "700"],
+  display: "swap",
+});
+
+const inter = Inter({
+  variable: "--font-inter",
+  subsets: ["latin", "cyrillic"],
+  weight: ["400", "500", "600", "700", "800"],
+  display: "swap",
+});
+
 export const metadata: Metadata = {
   title: {
     default: "LVMN — AI-продукты для бизнеса за дни, не за месяцы",
@@ -80,7 +95,7 @@ export default function RootLayout({
   return (
     <html lang="ru" className={cn("font-sans", geist.variable)}>
       <body
-        className={`${outfit.variable} ${manrope.variable} ${jetbrainsMono.variable} ${sourceSerif.variable} ${barlow.variable} ${instrumentSerif.variable} antialiased`}
+        className={`${outfit.variable} ${manrope.variable} ${jetbrainsMono.variable} ${sourceSerif.variable} ${barlow.variable} ${instrumentSerif.variable} ${playfair.variable} ${inter.variable} antialiased`}
       >
         {children}
         <YandexMetrika />
