@@ -6,7 +6,7 @@ import Link from "next/link";
 export const metadata: Metadata = {
   title: "LVMN — AI-автоматизация для бизнеса за дни, не за месяцы",
   description:
-    "Строим ботов и автоматизации, которые берут рутину на себя. 15 проектов с цифрами. 3-5 дней до результата. Гарантия возврата денег.",
+    "Строим ботов и автоматизации, которые берут рутину на себя. 13 проектов с цифрами. 3-5 дней до результата. Гарантия возврата денег.",
   alternates: { canonical: "https://lvmn.vercel.app/" },
   openGraph: {
     title: "LVMN — AI-автоматизация для бизнеса за дни, не за месяцы",
@@ -79,7 +79,7 @@ export default function LandingPage() {
           </div>
           <div className="v2-hero-stats">
             <div className="v2-stat">
-              <span className="v2-stat-num">15</span>
+              <span className="v2-stat-num">13</span>
               <span className="v2-stat-label">проектов</span>
             </div>
             <div className="v2-stat-divider" />
@@ -105,6 +105,62 @@ export default function LandingPage() {
             Каждый проект — работающая система, не макет. Кликните для деталей.
           </p>
           <CasesGrid />
+        </div>
+      </section>
+
+      {/* ===== OUR PRODUCTS ===== */}
+      <section className="v2-section v2-section-alt" id="products">
+        <div className="v2-container">
+          <span className="v2-label">Наши продукты</span>
+          <h2 className="v2-title">Строим не только для клиентов</h2>
+          <p className="v2-subtitle">
+            Собственные SaaS-продукты, которые мы разработали, запустили и развиваем.
+          </p>
+
+          <div className="v2-products">
+            <a href="https://swipely.ru" target="_blank" rel="noopener noreferrer" className="v2-product">
+              <div className="v2-product-head">
+                <div>
+                  <h3>Swipely</h3>
+                  <span className="v2-product-tag">SaaS / Контент</span>
+                </div>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M7 17L17 7M17 7H7M17 7v10" />
+                </svg>
+              </div>
+              <p className="v2-product-desc">
+                AI-генератор каруселей для Instagram и соцсетей. Вводишь тему — получаешь
+                готовую карусель в PNG за 20 секунд. 12 дизайн-шаблонов, Telegram Mini App.
+              </p>
+              <div className="v2-product-stats">
+                <span>500+ пользователей</span>
+                <span>20 сек на карусель</span>
+                <span>12 шаблонов</span>
+              </div>
+            </a>
+
+            <a href="https://vsolo.tech" target="_blank" rel="noopener noreferrer" className="v2-product">
+              <div className="v2-product-head">
+                <div>
+                  <h3>Vsolo</h3>
+                  <span className="v2-product-tag">SaaS / CRM</span>
+                </div>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M7 17L17 7M17 7H7M17 7v10" />
+                </svg>
+              </div>
+              <p className="v2-product-desc">
+                AI-CRM для фрилансеров и соло-предпринимателей. 7 AI-агентов
+                (продажи, контент, бухгалтерия, PM), Google Calendar, Telegram-бот,
+                генерация документов — всё в одном месте.
+              </p>
+              <div className="v2-product-stats">
+                <span>7 AI-агентов</span>
+                <span>Google Calendar</span>
+                <span>Telegram-бот</span>
+              </div>
+            </a>
+          </div>
         </div>
       </section>
 
