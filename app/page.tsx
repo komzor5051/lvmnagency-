@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { CasesGrid } from "@/components/landing/CasesGrid";
 import { TestimonialsMarquee } from "@/components/landing/TestimonialsMarquee";
-import { FeaturedPricingBeam } from "@/components/landing/FeaturedPricing";
 import Link from "next/link";
 
 export const metadata: Metadata = {
@@ -41,23 +40,16 @@ export default function LandingPage() {
     <div className="v2">
       {/* ===== NAV ===== */}
       <nav className="v2-nav">
-        <div className="v2-nav-inner">
-          <Link href="/" className="v2-logo">LVMN</Link>
-          <div className="v2-links">
+        <div className="v2-nav-inner v2-nav-centered">
+          <div className="v2-nav-left">
             <a href="#cases">Кейсы</a>
             <a href="#services">Услуги</a>
-            <a href="#process">Процесс</a>
+          </div>
+          <Link href="/" className="v2-logo-center">LVMN</Link>
+          <div className="v2-nav-right">
             <a href="#about">О нас</a>
             <Link href="/blog">Блог</Link>
           </div>
-          <a
-            href="https://t.me/lyaminvl"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="v2-cta-btn"
-          >
-            Связаться
-          </a>
         </div>
       </nav>
 
@@ -155,64 +147,55 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* ===== PACKAGES ===== */}
+      {/* ===== SERVICES ===== */}
       <section className="v2-section v2-section-alt" id="services">
         <div className="v2-container">
-          <span className="v2-label">Услуги</span>
-          <h2 className="v2-title">Три варианта</h2>
+          <span className="v2-label">Что мы делаем</span>
+          <h2 className="v2-title">Три направления</h2>
           <p className="v2-subtitle">
-            Если за месяц не увидите результат — вернём деньги. Без вопросов.
+            Каждый проект рассчитываем индивидуально. Если за месяц не увидите результат — вернём деньги.
           </p>
 
-          <div className="v2-packages">
-            <div className="v2-pkg">
-              <div className="v2-pkg-name">Старт</div>
-              <div className="v2-pkg-price">50 000 <span>&#8381;</span></div>
-              <p className="v2-pkg-desc">Один бот или автоматизация. Попробовать.</p>
-              <ul>
-                <li><CheckIcon size={14} /> Аудит процессов</li>
-                <li><CheckIcon size={14} /> Один бот или интеграция</li>
-                <li><CheckIcon size={14} /> Инструкция для команды</li>
-                <li><CheckIcon size={14} /> Готово за 3-5 дней</li>
-              </ul>
-              <a href="https://t.me/lyaminvl" target="_blank" rel="noopener noreferrer" className="v2-pkg-btn">
-                Начать
-              </a>
+          <div className="v2-services">
+            <div className="v2-service">
+              <span className="v2-service-num">01</span>
+              <h3>Telegram-боты</h3>
+              <p>
+                Цифровой сотрудник 24/7. Приём заказов, запись клиентов,
+                подписки, реферальные программы. Работает без выходных
+                и больничных.
+              </p>
+              <span className="v2-service-timeline">3-5 дней</span>
             </div>
+            <div className="v2-service">
+              <span className="v2-service-num">02</span>
+              <h3>Автоматизация процессов</h3>
+              <p>
+                Связываем CRM, оплату, рекламу, мессенджеры в одну систему.
+                Данные передаются автоматически, без ручного ввода.
+              </p>
+              <span className="v2-service-timeline">1-2 недели</span>
+            </div>
+            <div className="v2-service">
+              <span className="v2-service-num">03</span>
+              <h3>AI-сервисы и MVP</h3>
+              <p>
+                От идеи до работающего продукта с пользователями и оплатой.
+                Не прототип в Figma, а запущенный сервис.
+              </p>
+              <span className="v2-service-timeline">1-3 недели</span>
+            </div>
+          </div>
 
-            <div className="v2-pkg v2-pkg-featured">
-              <FeaturedPricingBeam />
-              <span className="v2-pkg-badge">Популярный</span>
-              <div className="v2-pkg-name">Рост</div>
-              <div className="v2-pkg-price">120 000 <span>&#8381;</span></div>
-              <p className="v2-pkg-desc">2-3 процесса + обучение команды.</p>
-              <ul>
-                <li><CheckIcon size={14} /> Глубокий аудит</li>
-                <li><CheckIcon size={14} /> 3 автоматизации под ключ</li>
-                <li><CheckIcon size={14} /> Обучение команды</li>
-                <li><CheckIcon size={14} /> 2 недели поддержки</li>
-                <li><CheckIcon size={14} /> Готово за 1-2 недели</li>
-              </ul>
-              <a href="https://t.me/lyaminvl" target="_blank" rel="noopener noreferrer" className="v2-pkg-btn v2-pkg-btn-primary">
-                Выбрать
-              </a>
-            </div>
-
-            <div className="v2-pkg">
-              <div className="v2-pkg-name">Трансформация</div>
-              <div className="v2-pkg-price">250 000 <span>&#8381;</span></div>
-              <p className="v2-pkg-desc">Перестраиваем процессы целиком.</p>
-              <ul>
-                <li><CheckIcon size={14} /> Аудит + план на полгода</li>
-                <li><CheckIcon size={14} /> 5+ автоматизаций</li>
-                <li><CheckIcon size={14} /> Обучение всей команды</li>
-                <li><CheckIcon size={14} /> Месяц поддержки</li>
-                <li><CheckIcon size={14} /> Помощь с масштабированием</li>
-              </ul>
-              <a href="https://t.me/lyaminvl" target="_blank" rel="noopener noreferrer" className="v2-pkg-btn">
-                Обсудить
-              </a>
-            </div>
+          <div style={{ textAlign: "center", marginTop: "48px" }}>
+            <a
+              href="https://t.me/lyaminvl?text=%D0%9E%D0%B1%D1%81%D1%83%D0%B4%D0%B8%D1%82%D1%8C%20%D0%BF%D1%80%D0%BE%D0%B5%D0%BA%D1%82"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="v2-btn-primary"
+            >
+              Обсудить проект
+            </a>
           </div>
         </div>
       </section>
