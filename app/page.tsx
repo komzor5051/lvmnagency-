@@ -1,343 +1,259 @@
-import type { Metadata } from "next";
-import { CasesGrid } from "@/components/landing/CasesGrid";
-import { TestimonialsMarquee } from "@/components/landing/TestimonialsMarquee";
+"use client";
+
+import { useState, useRef, useEffect, useMemo } from "react";
 import Link from "next/link";
 
-export const metadata: Metadata = {
-  title: "LVMN — AI-автоматизация для бизнеса за дни, не за месяцы",
-  description:
-    "Строим ботов и автоматизации, которые берут рутину на себя. 13 проектов с цифрами. 3-5 дней до результата. Гарантия возврата денег.",
-  alternates: { canonical: "https://lvmn.vercel.app/" },
-  openGraph: {
-    title: "LVMN — AI-автоматизация для бизнеса за дни, не за месяцы",
-    description:
-      "Боты и автоматизации для малого бизнеса. 3-5 дней до результата. 13 кейсов. Гарантия возврата.",
-    type: "website",
-    url: "https://lvmn.vercel.app/",
-    locale: "ru_RU",
-    images: [{ url: "/founder.jpg", width: 1200, height: 630, alt: "LVMN" }],
-  },
-};
-
-function CheckIcon({ size = 16 }: { size?: number }) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-      <path d="M20 6L9 17l-5-5" />
-    </svg>
-  );
+interface Message {
+  role: "user" | "assistant";
+  content: string;
 }
 
-function ArrowIcon({ size = 18 }: { size?: number }) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-      <path d="M5 12h14M12 5l7 7-7 7" />
-    </svg>
-  );
+const GREETING = `Привет! Я AI-ассистент Влада Лямина. Влад строит AI-продукты для бизнеса — ботов, автоматизации, сервисы. Быстро и с гарантией.
+
+Спросите что угодно — расскажу о кейсах, подходе, сроках. Или выберите вопрос ниже.`;
+
+const QUICK_QUESTIONS = [
+  "Что Влад делает?",
+  "Покажи кейсы",
+  "Какие собственные продукты?",
+  "Как устроен процесс работы?",
+  "Сколько стоит?",
+  "Хочу обсудить проект",
+];
+
+function SafeMarkdown({ text }: { text: string }) {
+  const elements = useMemo(() => {
+    const lines = text.split("\n");
+    const result: React.ReactNode[] = [];
+
+    for (let i = 0; i < lines.length; i++) {
+      const line = lines[i];
+
+      if (line.startsWith("- ")) {
+        const listItems: string[] = [];
+        let j = i;
+        while (j < lines.length && lines[j].startsWith("- ")) {
+          listItems.push(lines[j].slice(2));
+          j++;
+        }
+        result.push(
+          <ul key={i}>
+            {listItems.map((item, idx) => (
+              <li key={idx}>{renderInline(item)}</li>
+            ))}
+          </ul>
+        );
+        i = j - 1;
+        continue;
+      }
+
+      if (line.trim() === "") {
+        result.push(<br key={i} />);
+        continue;
+      }
+
+      result.push(<p key={i}>{renderInline(line)}</p>);
+    }
+
+    return result;
+  }, [text]);
+
+  return <>{elements}</>;
 }
 
-export default function LandingPage() {
+function renderInline(text: string): React.ReactNode[] {
+  const parts: React.ReactNode[] = [];
+  const regex = /(\*\*(.+?)\*\*|\[(.+?)\]\((.+?)\))/g;
+  let lastIndex = 0;
+  let match;
+
+  while ((match = regex.exec(text)) !== null) {
+    if (match.index > lastIndex) {
+      parts.push(text.slice(lastIndex, match.index));
+    }
+    if (match[2]) {
+      parts.push(<strong key={match.index}>{match[2]}</strong>);
+    } else if (match[3] && match[4]) {
+      parts.push(
+        <a key={match.index} href={match[4]} target="_blank" rel="noopener noreferrer">
+          {match[3]}
+        </a>
+      );
+    }
+    lastIndex = match.index + match[0].length;
+  }
+
+  if (lastIndex < text.length) {
+    parts.push(text.slice(lastIndex));
+  }
+
+  return parts;
+}
+
+export default function ChatPage() {
+  const [messages, setMessages] = useState<Message[]>([
+    { role: "assistant", content: GREETING },
+  ]);
+  const [input, setInput] = useState("");
+  const [isStreaming, setIsStreaming] = useState(false);
+  const bottomRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLTextAreaElement>(null);
+
+  useEffect(() => {
+    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
+
+  const sendMessage = async (text: string) => {
+    if (!text.trim() || isStreaming) return;
+
+    const userMsg: Message = { role: "user", content: text.trim() };
+    const newMessages = [...messages, userMsg];
+    setMessages(newMessages);
+    setInput("");
+    setIsStreaming(true);
+
+    const assistantMsg: Message = { role: "assistant", content: "" };
+    setMessages([...newMessages, assistantMsg]);
+
+    try {
+      const res = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          messages: newMessages.filter((_, i) => i > 0),
+        }),
+      });
+
+      if (!res.ok) throw new Error("API error");
+
+      const reader = res.body?.getReader();
+      if (!reader) throw new Error("No reader");
+
+      const decoder = new TextDecoder();
+      let buffer = "";
+      let fullText = "";
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        buffer += decoder.decode(value, { stream: true });
+
+        const lines = buffer.split("\n");
+        buffer = lines.pop() ?? "";
+
+        for (const line of lines) {
+          if (!line.startsWith("data: ")) continue;
+          const data = line.slice(6).trim();
+          if (data === "[DONE]") continue;
+          try {
+            const json = JSON.parse(data);
+            if (json.token) {
+              fullText += json.token;
+              setMessages((prev) => {
+                const updated = [...prev];
+                updated[updated.length - 1] = { role: "assistant", content: fullText };
+                return updated;
+              });
+            }
+          } catch {}
+        }
+      }
+    } catch {
+      setMessages((prev) => {
+        const updated = [...prev];
+        updated[updated.length - 1] = {
+          role: "assistant",
+          content: "Что-то пошло не так. Попробуйте ещё раз или напишите Владу напрямую в Telegram — @lyaminvl.",
+        };
+        return updated;
+      });
+    } finally {
+      setIsStreaming(false);
+    }
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      sendMessage(input);
+    }
+  };
+
   return (
-    <div className="v2">
-      {/* ===== NAV ===== */}
-      <nav className="v2-nav">
-        <div className="v2-nav-inner v2-nav-centered">
-          <div className="v2-nav-left">
-            <a href="#cases">Кейсы</a>
-            <a href="#services">Услуги</a>
+    <div className="chat-page">
+      <header className="chat-header">
+        <div className="chat-header-inner">
+          <div className="chat-header-left">
+            <Link href="/blog" className="chat-header-link">Блог</Link>
+            <Link href="/audit" className="chat-header-link">AI-аудит</Link>
           </div>
-          <Link href="/" className="v2-logo-center">LVMN</Link>
-          <div className="v2-nav-right">
-            <a href="#about">О нас</a>
-            <Link href="/blog">Блог</Link>
-          </div>
-        </div>
-      </nav>
-
-      {/* ===== HERO ===== */}
-      <section className="v2-hero">
-        <div className="v2-container">
-          <h1 className="v2-hero-title">
-            Убираем рутину<br />
-            <em>из вашего бизнеса</em>
-          </h1>
-          <p className="v2-hero-sub">
-            Строим ботов, автоматизации и AI-сервисы для малого бизнеса.
-            За дни, не за месяцы. С гарантией результата.
-          </p>
-          <div className="v2-hero-actions">
-            <a
-              href="https://t.me/lyaminvl?text=%D0%90%D1%83%D0%B4%D0%B8%D1%82"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="v2-btn-primary"
-            >
-              Обсудить проект
-            </a>
-            <a href="#cases" className="v2-btn-ghost">
-              Смотреть кейсы
-            </a>
-          </div>
-          <div className="v2-hero-stats">
-            <div className="v2-stat">
-              <span className="v2-stat-num">13</span>
-              <span className="v2-stat-label">проектов</span>
-            </div>
-            <div className="v2-stat-divider" />
-            <div className="v2-stat">
-              <span className="v2-stat-num">3-5</span>
-              <span className="v2-stat-label">дней до результата</span>
-            </div>
-            <div className="v2-stat-divider" />
-            <div className="v2-stat">
-              <span className="v2-stat-num">60%</span>
-              <span className="v2-stat-label">рутины убираем</span>
-            </div>
+          <span className="chat-logo">LVMN</span>
+          <div className="chat-header-right">
+            <a href="https://swipely.ru" target="_blank" rel="noopener noreferrer" className="chat-header-link">Swipely</a>
+            <a href="https://vsolo.tech" target="_blank" rel="noopener noreferrer" className="chat-header-link">Vsolo</a>
           </div>
         </div>
-      </section>
+      </header>
 
-      {/* ===== CASES ===== */}
-      <section className="v2-section" id="cases">
-        <div className="v2-container">
-          <span className="v2-label">Кейсы</span>
-          <h2 className="v2-title">Что мы уже построили</h2>
-          <p className="v2-subtitle">
-            Каждый проект — работающая система, не макет. Кликните для деталей.
-          </p>
-          <CasesGrid />
-        </div>
-      </section>
-
-      {/* ===== OUR PRODUCTS ===== */}
-      <section className="v2-section v2-section-alt" id="products">
-        <div className="v2-container">
-          <span className="v2-label">Наши продукты</span>
-          <h2 className="v2-title">Строим не только для клиентов</h2>
-          <p className="v2-subtitle">
-            Собственные SaaS-продукты, которые мы разработали, запустили и развиваем.
-          </p>
-
-          <div className="v2-products">
-            <a href="https://swipely.ru" target="_blank" rel="noopener noreferrer" className="v2-product">
-              <div className="v2-product-head">
-                <div>
-                  <h3>Swipely</h3>
-                  <span className="v2-product-tag">SaaS / Контент</span>
-                </div>
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M7 17L17 7M17 7H7M17 7v10" />
-                </svg>
+      <main className="chat-messages">
+        <div className="chat-messages-inner">
+          {messages.map((msg, i) => (
+            <div key={i} className={`chat-msg ${msg.role}`}>
+              {msg.role === "assistant" && (
+                <div className="chat-avatar">V</div>
+              )}
+              <div className={`chat-bubble ${msg.role}`}>
+                {msg.role === "assistant" ? (
+                  <>
+                    <SafeMarkdown text={msg.content} />
+                    {isStreaming && i === messages.length - 1 && <span className="chat-cursor" />}
+                  </>
+                ) : (
+                  msg.content
+                )}
               </div>
-              <p className="v2-product-desc">
-                AI-генератор каруселей для Instagram и соцсетей. Вводишь тему — получаешь
-                готовую карусель в PNG за 20 секунд. 12 дизайн-шаблонов, Telegram Mini App.
-              </p>
-              <div className="v2-product-stats">
-                <span>500+ пользователей</span>
-                <span>20 сек на карусель</span>
-                <span>12 шаблонов</span>
-              </div>
-            </a>
+            </div>
+          ))}
 
-            <a href="https://vsolo.tech" target="_blank" rel="noopener noreferrer" className="v2-product">
-              <div className="v2-product-head">
-                <div>
-                  <h3>Vsolo</h3>
-                  <span className="v2-product-tag">SaaS / CRM</span>
-                </div>
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M7 17L17 7M17 7H7M17 7v10" />
-                </svg>
-              </div>
-              <p className="v2-product-desc">
-                AI-CRM для фрилансеров и соло-предпринимателей. 7 AI-агентов
-                (продажи, контент, бухгалтерия, PM), Google Calendar, Telegram-бот,
-                генерация документов — всё в одном месте.
-              </p>
-              <div className="v2-product-stats">
-                <span>7 AI-агентов</span>
-                <span>Google Calendar</span>
-                <span>Telegram-бот</span>
-              </div>
-            </a>
-          </div>
+          {messages.length === 1 && (
+            <div className="chat-quick">
+              {QUICK_QUESTIONS.map((q) => (
+                <button key={q} className="chat-quick-btn" onClick={() => sendMessage(q)}>
+                  {q}
+                </button>
+              ))}
+            </div>
+          )}
+
+          <div ref={bottomRef} />
         </div>
-      </section>
+      </main>
 
-      {/* ===== TESTIMONIALS ===== */}
-      <section className="v2-section v2-section-alt" id="testimonials">
-        <div className="v2-container">
-          <span className="v2-label">Отзывы</span>
-          <h2 className="v2-title">Что говорят клиенты</h2>
-          <TestimonialsMarquee />
-        </div>
-      </section>
-
-      {/* ===== PROCESS ===== */}
-      <section className="v2-section" id="process">
-        <div className="v2-container">
-          <span className="v2-label">Процесс</span>
-          <h2 className="v2-title">Как мы работаем</h2>
-          <div className="v2-process">
-            <div className="v2-step">
-              <span className="v2-step-num">01</span>
-              <h3>Напишите нам</h3>
-              <p>Пара предложений в Telegram — что за бизнес и что хотите автоматизировать.</p>
-            </div>
-            <div className="v2-step">
-              <span className="v2-step-num">02</span>
-              <h3>Разберёмся</h3>
-              <p>15-минутный созвон. Поймём задачу, предложим решение и назовём сроки.</p>
-            </div>
-            <div className="v2-step">
-              <span className="v2-step-num">03</span>
-              <h3>Строим</h3>
-              <p>Начнём с того, что даст эффект быстрее всего. Результат за дни.</p>
-            </div>
-            <div className="v2-step">
-              <span className="v2-step-num">04</span>
-              <h3>Растём</h3>
-              <p>Зашло — масштабируем. Нет — вернём деньги. Без вопросов.</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ===== SERVICES ===== */}
-      <section className="v2-section v2-section-alt" id="services">
-        <div className="v2-container">
-          <span className="v2-label">Что мы делаем</span>
-          <h2 className="v2-title">Три направления</h2>
-          <p className="v2-subtitle">
-            Каждый проект рассчитываем индивидуально. Если за месяц не увидите результат — вернём деньги.
-          </p>
-
-          <div className="v2-services">
-            <div className="v2-service">
-              <span className="v2-service-num">01</span>
-              <h3>Telegram-боты</h3>
-              <p>
-                Цифровой сотрудник 24/7. Приём заказов, запись клиентов,
-                подписки, реферальные программы. Работает без выходных
-                и больничных.
-              </p>
-              <span className="v2-service-timeline">3-5 дней</span>
-            </div>
-            <div className="v2-service">
-              <span className="v2-service-num">02</span>
-              <h3>Автоматизация процессов</h3>
-              <p>
-                Связываем CRM, оплату, рекламу, мессенджеры в одну систему.
-                Данные передаются автоматически, без ручного ввода.
-              </p>
-              <span className="v2-service-timeline">1-2 недели</span>
-            </div>
-            <div className="v2-service">
-              <span className="v2-service-num">03</span>
-              <h3>AI-сервисы и MVP</h3>
-              <p>
-                От идеи до работающего продукта с пользователями и оплатой.
-                Не прототип в Figma, а запущенный сервис.
-              </p>
-              <span className="v2-service-timeline">1-3 недели</span>
-            </div>
-          </div>
-
-          <div style={{ textAlign: "center", marginTop: "48px" }}>
-            <a
-              href="https://t.me/lyaminvl?text=%D0%9E%D0%B1%D1%81%D1%83%D0%B4%D0%B8%D1%82%D1%8C%20%D0%BF%D1%80%D0%BE%D0%B5%D0%BA%D1%82"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="v2-btn-primary"
-            >
-              Обсудить проект
-            </a>
-          </div>
-        </div>
-      </section>
-
-      {/* ===== ABOUT ===== */}
-      <section className="v2-section" id="about">
-        <div className="v2-container">
-          <div className="v2-about">
-            <div className="v2-about-photo">
-              <img src="/founder.jpg" alt="Влад Лямин — основатель LVMN" />
-            </div>
-            <div className="v2-about-text">
-              <span className="v2-label">Кто стоит за LVMN</span>
-              <h2 className="v2-title" style={{ textAlign: "left" }}>Влад Лямин, основатель</h2>
-              <p>
-                Не продаём хайп про нейросети. Находим в бизнесе рутину, которую
-                можно отдать боту — и строим этого бота. За дни, не за месяцы.
-              </p>
-              <p>
-                В портфеле — от цветочного магазина в Дубае до системы реабилитации
-                для Минобороны. Ведём курс по AI-автоматизации. Объясняем сложное
-                простым языком.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ===== AUDIT LEAD MAGNET ===== */}
-      <section className="v2-section v2-section-alt">
-        <div className="v2-container">
-          <div className="v2-audit-block">
-            <span className="v2-label">Бесплатно</span>
-            <h2 className="v2-title" style={{ textAlign: "left" }}>AI-аудит вашего бизнеса за 2 минуты</h2>
-            <p>
-              Ответьте на 6 вопросов — и AI покажет, какие процессы можно
-              автоматизировать, сколько времени и денег это сэкономит.
-            </p>
-            <ul className="v2-audit-points">
-              <li><CheckIcon size={14} /> Персональный разбор под вашу нишу</li>
-              <li><CheckIcon size={14} /> 3-5 конкретных автоматизаций</li>
-              <li><CheckIcon size={14} /> Расчёт экономии в часах и рублях</li>
-            </ul>
-            <Link href="/audit" className="v2-btn-primary">
-              Пройти аудит <ArrowIcon size={16} />
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* ===== FINAL CTA ===== */}
-      <section className="v2-cta-section">
-        <div className="v2-container">
-          <h2 className="v2-cta-title">
-            Давайте посмотрим, где у вас<br /><em>утекают деньги</em>
-          </h2>
-          <p className="v2-cta-sub">
-            Напишите нам — за 15 минут разберём ваши процессы и покажем,
-            что можно автоматизировать. Бесплатно.
-          </p>
-          <a
-            href="https://t.me/lyaminvl?text=%D0%90%D1%83%D0%B4%D0%B8%D1%82"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="v2-btn-primary v2-btn-lg"
+      <footer className="chat-input-area">
+        <div className="chat-input-inner">
+          <textarea
+            ref={inputRef}
+            className="chat-input"
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            onKeyDown={handleKeyDown}
+            placeholder="Спросите о Владе, кейсах, услугах..."
+            rows={1}
+            disabled={isStreaming}
+          />
+          <button
+            className="chat-send"
+            onClick={() => sendMessage(input)}
+            disabled={!input.trim() || isStreaming}
           >
-            Написать в Telegram <ArrowIcon />
-          </a>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" />
+            </svg>
+          </button>
         </div>
-      </section>
-
-      {/* ===== FOOTER ===== */}
-      <footer className="v2-footer">
-        <div className="v2-container">
-          <div className="v2-footer-inner">
-            <span className="v2-logo">LVMN</span>
-            <div className="v2-footer-links">
-              <a href="https://t.me/lyaminvl" target="_blank" rel="noopener noreferrer">Telegram</a>
-              <a href="#cases">Кейсы</a>
-              <a href="#services">Услуги</a>
-              <Link href="/blog">Блог</Link>
-              <Link href="/audit">Аудит</Link>
-            </div>
-            <span className="v2-footer-copy">&copy; 2026 LVMN</span>
-          </div>
-        </div>
+        <p className="chat-footer-note">
+          <a href="https://t.me/lyaminvl" target="_blank" rel="noopener noreferrer">Telegram @lyaminvl</a>
+        </p>
       </footer>
     </div>
   );
