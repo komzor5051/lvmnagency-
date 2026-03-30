@@ -108,10 +108,10 @@ export async function POST(req: NextRequest) {
         `Первый шаг: ${parsed.firstStep}`,
       ].join("\n");
 
-      fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+      await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ chat_id: chatId, text, parse_mode: "HTML" }),
+        body: JSON.stringify({ chat_id: chatId, text }),
       }).catch(() => {});
     }
 
