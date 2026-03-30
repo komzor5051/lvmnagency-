@@ -3209,6 +3209,7 @@ body {
 .chat-header {
   border-bottom: 1px solid #f0f0f0;
   flex-shrink: 0;
+  animation: chatFadeIn 0.5s ease both;
 }
 
 .chat-header-inner {
@@ -3264,10 +3265,22 @@ body {
   display: flex;
   gap: 12px;
   margin-bottom: 24px;
+  animation: chatMsgIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
 .chat-msg.user {
   justify-content: flex-end;
+  animation-name: chatMsgInRight;
+}
+
+@keyframes chatMsgIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes chatMsgInRight {
+  from { opacity: 0; transform: translateX(16px); }
+  to { opacity: 1; transform: translateX(0); }
 }
 
 /* Avatar */
@@ -3336,6 +3349,12 @@ body {
   padding: 10px 16px;
   border-radius: 18px 18px 4px 18px;
   font-size: 15px;
+  animation: chatUserBubble 0.3s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes chatUserBubble {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
 }
 
 /* Streaming cursor */
@@ -3372,12 +3391,30 @@ body {
   font-size: 13px;
   font-weight: 500;
   cursor: pointer;
-  transition: all 0.15s;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  animation: chatQuickIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.chat-quick-btn:nth-child(1) { animation-delay: 0.3s; }
+.chat-quick-btn:nth-child(2) { animation-delay: 0.38s; }
+.chat-quick-btn:nth-child(3) { animation-delay: 0.46s; }
+.chat-quick-btn:nth-child(4) { animation-delay: 0.54s; }
+.chat-quick-btn:nth-child(5) { animation-delay: 0.62s; }
+.chat-quick-btn:nth-child(6) { animation-delay: 0.7s; }
+
+@keyframes chatQuickIn {
+  from { opacity: 0; transform: translateY(8px) scale(0.96); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
 }
 
 .chat-quick-btn:hover {
   border-color: #111;
   color: #111;
+  transform: translateY(-1px);
+}
+
+.chat-quick-btn:active {
+  transform: scale(0.97);
 }
 
 /* Input area */
@@ -3386,6 +3423,17 @@ body {
   padding: 16px 0 12px;
   flex-shrink: 0;
   background: #fff;
+  animation: chatSlideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.2s both;
+}
+
+@keyframes chatFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes chatSlideUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 .chat-input-inner {
@@ -3437,14 +3485,16 @@ body {
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  transition: background 0.15s;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.chat-send:hover { background: #333; }
+.chat-send:hover { background: #333; transform: scale(1.05); }
+.chat-send:active { transform: scale(0.95); }
 
 .chat-send:disabled {
   background: #ddd;
   cursor: not-allowed;
+  transform: none;
 }
 
 .chat-footer-note {
