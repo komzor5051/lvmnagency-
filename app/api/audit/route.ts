@@ -10,6 +10,7 @@ interface AuditRequest {
   tools: string[];
   biggestPain: string;
   triedAI: string;
+  telegram: string;
 }
 
 const SYSTEM_PROMPT = `Ты -- эксперт по AI-автоматизации бизнес-процессов в агентстве LVMN. Проводишь бесплатный AI-аудит для малого и среднего бизнеса.
@@ -78,6 +79,40 @@ export async function POST(req: NextRequest) {
         { error: "Failed to parse AI response", raw: result },
         { status: 500 }
       );
+    }
+
+    // Send Telegram notification (fire-and-forget)
+    const botToken = process.env.AUDIT_BOT_TOKEN;
+    const chatId = process.env.AUDIT_NOTIFY_CHAT_ID;
+    if (botToken && chatId) {
+      const automationsList = parsed.automations
+        ?.map((a: { title: string; timeSaved: string }, i: number) => `  ${i + 1}. ${a.title} (${a.timeSaved})`)
+        .join("\n") ?? "";
+
+      const text = [
+        `Новый AI-аудит на сайте`,
+        ``,
+        `Telegram: ${body.telegram}`,
+        `Ниша: ${body.niche}`,
+        `Команда: ${body.teamSize}`,
+        `Рутины: ${body.routines.join(", ")}`,
+        `Инструменты: ${body.tools.join(", ")}`,
+        `Боль: ${body.biggestPain}`,
+        `AI-опыт: ${body.triedAI}`,
+        ``,
+        `Результат аудита:`,
+        `Экономия: ${parsed.totalTimeSaved}, ${parsed.totalMoneySaved}/мес`,
+        `Автоматизации:`,
+        automationsList,
+        ``,
+        `Первый шаг: ${parsed.firstStep}`,
+      ].join("\n");
+
+      fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ chat_id: chatId, text, parse_mode: "HTML" }),
+      }).catch(() => {});
     }
 
     return NextResponse.json(parsed);

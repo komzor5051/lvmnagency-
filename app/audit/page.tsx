@@ -98,6 +98,7 @@ export default function AuditPage() {
   const [tools, setTools] = useState<string[]>([]);
   const [biggestPain, setBiggestPain] = useState("");
   const [triedAI, setTriedAI] = useState("");
+  const [telegram, setTelegram] = useState("");
 
   const toggleItem = (
     list: string[],
@@ -123,6 +124,8 @@ export default function AuditPage() {
         return biggestPain.trim().length > 10;
       case 5:
         return triedAI !== "";
+      case 6:
+        return telegram.trim().length >= 2;
       default:
         return false;
     }
@@ -143,6 +146,7 @@ export default function AuditPage() {
           tools,
           biggestPain,
           triedAI,
+          telegram: telegram.trim(),
         }),
       });
 
@@ -158,7 +162,7 @@ export default function AuditPage() {
   };
 
   const handleNext = () => {
-    if (step < 5) {
+    if (step < 6) {
       setStep(step + 1);
     } else {
       handleSubmit();
@@ -191,7 +195,7 @@ export default function AuditPage() {
     }
   };
 
-  const TOTAL_STEPS = 6;
+  const TOTAL_STEPS = 7;
   const progress = ((step + 1) / TOTAL_STEPS) * 100;
 
   /* ---------------------------------------------------------------- */
@@ -344,7 +348,7 @@ export default function AuditPage() {
         <div className="audit-step">
           {step === 0 && (
             <>
-              <span className="audit-step-num">1 из 6</span>
+              <span className="audit-step-num">1 из 7</span>
               <h2>В какой нише работает ваш бизнес?</h2>
               <div className="audit-options">
                 {NICHES.map((n) => (
@@ -372,7 +376,7 @@ export default function AuditPage() {
 
           {step === 1 && (
             <>
-              <span className="audit-step-num">2 из 6</span>
+              <span className="audit-step-num">2 из 7</span>
               <h2>Сколько человек в команде?</h2>
               <div className="audit-options">
                 {TEAM_SIZES.map((s) => (
@@ -390,7 +394,7 @@ export default function AuditPage() {
 
           {step === 2 && (
             <>
-              <span className="audit-step-num">3 из 6</span>
+              <span className="audit-step-num">3 из 7</span>
               <h2>Какие задачи отнимают больше всего времени?</h2>
               <p className="audit-hint">Выберите все подходящие</p>
               <div className="audit-options multi">
@@ -409,7 +413,7 @@ export default function AuditPage() {
 
           {step === 3 && (
             <>
-              <span className="audit-step-num">4 из 6</span>
+              <span className="audit-step-num">4 из 7</span>
               <h2>Какие инструменты используете?</h2>
               <p className="audit-hint">Выберите все подходящие</p>
               <div className="audit-options multi">
@@ -428,7 +432,7 @@ export default function AuditPage() {
 
           {step === 4 && (
             <>
-              <span className="audit-step-num">5 из 6</span>
+              <span className="audit-step-num">5 из 7</span>
               <h2>Что болит больше всего?</h2>
               <p className="audit-hint">
                 Опишите главную проблему, которую хотите решить
@@ -446,7 +450,7 @@ export default function AuditPage() {
 
           {step === 5 && (
             <>
-              <span className="audit-step-num">6 из 6</span>
+              <span className="audit-step-num">6 из 7</span>
               <h2>Пробовали использовать AI?</h2>
               <div className="audit-options">
                 {TRIED_AI.map((t) => (
@@ -459,6 +463,24 @@ export default function AuditPage() {
                   </button>
                 ))}
               </div>
+            </>
+          )}
+
+          {step === 6 && (
+            <>
+              <span className="audit-step-num">7 из 7</span>
+              <h2>Куда прислать результат?</h2>
+              <p className="audit-hint">
+                Укажите ваш Telegram -- мы пришлём подробный разбор и свяжемся, если будут вопросы
+              </p>
+              <input
+                type="text"
+                className="audit-input"
+                placeholder="@username или номер телефона"
+                value={telegram}
+                onChange={(e) => setTelegram(e.target.value)}
+                autoFocus
+              />
             </>
           )}
 
@@ -478,7 +500,7 @@ export default function AuditPage() {
               onClick={handleNext}
               disabled={!canProceed()}
             >
-              {step === 5 ? "Получить аудит" : "Далее"}
+              {step === 6 ? "Получить аудит" : "Далее"}
               <svg
                 width="16"
                 height="16"
