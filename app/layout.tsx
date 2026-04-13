@@ -63,15 +63,15 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: {
-    default: "LVMN — AI-продукты для бизнеса за дни, не за месяцы",
+    default: "LVMN — AI-консалтинг для агентств и стартапов",
     template: "%s | LVMN",
   },
   description:
-    "Строим ботов и автоматизации, которые берут рутину на себя. 13 проектов с цифрами. 3-5 дней до результата. Гарантия возврата денег.",
+    "Влад Лямин — AI-стратег. Помогаю командам понять, где AI даст реальный ROI, и выстраиваю систему внедрения: аудит → стратегия → сопровождение.",
   metadataBase: new URL("https://lvmn.vercel.app"),
   openGraph: {
     type: "website",
-    siteName: "LVMN — AI-агентство",
+    siteName: "LVMN — AI-консалтинг",
     locale: "ru_RU",
   },
   twitter: {
