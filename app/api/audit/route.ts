@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { chatCompletion } from "@/lib/openrouter";
 
+export const dynamic = "force-dynamic";
 export const maxDuration = 30;
 
 interface AuditRequest {
