@@ -30,15 +30,18 @@ export function PillSwitcher({ value, onChange }: PillSwitcherProps) {
   }, [value]);
 
   return (
-    <div className="pill-switcher" ref={containerRef}>
+    <div className="pill-switcher" ref={containerRef} role="tablist">
       <div
         className="pill-switcher-pill"
         style={{ width: pillStyle.width, transform: pillStyle.transform }}
+        aria-hidden="true"
       />
       {TABS.map((tab) => (
         <button
           key={tab.id}
           data-tabid={tab.id}
+          role="tab"
+          aria-selected={value === tab.id}
           className={`pill-switcher-btn${value === tab.id ? " active" : ""}`}
           onClick={() => onChange(tab.id)}
         >
