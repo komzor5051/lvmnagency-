@@ -5,7 +5,7 @@ export function LandingNav() {
     <nav className="l-nav">
       <div className="l-nav-links">
         <Link href="/blog" className="l-nav-link">Блог</Link>
-        <Link href="/audit" className="l-nav-link">AI-аудит</Link>
+        <Link href="/ai-audit" className="l-nav-link">AI-аудит</Link>
       </div>
       <span className="l-nav-logo">LVMN</span>
       <div className="l-nav-links">

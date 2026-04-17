@@ -79,15 +79,15 @@ export function BizPanel() {
       </div>
 
       <div className="l-panel-ctas">
-        <Link href="/audit" className="l-btn-primary">
-          Пройти бесплатный AI-аудит
+        <Link href="/ai-audit" className="l-btn-primary">
+          AI-аудит как услуга
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
             <path d="M5 12h14M12 5l7 7-7 7" />
           </svg>
         </Link>
-        <a href="https://t.me/lyaminvl" target="_blank" rel="noopener noreferrer" className="l-btn-outline">
-          Написать в Telegram
-        </a>
+        <Link href="/audit" className="l-btn-outline">
+          Бесплатный автоаудит
+        </Link>
       </div>
     </div>
   );
