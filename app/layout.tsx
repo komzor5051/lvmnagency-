@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Outfit, Manrope, JetBrains_Mono, Geist, Source_Serif_4, Barlow, Instrument_Serif, Playfair_Display, Inter } from "next/font/google";
+import { Outfit, Manrope, JetBrains_Mono, Geist, Source_Serif_4, Barlow, Instrument_Serif, Playfair_Display, Inter, Fraunces } from "next/font/google";
 import { YandexMetrika } from "@/components/YandexMetrika";
 import "./globals.css";
 import { cn } from "@/lib/utils";
@@ -61,6 +61,14 @@ const inter = Inter({
   display: "swap",
 });
 
+const fraunces = Fraunces({
+  variable: "--font-fraunces",
+  subsets: ["latin"],
+  weight: ["300", "400"],
+  style: ["normal", "italic"],
+  display: "swap",
+});
+
 export const metadata: Metadata = {
   title: {
     default: "LVMN — AI-консалтинг и обучение",
@@ -95,7 +103,7 @@ export default function RootLayout({
   return (
     <html lang="ru" className={cn("font-sans", geist.variable)}>
       <body
-        className={`${outfit.variable} ${manrope.variable} ${jetbrainsMono.variable} ${sourceSerif.variable} ${barlow.variable} ${instrumentSerif.variable} ${playfair.variable} ${inter.variable} antialiased`}
+        className={`${outfit.variable} ${manrope.variable} ${jetbrainsMono.variable} ${sourceSerif.variable} ${barlow.variable} ${instrumentSerif.variable} ${playfair.variable} ${inter.variable} ${fraunces.variable} antialiased`}
       >
         {children}
         <YandexMetrika />
