@@ -384,7 +384,17 @@ export default function StudioPage() {
             </div>
           </div>
           <div data-reveal style={{ animationDelay: "0.1s" }}>
-            <Placeholder ratio="4/5" text="[ портрет ]" />
+            <img
+              src="/portrait.jpg"
+              alt="Владислав Лямин"
+              style={{
+                width: "100%",
+                aspectRatio: "4/5",
+                objectFit: "cover",
+                display: "block",
+                filter: "grayscale(0.15) contrast(1.02)",
+              }}
+            />
             <div
               style={{ display: "flex", justifyContent: "space-between", marginTop: 12, ...label }}
             >
