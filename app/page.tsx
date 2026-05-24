@@ -79,8 +79,7 @@ const CASES = [
     metric: "−38%",
     metric_label: "времени менеджера",
     tag: "Агент",
-    span: "span 4",
-    ratio: "4/3",
+    span: "span 3",
   },
   {
     client: "Медицинская клиника",
@@ -89,8 +88,7 @@ const CASES = [
     metric: "×1.7",
     metric_label: "конверсия в запись",
     tag: "Classification",
-    span: "span 2",
-    ratio: "4/3",
+    span: "span 3",
   },
   {
     client: "EdTech-стартап",
@@ -99,8 +97,7 @@ const CASES = [
     metric: "33×",
     metric_label: "скорость контента",
     tag: "Pipeline",
-    span: "span 2",
-    ratio: "4/3",
+    span: "span 3",
   },
   {
     client: "B2B-сервис",
@@ -109,8 +106,7 @@ const CASES = [
     metric: "4.8",
     metric_label: "CSAT из 5",
     tag: "RAG",
-    span: "span 4",
-    ratio: "4/3",
+    span: "span 3",
   },
   {
     client: "Банк (пилот)",
@@ -120,7 +116,6 @@ const CASES = [
     metric_label: "вместо 45",
     tag: "Enterprise",
     span: "span 6",
-    ratio: "21/8",
   },
 ];
 
@@ -156,28 +151,6 @@ const label: CSSProperties = {
 const rule: CSSProperties = {
   borderTop: `1px solid ${S.line}`,
 };
-
-function Placeholder({ ratio, text }: { ratio: string; text: string }) {
-  return (
-    <div
-      style={{
-        aspectRatio: ratio,
-        width: "100%",
-        background: `repeating-linear-gradient(45deg, ${S.card}, ${S.card} 10px, #e7e1d3 10px, #e7e1d3 20px)`,
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        fontFamily: S.mono,
-        fontSize: 11,
-        color: S.muted,
-        textTransform: "uppercase",
-        letterSpacing: "0.15em",
-      }}
-    >
-      {text}
-    </div>
-  );
-}
 
 // ─── Page ─────────────────────────────────────────────────────────────────────
 export default function StudioPage() {
@@ -617,19 +590,23 @@ export default function StudioPage() {
                   gridColumn: c.span,
                   display: "flex",
                   flexDirection: "column",
-                  gap: 12,
+                  gap: 16,
+                  padding: "28px 24px",
+                  border: `1px solid ${S.line}`,
+                  background: S.bg,
+                  minHeight: 240,
                 }}
               >
-                <Placeholder ratio={c.ratio} text={`[ cover · ${c.client.toLowerCase()} ]`} />
                 <div style={{ display: "flex", justifyContent: "space-between", ...label }}>
                   <span>
                     {c.client} · {c.year}
                   </span>
                   <span>{c.tag}</span>
                 </div>
-                <h3 style={{ fontSize: 28, margin: 0, lineHeight: 1.15 }}>{c.title}</h3>
+                <h3 style={{ fontSize: 26, margin: 0, lineHeight: 1.2 }}>{c.title}</h3>
                 <div
                   style={{
+                    marginTop: "auto",
                     display: "flex",
                     alignItems: "baseline",
                     gap: 10,
@@ -640,7 +617,8 @@ export default function StudioPage() {
                     style={{
                       fontFamily: S.serif,
                       fontStyle: "italic",
-                      fontSize: 32,
+                      fontSize: 44,
+                      lineHeight: 1,
                     }}
                   >
                     {c.metric}
