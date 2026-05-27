@@ -39,7 +39,7 @@ const SERVICES = [
     summary:
       "За 2 недели нахожу 5–8 процессов, где ИИ реально сэкономит деньги, и показываю, сколько именно.",
     deliverables: ["Карта процессов", "ROI-модель", "План внедрения на 3 месяца"],
-    price: "от 350 000 ₽",
+    price: "15 000 ₽",
     duration: "2 недели",
   },
   {
@@ -48,7 +48,7 @@ const SERVICES = [
     summary:
       "Собираю агента, пайплайн или AI-модуль в вашу систему. От идеи до продакшена и метрик.",
     deliverables: ["Рабочий агент / пайплайн", "Интеграции", "Документация и evals"],
-    price: "от 800 000 ₽",
+    price: "от 50 000 ₽",
     duration: "4–8 недель",
   },
   {
@@ -57,7 +57,7 @@ const SERVICES = [
     summary:
       "Корпоративный курс: как продакты, маркетологи, операционка используют LLM ежедневно. С практикой на ваших данных.",
     deliverables: ["6 модулей", "Практика на ваших кейсах", "Сертификация"],
-    price: "от 250 000 ₽",
+    price: "от 50 000 ₽",
     duration: "3–4 недели",
   },
   {
@@ -66,7 +66,7 @@ const SERVICES = [
     summary:
       "Ежемесячная подписка: я на связи, разбираю ваши AI-гипотезы, помогаю не потратить бюджет в трубу.",
     deliverables: ["2 созвона в месяц", "Async-вопросы", "Ревью архитектуры"],
-    price: "180 000 ₽ / мес",
+    price: "70 000 ₽ / мес",
     duration: "минимум 3 мес",
   },
 ];
@@ -134,7 +134,7 @@ const POSTS = [
 ];
 
 const SOCIALS = [
-  { label: "Telegram", href: "https://t.me/lvmn_ai", handle: "@lvmn_ai" },
+  { label: "Telegram", href: "https://t.me/lyaminvl", handle: "@lyaminvl" },
   { label: "GitHub", href: "https://github.com/komzor5051", handle: "komzor5051" },
   { label: "Email", href: "mailto:komzor909@gmail.com", handle: "komzor909@gmail.com" },
 ];
@@ -220,6 +220,15 @@ export default function StudioPage() {
         .studio .svc-card {
           transition: background 0.2s;
         }
+        .studio .cta-primary:hover {
+          transform: translateY(-1px);
+          box-shadow: 0 4px 0 0 rgba(0,0,0,0.18) !important;
+          filter: brightness(1.05);
+        }
+        .studio .cta-secondary:hover {
+          background: ${S.fg} !important;
+          color: ${S.bg} !important;
+        }
         @media (max-width: 768px) {
           .studio .hero-grid { grid-template-columns: 1fr !important; }
           .studio .stats-grid { grid-template-columns: repeat(2, 1fr) !important; }
@@ -248,12 +257,6 @@ export default function StudioPage() {
             borderBottom: `1px solid ${S.line}`,
           }}
         >
-          <div
-            style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline" }}
-          >
-            <span style={label}>Vol. iv · no. 12 · Апрель 2026</span>
-            <span style={label}>Новосибирск · {STATUS}</span>
-          </div>
           <div
             style={{
               fontFamily: S.serif,
@@ -329,30 +332,39 @@ export default function StudioPage() {
             <div style={{ marginTop: 32, display: "flex", gap: 14, alignItems: "center", flexWrap: "wrap" }}>
               <a
                 href="#Контакт"
+                className="cta-primary"
                 style={{
-                  padding: "14px 28px",
-                  background: S.fg,
-                  color: S.bg,
+                  padding: "16px 32px",
+                  background: S.accent,
+                  color: "#fff",
                   fontFamily: S.mono,
-                  fontSize: 12,
-                  letterSpacing: "0.1em",
+                  fontSize: 13,
+                  letterSpacing: "0.12em",
                   textTransform: "uppercase",
                   display: "inline-block",
+                  boxShadow: "0 2px 0 0 rgba(0,0,0,0.15)",
+                  transition: "transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease",
                 }}
               >
                 Написать →
               </a>
               <a
                 href="#Работы"
+                className="cta-secondary"
                 style={{
-                  fontFamily: S.serif,
-                  fontSize: 19,
-                  fontStyle: "italic",
-                  borderBottom: `1px solid ${S.fg}`,
-                  paddingBottom: 2,
+                  padding: "16px 28px",
+                  background: "transparent",
+                  color: S.fg,
+                  fontFamily: S.mono,
+                  fontSize: 13,
+                  letterSpacing: "0.12em",
+                  textTransform: "uppercase",
+                  display: "inline-block",
+                  border: `1px solid ${S.fg}`,
+                  transition: "background 0.15s ease, color 0.15s ease",
                 }}
               >
-                посмотреть работы
+                Работы →
               </a>
             </div>
           </div>
@@ -776,23 +788,31 @@ export default function StudioPage() {
             data-reveal
             style={{ display: "flex", justifyContent: "center", gap: 8, flexWrap: "wrap" }}
           >
-            {SOCIALS.map((s) => (
-              <a
-                key={s.label}
-                href={s.href}
-                style={{
-                  padding: "12px 22px",
-                  border: `1px solid ${S.fg}`,
-                  fontFamily: S.mono,
-                  fontSize: 12,
-                  letterSpacing: "0.1em",
-                  textTransform: "uppercase",
-                  display: "inline-block",
-                }}
-              >
-                {s.label} — {s.handle}
-              </a>
-            ))}
+            {SOCIALS.map((s, i) => {
+              const isPrimary = i === 0;
+              return (
+                <a
+                  key={s.label}
+                  href={s.href}
+                  className={isPrimary ? "cta-primary" : "cta-secondary"}
+                  style={{
+                    padding: "14px 24px",
+                    border: isPrimary ? `1px solid ${S.accent}` : `1px solid ${S.fg}`,
+                    background: isPrimary ? S.accent : "transparent",
+                    color: isPrimary ? "#fff" : S.fg,
+                    fontFamily: S.mono,
+                    fontSize: 12,
+                    letterSpacing: "0.12em",
+                    textTransform: "uppercase",
+                    display: "inline-block",
+                    boxShadow: isPrimary ? "0 2px 0 0 rgba(0,0,0,0.15)" : "none",
+                    transition: "background 0.15s ease, color 0.15s ease, transform 0.15s ease",
+                  }}
+                >
+                  {s.label} — {s.handle}
+                </a>
+              );
+            })}
           </div>
         </section>
 
