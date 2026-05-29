@@ -1,6 +1,24 @@
 import { NextRequest } from "next/server";
+import { createLead } from "@/lib/notion";
 
 export const maxDuration = 30;
+
+// Detects a contact left by the visitor: Telegram @username, phone, or email.
+// Excludes Влад's own handle so the assistant echoing it never counts.
+function extractContact(text: string): string | null {
+  const email = text.match(/[\w.+-]+@[\w-]+\.[\w.-]+/);
+  if (email) return email[0];
+
+  const tg = text.match(/@([a-zA-Z][a-zA-Z0-9_]{3,31})/);
+  if (tg && tg[1].toLowerCase() !== "lyaminvl") return `@${tg[1]}`;
+
+  const digits = text.replace(/[^\d]/g, "");
+  if (digits.length >= 10 && digits.length <= 15) {
+    const phone = text.match(/\+?\d[\d\s\-()]{8,}\d/);
+    if (phone) return phone[0].trim();
+  }
+  return null;
+}
 
 const SYSTEM_PROMPT = `Ты — AI-ассистент на сайте Влада Лямина. Влад — AI-стратег для агентств и стартапов. Отвечаешь на вопросы посетителей о Владе, его подходе, услугах и кейсах.
 
@@ -124,6 +142,25 @@ export async function POST(req: NextRequest) {
 
     if (!messages?.length) {
       return new Response(JSON.stringify({ error: "No messages" }), { status: 400 });
+    }
+
+    // Capture lead if the visitor left a contact in their latest message
+    const lastUser = [...messages].reverse().find((m) => m.role === "user");
+    const contact = lastUser ? extractContact(lastUser.content) : null;
+    if (contact) {
+      const dialog = messages
+        .filter((m) => m.role === "user")
+        .slice(-3)
+        .map((m) => m.content)
+        .join("\n");
+      void createLead({
+        channel: "Сайт (чат)",
+        name: contact,
+        contact,
+        temperature: "Тёплый",
+        score: 6,
+        note: `Из диалога в чате:\n${dialog}`,
+      });
     }
 
     const apiMessages = [

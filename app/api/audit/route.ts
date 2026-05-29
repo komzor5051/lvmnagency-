@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { chatCompletion } from "@/lib/openrouter";
+import { createLead, type LeadTemperature } from "@/lib/notion";
 
 export const dynamic = "force-dynamic";
 export const maxDuration = 30;
@@ -12,6 +13,29 @@ interface AuditRequest {
   biggestPain: string;
   triedAI: string;
   telegram: string;
+}
+
+// Heuristic lead scoring (1-10) from the audit answers. Completing the full
+// 7-step form and leaving a contact is already a strong intent signal.
+function classifyAuditLead(body: AuditRequest): {
+  temperature: LeadTemperature;
+  score: number;
+} {
+  let score = 5;
+  if (body.teamSize === "11-30 человек" || body.teamSize === "30+ человек") score += 2;
+  else if (body.teamSize === "4-10 человек") score += 1;
+  if (
+    body.triedAI === "Нет, не пробовали" ||
+    body.triedAI === "Потыкали ChatGPT, но не внедрили"
+  )
+    score += 1;
+  if (body.routines?.length >= 4) score += 1;
+  if (body.biggestPain?.trim().length > 80) score += 1;
+
+  score = Math.max(1, Math.min(10, score));
+  const temperature: LeadTemperature =
+    score >= 8 ? "Горячий" : score >= 6 ? "Тёплый" : "Холодный";
+  return { temperature, score };
 }
 
 const SYSTEM_PROMPT = `Ты -- эксперт по AI-автоматизации бизнес-процессов в агентстве LVMN. Проводишь бесплатный AI-аудит для малого и среднего бизнеса.
@@ -115,6 +139,27 @@ export async function POST(req: NextRequest) {
         body: JSON.stringify({ chat_id: chatId, text }),
       }).catch(() => {});
     }
+
+    // Save lead to Notion (fire-and-forget)
+    const { temperature, score } = classifyAuditLead(body);
+    void createLead({
+      channel: "Сайт (аудит)",
+      name: body.telegram,
+      contact: body.telegram,
+      niche: body.niche,
+      pain: body.biggestPain,
+      temperature,
+      score,
+      note: [
+        `Команда: ${body.teamSize}`,
+        `Рутины: ${body.routines.join(", ")}`,
+        `Инструменты: ${body.tools.join(", ")}`,
+        `AI-опыт: ${body.triedAI}`,
+        ``,
+        `Аудит: экономия ${parsed.totalTimeSaved}, ${parsed.totalMoneySaved}/мес`,
+        `Первый шаг: ${parsed.firstStep}`,
+      ].join("\n"),
+    });
 
     return NextResponse.json(parsed);
   } catch (error) {
