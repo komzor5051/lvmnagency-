@@ -7,7 +7,7 @@ import { ProductSection } from "./ProductSection";
 export const metadata: Metadata = {
   title: "Продукты — Влад Лямин",
   description:
-    "Консультация 1:1, гайд по AI в бизнесе, AI-аудит процессов и мини-курс по автоматизации. Дешёвое покупается онлайн, крупное начинается с заявки.",
+    "Консультация 1:1, гайд по AI в бизнесе, AI-аудит процессов и мини-курс по автоматизации. Форматы под разный масштаб задачи — выберите свой.",
 };
 
 // Display order on the page; products outside this list are appended as-is.
@@ -42,7 +42,7 @@ export default function ProductsPage() {
               data-reveal
               className="font-mono text-xs uppercase tracking-[0.18em] text-accent"
             >
-              Что можно купить прямо сейчас
+              Форматы работы со мной
             </p>
             <h1
               data-reveal
@@ -54,9 +54,9 @@ export default function ProductsPage() {
               data-reveal
               className="mt-6 max-w-2xl text-lg leading-relaxed text-ink-muted"
             >
-              Я упаковал свой опыт внедрения AI в форматы под разный бюджет: от
-              гайда за вечер до аудита всего бизнеса. Дешёвое оплачивается
-              онлайн, крупное начинается с заявки.
+              Один и тот же опыт — в форматах под разный масштаб задачи: от
+              гайда, который читается за вечер, до аудита всего бизнеса.
+              Начните с того, что уместно сейчас, — дальше видно будет.
             </p>
           </header>
         </Reveal>

@@ -25,6 +25,8 @@ export type Product = {
   meta: string; // "1:1 · 60 минут · онлайн"
   buy: ProductBuy;
   faq?: ProductFaq[];
+  // CTA labels: action + what you get, never bare "купи".
+  cta?: { buy: string; fallback: string }; // buy = checkout configured; fallback = manual Telegram channel
 };
 
 export const TELEGRAM_URL = "https://t.me/lyaminvl";
@@ -45,6 +47,7 @@ export const products: Product[] = [
     priceLabel: "10 000 ₽",
     meta: "1:1 · 60 минут · онлайн",
     buy: { kind: "lava", url: "" },
+    cta: { buy: "Забронировать час", fallback: "Забронировать в Telegram" },
     faq: [
       {
         q: "Что если за час не успеем?",
@@ -75,6 +78,7 @@ export const products: Product[] = [
     priceLabel: "990 ₽",
     meta: "PDF + шаблоны · мгновенная выдача",
     buy: { kind: "lava", url: "" },
+    cta: { buy: "Получить гайд", fallback: "Получить через Telegram" },
     faq: [
       {
         q: "Подойдёт новичку?",

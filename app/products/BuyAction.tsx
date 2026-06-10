@@ -18,14 +18,14 @@ export function BuyAction({ product }: { product: Product }) {
     if (buy.url) {
       return (
         <a href={buy.url} target="_blank" rel="noopener noreferrer" className={btnSolid}>
-          Купить
+          {product.cta?.buy ?? "Оформить"}
         </a>
       );
     }
     // Checkout not configured yet — degrade to the manual Telegram channel.
     return (
       <a href={TELEGRAM_URL} target="_blank" rel="noopener noreferrer" className={btnOutline}>
-        Купить через Telegram
+        {product.cta?.fallback ?? "Написать в Telegram"}
       </a>
     );
   }

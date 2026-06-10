@@ -109,8 +109,8 @@ export function Hero() {
           className="mt-7 max-w-[540px] text-[17px] leading-[1.55] text-ink-muted md:text-[19px]"
         >
           Меня зовут Влад. С 2022 года я собрал 40+ AI-внедрений для бизнеса —
-          агенты, пайплайны, автоматизация. Здесь можно купить мой опыт: от
-          часовой консультации до системы под ключ.
+          агенты, пайплайны, автоматизация. Помогаю в том масштабе, который
+          нужен вам сейчас: от часовой консультации до системы под ключ.
         </p>
 
         <div data-hero-fade className="mt-9 flex flex-wrap items-center gap-4">
@@ -135,7 +135,7 @@ export function Hero() {
             href="#products"
             className="underline-accent py-4 text-sm font-medium text-ink transition-colors hover:text-accent"
           >
-            Смотреть продукты ↓
+            Форматы и цены ↓
           </a>
         </div>
       </div>

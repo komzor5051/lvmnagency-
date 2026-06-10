@@ -11,8 +11,12 @@ export function ProductsSection() {
           01 — ПРОДУКТЫ
         </p>
         <h2 className="mt-3 font-heading text-3xl font-bold tracking-[-0.03em] text-ink md:text-[42px] md:leading-tight">
-          Что можно купить прямо сейчас
+          С чего начать
         </h2>
+        <p className="mt-4 max-w-[560px] text-base leading-[1.55] text-ink-muted">
+          Форматы под разный масштаб задачи: разобраться самому по гайду, обсудить
+          свой процесс за час или отдать разбор бизнеса мне.
+        </p>
 
         <Reveal className="mt-10 grid gap-4 md:grid-cols-2">
           {products.map((p) => (
