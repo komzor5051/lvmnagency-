@@ -31,12 +31,19 @@ export default async function BlogPage() {
 
   return (
     <div>
-      <h1 className="text-3xl font-bold text-zinc-900 dark:text-zinc-100 mb-2">
+      <p className="font-mono text-xs uppercase tracking-[0.15em] text-ink-muted mb-3">
+        <span aria-hidden className="text-accent">
+          {"//"}
+        </span>{" "}
+        Блог
+      </p>
+      <h1 className="text-4xl md:text-5xl font-bold tracking-[-0.03em] text-ink mb-3">
         AI-автоматизация для бизнеса
       </h1>
-      <p className="text-zinc-500 dark:text-zinc-400 mb-8">
-        AI-автоматизация для бизнеса: кейсы, тренды, инструменты
+      <p className="text-ink-muted mb-4 max-w-[60ch]">
+        Кейсы, тренды, инструменты. Пишу о том, что внедряю руками.
       </p>
+      <div aria-hidden className="h-px w-16 bg-accent mb-10" />
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
         {(posts ?? []).map((post) => (
           <PostCard
@@ -50,7 +57,7 @@ export default async function BlogPage() {
           />
         ))}
         {(!posts || posts.length === 0) && (
-          <p className="text-zinc-400 py-12 text-center">
+          <p className="text-ink-muted py-12 text-center font-mono text-sm">
             Статьи скоро появятся
           </p>
         )}

@@ -13,34 +13,38 @@ export function PostCard({ slug, title, metaDesc, publishedAt, tags, coverImage 
   });
 
   return (
-    <article>
+    <article className="h-full">
       <a
         href={`/blog/${slug}`}
-        className="group flex flex-col h-full rounded-xl border border-zinc-200 dark:border-zinc-800 overflow-hidden transition-all hover:border-[var(--accent)] hover:shadow-lg"
+        className="group relative flex flex-col h-full border border-line bg-white overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_12px_32px_rgba(0,0,0,0.07)] motion-reduce:transition-none motion-reduce:hover:translate-y-0"
       >
+        <span
+          aria-hidden
+          className="absolute top-0 left-0 right-0 h-[2px] bg-accent origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-300 z-10 motion-reduce:transition-none"
+        />
         {coverImage && (
-          <div className="aspect-[16/9] overflow-hidden bg-zinc-100 dark:bg-zinc-900">
+          <div className="aspect-[16/9] overflow-hidden bg-[#efefec] border-b border-line">
             <img
               src={coverImage}
               alt={title}
-              className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+              className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-[1.03] motion-reduce:transition-none motion-reduce:group-hover:scale-100"
             />
           </div>
         )}
         <div className="p-5 sm:p-6 flex flex-col flex-1">
-          <h2 className="text-xl font-bold text-zinc-900 dark:text-zinc-100 group-hover:text-[var(--accent)] transition-colors leading-snug">
+          <h2 className="text-xl font-bold tracking-[-0.02em] text-ink leading-snug group-hover:underline decoration-accent decoration-2 underline-offset-4">
             {title}
           </h2>
           {metaDesc && (
-            <p className="mt-2.5 text-zinc-600 dark:text-zinc-400 text-sm leading-relaxed line-clamp-3 flex-1">
+            <p className="mt-2.5 text-ink-muted text-sm leading-relaxed line-clamp-3 flex-1">
               {metaDesc}
             </p>
           )}
-          <div className="mt-4 flex flex-wrap items-center gap-2 text-xs text-zinc-400">
+          <div className="mt-4 flex flex-wrap items-center gap-x-3 gap-y-1 font-mono text-[11px] uppercase tracking-wider text-ink-muted">
             <time>{date}</time>
-            <span className="text-zinc-300 dark:text-zinc-700">·</span>
             {tags.slice(0, 3).map((tag) => (
-              <span key={tag} className="px-2 py-0.5 bg-[var(--accent-light)] text-[var(--accent-dark,#5b4cc4)] dark:text-[var(--accent)] rounded-md font-medium">
+              <span key={tag} className="inline-flex items-center gap-1">
+                <span aria-hidden className="text-accent">/</span>
                 {tag}
               </span>
             ))}

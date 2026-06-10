@@ -1,15 +1,15 @@
 import type { Metadata } from "next";
-import { Outfit, Manrope, JetBrains_Mono, Geist, Source_Serif_4, Barlow, Instrument_Serif, Playfair_Display, Inter, Fraunces } from "next/font/google";
+import { Manrope, JetBrains_Mono, Inter_Tight } from "next/font/google";
 import { YandexMetrika } from "@/components/YandexMetrika";
+import { PostHogProvider } from "@/components/PostHogProvider";
 import "./globals.css";
-import { cn } from "@/lib/utils";
 
-const geist = Geist({subsets:['latin'],variable:'--font-sans'});
-
-const outfit = Outfit({
+// Primary display grotesque for the redesign — bold, tight letter-spacing.
+const interTight = Inter_Tight({
   variable: "--font-display",
-  subsets: ["latin", "latin-ext"],
-  weight: ["400", "500", "600", "700", "800"],
+  subsets: ["latin", "cyrillic"],
+  weight: ["500", "600", "700", "800"],
+  display: "swap",
 });
 
 const manrope = Manrope({
@@ -23,63 +23,17 @@ const jetbrainsMono = JetBrains_Mono({
   subsets: ["latin", "cyrillic"],
 });
 
-const sourceSerif = Source_Serif_4({
-  variable: "--font-serif-accent",
-  subsets: ["latin"],
-  style: ["italic"],
-  weight: ["300", "400"],
-  display: "swap",
-});
-
-const barlow = Barlow({
-  variable: "--font-barlow",
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-  display: "swap",
-});
-
-const instrumentSerif = Instrument_Serif({
-  variable: "--font-instrument-serif",
-  subsets: ["latin"],
-  style: ["normal", "italic"],
-  weight: ["400"],
-  display: "swap",
-});
-
-const playfair = Playfair_Display({
-  variable: "--font-playfair",
-  subsets: ["latin", "cyrillic"],
-  style: ["normal", "italic"],
-  weight: ["400", "700"],
-  display: "swap",
-});
-
-const inter = Inter({
-  variable: "--font-inter",
-  subsets: ["latin", "cyrillic"],
-  weight: ["400", "500", "600", "700", "800"],
-  display: "swap",
-});
-
-const fraunces = Fraunces({
-  variable: "--font-fraunces",
-  subsets: ["latin"],
-  weight: ["300", "400"],
-  style: ["normal", "italic"],
-  display: "swap",
-});
-
 export const metadata: Metadata = {
   title: {
-    default: "LVMN — AI-консалтинг и обучение",
-    template: "%s | LVMN",
+    default: "Влад Лямин — AI-инженер. Внедряю AI-системы, которые окупаются",
+    template: "%s — Влад Лямин",
   },
   description:
-    "Влад Лямин — AI-first специалист. Помогаю бизнесу внедрять AI-автоматизацию и сотрудникам осваивать AI-инструменты. Без агентства, без субподрядчиков — работаю напрямую.",
+    "Внедряю AI-системы, которые окупаются, а не презентуются. Консультации 1:1, AI-аудит, гайды и внедрение автоматизации для бизнеса. Влад Лямин, AI-инженер, Новосибирск.",
   metadataBase: new URL("https://lvmn.vercel.app"),
   openGraph: {
     type: "website",
-    siteName: "LVMN — AI-консалтинг",
+    siteName: "Влад Лямин — AI-инженер",
     locale: "ru_RU",
   },
   twitter: {
@@ -101,11 +55,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ru" className={cn("font-sans", geist.variable)}>
+    <html lang="ru" className="font-sans">
       <body
-        className={`${outfit.variable} ${manrope.variable} ${jetbrainsMono.variable} ${sourceSerif.variable} ${barlow.variable} ${instrumentSerif.variable} ${playfair.variable} ${inter.variable} ${fraunces.variable} antialiased`}
+        className={`${interTight.variable} ${manrope.variable} ${jetbrainsMono.variable} antialiased`}
       >
-        {children}
+        <PostHogProvider>{children}</PostHogProvider>
         <YandexMetrika />
       </body>
     </html>

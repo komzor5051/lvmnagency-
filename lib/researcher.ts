@@ -27,8 +27,9 @@ export async function searchSources(query: string, numResults = 6): Promise<Sour
     throw new Error(`Exa search failed: ${response.status}`);
   }
 
-  const data = await response.json();
-  return (data.results ?? []).map((r: any) => ({
+  const data: { results?: { title?: string; url: string; text?: string }[] } =
+    await response.json();
+  return (data.results ?? []).map((r) => ({
     title: r.title ?? "Untitled",
     url: r.url,
     summary: (r.text ?? "").slice(0, 500),

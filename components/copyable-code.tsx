@@ -10,18 +10,18 @@ function addCopyButton(el: HTMLElement, getText: () => string) {
 
   const btn = document.createElement("button");
   btn.className =
-    "copy-btn absolute top-2 right-2 px-2 py-1 rounded-md text-xs font-medium " +
-    "bg-zinc-700 text-zinc-300 hover:bg-zinc-600 hover:text-white " +
+    "copy-btn absolute top-2 right-2 px-2 py-1 text-xs font-mono font-medium " +
+    "bg-neutral-800 text-neutral-300 border border-neutral-700 hover:bg-neutral-700 hover:text-white " +
     "opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer z-10";
   btn.textContent = "Скопировать";
 
   btn.addEventListener("click", async () => {
     await navigator.clipboard.writeText(getText().trim());
-    btn.textContent = "Скопировано!";
-    btn.classList.add("!bg-emerald-600", "!text-white");
+    btn.textContent = "Скопировано";
+    btn.classList.add("!bg-white", "!text-neutral-900");
     setTimeout(() => {
       btn.textContent = "Скопировать";
-      btn.classList.remove("!bg-emerald-600", "!text-white");
+      btn.classList.remove("!bg-white", "!text-neutral-900");
     }, 2000);
   });
 
@@ -50,7 +50,7 @@ export function CopyableCode({ html }: { html: string }) {
       // Convert inline code to a block-like element for better UX
       const block = document.createElement("div");
       block.className =
-        "my-3 p-3 rounded-lg bg-zinc-100 dark:bg-zinc-800/80 text-sm font-mono " +
+        "my-3 p-3 bg-[#efefec] border border-line text-sm font-mono " +
         "leading-relaxed whitespace-pre-wrap break-words";
       block.textContent = text;
 
@@ -70,7 +70,7 @@ export function CopyableCode({ html }: { html: string }) {
   return (
     <div
       ref={containerRef}
-      className="prose prose-zinc dark:prose-invert max-w-none prose-headings:font-bold prose-h2:text-2xl prose-h3:text-xl prose-a:text-[var(--accent)] dark:prose-a:text-[var(--accent)] prose-img:rounded-xl prose-img:shadow-md"
+      className="prose prose-neutral blog-prose max-w-none prose-headings:font-bold"
       dangerouslySetInnerHTML={{ __html: html }}
     />
   );

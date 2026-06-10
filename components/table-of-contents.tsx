@@ -58,15 +58,15 @@ export function TableOfContents({ html }: { html: string }) {
       <nav className="lg:hidden mb-4" aria-label="Оглавление">
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className="flex items-center gap-2 text-xs font-semibold tracking-wider text-zinc-900 dark:text-zinc-100 w-full py-2.5 px-3 bg-zinc-50 dark:bg-zinc-900 rounded-lg border border-zinc-200 dark:border-zinc-800"
+          className="flex items-center gap-2 font-mono text-xs uppercase tracking-[0.15em] text-ink w-full py-2.5 px-3 bg-white border border-line"
         >
           <svg className={`w-3.5 h-3.5 transition-transform ${isOpen ? "rotate-90" : ""}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
           </svg>
-          ОГЛАВЛЕНИЕ
+          Оглавление
         </button>
         {isOpen && (
-          <ul className="mt-1 space-y-0.5 px-2 pb-2 bg-zinc-50 dark:bg-zinc-900 rounded-b-lg border border-t-0 border-zinc-200 dark:border-zinc-800">
+          <ul className="space-y-0.5 px-3 py-2 bg-white border border-t-0 border-line">
             {items.map((item) => (
               <li key={item.id}>
                 <a
@@ -76,8 +76,8 @@ export function TableOfContents({ html }: { html: string }) {
                     item.level === 3 ? "pl-3" : ""
                   } ${
                     activeId === item.id
-                      ? "text-[var(--accent)] font-medium"
-                      : "text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-200"
+                      ? "text-ink font-medium"
+                      : "text-ink-muted hover:text-ink"
                   }`}
                 >
                   {item.text}
@@ -93,20 +93,20 @@ export function TableOfContents({ html }: { html: string }) {
         className="hidden lg:block sticky top-24 self-start w-52 shrink-0 max-h-[calc(100vh-8rem)] overflow-y-auto"
         aria-label="Оглавление"
       >
-        <p className="text-[11px] font-bold tracking-wider text-zinc-400 dark:text-zinc-500 uppercase mb-2">
-          Оглавление
+        <p className="font-mono text-[11px] uppercase tracking-[0.15em] text-ink-muted mb-3">
+          <span aria-hidden className="text-accent">{"//"}</span> Оглавление
         </p>
-        <ul className="space-y-0.5 border-l border-zinc-200 dark:border-zinc-800">
+        <ul className="space-y-0.5 border-l border-line">
           {items.map((item) => (
             <li key={item.id}>
               <a
                 href={`#${item.id}`}
-                className={`block py-1 text-[13px] leading-snug transition-all border-l -ml-px ${
+                className={`block py-1 text-[13px] leading-snug transition-all border-l-2 -ml-px ${
                   item.level === 3 ? "pl-5" : "pl-3"
                 } ${
                   activeId === item.id
-                    ? "border-[var(--accent)] text-[var(--accent)] font-medium"
-                    : "border-transparent text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-200 hover:border-zinc-400"
+                    ? "border-accent text-ink font-medium"
+                    : "border-transparent text-ink-muted hover:text-ink hover:border-line"
                 }`}
               >
                 {item.text}

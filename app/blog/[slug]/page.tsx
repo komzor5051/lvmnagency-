@@ -1,4 +1,5 @@
 import { supabase } from "@/lib/supabase";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { TableOfContents } from "@/components/table-of-contents";
@@ -98,32 +99,36 @@ export default async function ArticlePage({ params }: Props) {
     <>
       <article>
         {/* Breadcrumbs */}
-        <nav className="text-sm text-zinc-400 mb-4">
-          <a href="/blog" className="hover:text-[var(--accent)] transition-colors">
+        <nav className="font-mono text-xs uppercase tracking-wider text-ink-muted mb-6">
+          <Link
+            href="/blog"
+            className="hover:text-ink hover:underline decoration-accent underline-offset-4 transition-colors"
+          >
             Блог
-          </a>
-          <span className="mx-2">/</span>
-          <span className="text-zinc-600 dark:text-zinc-300 truncate max-w-[200px] sm:max-w-none inline-block align-bottom">{post.title}</span>
+          </Link>
+          <span aria-hidden className="mx-2 text-accent">/</span>
+          <span className="text-ink truncate max-w-[200px] sm:max-w-none inline-block align-bottom normal-case">
+            {post.title}
+          </span>
         </nav>
 
         {/* Header */}
-        <header className="mb-8">
-          <h1 className="text-3xl md:text-4xl font-bold text-zinc-900 dark:text-zinc-100 mb-4 leading-tight">
+        <header className="mb-10">
+          <h1 className="text-3xl md:text-5xl font-bold tracking-[-0.03em] text-ink mb-5 leading-[1.1]">
             {post.title}
           </h1>
-          <div className="flex flex-wrap items-center gap-3 text-sm text-zinc-400">
+          <div className="flex flex-wrap items-center gap-x-3 gap-y-1 font-mono text-xs uppercase tracking-wider text-ink-muted">
             <time dateTime={post.published_at}>{date}</time>
-            <span className="text-zinc-300 dark:text-zinc-700">·</span>
+            <span aria-hidden className="text-accent">/</span>
             <span>{minutes} мин чтения</span>
             {(post.tags ?? []).slice(0, 4).map((tag: string) => (
-              <span
-                key={tag}
-                className="px-2 py-0.5 bg-[var(--accent-light)] text-[var(--accent-dark,#5b4cc4)] dark:text-[var(--accent)] rounded-md text-xs font-medium"
-              >
+              <span key={tag} className="inline-flex items-center gap-1">
+                <span aria-hidden className="text-accent">/</span>
                 {tag}
               </span>
             ))}
           </div>
+          <div aria-hidden className="mt-6 h-px w-16 bg-accent" />
         </header>
 
         {/* Two-column: TOC + Content */}
@@ -132,7 +137,7 @@ export default async function ArticlePage({ params }: Props) {
           <TableOfContents html={contentHtml} />
 
           {/* Article content */}
-          <div className="min-w-0 flex-1">
+          <div className="min-w-0 flex-1 max-w-[68ch]">
             <CopyableCode html={contentHtml} />
 
             {/* Prev/Next */}
@@ -141,10 +146,16 @@ export default async function ArticlePage({ params }: Props) {
                 {prev ? (
                   <a
                     href={`/blog/${prev.slug}`}
-                    className="p-4 border border-zinc-200 dark:border-zinc-800 rounded-lg hover:border-[var(--accent)] transition-colors group"
+                    className="group relative p-4 border border-line bg-white overflow-hidden transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_8px_24px_rgba(0,0,0,0.06)] motion-reduce:transition-none motion-reduce:hover:translate-y-0"
                   >
-                    <span className="text-zinc-400 text-xs">← Предыдущая</span>
-                    <p className="text-zinc-900 dark:text-zinc-100 font-medium mt-1 line-clamp-2 group-hover:text-[var(--accent)] transition-colors">
+                    <span
+                      aria-hidden
+                      className="absolute top-0 left-0 right-0 h-[2px] bg-accent origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-300 motion-reduce:transition-none"
+                    />
+                    <span className="font-mono text-[11px] uppercase tracking-wider text-ink-muted">
+                      ← Предыдущая
+                    </span>
+                    <p className="text-ink font-medium mt-1 line-clamp-2 group-hover:underline decoration-accent underline-offset-4">
                       {prev.title}
                     </p>
                   </a>
@@ -154,10 +165,16 @@ export default async function ArticlePage({ params }: Props) {
                 {next ? (
                   <a
                     href={`/blog/${next.slug}`}
-                    className="p-4 border border-zinc-200 dark:border-zinc-800 rounded-lg hover:border-[var(--accent)] transition-colors text-right group"
+                    className="group relative p-4 border border-line bg-white overflow-hidden text-right transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_8px_24px_rgba(0,0,0,0.06)] motion-reduce:transition-none motion-reduce:hover:translate-y-0"
                   >
-                    <span className="text-zinc-400 text-xs">Следующая →</span>
-                    <p className="text-zinc-900 dark:text-zinc-100 font-medium mt-1 line-clamp-2 group-hover:text-[var(--accent)] transition-colors">
+                    <span
+                      aria-hidden
+                      className="absolute top-0 left-0 right-0 h-[2px] bg-accent origin-right scale-x-0 group-hover:scale-x-100 transition-transform duration-300 motion-reduce:transition-none"
+                    />
+                    <span className="font-mono text-[11px] uppercase tracking-wider text-ink-muted">
+                      Следующая →
+                    </span>
+                    <p className="text-ink font-medium mt-1 line-clamp-2 group-hover:underline decoration-accent underline-offset-4">
                       {next.title}
                     </p>
                   </a>
@@ -168,18 +185,22 @@ export default async function ArticlePage({ params }: Props) {
             )}
 
             {/* CTA */}
-            <div className="mt-10 p-4 sm:p-6 bg-[var(--accent-light)] rounded-xl border border-[var(--accent)]/20 text-center">
-              <p className="text-lg font-semibold text-zinc-900 dark:text-zinc-100 mb-2">
+            <div className="relative mt-10 p-6 sm:p-8 bg-white border border-line text-center overflow-hidden">
+              <span aria-hidden className="absolute top-0 left-0 right-0 h-[2px] bg-accent" />
+              <p className="font-mono text-[11px] uppercase tracking-[0.15em] text-ink-muted mb-3">
+                AI-аудит
+              </p>
+              <p className="text-xl font-bold tracking-[-0.02em] text-ink mb-2">
                 Автоматизируйте свой бизнес с AI
               </p>
-              <p className="text-sm text-zinc-500 dark:text-zinc-400 mb-4">
-                Напишите «Аудит» в Telegram — разберём ваши процессы и предложим конкретное решение
+              <p className="text-sm text-ink-muted mb-5 max-w-[48ch] mx-auto">
+                Напишите «Аудит» в Telegram — разберу ваши процессы и предложу конкретное решение
               </p>
               <a
                 href={post.cta_url ?? "https://t.me/lyaminvl?text=Аудит"}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-block px-6 py-3 bg-[var(--accent)] text-white rounded-lg hover:bg-[var(--accent-hover)] text-sm font-medium transition-colors"
+                className="inline-block px-6 py-3 bg-ink text-paper text-sm font-medium hover:bg-black transition-colors"
               >
                 Написать в Telegram →
               </a>

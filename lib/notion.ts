@@ -25,11 +25,24 @@ export interface LeadInput {
 const richText = (value?: string) =>
   value ? [{ text: { content: value.slice(0, 2000) } }] : [];
 
+export interface CreateLeadOptions {
+  /**
+   * When true, missing env config or a Notion API failure rejects instead of
+   * being swallowed — use when the caller must know the lead was actually saved
+   * (e.g. the waitlist form, which degrades to a Telegram fallback on failure).
+   */
+  throwOnError?: boolean;
+}
+
 /**
- * Writes a lead to the Notion Leads database. Fire-and-forget: never throws,
- * so a misconfigured token or Notion outage can't break the request flow.
+ * Writes a lead to the Notion Leads database. By default fire-and-forget:
+ * never throws, so a misconfigured token or Notion outage can't break the
+ * request flow. Pass `{ throwOnError: true }` to surface failures.
  */
-export async function createLead(lead: LeadInput): Promise<void> {
+export async function createLead(
+  lead: LeadInput,
+  options: CreateLeadOptions = {}
+): Promise<void> {
   const token = process.env.NOTION_TOKEN;
   const databaseId = process.env.NOTION_LEADS_DB_ID;
 
@@ -37,6 +50,9 @@ export async function createLead(lead: LeadInput): Promise<void> {
     console.warn(
       `[notion] NOTION_TOKEN / NOTION_LEADS_DB_ID not set — skipping lead (${lead.channel})`
     );
+    if (options.throwOnError) {
+      throw new Error("[notion] NOTION_TOKEN / NOTION_LEADS_DB_ID not set");
+    }
     return;
   }
 
@@ -59,5 +75,6 @@ export async function createLead(lead: LeadInput): Promise<void> {
     });
   } catch (error) {
     console.error("[notion] createLead failed:", error);
+    if (options.throwOnError) throw error;
   }
 }
