@@ -163,7 +163,7 @@ export function Hero() {
           <div className="absolute -left-4 bottom-16 [transform:translateZ(60px)]">
             <div data-chip-float className={`${chipBase} border border-line bg-white font-normal text-ink`}>
               <span className="mr-1.5 inline-block h-2 w-2 rounded-full bg-accent align-middle" aria-hidden="true" />
-              сейчас: 1 слот на июнь
+              беру проекты на июль
             </div>
           </div>
 
