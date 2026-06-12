@@ -36,6 +36,28 @@ const TIMELINE: { years: string; text: string }[] = [
   },
 ];
 
+const EXPERTISE: { label: string; name: string; text: string; href?: string; hrefLabel?: string }[] = [
+  {
+    label: "сейчас",
+    name: "Web3nity",
+    text: "Курирую AI-курсы: разбираю работы учеников, помогаю довести автоматизации до рабочего состояния, а не до демо.",
+    href: "https://www.youtube.com/@Web3nity",
+    hrefLabel: "youtube",
+  },
+  {
+    label: "курсы",
+    name: "Дмитрий Румянцев",
+    text: "Был куратором на курсах — у одного из самых известных в рунете преподавателей маркетинга.",
+  },
+  {
+    label: "клуб",
+    name: "Никита Корытин · ТИТАНЫ",
+    text: "Пишу экспертный AI-контент для закрытого клуба ТИТАНЫ — для аудитории, которая принимает решения и платит за конкретику.",
+    href: "https://nkorytin.ru/",
+    hrefLabel: "nkorytin.ru",
+  },
+];
+
 const PRINCIPLES: { title: string; text: string }[] = [
   {
     title: "AI — это не магия",
@@ -190,12 +212,64 @@ export default function AboutPage() {
           </section>
         </Reveal>
 
+        {/* Экспертиза */}
+        <Reveal>
+          <section className="border-t border-line">
+            <div className="mx-auto max-w-6xl px-5 py-16 sm:px-8 sm:py-24">
+              <p data-reveal className="font-mono text-xs tracking-[0.18em] text-accent uppercase">
+                02 / Экспертиза
+              </p>
+              <h2
+                data-reveal
+                className="mt-4 max-w-2xl font-heading text-3xl font-bold tracking-[-0.03em] sm:text-4xl"
+              >
+                Меня зовут вести AI там, где за результат отвечают репутацией
+              </h2>
+              <p data-reveal className="mt-5 max-w-xl leading-relaxed text-ink-muted">
+                «Обучил 50+» из таймлайна — это не абстракция. Вот площадки, где я
+                курирую обучение и пишу экспертный контент.
+              </p>
+
+              <div className="mt-12">
+                {EXPERTISE.map((item) => (
+                  <div
+                    key={item.name}
+                    data-reveal
+                    className="grid gap-3 border-t border-line py-7 last:border-b sm:grid-cols-[140px_48px_1fr] sm:items-baseline sm:gap-6"
+                  >
+                    <div className="font-mono text-sm font-medium whitespace-nowrap">
+                      {item.label}
+                    </div>
+                    <div aria-hidden="true" className="hidden h-0.5 w-8 self-center bg-accent sm:block" />
+                    <div className="max-w-2xl">
+                      <div className="font-heading text-lg font-bold tracking-[-0.02em] text-ink">
+                        {item.name}
+                      </div>
+                      <p className="mt-2 leading-relaxed text-ink-muted">{item.text}</p>
+                      {item.href && (
+                        <a
+                          href={item.href}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="mt-2 inline-block font-mono text-xs underline-accent transition-opacity hover:opacity-70"
+                        >
+                          {item.hrefLabel} ↗
+                        </a>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+        </Reveal>
+
         {/* Принципы скучного AI */}
         <Reveal>
           <section className="border-t border-line">
             <div className="mx-auto max-w-6xl px-5 py-16 sm:px-8 sm:py-24">
               <p data-reveal className="font-mono text-xs tracking-[0.18em] text-accent uppercase">
-                02 / Принципы
+                03 / Принципы
               </p>
               <h2
                 data-reveal
@@ -232,7 +306,7 @@ export default function AboutPage() {
           <section className="border-t border-line">
             <div className="mx-auto max-w-6xl px-5 py-16 sm:px-8 sm:py-20">
               <p data-reveal className="font-mono text-xs tracking-[0.18em] text-accent uppercase">
-                03 / Стек
+                04 / Стек
               </p>
               <h2 data-reveal className="mt-4 font-heading text-3xl font-bold tracking-[-0.03em] sm:text-4xl">
                 Инструменты, которые не подводят
