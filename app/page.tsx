@@ -1,6 +1,7 @@
 import { Nav } from "@/components/home/Nav";
 import { Hero } from "@/components/home/Hero";
 import { ProofStrip } from "@/components/home/ProofStrip";
+import { TeachingStrip } from "@/components/home/TeachingStrip";
 import { ProductsSection } from "@/components/home/ProductsSection";
 import { DarkBusiness } from "@/components/home/DarkBusiness";
 import { CasesSection } from "@/components/home/CasesSection";
@@ -17,6 +18,7 @@ export default function HomePage() {
       <main>
         <Hero />
         <ProofStrip />
+        <TeachingStrip />
         <ProductsSection />
         <DarkBusiness />
         <CasesSection />
