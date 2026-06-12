@@ -242,9 +242,9 @@ export default function AboutPage() {
                     </div>
                     <div aria-hidden="true" className="hidden h-0.5 w-8 self-center bg-accent sm:block" />
                     <div className="max-w-2xl">
-                      <div className="font-heading text-lg font-bold tracking-[-0.02em] text-ink">
+                      <h3 className="font-heading text-lg font-bold tracking-[-0.02em] text-ink">
                         {item.name}
-                      </div>
+                      </h3>
                       <p className="mt-2 leading-relaxed text-ink-muted">{item.text}</p>
                       {item.href && (
                         <a
