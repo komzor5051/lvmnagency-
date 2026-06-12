@@ -21,11 +21,11 @@ export function FinalCta() {
           </p>
           {isExternal(href) ? (
             <a href={href} target="_blank" rel="noopener noreferrer" className={btnClass}>
-              Забронировать час — 10 000 ₽
+              Забронировать час — 5 000 ₽
             </a>
           ) : (
             <a href={href} className={btnClass}>
-              Забронировать час — 10 000 ₽
+              Забронировать час — 5 000 ₽
             </a>
           )}
           <p className="mt-5 text-[13px] text-ink-muted">

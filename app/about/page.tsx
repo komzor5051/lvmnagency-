@@ -349,7 +349,7 @@ export default function AboutPage() {
                   {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
                   className="bg-ink px-7 py-4 text-base font-semibold text-paper transition-opacity hover:opacity-85"
                 >
-                  Консультация — 10 000 ₽
+                  Консультация — 5 000 ₽
                 </a>
                 <a
                   href={TELEGRAM_URL}

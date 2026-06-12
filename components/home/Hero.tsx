@@ -121,14 +121,14 @@ export function Hero() {
               rel="noopener noreferrer"
               className="inline-flex items-center rounded-lg bg-ink px-7 py-4 text-sm font-bold tracking-tight text-paper transition-colors hover:bg-black"
             >
-              Консультация — 10 000 ₽
+              Консультация — 5 000 ₽
             </a>
           ) : (
             <a
               href={ctaHref}
               className="inline-flex items-center rounded-lg bg-ink px-7 py-4 text-sm font-bold tracking-tight text-paper transition-colors hover:bg-black"
             >
-              Консультация — 10 000 ₽
+              Консультация — 5 000 ₽
             </a>
           )}
           <a
