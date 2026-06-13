@@ -10,7 +10,7 @@ export function FinalCta() {
 
   return (
     <section className="border-t border-line">
-      <Reveal className="mx-auto max-w-6xl px-5 py-20 text-center md:px-10 md:py-24">
+      <Reveal className="mx-auto max-w-7xl px-5 py-20 text-center md:px-10 md:py-24">
         <div data-reveal>
           <h2 className="font-heading text-4xl font-bold tracking-[-0.03em] text-ink md:text-5xl">
             Начнём с часа?

@@ -10,7 +10,7 @@ const links = [
 export function Footer() {
   return (
     <footer className="border-t border-line">
-      <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-3 px-5 py-7 font-mono text-[11px] text-ink-muted md:flex-row md:px-10">
+      <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-3 px-5 py-7 font-mono text-[11px] text-ink-muted md:flex-row md:px-10">
         <p>© 2026 Влад Лямин</p>
         <nav className="flex items-center gap-6" aria-label="Контакты">
           {links.map((l) => (

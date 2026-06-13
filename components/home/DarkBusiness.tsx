@@ -43,7 +43,7 @@ export function DarkBusiness() {
 
   return (
     <section ref={root}>
-      <div className="mx-auto max-w-6xl px-5 md:px-10">
+      <div className="mx-auto max-w-7xl px-5 md:px-10">
         <div
           ref={block}
           className="relative overflow-hidden rounded-[18px] bg-ink px-7 py-12 text-paper md:px-12 md:py-14"

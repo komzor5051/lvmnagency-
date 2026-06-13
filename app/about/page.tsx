@@ -93,7 +93,7 @@ export default function AboutPage() {
     <div className="min-h-screen bg-paper text-ink">
       {/* Nav */}
       <header className="border-b border-line">
-        <nav className="mx-auto flex max-w-6xl items-center justify-between px-5 py-4 sm:px-8">
+        <nav className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 sm:px-8">
           <Link href="/" className="text-[15px] font-bold tracking-[-0.02em]">
             Влад Лямин
           </Link>
@@ -127,7 +127,7 @@ export default function AboutPage() {
       <main>
         {/* Hero */}
         <Reveal>
-          <section className="mx-auto grid max-w-6xl items-center gap-10 px-5 py-16 sm:px-8 sm:py-24 lg:grid-cols-[1.4fr_1fr] lg:gap-16">
+          <section className="mx-auto grid max-w-7xl items-center gap-10 px-5 py-16 sm:px-8 sm:py-24 lg:grid-cols-[1.4fr_1fr] lg:gap-16">
             <div>
               <p data-reveal className="font-mono text-xs tracking-[0.18em] text-ink-muted uppercase">
                 Обо мне · Влад Лямин · Новосибирск
@@ -182,7 +182,7 @@ export default function AboutPage() {
         {/* Путь */}
         <Reveal>
           <section className="border-t border-line">
-            <div className="mx-auto max-w-6xl px-5 py-16 sm:px-8 sm:py-24">
+            <div className="mx-auto max-w-7xl px-5 py-16 sm:px-8 sm:py-24">
               <p data-reveal className="font-mono text-xs tracking-[0.18em] text-accent uppercase">
                 01 / Путь
               </p>
@@ -215,7 +215,7 @@ export default function AboutPage() {
         {/* Экспертиза */}
         <Reveal>
           <section className="border-t border-line">
-            <div className="mx-auto max-w-6xl px-5 py-16 sm:px-8 sm:py-24">
+            <div className="mx-auto max-w-7xl px-5 py-16 sm:px-8 sm:py-24">
               <p data-reveal className="font-mono text-xs tracking-[0.18em] text-accent uppercase">
                 02 / Экспертиза
               </p>
@@ -267,7 +267,7 @@ export default function AboutPage() {
         {/* Принципы скучного AI */}
         <Reveal>
           <section className="border-t border-line">
-            <div className="mx-auto max-w-6xl px-5 py-16 sm:px-8 sm:py-24">
+            <div className="mx-auto max-w-7xl px-5 py-16 sm:px-8 sm:py-24">
               <p data-reveal className="font-mono text-xs tracking-[0.18em] text-accent uppercase">
                 03 / Принципы
               </p>
@@ -304,7 +304,7 @@ export default function AboutPage() {
         {/* Стек */}
         <Reveal>
           <section className="border-t border-line">
-            <div className="mx-auto max-w-6xl px-5 py-16 sm:px-8 sm:py-20">
+            <div className="mx-auto max-w-7xl px-5 py-16 sm:px-8 sm:py-20">
               <p data-reveal className="font-mono text-xs tracking-[0.18em] text-accent uppercase">
                 04 / Стек
               </p>
@@ -332,7 +332,7 @@ export default function AboutPage() {
         {/* CTA */}
         <Reveal>
           <section className="border-t border-line">
-            <div className="mx-auto max-w-6xl px-5 py-20 sm:px-8 sm:py-28">
+            <div className="mx-auto max-w-7xl px-5 py-20 sm:px-8 sm:py-28">
               <h2
                 data-reveal
                 className="max-w-3xl font-heading text-3xl leading-[1.1] font-bold tracking-[-0.035em] sm:text-5xl"
@@ -367,7 +367,7 @@ export default function AboutPage() {
 
       {/* Footer */}
       <footer className="border-t border-line">
-        <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-4 px-5 py-8 sm:px-8">
+        <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-4 px-5 py-8 sm:px-8">
           <p className="font-mono text-xs text-ink-muted">
             Влад Лямин · AI-инженер · Новосибирск
           </p>

@@ -67,7 +67,7 @@ export function Hero() {
   return (
     <section
       ref={root}
-      className="mx-auto grid max-w-6xl items-center gap-12 px-5 pb-16 pt-14 md:px-10 md:pt-20 lg:grid-cols-[7fr_5fr] lg:gap-12 lg:pb-24"
+      className="mx-auto grid max-w-7xl items-center gap-12 px-5 pb-16 pt-14 md:px-10 md:pt-20 lg:grid-cols-[7fr_5fr] lg:gap-12 lg:pb-24"
     >
       {/* Left: copy */}
       <div>

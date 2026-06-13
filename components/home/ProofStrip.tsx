@@ -17,7 +17,7 @@ const stats: {
 export function ProofStrip() {
   return (
     <section className="border-y border-line">
-      <div className="mx-auto grid max-w-6xl grid-cols-2 md:grid-cols-4">
+      <div className="mx-auto grid max-w-7xl grid-cols-2 md:grid-cols-4">
         {stats.map((s, i) => (
           <div
             key={s.label}

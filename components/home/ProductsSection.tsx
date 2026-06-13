@@ -6,7 +6,7 @@ import { Reveal } from "@/components/motion/Reveal";
 export function ProductsSection() {
   return (
     <section id="products" className="scroll-mt-20">
-      <div className="mx-auto max-w-6xl px-5 py-20 md:px-10 md:py-24">
+      <div className="mx-auto max-w-7xl px-5 py-20 md:px-10 md:py-24">
         <p className="font-mono text-[11px] uppercase tracking-[0.15em] text-accent">
           01 — ПРОДУКТЫ
         </p>

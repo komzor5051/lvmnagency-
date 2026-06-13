@@ -6,7 +6,7 @@ import { Reveal } from "@/components/motion/Reveal";
 export function AboutTeaser() {
   return (
     <section>
-      <Reveal className="mx-auto grid max-w-6xl items-start gap-10 px-5 pb-20 md:grid-cols-[280px_1fr] md:gap-12 md:px-10 md:pb-24">
+      <Reveal className="mx-auto grid max-w-7xl items-start gap-10 px-5 pb-20 md:grid-cols-[280px_1fr] md:gap-12 md:px-10 md:pb-24">
         <div data-reveal className="relative aspect-[4/5] w-full max-w-[280px] overflow-hidden rounded-[14px]">
           <Image
             src="/portrait.jpg"

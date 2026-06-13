@@ -26,7 +26,7 @@ export default function ProductsPage() {
 
   return (
     <main className="bg-paper text-ink">
-      <div className="mx-auto max-w-6xl px-6 pb-24 pt-10 md:pb-32">
+      <div className="mx-auto max-w-7xl px-6 pb-24 pt-10 md:pb-32">
         <nav aria-label="Хлебные крошки">
           <Link
             href="/"

@@ -30,7 +30,7 @@ const items: Item[] = [
 export function TeachingStrip() {
   return (
     <section className="border-b border-line">
-      <Reveal className="mx-auto max-w-6xl px-5 py-16 sm:px-8 sm:py-20">
+      <Reveal className="mx-auto max-w-7xl px-5 py-16 sm:px-8 sm:py-20">
         <p data-reveal className="font-mono text-xs tracking-[0.18em] text-accent uppercase">
           Преподаю и консультирую
         </p>
