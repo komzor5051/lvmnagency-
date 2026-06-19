@@ -163,9 +163,22 @@ body {
 
 .audit-page {
   min-height: 100vh;
-  background: var(--bg);
+  background: #ffffff;
   color: var(--text);
   font-family: var(--font-body), sans-serif;
+
+  /* LVMN DS re-theme, scoped to the audit funnel: remap the legacy teal accent
+     and rounded radii used by the audit-* rules below. Lime is a fill/tint
+     (subtle backgrounds, indicator borders); ink is the primary button/value;
+     corners are sharp. No audit-* rule needs editing — they read these vars. */
+  --accent: #111111;
+  --accent-hover: #000000;
+  --accent-subtle: #f3f7df;
+  --accent-muted: #c8f04c;
+  --r-sm: 0px;
+  --r-md: 0px;
+  --r-lg: 0px;
+  --r-pill: 0px;
 }
 
 .audit-nav {
