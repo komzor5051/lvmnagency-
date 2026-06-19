@@ -4,9 +4,16 @@ This file provides guidance to Claude Code when working with this repository.
 
 ## Project Overview
 
-Automated content factory for LVMN AI Agency — daily AI-generated blog articles about AI automation for business, published to a Next.js blog, announced in Telegram.
+Personal site for **Влад Лямин — AI-инженер** (lvmn.vercel.app): a marketing site
+(home, about, products, AI-audit funnel) plus an automated content factory that
+publishes daily AI-generated blog articles and announces them in Telegram.
 
-**Product**: LVMN (lvmn.vercel.app) — AI-агентство по внедрению автоматизации в бизнес.
+**Not an agency.** The brand is personal — Влад внедряет AI-системы для бизнеса
+лично. Do not reintroduce "AI-агентство LVMN / мы" framing in copy or personas,
+and do not write his location ("Новосибирск") in visible text. The `lvmn` name
+survives only in infra identifiers (domain, repo `lvmnagency-`, `lvmn_blog_*`
+tables, `increment_lvmn_views`, `lvmn-blog-images`, `LVMN_*` export symbols,
+`lib/lvmn-features.ts`) — those are not brand and must not be renamed.
 
 ## Commands
 
@@ -40,9 +47,14 @@ Vercel Cron (vercel.json)
         ├── publisher (slug, meta_desc, MD→HTML, save to lvmn_blog_posts)
         └── [telegram not wired in cron yet]
 
-Next.js ISR frontend
-  ├── /blog          — article list (revalidate 60s)
-  ├── /blog/[slug]   — article page + JSON-LD + CTA + sticky TOC
+Next.js frontend
+  ├── /            — home (Hero, ProofStrip, TeachingStrip, ProductsSection,
+  │                  DarkBusiness, CasesSection, AboutTeaser, FinalCta) in components/home/
+  ├── /about       — personal manifesto / expertise / principles
+  ├── /products    — product catalog (lib/products.ts) + FAQ
+  ├── /audit       — 7-step AI-audit lead funnel (client form, own audit-* CSS)
+  ├── /blog        — article list (ISR, revalidate 60s)
+  ├── /blog/[slug] — article page + JSON-LD + CTA + sticky TOC
   ├── /blog/sitemap.xml
   ├── /blog/feed.xml — RSS feed
   └── /robots.txt
@@ -62,21 +74,38 @@ RPC function: `increment_lvmn_views(post_slug TEXT)`
 
 ## Key Files
 
-- `lib/lvmn-features.ts` — agency description (single source of truth)
+- `lib/lvmn-features.ts` — Влад's offering + proof, written in first/third person
+  (single source of truth for the blog writer; keep the `LVMN_*` export names)
+- `lib/products.ts` — product catalog for the marketing site (consultation, guide,
+  audit, course)
 - `lib/pipeline/style-guide.ts` — writing rules
-- `lib/pipeline/writer.ts` — article writer with LVMN persona
+- `lib/pipeline/writer.ts` — article writer (Влад's persona, not an agency)
 - `lib/pipeline/topic-miner.ts` — topic generation with Wordstat
 - `lib/pipeline/editors.ts` — 4-pass editing
 - `lib/pipeline/image-generator.ts` — Gemini 3 Pro images → `lvmn-blog-images` bucket
 - `lib/pipeline/publisher.ts` — slug, meta, publish to `lvmn_blog_posts`
 - `lib/wordstat.ts` — Yandex Wordstat API wrapper
 
-## Design Tokens
+## Design System — White + Lime (Brand DS)
 
-- **Accent**: `#7c6aef` (purple), hover `#9b8df5`, light `#f0edff`, dark `#5b4cc4`
-- **Dark mode accent-light**: `#1a1530`
-- **Fonts**: Outfit (body), Cormorant Garamond (headings), JetBrains Mono (code)
-- **Background**: `#08090c` (dark), `#ffffff` (light)
+Defined in `app/globals.css` (the `@theme` block near the bottom + scoped
+overrides). No purple, no AI slop, no shadows, sharp corners.
+
+- **Background**: white `#FFFFFF` (`paper`); text ink `#111111` (`ink`),
+  muted `#666666` (`ink-muted`); hairline borders `#E8E8E8` (`line`)
+- **Accent**: lime `#C8F04C` (`lime`), dark `#A8D030` (`lime-dark`) — a FILL/
+  highlight only (lime-mark, buttons, tags, rules, dots). Never a text colour
+  (unreadable on white). Links/emphasis use an ink underline (`link-ul`).
+- **Radius**: 0px everywhere. **Shadows**: none.
+- **Fonts** (`app/layout.tsx`, next/font, cyrillic subset): Inter Tight
+  (`font-heading` display), Onest (`font-body`), Caveat (`font-hand`
+  annotations), system mono (`font-mono`). The brand's Fontshare fonts
+  (Cabinet Grotesk, Satoshi) are Latin-only — do NOT use them, they fall back
+  to system sans on Russian text.
+- Utilities: `lime-mark` (lime highlight behind text), `link-ul` (ink underline),
+  `font-hand` (Caveat notes). `--color-accent` resolves to ink for legacy
+  Tailwind `*-accent` utilities; `/audit` re-themes via scoped var overrides.
+- The blog article body has its own scoped styles in `app/blog/blog.css`.
 
 ## Environment Variables
 
