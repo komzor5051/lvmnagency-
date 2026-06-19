@@ -16,7 +16,7 @@ export async function sendTelegramAnnouncement(slug: string): Promise<void> {
 
   // Generate hook
   const hook = await generateFlash(
-    `Напиши анонс статьи для Telegram-канала AI-агентства LVMN (2-3 предложения, без эмодзи, интригующе, с фокусом на практическую пользу для бизнеса).
+    `Напиши анонс статьи для Telegram-канала Влада Лямина — AI-инженера (2-3 предложения, без эмодзи, интригующе, с фокусом на практическую пользу для бизнеса).
 Заголовок: "${post.title}"
 Описание: "${post.meta_desc}"
 Только текст анонса, без кавычек.`

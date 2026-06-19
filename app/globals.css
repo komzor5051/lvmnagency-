@@ -167,7 +167,7 @@ body {
   color: var(--text);
   font-family: var(--font-body), sans-serif;
 
-  /* LVMN DS re-theme, scoped to the audit funnel: remap the legacy teal accent
+  /* Brand DS re-theme, scoped to the audit funnel: remap the legacy teal accent
      and rounded radii used by the audit-* rules below. Lime is a fill/tint
      (subtle backgrounds, indicator borders); ink is the primary button/value;
      corners are sharp. No audit-* rule needs editing — they read these vars. */
@@ -631,7 +631,7 @@ body {
 }
 
 /* =============================================================================
-   LVMN DS — White + Lime (2026-06)
+   Brand DS — White + Lime (2026-06)
    White background, ink text, lime as the single accent. Lime is a FILL/
    highlight — solid behind text (lime-mark), button backgrounds, tags, rules,
    indicator dots — never a text colour (unreadable on white). Links and

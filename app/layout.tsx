@@ -4,7 +4,7 @@ import { YandexMetrika } from "@/components/YandexMetrika";
 import { PostHogProvider } from "@/components/PostHogProvider";
 import "./globals.css";
 
-// LVMN DS — White + Lime. Display: dense grotesk (Cabinet Grotesk's role),
+// Brand DS — White + Lime. Display: dense grotesk (Cabinet Grotesk's role),
 // body: Onest (Satoshi analogue), hand: Caveat for annotations. All carry a
 // Cyrillic subset — the brand's Fontshare fonts ship Latin-only, which would
 // silently fall back to system sans on a Russian site.

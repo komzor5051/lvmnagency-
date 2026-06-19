@@ -5,7 +5,7 @@ const HEADERS = {
   Authorization: `Bearer ${OPENROUTER_API_KEY}`,
   "Content-Type": "application/json",
   "HTTP-Referer": "https://lvmn.vercel.app",
-  "X-Title": "LVMN Blog",
+  "X-Title": "Влад Лямин — блог",
 };
 
 /** Strip wrapping ```markdown ... ``` and LLM preamble artifacts */

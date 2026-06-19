@@ -7,7 +7,7 @@ const supabase = createClient(process.env.SUPABASE_URL!, process.env.SUPABASE_SE
 async function seed() {
   const { error } = await supabase.from("lvmn_blog_topics").insert({
     title: "Как Telegram-бот сэкономил ресторану 40 часов в месяц",
-    angle: "Реальный кейс LVMN — автоматизация управления сменами через Telegram + iiko",
+    angle: "Реальный кейс — автоматизация управления сменами через Telegram + iiko",
     keywords: ["telegram бот для бизнеса", "автоматизация ресторана", "AI для бизнеса"],
     source: "manual",
     score: 10,

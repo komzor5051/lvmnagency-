@@ -85,7 +85,7 @@ function CardBody({ product, muted }: { product: Product; muted?: boolean }) {
 }
 
 /**
- * Product card (LVMN DS): flat hairline card, sharp corners, no shadow. Border
+ * Product card (Brand DS): flat hairline card, sharp corners, no shadow. Border
  * darkens to ink on hover. Coming-soon products render muted with the waitlist
  * form.
  */

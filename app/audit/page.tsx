@@ -331,7 +331,7 @@ export default function AuditPage() {
     <div className="audit-page">
       <nav className="audit-nav">
         <Link href="/" className="audit-logo">
-          LVMN
+          Влад Лямин
         </Link>
         <span className="audit-nav-label">AI-аудит бизнеса</span>
       </nav>

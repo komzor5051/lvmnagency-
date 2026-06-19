@@ -9,7 +9,7 @@ import { consultationHref, isExternal } from "./cta";
 gsap.registerPlugin(useGSAP);
 
 /**
- * Hero (LVMN DS): line-by-line headline assembly (clip + y), lime highlight on
+ * Hero (Brand DS): line-by-line headline assembly (clip + y), lime highlight on
  * "окупаются", photo right in a flat hairline frame with one floating fact
  * chip. Sharp corners, no shadow. prefers-reduced-motion: everything static.
  */
