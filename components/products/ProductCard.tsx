@@ -1,13 +1,18 @@
 import Link from "next/link";
 import { TELEGRAM_URL, type Product } from "@/lib/products";
-import { TiltCard } from "@/components/motion/TiltCard";
 import { WaitlistForm } from "./WaitlistForm";
 
-// Buttons: black fill or black outline only. Orange never fills a button.
+// Buttons: ink fill or ink outline only, sharp corners. Lime never fills a CTA.
 const btnBase =
   "inline-flex w-full items-center justify-center px-6 py-3 text-sm font-bold tracking-tight transition-colors";
 const btnSolid = `${btnBase} bg-ink text-paper hover:bg-black`;
 const btnOutline = `${btnBase} border-2 border-ink bg-transparent text-ink hover:bg-ink hover:text-paper`;
+
+// Tags: lime fill ("start here") or ink outline ("coming soon").
+const tagBase =
+  "inline-flex items-center text-[10px] font-bold uppercase tracking-[0.08em] px-2 py-1";
+const tagLime = `${tagBase} bg-lime text-ink`;
+const tagOutline = `${tagBase} border-2 border-ink text-ink`;
 
 function BuyAction({ product }: { product: Product }) {
   const { buy } = product;
@@ -40,13 +45,23 @@ function BuyAction({ product }: { product: Product }) {
 }
 
 function CardBody({ product, muted }: { product: Product; muted?: boolean }) {
+  const tag =
+    product.type === "consultation" ? (
+      <span className={tagLime}>Начните здесь</span>
+    ) : product.type === "coming-soon" ? (
+      <span className={tagOutline}>в разработке</span>
+    ) : null;
+
   return (
     <>
-      <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-ink-muted">
-        {product.meta}
-      </p>
+      <div className="flex items-center justify-between gap-3">
+        <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-ink-muted">
+          {product.meta}
+        </p>
+        {tag}
+      </div>
       <h3
-        className={`mt-4 text-2xl font-bold leading-tight tracking-[-0.03em] ${
+        className={`mt-4 font-heading text-2xl font-extrabold leading-tight tracking-[-0.03em] ${
           muted ? "text-ink-muted" : "text-ink"
         }`}
       >
@@ -55,8 +70,8 @@ function CardBody({ product, muted }: { product: Product; muted?: boolean }) {
       <p className="mt-3 text-sm leading-relaxed text-ink-muted">{product.tagline}</p>
       <div className="mt-auto pt-8">
         <span
-          className={`text-xl font-bold tracking-[-0.02em] ${
-            muted ? "font-mono text-base uppercase tracking-[0.12em] text-ink-muted" : "text-ink"
+          className={`font-heading text-xl font-extrabold tracking-[-0.02em] ${
+            muted ? "font-mono text-base font-medium uppercase tracking-[0.12em] text-ink-muted" : "text-ink"
           }`}
         >
           {product.priceLabel}
@@ -70,29 +85,22 @@ function CardBody({ product, muted }: { product: Product; muted?: boolean }) {
 }
 
 /**
- * Product card. Interactive products get 3D tilt + sheen (TiltCard), a slight
- * lift on hover and an orange top line. Coming-soon products render as a
- * muted dashed card with the waitlist form.
+ * Product card (LVMN DS): flat hairline card, sharp corners, no shadow. Border
+ * darkens to ink on hover. Coming-soon products render muted with the waitlist
+ * form.
  */
 export function ProductCard({ product }: { product: Product }) {
   if (product.type === "coming-soon") {
     return (
-      <article className="flex h-full flex-col border border-dashed border-ink-muted/40 bg-paper p-7">
+      <article className="flex h-full flex-col border border-line bg-paper p-7">
         <CardBody product={product} muted />
       </article>
     );
   }
 
   return (
-    <TiltCard className="h-full">
-      <article className="group relative flex h-full flex-col overflow-hidden border border-line bg-white p-7 transition-transform duration-300 ease-out hover:-translate-y-1">
-        {/* Orange top line — draws in on hover */}
-        <span
-          aria-hidden="true"
-          className="absolute inset-x-0 top-0 h-0.5 origin-left scale-x-0 bg-accent transition-transform duration-300 ease-out group-hover:scale-x-100"
-        />
-        <CardBody product={product} />
-      </article>
-    </TiltCard>
+    <article className="group flex h-full flex-col border border-line bg-white p-7 transition-colors duration-200 hover:border-ink">
+      <CardBody product={product} />
+    </article>
   );
 }

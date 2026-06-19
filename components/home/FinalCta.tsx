@@ -6,14 +6,17 @@ import { consultationHref, isExternal } from "./cta";
 export function FinalCta() {
   const href = consultationHref();
   const btnClass =
-    "mt-8 inline-flex items-center rounded-lg bg-ink px-8 py-4 text-sm font-bold tracking-tight text-paper transition-colors hover:bg-black";
+    "group mt-8 inline-flex items-center gap-2 bg-lime px-8 py-4 text-sm font-bold tracking-tight text-ink transition-transform duration-200 hover:-translate-y-0.5";
+  const arrow = (
+    <span className="transition-transform duration-200 group-hover:translate-x-1">→</span>
+  );
 
   return (
     <section className="border-t border-line">
       <Reveal className="mx-auto max-w-7xl px-5 py-20 text-center md:px-10 md:py-24">
         <div data-reveal>
-          <h2 className="font-heading text-4xl font-bold tracking-[-0.03em] text-ink md:text-5xl">
-            Начнём с часа?
+          <h2 className="font-heading text-4xl font-extrabold tracking-[-0.03em] text-ink md:text-[52px] md:leading-none">
+            Один час изменит всё
           </h2>
           <p className="mx-auto mt-4 max-w-[480px] text-base text-ink-muted">
             Консультация — самый быстрый способ понять, что AI даст именно
@@ -21,20 +24,23 @@ export function FinalCta() {
           </p>
           {isExternal(href) ? (
             <a href={href} target="_blank" rel="noopener noreferrer" className={btnClass}>
-              Забронировать час — 5 000 ₽
+              Забронировать час — 5 000 ₽ {arrow}
             </a>
           ) : (
             <a href={href} className={btnClass}>
-              Забронировать час — 5 000 ₽
+              Забронировать час — 5 000 ₽ {arrow}
             </a>
           )}
-          <p className="mt-5 text-[13px] text-ink-muted">
+          <p className="mt-[18px] font-hand text-[22px] font-semibold text-ink-muted">
+            ↳ оплата онлайн · запись остаётся у вас
+          </p>
+          <p className="mt-3 text-[13px] text-ink-muted">
             или просто напишите в{" "}
             <a
               href={TELEGRAM_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="underline-accent font-medium text-ink transition-colors hover:text-accent"
+              className="link-ul"
             >
               Telegram @lyaminvl
             </a>

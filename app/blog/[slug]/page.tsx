@@ -114,7 +114,7 @@ export default async function ArticlePage({ params }: Props) {
 
         {/* Header */}
         <header className="mb-10">
-          <h1 className="text-3xl md:text-5xl font-bold tracking-[-0.03em] text-ink mb-5 leading-[1.1]">
+          <h1 className="font-heading text-3xl md:text-5xl font-extrabold tracking-[-0.03em] text-ink mb-5 leading-[1.1]">
             {post.title}
           </h1>
           <div className="flex flex-wrap items-center gap-x-3 gap-y-1 font-mono text-xs uppercase tracking-wider text-ink-muted">
@@ -128,7 +128,7 @@ export default async function ArticlePage({ params }: Props) {
               </span>
             ))}
           </div>
-          <div aria-hidden className="mt-6 h-px w-16 bg-accent" />
+          <div aria-hidden className="mt-6 h-[3px] w-16 bg-lime" />
         </header>
 
         {/* Two-column: TOC + Content */}
@@ -146,16 +146,12 @@ export default async function ArticlePage({ params }: Props) {
                 {prev ? (
                   <a
                     href={`/blog/${prev.slug}`}
-                    className="group relative p-4 border border-line bg-white overflow-hidden transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_8px_24px_rgba(0,0,0,0.06)] motion-reduce:transition-none motion-reduce:hover:translate-y-0"
+                    className="group relative p-4 border border-line bg-white overflow-hidden transition-colors duration-200 hover:border-ink"
                   >
-                    <span
-                      aria-hidden
-                      className="absolute top-0 left-0 right-0 h-[2px] bg-accent origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-300 motion-reduce:transition-none"
-                    />
                     <span className="font-mono text-[11px] uppercase tracking-wider text-ink-muted">
                       ← Предыдущая
                     </span>
-                    <p className="text-ink font-medium mt-1 line-clamp-2 group-hover:underline decoration-accent underline-offset-4">
+                    <p className="text-ink font-medium mt-1 line-clamp-2 group-hover:underline decoration-ink underline-offset-4">
                       {prev.title}
                     </p>
                   </a>
@@ -165,16 +161,12 @@ export default async function ArticlePage({ params }: Props) {
                 {next ? (
                   <a
                     href={`/blog/${next.slug}`}
-                    className="group relative p-4 border border-line bg-white overflow-hidden text-right transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_8px_24px_rgba(0,0,0,0.06)] motion-reduce:transition-none motion-reduce:hover:translate-y-0"
+                    className="group relative p-4 border border-line bg-white overflow-hidden text-right transition-colors duration-200 hover:border-ink"
                   >
-                    <span
-                      aria-hidden
-                      className="absolute top-0 left-0 right-0 h-[2px] bg-accent origin-right scale-x-0 group-hover:scale-x-100 transition-transform duration-300 motion-reduce:transition-none"
-                    />
                     <span className="font-mono text-[11px] uppercase tracking-wider text-ink-muted">
                       Следующая →
                     </span>
-                    <p className="text-ink font-medium mt-1 line-clamp-2 group-hover:underline decoration-accent underline-offset-4">
+                    <p className="text-ink font-medium mt-1 line-clamp-2 group-hover:underline decoration-ink underline-offset-4">
                       {next.title}
                     </p>
                   </a>
@@ -186,11 +178,11 @@ export default async function ArticlePage({ params }: Props) {
 
             {/* CTA */}
             <div className="relative mt-10 p-6 sm:p-8 bg-white border border-line text-center overflow-hidden">
-              <span aria-hidden className="absolute top-0 left-0 right-0 h-[2px] bg-accent" />
+              <span aria-hidden className="absolute top-0 left-0 right-0 h-[3px] bg-lime" />
               <p className="font-mono text-[11px] uppercase tracking-[0.15em] text-ink-muted mb-3">
                 AI-аудит
               </p>
-              <p className="text-xl font-bold tracking-[-0.02em] text-ink mb-2">
+              <p className="font-heading text-xl font-extrabold tracking-[-0.02em] text-ink mb-2">
                 Автоматизируйте свой бизнес с AI
               </p>
               <p className="text-sm text-ink-muted mb-5 max-w-[48ch] mx-auto">

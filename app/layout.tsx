@@ -1,26 +1,32 @@
 import type { Metadata } from "next";
-import { Manrope, JetBrains_Mono, Inter_Tight } from "next/font/google";
+import { Inter_Tight, Onest, Caveat } from "next/font/google";
 import { YandexMetrika } from "@/components/YandexMetrika";
 import { PostHogProvider } from "@/components/PostHogProvider";
 import "./globals.css";
 
-// Primary display grotesque for the redesign — bold, tight letter-spacing.
-const interTight = Inter_Tight({
+// LVMN DS — White + Lime. Display: dense grotesk (Cabinet Grotesk's role),
+// body: Onest (Satoshi analogue), hand: Caveat for annotations. All carry a
+// Cyrillic subset — the brand's Fontshare fonts ship Latin-only, which would
+// silently fall back to system sans on a Russian site.
+const displayFont = Inter_Tight({
   variable: "--font-display",
   subsets: ["latin", "cyrillic"],
-  weight: ["500", "600", "700", "800"],
+  weight: ["600", "700", "800", "900"],
   display: "swap",
 });
 
-const manrope = Manrope({
+const bodyFont = Onest({
   variable: "--font-body",
   subsets: ["latin", "cyrillic"],
   weight: ["400", "500", "600", "700"],
+  display: "swap",
 });
 
-const jetbrainsMono = JetBrains_Mono({
-  variable: "--font-mono",
+const handFont = Caveat({
+  variable: "--font-hand",
   subsets: ["latin", "cyrillic"],
+  weight: ["600", "700"],
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -57,7 +63,7 @@ export default function RootLayout({
   return (
     <html lang="ru" className="font-sans">
       <body
-        className={`${interTight.variable} ${manrope.variable} ${jetbrainsMono.variable} antialiased`}
+        className={`${displayFont.variable} ${bodyFont.variable} ${handFont.variable} antialiased`}
       >
         <PostHogProvider>{children}</PostHogProvider>
         <YandexMetrika />

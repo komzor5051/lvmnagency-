@@ -61,6 +61,10 @@
   --input: #E7E5E4;
   --ring: #0D9488;
   --radius: 0.625rem;
+
+  /* Mono is system now (DS uses no branded mono); display/body/hand come from
+     next/font variables set on <body>. */
+  --font-mono: ui-monospace, "SF Mono", Menlo, monospace;
 }
 
 @theme inline {
@@ -68,6 +72,7 @@
   --color-foreground: var(--text);
   --font-sans: var(--font-body);
   --font-heading: var(--font-display);
+  --font-hand: var(--font-hand);
   --font-mono: var(--font-mono);
   --color-card: var(--card);
   --color-card-foreground: var(--card-foreground);
@@ -613,35 +618,57 @@ body {
 }
 
 /* =============================================================================
-   PERSONAL SITE REDESIGN — Foundation tokens (2026-06)
-   Paper background, ink text, one orange accent.
-   Rule: orange is ONLY for underlines, rules, marker highlights and small
-   indicators. Never fill buttons or backgrounds with it. Buttons are black
-   fill or black outline.
-   NOTE: declared after the legacy @theme inline block on purpose — this
-   overrides --color-accent for Tailwind utilities (text-accent, border-accent)
-   while /audit, which reads var(--accent) directly, keeps its teal.
+   LVMN DS — White + Lime (2026-06)
+   White background, ink text, lime as the single accent. Lime is a FILL/
+   highlight — solid behind text (lime-mark), button backgrounds, tags, rules,
+   indicator dots — never a text colour (unreadable on white). Links and
+   emphasis underlines are ink. Border radius is 0. No shadows.
+   NOTE: declared after the legacy @theme inline block on purpose — overrides
+   the Tailwind foundation tokens while /audit keeps its own var(--accent).
    ============================================================================= */
 @theme {
-  --color-paper: #fafafa;
+  --color-paper: #ffffff;
   --color-ink: #111111;
-  --color-ink-muted: #555555;
+  --color-ink-muted: #666666;
   --color-line: #e8e8e8;
-  --color-accent: #ff4d00;
+  --color-lime: #c8f04c;
+  --color-lime-dark: #a8d030;
+  /* Legacy pages (blog/products/about) still read --color-accent as a TEXT
+     colour. Lime is unreadable as text on white, so the accent token resolves
+     to ink there; lime is applied explicitly (bg-lime / lime-mark) as a fill. */
+  --color-accent: #111111;
 }
 
-/* 2px orange underline — the sanctioned accent pattern for links/emphasis */
+/* Solid lime highlight behind text — the headline emphasis pattern. */
+@utility lime-mark {
+  background: #c8f04c;
+  padding: 0 0.1em;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+
+/* Ink underline link/emphasis — 2px ink rule, fades on hover. */
+@utility link-ul {
+  display: inline-block;
+  font-weight: 500;
+  color: #111111;
+  border-bottom: 2px solid #111111;
+  padding-bottom: 1px;
+  transition: opacity 0.2s ease;
+  &:hover {
+    opacity: 0.6;
+  }
+}
+
+/* Back-compat aliases for pages not yet migrated to the lime DS: route the old
+   orange-accent utilities to the ink-underline / lime-highlight patterns. */
 @utility underline-accent {
-  border-bottom: 2px solid #ff4d00;
+  border-bottom: 2px solid #111111;
   padding-bottom: 1px;
 }
-
-/* Marker-pen highlight behind text (orange, low opacity) */
 @utility marker-accent {
-  background-image: linear-gradient(
-    transparent 60%,
-    rgba(255, 77, 0, 0.25) 60%,
-    rgba(255, 77, 0, 0.25) 92%,
-    transparent 92%
-  );
+  background: #c8f04c;
+  padding: 0 0.1em;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
 }

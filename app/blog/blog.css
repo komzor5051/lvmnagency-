@@ -60,9 +60,9 @@
 }
 
 .prose.blog-prose blockquote {
-  border-left: 2px solid var(--color-accent, #ff4d00);
+  border-left: 3px solid var(--color-lime, #c8f04c);
   font-style: normal;
-  color: var(--color-ink-muted, #555);
+  color: var(--color-ink-muted, #666);
 }
 
 .prose.blog-prose blockquote p:first-of-type::before,

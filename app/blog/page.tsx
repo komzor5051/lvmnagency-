@@ -37,13 +37,13 @@ export default async function BlogPage() {
         </span>{" "}
         Блог
       </p>
-      <h1 className="text-4xl md:text-5xl font-bold tracking-[-0.03em] text-ink mb-3">
+      <h1 className="font-heading text-4xl md:text-5xl font-extrabold tracking-[-0.03em] text-ink mb-3">
         AI-автоматизация для бизнеса
       </h1>
       <p className="text-ink-muted mb-4 max-w-[60ch]">
         Кейсы, тренды, инструменты. Пишу о том, что внедряю руками.
       </p>
-      <div aria-hidden className="h-px w-16 bg-accent mb-10" />
+      <div aria-hidden className="h-[3px] w-16 bg-lime mb-10" />
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
         {(posts ?? []).map((post) => (
           <PostCard

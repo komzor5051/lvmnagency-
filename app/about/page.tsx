@@ -2,8 +2,6 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { Reveal } from "@/components/motion/Reveal";
-import { TiltCard } from "@/components/motion/TiltCard";
-import { DrawLine } from "@/components/motion/DrawLine";
 import { getProduct, isBuyable, TELEGRAM_URL } from "@/lib/products";
 
 export const metadata: Metadata = {
@@ -130,18 +128,14 @@ export default function AboutPage() {
           <section className="mx-auto grid max-w-7xl items-center gap-10 px-5 py-16 sm:px-8 sm:py-24 lg:grid-cols-[1.4fr_1fr] lg:gap-16">
             <div>
               <p data-reveal className="font-mono text-xs tracking-[0.18em] text-ink-muted uppercase">
-                Обо мне · Влад Лямин · Новосибирск
+                Обо мне · Влад Лямин
               </p>
               <h1
                 data-reveal
-                className="mt-6 font-heading text-4xl leading-[1.05] font-bold tracking-[-0.035em] text-balance sm:text-5xl lg:text-6xl"
+                className="mt-6 font-heading text-4xl leading-[1.05] font-extrabold tracking-[-0.035em] text-balance sm:text-5xl lg:text-6xl"
               >
                 Я не агентство. Я инженер, который отвечает{" "}
-                <span className="relative inline-block">
-                  лично
-                  <DrawLine className="absolute -bottom-1 left-0 h-[0.16em] w-full" delay={0.7} />
-                </span>
-                .
+                <span className="lime-mark">лично</span>.
               </h1>
               <p data-reveal className="mt-7 max-w-xl text-lg leading-relaxed text-ink-muted">
                 С 2022 года внедряю AI-системы в реальные бизнесы. Не презентации и не пилоты ради
@@ -165,16 +159,16 @@ export default function AboutPage() {
             </div>
 
             <div data-reveal className="mx-auto w-full max-w-xs lg:max-w-sm">
-              <TiltCard maxTilt={6} className="overflow-hidden">
+              <div className="overflow-hidden border border-line">
                 <Image
                   src="/portrait.jpg"
                   alt="Влад Лямин, AI-инженер"
                   width={880}
                   height={1100}
                   priority
-                  className="aspect-[4/5] w-full object-cover grayscale-[15%]"
+                  className="aspect-[4/5] w-full object-cover"
                 />
-              </TiltCard>
+              </div>
             </div>
           </section>
         </Reveal>
@@ -335,9 +329,9 @@ export default function AboutPage() {
             <div className="mx-auto max-w-7xl px-5 py-20 sm:px-8 sm:py-28">
               <h2
                 data-reveal
-                className="max-w-3xl font-heading text-3xl leading-[1.1] font-bold tracking-[-0.035em] sm:text-5xl"
+                className="max-w-3xl font-heading text-3xl leading-[1.1] font-extrabold tracking-[-0.035em] sm:text-5xl"
               >
-                Хотите понять, где AI окупится именно у вас?
+                Хотите понять, где AI <span className="lime-mark">окупится</span> именно у вас?
               </h2>
               <p data-reveal className="mt-6 max-w-xl text-lg leading-relaxed text-ink-muted">
                 Начнём с часа. Разберём вашу задачу и выйдем с конкретным планом — что
@@ -369,7 +363,7 @@ export default function AboutPage() {
       <footer className="border-t border-line">
         <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-4 px-5 py-8 sm:px-8">
           <p className="font-mono text-xs text-ink-muted">
-            Влад Лямин · AI-инженер · Новосибирск
+            Влад Лямин · AI-инженер
           </p>
           <div className="flex items-center gap-6">
             <Link href="/products" className="text-sm text-ink-muted transition-colors hover:text-ink">

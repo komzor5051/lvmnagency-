@@ -46,7 +46,7 @@ export default function ProductsPage() {
             </p>
             <h1
               data-reveal
-              className="font-heading mt-6 text-5xl font-bold leading-[0.95] tracking-[-0.04em] text-ink md:text-7xl"
+              className="font-heading mt-6 text-5xl font-extrabold leading-[0.95] tracking-[-0.04em] text-ink md:text-7xl"
             >
               Продукты
             </h1>

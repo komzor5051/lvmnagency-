@@ -105,7 +105,7 @@ export function TableOfContents({ html }: { html: string }) {
                   item.level === 3 ? "pl-5" : "pl-3"
                 } ${
                   activeId === item.id
-                    ? "border-accent text-ink font-medium"
+                    ? "border-lime text-ink font-medium"
                     : "border-transparent text-ink-muted hover:text-ink hover:border-line"
                 }`}
               >

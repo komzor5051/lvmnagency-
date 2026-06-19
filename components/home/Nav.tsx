@@ -12,14 +12,14 @@ const links = [
 export function Nav() {
   const href = consultationHref();
   const btnClass =
-    "inline-flex items-center rounded-lg bg-ink px-4 py-2 text-xs font-bold tracking-tight text-paper transition-colors hover:bg-black";
+    "inline-flex items-center bg-ink px-4 py-2 text-xs font-bold tracking-tight text-paper transition-transform duration-200 hover:-translate-y-0.5";
 
   return (
-    <header className="sticky top-0 z-50 border-b border-line bg-paper/90 backdrop-blur-sm">
+    <header className="sticky top-0 z-50 border-b border-line bg-white/90 backdrop-blur-sm">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 md:px-10">
         <Link
           href="/"
-          className="text-[15px] font-bold tracking-[-0.02em] text-ink"
+          className="font-heading text-[16px] font-extrabold tracking-[-0.02em] text-ink"
         >
           Влад Лямин
         </Link>

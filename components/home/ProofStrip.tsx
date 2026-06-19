@@ -30,7 +30,7 @@ export function ProofStrip() {
               prefix={s.prefix}
               suffix={s.suffix}
               decimals={s.decimals}
-              className="font-heading text-4xl font-bold tracking-[-0.03em] text-ink"
+              className="font-heading text-4xl font-extrabold tracking-[-0.03em] text-ink"
             />
             <p className="mt-1 text-xs text-ink-muted">{s.label}</p>
           </div>

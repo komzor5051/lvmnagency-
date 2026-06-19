@@ -46,35 +46,30 @@ export function DarkBusiness() {
       <div className="mx-auto max-w-7xl px-5 md:px-10">
         <div
           ref={block}
-          className="relative overflow-hidden rounded-[18px] bg-ink px-7 py-12 text-paper md:px-12 md:py-14"
+          className="relative overflow-hidden bg-ink px-7 py-12 text-paper md:px-14 md:py-[60px]"
         >
-          {/* Decorative thin border circles */}
-          <div
-            aria-hidden="true"
-            className="absolute -right-10 -top-10 h-[280px] w-[280px] rounded-full border border-white/10"
-          />
-          <div
-            aria-hidden="true"
-            className="absolute right-5 top-10 h-[160px] w-[160px] rounded-full border border-white/10"
-          />
-
-          <p className="font-mono text-[11px] uppercase tracking-[0.15em] text-accent">
-            02 — ДЛЯ БИЗНЕСА
+          <p className="font-mono text-[11px] uppercase tracking-[0.15em] text-lime-dark">
+            02 — Для бизнеса
           </p>
-          <h2 className="mt-4 max-w-[560px] font-heading text-3xl font-bold leading-[1.1] tracking-[-0.03em] md:text-[38px]">
+          <h2 className="mt-4 max-w-[560px] font-heading text-3xl font-extrabold leading-[1.08] tracking-[-0.03em] md:text-[38px]">
             Нужна система под ключ, а не созвон?
           </h2>
           <p className="mt-4 max-w-[520px] text-base leading-[1.55] text-white/65">
             Внедрение агентов и пайплайнов от 50 000 ₽, обучение команд,
             advisory-подписка. Начинаем с 30-минутного разговора о задаче.
           </p>
+          <p className="mt-3.5 font-hand text-[22px] font-semibold text-white/60">
+            ↳ ответ в течение рабочего дня
+          </p>
+          <div className="mt-7 h-[3px] w-16 bg-lime" aria-hidden="true" />
           <a
             href={TELEGRAM_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="mt-8 inline-flex items-center rounded-lg bg-white px-6 py-3.5 text-[13px] font-bold tracking-tight text-ink transition-colors hover:bg-paper"
+            className="group mt-7 inline-flex items-center gap-2 bg-lime px-6 py-3.5 text-[13px] font-bold tracking-tight text-ink transition-transform duration-200 hover:-translate-y-0.5"
           >
-            Рассказать о задаче →
+            Рассказать о задаче
+            <span className="transition-transform duration-200 group-hover:translate-x-1">→</span>
           </a>
         </div>
       </div>

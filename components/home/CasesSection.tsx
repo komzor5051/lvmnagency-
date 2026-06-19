@@ -53,14 +53,17 @@ export function CasesSection() {
   return (
     <section id="cases" className="scroll-mt-20">
       <div className="mx-auto max-w-7xl px-5 py-20 md:px-10 md:py-24">
-        <p className="font-mono text-[11px] uppercase tracking-[0.15em] text-accent">
-          03 — КЕЙСЫ
+        <p className="font-mono text-[11px] uppercase tracking-[0.15em] text-ink-muted">
+          03 — Кейсы
         </p>
-        <h2 className="mt-3 font-heading text-3xl font-bold tracking-[-0.03em] text-ink md:text-[42px] md:leading-tight">
-          Цифры из реальных проектов
+        <h2 className="mt-3 font-heading text-3xl font-extrabold tracking-[-0.03em] text-ink md:text-[42px] md:leading-tight">
+          Цифры из <span className="lime-mark">реальных</span> проектов
         </h2>
+        <p className="mt-3.5 font-hand text-[22px] font-semibold text-ink-muted">
+          ↳ не презентаций — внедрений в продакшн
+        </p>
 
-        <Reveal className="mt-8 border-t border-line" stagger={0.15}>
+        <Reveal className="mt-8 border-t border-ink" stagger={0.15}>
           {cases.map((c) => (
             <div
               key={c.tag}
@@ -73,7 +76,7 @@ export function CasesSection() {
                 suffix={c.suffix}
                 decimals={c.decimals}
                 duration={1.1}
-                className="font-heading text-3xl font-bold tracking-[-0.03em] text-accent"
+                className="font-heading text-3xl font-extrabold tracking-[-0.03em] text-ink"
               />
               <p className="text-[17px] font-medium leading-snug text-ink">
                 {c.description}

@@ -16,12 +16,8 @@ export function PostCard({ slug, title, metaDesc, publishedAt, tags, coverImage 
     <article className="h-full">
       <a
         href={`/blog/${slug}`}
-        className="group relative flex flex-col h-full border border-line bg-white overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_12px_32px_rgba(0,0,0,0.07)] motion-reduce:transition-none motion-reduce:hover:translate-y-0"
+        className="group relative flex flex-col h-full border border-line bg-white overflow-hidden transition-colors duration-200 hover:border-ink"
       >
-        <span
-          aria-hidden
-          className="absolute top-0 left-0 right-0 h-[2px] bg-accent origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-300 z-10 motion-reduce:transition-none"
-        />
         {coverImage && (
           <div className="aspect-[16/9] overflow-hidden bg-[#efefec] border-b border-line">
             <img
@@ -32,7 +28,7 @@ export function PostCard({ slug, title, metaDesc, publishedAt, tags, coverImage 
           </div>
         )}
         <div className="p-5 sm:p-6 flex flex-col flex-1">
-          <h2 className="text-xl font-bold tracking-[-0.02em] text-ink leading-snug group-hover:underline decoration-accent decoration-2 underline-offset-4">
+          <h2 className="font-heading text-xl font-extrabold tracking-[-0.02em] text-ink leading-snug group-hover:underline decoration-ink decoration-2 underline-offset-4">
             {title}
           </h2>
           {metaDesc && (
