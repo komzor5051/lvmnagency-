@@ -1,7 +1,8 @@
 import { generateImage as openrouterGenerateImage } from "@/lib/openrouter";
 import { supabase } from "@/lib/supabase";
+import { buildCoverPrompt, buildInlinePrompt } from "./cover-style";
 
-const MEME_PLACEHOLDER_REGEX = /!\[MEME:\s*(.+?)\]\(placeholder\)/g;
+const IMG_PLACEHOLDER_REGEX = /!\[IMG:\s*(.+?)\]\(placeholder\)/g;
 
 async function generateImage(prompt: string, retries = 2): Promise<Buffer> {
   for (let attempt = 0; attempt <= retries; attempt++) {
@@ -39,39 +40,13 @@ async function uploadToStorage(
   return data.publicUrl;
 }
 
-function buildPrompt(description: string): string {
-  return `Создай мем-картинку для IT/AI блога.
-
-Описание сцены: ${description}
-
-СТИЛЬ — выбери ОДИН случайный из списка, каждый раз другой:
-1. Rick and Morty — кислотные цвета, безумные глаза, гротеск
-2. Тарантино — кинематографичный кадр, драматичные ракурсы, напряжённые лица крупным планом, жёлто-красная палитра
-3. Николас Кейдж — персонаж с лицом в стиле безумного Кейджа, широко раскрытые глаза, overacting на максимум
-4. Властелин Колец — эпическая фэнтези-сцена, но с ноутбуками и кодом вместо мечей, пафос на 100%
-5. Мэттью Макконахи — тёплые тона, философский взгляд вдаль, расслабленная поза, мудрость в глазах, "alright alright alright" энергия
-6. Конфуций — стилизация под китайскую живопись тушью, мудрец с бородой за компьютером, минимализм + ирония
-7. Роберт Дауни мл. — поза и мимика в духе Тони Старка, самодовольная ухмылка, хайтек-окружение
-
-Выбор стиля должен быть НЕПРЕДСКАЗУЕМЫМ. Не повторяй один и тот же стиль подряд.
-
-Требования:
-- Персонажи — гротескные, смешные, с утрированными эмоциями в выбранном стиле
-- IT/технологическая тематика: компьютеры, роботы, нейросети, код
-- Если в описании есть "подпись" — нарисуй этот текст НА РУССКОМ ЯЗЫКЕ крупным жирным шрифтом прямо на картинке (сверху или снизу, как в классических мемах)
-- Текст на картинке: белые буквы с чёрной обводкой, крупный размер, ЧИТАЕМЫЙ
-- Формат 16:9
-- Картинка должна быть СМЕШНОЙ и понятной без контекста
-- Тон: ирония и сарказм, без мата`;
-}
-
 export async function generateArticleImages(
   markdown: string,
   articleSlug: string
 ): Promise<{ markdown: string; coverImage: string | null }> {
   const matches: { full: string; description: string }[] = [];
   let match;
-  const regex = new RegExp(MEME_PLACEHOLDER_REGEX.source, "g");
+  const regex = new RegExp(IMG_PLACEHOLDER_REGEX.source, "g");
 
   while ((match = regex.exec(markdown)) !== null) {
     matches.push({ full: match[0], description: match[1] });
@@ -95,7 +70,9 @@ export async function generateArticleImages(
 
   for (let i = 0; i < matches.length; i++) {
     const { full, description } = matches[i];
-    const prompt = buildPrompt(description);
+    // First image is the cover (subject right, empty dark left for the title
+    // overlay); the rest are inline cinematic images with the same grade.
+    const prompt = i === 0 ? buildCoverPrompt(description) : buildInlinePrompt(description);
 
     try {
       console.log(`[image-gen] Generating image ${i + 1}/${matches.length}: ${description.slice(0, 60)}...`);

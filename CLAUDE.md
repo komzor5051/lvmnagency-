@@ -41,9 +41,9 @@ Vercel Cron (vercel.json)
   └── /api/cron/generate     (daily, 05:00 UTC = 08:00 MSK)
         ├── select top pending topic
         ├── researcher (Exa API → 6 sources)
-        ├── writer (Gemini 2.0 Flash, 1500-2500 words with MEME placeholders)
+        ├── writer (Gemini 2.0 Flash, 1500-2500 words with ![IMG:] placeholders)
         ├── 4 sequential editors (structure → coherence → anti-slop → factcheck)
-        ├── image-generator (Gemini 3 Pro → Supabase Storage)
+        ├── image-generator (cinematic editorial covers via lib/pipeline/cover-style.ts → Supabase Storage)
         ├── publisher (slug, meta_desc, MD→HTML, save to lvmn_blog_posts)
         └── [telegram not wired in cron yet]
 
@@ -129,5 +129,5 @@ WORDSTAT_TOKEN             # Yandex Wordstat API OAuth token
 - Manual trigger secret is `lvmn2026go` (query param `?secret=`).
 - Shares Supabase instance with sabka-blog — tables prefixed `lvmn_`.
 - Inngest exists in code but Vercel Cron is the active trigger.
-- MEME placeholders must be preserved through editing pipeline.
+- `![IMG:]` placeholders must be preserved through the editing pipeline; the first becomes the cover (cinematic a16z-style, see `lib/pipeline/cover-style.ts`). No memes.
 - Forked from sabka-blog — no `sabka` references should remain in active code.

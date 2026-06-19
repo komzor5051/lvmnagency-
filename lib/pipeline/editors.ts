@@ -3,7 +3,7 @@ import { generateFlash } from "@/lib/gemini";
 type EditorRole = "structure" | "coherence" | "anti-slop" | "factcheck";
 
 const IMAGE_PRESERVATION = `
-ВАЖНО: В статье есть плейсхолдеры для картинок в формате ![MEME: описание](placeholder).
+ВАЖНО: В статье есть плейсхолдеры для картинок в формате ![IMG: описание](placeholder).
 НЕ УДАЛЯЙ и НЕ ИЗМЕНЯЙ их! Оставь их точно как есть, на тех же местах.`;
 
 const EDITOR_PROMPTS: Record<EditorRole, string> = {
@@ -100,9 +100,9 @@ ${content}
 }
 
 export async function runAllEditors(content: string): Promise<string> {
-  // Extract MEME placeholders before editing — LLMs often remove them despite instructions
-  const memeRegex = /!\[MEME:\s*.+?\]\(placeholder\)/g;
-  const memePlaceholders = content.match(memeRegex) ?? [];
+  // Extract image placeholders before editing — LLMs often remove them despite instructions
+  const imgRegex = /!\[IMG:\s*.+?\]\(placeholder\)/g;
+  const imgPlaceholders = content.match(imgRegex) ?? [];
 
   const roles: EditorRole[] = ["structure", "coherence", "anti-slop", "factcheck"];
   let result = content;
@@ -111,10 +111,10 @@ export async function runAllEditors(content: string): Promise<string> {
   }
 
   // Re-insert lost placeholders after H2 headings
-  if (memePlaceholders.length > 0) {
-    const surviving = (result.match(memeRegex) ?? []).length;
-    if (surviving < memePlaceholders.length) {
-      const lost = memePlaceholders.filter((p) => !result.includes(p));
+  if (imgPlaceholders.length > 0) {
+    const surviving = (result.match(imgRegex) ?? []).length;
+    if (surviving < imgPlaceholders.length) {
+      const lost = imgPlaceholders.filter((p) => !result.includes(p));
       const h2Positions: number[] = [];
       const h2Regex = /^## .+$/gm;
       let m;
@@ -135,7 +135,7 @@ export async function runAllEditors(content: string): Promise<string> {
           h2Positions[j] += shift;
         }
       }
-      console.log(`[editors] Re-inserted ${lost.length} lost MEME placeholders`);
+      console.log(`[editors] Re-inserted ${lost.length} lost IMG placeholders`);
     }
   }
 

@@ -40,14 +40,14 @@ async function run() {
   console.log(`   Draft: ${draft.length} chars`);
 
   // Show placeholders found
-  const placeholders = (draft.match(/!\[MEME:/g) || []).length;
+  const placeholders = (draft.match(/!\[IMG:/g) || []).length;
   console.log(`   Image placeholders found: ${placeholders}`);
 
   console.log("4. Editing (4 passes)...");
   const edited = await runAllEditors(draft);
   console.log(`   Edited: ${edited.length} chars`);
 
-  const placeholdersAfterEdit = (edited.match(/!\[MEME:/g) || []).length;
+  const placeholdersAfterEdit = (edited.match(/!\[IMG:/g) || []).length;
   console.log(`   Placeholders preserved: ${placeholdersAfterEdit}`);
 
   console.log("5. Generating images...");
