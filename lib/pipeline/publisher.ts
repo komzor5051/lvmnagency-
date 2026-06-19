@@ -25,7 +25,19 @@ export async function publishPost(input: PublishInput): Promise<string> {
     console.log(`[publisher] Shortened title: "${title}" (${title.length} chars)`);
   }
 
-  const slug = slugify(title);
+  // Ensure a unique slug — topic lists can contain near-duplicates, and a
+  // colliding slug would otherwise crash the whole run (and the daily cron).
+  const baseSlug = slugify(title);
+  let slug = baseSlug;
+  for (let n = 2; ; n++) {
+    const { data: clash } = await supabase
+      .from("lvmn_blog_posts")
+      .select("id")
+      .eq("slug", slug)
+      .maybeSingle();
+    if (!clash) break;
+    slug = `${baseSlug}-${n}`;
+  }
   const contentHtml = renderMarkdown(input.content);
 
   // Generate meta description
