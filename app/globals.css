@@ -73,6 +73,7 @@
   --font-sans: var(--font-body);
   --font-heading: var(--font-display);
   --font-hand: var(--font-hand);
+  --font-serif: var(--font-serif);
   --font-mono: var(--font-mono);
   --color-card: var(--card);
   --color-card-foreground: var(--card-foreground);
@@ -646,6 +647,8 @@ body {
   --color-line: #e8e8e8;
   --color-lime: #c8f04c;
   --color-lime-dark: #a8d030;
+  /* Muted gold for blog cover bylines (a16z-style overlay), cover-only. */
+  --color-gold: #c9a875;
   /* Legacy pages (blog/products/about) still read --color-accent as a TEXT
      colour. Lime is unreadable as text on white, so the accent token resolves
      to ink there; lime is applied explicitly (bg-lime / lime-mark) as a fill. */

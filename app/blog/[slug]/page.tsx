@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { TableOfContents } from "@/components/table-of-contents";
 import { CopyableCode } from "@/components/copyable-code";
+import { CoverTitle } from "@/components/blog/CoverTitle";
 
 export const revalidate = 60;
 
@@ -14,6 +15,16 @@ interface Props {
 function readingTime(text: string): number {
   const words = text.trim().split(/\s+/).length;
   return Math.max(1, Math.round(words / 200));
+}
+
+// The cover image is also the first inline image in content_html. When we show
+// the cover as a hero, strip that first occurrence so it isn't repeated.
+function stripCoverImage(html: string, src: string | null): string {
+  if (!src) return html;
+  const esc = src.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const pWrapped = new RegExp(`<p>\\s*<img[^>]*src="${esc}"[^>]*>\\s*</p>`, "i");
+  if (pWrapped.test(html)) return html.replace(pWrapped, "");
+  return html.replace(new RegExp(`<img[^>]*src="${esc}"[^>]*>`, "i"), "");
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -93,7 +104,9 @@ export default async function ArticlePage({ params }: Props) {
 
   const minutes = readingTime(post.content_md);
   const blogUrl = process.env.BLOG_URL ?? "https://lvmn.vercel.app";
-  const contentHtml = post.content_html ?? "";
+  const rawHtml = post.content_html ?? "";
+  // With a cover hero, drop the duplicate first inline image from the body.
+  const contentHtml = post.cover_image ? stripCoverImage(rawHtml, post.cover_image) : rawHtml;
 
   return (
     <>
@@ -112,24 +125,47 @@ export default async function ArticlePage({ params }: Props) {
           </span>
         </nav>
 
-        {/* Header */}
-        <header className="mb-10">
-          <h1 className="font-heading text-3xl md:text-5xl font-extrabold tracking-[-0.03em] text-ink mb-5 leading-[1.1]">
-            {post.title}
-          </h1>
-          <div className="flex flex-wrap items-center gap-x-3 gap-y-1 font-mono text-xs uppercase tracking-wider text-ink-muted">
-            <time dateTime={post.published_at}>{date}</time>
-            <span aria-hidden className="text-accent">/</span>
-            <span>{minutes} мин чтения</span>
-            {(post.tags ?? []).slice(0, 4).map((tag: string) => (
-              <span key={tag} className="inline-flex items-center gap-1">
-                <span aria-hidden className="text-accent">/</span>
-                {tag}
-              </span>
-            ))}
-          </div>
-          <div aria-hidden className="mt-6 h-[3px] w-16 bg-lime" />
-        </header>
+        {/* Header — cinematic cover hero with serif title overlay; falls back
+            to a text header for posts without a cover image. */}
+        {post.cover_image ? (
+          <header className="mb-10">
+            <CoverTitle
+              title={post.title}
+              byline={`${date} · ${minutes} мин чтения`}
+              image={post.cover_image}
+              variant="hero"
+              priority
+            />
+            {(post.tags ?? []).length > 0 && (
+              <div className="mt-4 flex flex-wrap items-center gap-x-3 gap-y-1 font-mono text-xs uppercase tracking-wider text-ink-muted">
+                {(post.tags ?? []).slice(0, 4).map((tag: string) => (
+                  <span key={tag} className="inline-flex items-center gap-1">
+                    <span aria-hidden className="text-lime-dark">/</span>
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            )}
+          </header>
+        ) : (
+          <header className="mb-10">
+            <h1 className="font-heading text-3xl md:text-5xl font-extrabold tracking-[-0.03em] text-ink mb-5 leading-[1.1]">
+              {post.title}
+            </h1>
+            <div className="flex flex-wrap items-center gap-x-3 gap-y-1 font-mono text-xs uppercase tracking-wider text-ink-muted">
+              <time dateTime={post.published_at}>{date}</time>
+              <span aria-hidden className="text-ink-muted">/</span>
+              <span>{minutes} мин чтения</span>
+              {(post.tags ?? []).slice(0, 4).map((tag: string) => (
+                <span key={tag} className="inline-flex items-center gap-1">
+                  <span aria-hidden className="text-ink-muted">/</span>
+                  {tag}
+                </span>
+              ))}
+            </div>
+            <div aria-hidden className="mt-6 h-[3px] w-16 bg-lime" />
+          </header>
+        )}
 
         {/* Two-column: TOC + Content */}
         <div className="flex flex-col lg:flex-row gap-6 lg:gap-10">
