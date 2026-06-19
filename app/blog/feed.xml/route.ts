@@ -25,7 +25,7 @@ export async function GET() {
   const rss = `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Блог LVMN</title>
+    <title>Блог Влада Лямина</title>
     <link>${blogUrl}/blog</link>
     <description>AI-автоматизация для бизнеса: кейсы, тренды, инструменты</description>
     <language>ru</language>

@@ -12,7 +12,7 @@ export const metadata: Metadata = {
     canonical: "https://lvmn.vercel.app/blog",
   },
   openGraph: {
-    title: "Блог об AI-автоматизации для бизнеса — LVMN",
+    title: "Блог об AI-автоматизации для бизнеса — Влад Лямин",
     description:
       "Практичные статьи об автоматизации бизнеса с помощью AI. Кейсы, инструменты, пошаговые руководства.",
     type: "website",

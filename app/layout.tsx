@@ -46,7 +46,8 @@ export const metadata: Metadata = {
     card: "summary_large_image",
   },
   icons: {
-    icon: { url: "/favicon.svg", type: "image/svg+xml" },
+    icon: { url: "/favicon.png", type: "image/png" },
+    apple: { url: "/apple-icon.png" },
   },
   alternates: {
     types: {

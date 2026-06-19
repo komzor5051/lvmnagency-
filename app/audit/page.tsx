@@ -207,7 +207,7 @@ export default function AuditPage() {
       <div className="audit-page">
         <nav className="audit-nav">
           <Link href="/" className="audit-logo">
-            LVMN
+            Влад Лямин
           </Link>
         </nav>
 
@@ -309,7 +309,7 @@ export default function AuditPage() {
       <div className="audit-page">
         <nav className="audit-nav">
           <Link href="/" className="audit-logo">
-            LVMN
+            Влад Лямин
           </Link>
         </nav>
         <div className="audit-container">

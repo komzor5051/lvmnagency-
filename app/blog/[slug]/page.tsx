@@ -218,13 +218,13 @@ export default async function ArticlePage({ params }: Props) {
             keywords: (post.tags ?? []).join(", "),
             ...(post.cover_image && { image: post.cover_image }),
             author: {
-              "@type": "Organization",
-              name: "LVMN",
-              url: "https://lvmn.vercel.app",
+              "@type": "Person",
+              name: "Влад Лямин",
+              url: "https://lvmn.vercel.app/about",
             },
             publisher: {
-              "@type": "Organization",
-              name: "LVMN",
+              "@type": "Person",
+              name: "Влад Лямин",
               url: "https://lvmn.vercel.app",
             },
             mainEntityOfPage: {
