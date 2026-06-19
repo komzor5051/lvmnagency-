@@ -178,7 +178,7 @@ export async function POST(req: NextRequest) {
         Authorization: `Bearer ${process.env.OPENROUTER_API_KEY ?? ""}`,
         "Content-Type": "application/json",
         "HTTP-Referer": "https://lvmn.vercel.app",
-        "X-Title": "Влад Лямин — чат",
+        "X-Title": "Vlad Lyamin Chat",
       },
       body: JSON.stringify({
         model: "google/gemini-2.5-flash",
