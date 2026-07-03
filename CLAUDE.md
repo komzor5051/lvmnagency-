@@ -4,9 +4,13 @@ This file provides guidance to Claude Code when working with this repository.
 
 ## Project Overview
 
-Personal site for **Влад Лямин — AI-инженер** (lvmn.vercel.app): a marketing site
-(home, about, products, AI-audit funnel) plus an automated content factory that
+Personal site for **Влад Лямин — AI-инженер** (https://vladlyamin.ru): a marketing
+site (home, about, products, AI-audit funnel) plus an automated content factory that
 publishes daily AI-generated blog articles and announces them in Telegram.
+
+**Hosting: self-hosted on a Timeweb VPS, NOT Vercel** (Vercel is blocked in Russia).
+The old `lvmn.vercel.app` URL is retired. See the Deployment section below — do not
+suggest `vercel` commands or assume Vercel-managed crons / env / SSL.
 
 **Not an agency.** The brand is personal — Влад внедряет AI-системы для бизнеса
 лично. Do not reintroduce "AI-агентство LVMN / мы" framing in copy or personas,
@@ -27,14 +31,37 @@ npx tsx scripts/run-pipeline.ts    # Run full pipeline manually
 npx tsx scripts/check-articles.ts  # Validate article structure
 npx tsx scripts/fix-broken-articles.ts  # Repair malformed posts
 npx tsx scripts/setup-storage.ts   # Initialize Supabase Storage bucket
+```
 
-npx vercel --prod    # Deploy to Vercel
+## Deployment (Timeweb VPS)
+
+Hosted on a Timeweb cloud server, region Novosibirsk. NOT Vercel.
+
+- **Server**: `5.42.111.39` (root, SSH key from Влад's Mac), Ubuntu 24.04,
+  1 GB RAM + 2 GB swap (swap is required — `next build` OOMs on 1 GB without it).
+- **Domain**: `vladlyamin.ru` (reg.ru, DNS on `ns1/ns2.reg.ru`, A `@` and `www`
+  → 5.42.111.39). SSL via certbot (Let's Encrypt), auto-renew enabled.
+- **Runtime**: code in `/var/www/lvmn-site`, Node 20, run via
+  `pm2 start npm --name lvmn -- start` (port 3000, autostart on reboot).
+  nginx reverse-proxies 80/443 → localhost:3000 (`/etc/nginx/sites-available/lvmn`).
+- **Secrets**: `/var/www/lvmn-site/.env.local` on the server (not in git).
+
+**Deploy an update** (from `~/Desktop/Бизнес/lvmn-site` on the Mac):
+
+```bash
+rsync -az --exclude node_modules --exclude .next --exclude .git \
+  ./ root@5.42.111.39:/var/www/lvmn-site/
+ssh root@5.42.111.39 'cd /var/www/lvmn-site \
+  && NODE_OPTIONS="--max-old-space-size=2048" npm run build \
+  && pm2 restart lvmn --update-env'
 ```
 
 ## Architecture
 
 ```
-Vercel Cron (vercel.json)
+System cron (server crontab, CRON_TZ=UTC — replaces the old Vercel Cron)
+  scripts/cron-runner.sh curls each endpoint with CRON_SECRET; log: /var/log/lvmn/cron.log
+  vercel.json crons are kept for reference only and do NOT run anywhere.
   ├── /api/cron/mine-topics  (every 3 days, 04:00 UTC)
   │     └── Exa trends → Wordstat search demand → Gemini → validate keywords → save topics
   │
@@ -118,16 +145,20 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY
 EXA_API_KEY                # Exa for research
 TELEGRAM_BOT_TOKEN         # Telegram bot
 TELEGRAM_CHANNEL_ID        # Target channel
-CRON_SECRET                # Vercel Cron auth
-BLOG_URL                   # https://lvmn-blog.vercel.app
+CRON_SECRET                # cron endpoint auth (used by scripts/cron-runner.sh)
+BLOG_URL                   # https://vladlyamin.ru
 WORDSTAT_TOKEN             # Yandex Wordstat API OAuth token
 ```
+
+On Vercel these were managed in the dashboard; now they live in
+`/var/www/lvmn-site/.env.local` on the server. EXA_API_KEY currently returns 403
+(expired) — refresh it for blog autogeneration to work.
 
 ## Gotchas
 
 - **Two Gemini SDKs**: Text uses `@google/generative-ai`, images use `@google/genai`.
 - Manual trigger secret is `lvmn2026go` (query param `?secret=`).
 - Shares Supabase instance with sabka-blog — tables prefixed `lvmn_`.
-- Inngest exists in code but Vercel Cron is the active trigger.
+- Inngest exists in code but the server crontab (system cron) is the active trigger.
 - `![IMG:]` placeholders must be preserved through the editing pipeline; the first becomes the cover (cinematic a16z-style, see `lib/pipeline/cover-style.ts`). No memes.
 - Forked from sabka-blog — no `sabka` references should remain in active code.

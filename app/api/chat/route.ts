@@ -184,7 +184,11 @@ export async function POST(req: NextRequest) {
         model: "google/gemini-2.5-flash",
         messages: apiMessages,
         temperature: 0.5,
-        max_tokens: 1024,
+        max_tokens: 1500,
+        // Disable "thinking" — reasoning tokens are streamed separately from
+        // delta.content and eat the token budget, leaving the visible reply
+        // truncated or empty. Off = faster, complete answers.
+        reasoning: { enabled: false },
         stream: true,
       }),
     });

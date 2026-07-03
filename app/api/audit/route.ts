@@ -15,6 +15,20 @@ interface AuditRequest {
   telegram: string;
 }
 
+interface AuditResult {
+  summary: string;
+  automations: {
+    title: string;
+    description: string;
+    timeSaved: string;
+    complexity: "simple" | "medium" | "complex";
+    priority: number;
+  }[];
+  totalTimeSaved: string;
+  totalMoneySaved: string;
+  firstStep: string;
+}
+
 // Heuristic lead scoring (1-10) from the audit answers. Completing the full
 // 7-step form and leaving a contact is already a strong intent signal.
 function classifyAuditLead(body: AuditRequest): {
@@ -67,6 +81,40 @@ const SYSTEM_PROMPT = `Ты -- AI-инженер Влад Лямин, экспе
 - Пиши по-русски, без канцеляризмов, коротко и конкретно
 - Никаких эмодзи`;
 
+// Robustly extract a JSON object from a model response. Handles clean JSON,
+// markdown-fenced JSON, and trailing prose by isolating the first balanced
+// {...} block. Returns null if nothing parseable is found.
+function extractJson<T = unknown>(text: string): T | null {
+  const clean = text
+    .replace(/^```(?:json)?\s*\n?/m, "")
+    .replace(/\n?```\s*$/m, "")
+    .trim();
+
+  try {
+    return JSON.parse(clean);
+  } catch {
+    // fall through to balanced-brace extraction
+  }
+
+  const start = clean.indexOf("{");
+  if (start === -1) return null;
+  let depth = 0;
+  for (let i = start; i < clean.length; i++) {
+    if (clean[i] === "{") depth++;
+    else if (clean[i] === "}") {
+      depth--;
+      if (depth === 0) {
+        try {
+          return JSON.parse(clean.slice(start, i + 1));
+        } catch {
+          return null;
+        }
+      }
+    }
+  }
+  return null;
+}
+
 export async function POST(req: NextRequest) {
   try {
     const body: AuditRequest = await req.json();
@@ -87,19 +135,26 @@ export async function POST(req: NextRequest) {
 Главная боль: ${body.biggestPain}
 Пробовали AI раньше: ${body.triedAI}`;
 
-    const result = await chatCompletion(`${SYSTEM_PROMPT}\n\n${userPrompt}`, {
-      model: "google/gemini-2.5-flash",
-      temperature: 0.4,
-      maxTokens: 4096,
-    });
+    const callModel = () =>
+      chatCompletion(`${SYSTEM_PROMPT}\n\n${userPrompt}`, {
+        model: "google/gemini-2.5-flash",
+        temperature: 0.4,
+        maxTokens: 8192,
+        // Disable "thinking": reasoning tokens were eating the budget and
+        // truncating the JSON mid-output, which broke parsing in production.
+        reasoning: { enabled: false },
+        // Force a clean JSON object instead of a ```json-fenced string.
+        responseFormat: { type: "json_object" },
+      });
 
-    // Parse JSON from response
-    let parsed;
-    try {
-      // Strip potential markdown code fences
-      const clean = result.replace(/^```(?:json)?\s*\n?/m, "").replace(/\n?```\s*$/m, "");
-      parsed = JSON.parse(clean);
-    } catch {
+    // Parse JSON, retrying once if the first response is unparseable.
+    let result = await callModel();
+    let parsed = extractJson<AuditResult>(result);
+    if (!parsed) {
+      result = await callModel();
+      parsed = extractJson<AuditResult>(result);
+    }
+    if (!parsed) {
       return NextResponse.json(
         { error: "Failed to parse AI response", raw: result },
         { status: 500 }

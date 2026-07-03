@@ -1,8 +1,8 @@
 import { NextResponse } from "next/server";
 import { createLead } from "@/lib/notion";
 
-// Pragmatic server-side email check: something@something.tld
-const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+// Telegram username: 5-32 chars, starts with a letter, letters/digits/underscores.
+const TELEGRAM_RE = /^[a-zA-Z][a-zA-Z0-9_]{4,31}$/;
 
 export async function POST(request: Request) {
   let body: unknown;
@@ -12,24 +12,27 @@ export async function POST(request: Request) {
     return NextResponse.json({ ok: false, error: "invalid_json" }, { status: 400 });
   }
 
-  const email =
-    typeof (body as { email?: unknown })?.email === "string"
-      ? ((body as { email: string }).email || "").trim()
+  // Accept "@user" or "user"; strip the leading @ before validating.
+  const telegram =
+    typeof (body as { telegram?: unknown })?.telegram === "string"
+      ? ((body as { telegram: string }).telegram || "").trim().replace(/^@+/, "")
       : "";
 
-  if (!email || email.length > 254 || !EMAIL_RE.test(email)) {
-    return NextResponse.json({ ok: false, error: "invalid_email" }, { status: 400 });
+  if (!TELEGRAM_RE.test(telegram)) {
+    return NextResponse.json({ ok: false, error: "invalid_telegram" }, { status: 400 });
   }
+
+  const handle = `@${telegram}`;
 
   try {
     // Same lead mechanism as the audit form; marked as course waitlist.
-    // throwOnError: the user must not see "Вы в списке" if the email was not saved —
+    // throwOnError: the user must not see "Вы в списке" if the handle was not saved —
     // a 500 here makes WaitlistForm show the Telegram fallback.
     await createLead(
       {
         channel: "Сайт (аудит)",
-        name: `Waitlist: ${email}`,
-        contact: email,
+        name: `Waitlist: ${handle}`,
+        contact: handle,
         note: "source: course-waitlist — лист ожидания мини-курса по AI-автоматизации",
         temperature: "Тёплый",
         status: "Новый",

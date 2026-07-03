@@ -2,7 +2,7 @@ import { supabase } from "@/lib/supabase";
 import type { MetadataRoute } from "next";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const siteUrl = "https://lvmn.vercel.app";
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://vladlyamin.ru";
 
   const { data: posts } = await supabase
     .from("lvmn_blog_posts")

@@ -4,11 +4,22 @@ import Link from "next/link";
 import { Reveal } from "@/components/motion/Reveal";
 import { getProduct, isBuyable, TELEGRAM_URL } from "@/lib/products";
 
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://vladlyamin.ru";
+
 export const metadata: Metadata = {
   title: "Обо мне — Влад Лямин",
   description:
-    "Я не агентство. Я инженер, который отвечает лично. С 2022 года внедряю AI-системы: 40+ внедрений, 50+ обученных. Принципы скучного AI и мой стек.",
-  alternates: { canonical: "/about" },
+    "С 2022 года помогаю предпринимателям и экспертам самим начать пользоваться AI в работе. 40+ внедрений, принципы скучного AI и мой стек.",
+  alternates: { canonical: `${siteUrl}/about` },
+  openGraph: {
+    title: "Обо мне — Влад Лямин",
+    description:
+      "С 2022 года помогаю предпринимателям и экспертам самим начать пользоваться AI в работе. 40+ внедрений, принципы скучного AI и мой стек.",
+    type: "profile",
+    url: `${siteUrl}/about`,
+    locale: "ru_RU",
+    images: [{ url: `${siteUrl}/portrait.jpg`, width: 880, height: 1100, alt: "Влад Лямин, AI-инженер" }],
+  },
 };
 
 const TIMELINE: { years: string; text: string }[] = [
@@ -79,9 +90,50 @@ const STACK = ["n8n", "Supabase", "JavaScript / Node.js", "Telegram Bot API", "C
 
 function consultationHref(): string {
   const c = getProduct("consultation");
-  if (c && isBuyable(c) && c.buy.kind !== "waitlist") return c.buy.url;
+  if (c && isBuyable(c) && (c.buy.kind === "lava" || c.buy.kind === "form")) {
+    return c.buy.url;
+  }
   return TELEGRAM_URL;
 }
+
+const aboutSchema = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "@id": `${siteUrl}/#person`,
+  name: "Влад Лямин",
+  alternateName: "Vladislav Lyamin",
+  url: siteUrl,
+  image: {
+    "@type": "ImageObject",
+    url: `${siteUrl}/portrait.jpg`,
+    width: 880,
+    height: 1100,
+  },
+  description:
+    "AI-инженер: помогаю фаундерам и экспертам внедрить AI-системы, которые окупаются. 40+ внедрений, 50+ обученных с 2022 года. Принципы скучного AI: надёжность важнее эффектности.",
+  jobTitle: "AI Engineer",
+  knowsAbout: [
+    "AI-автоматизация бизнеса",
+    "n8n",
+    "Supabase",
+    "Claude API",
+    "Telegram Bot API",
+    "JavaScript",
+    "Node.js",
+    "Business Process Automation",
+    "LLM Integration",
+  ],
+  hasOccupation: {
+    "@type": "Occupation",
+    name: "AI Engineer",
+    description: "Внедрение AI-систем для бизнеса: автоматизация, боты, пайплайны обработки данных.",
+  },
+  sameAs: ["https://t.me/lyaminvl"],
+  mainEntityOfPage: {
+    "@type": "WebPage",
+    "@id": `${siteUrl}/about`,
+  },
+};
 
 export default function AboutPage() {
   const ctaHref = consultationHref();
@@ -134,13 +186,13 @@ export default function AboutPage() {
                 data-reveal
                 className="mt-6 font-heading text-4xl leading-[1.05] font-extrabold tracking-[-0.035em] text-balance sm:text-5xl lg:text-6xl"
               >
-                Я не агентство. Я инженер, который отвечает{" "}
-                <span className="lime-mark">лично</span>.
+                Со мной вы наконец начинаете пользоваться AI — и работаете с ним{" "}
+                <span className="lime-mark">сами</span>.
               </h1>
               <p data-reveal className="mt-7 max-w-xl text-lg leading-relaxed text-ink-muted">
-                С 2022 года внедряю AI-системы в реальные бизнесы. Не презентации и не пилоты ради
-                пилотов — пайплайны, которые работают каждый день и окупают себя цифрами. Каждый
-                проект делаю сам и сам же за него отвечаю.
+                С 2022 года помогаю предпринимателям и экспертам реально начать пользоваться AI —
+                каждый день, в своих задачах, а не «когда-нибудь разберусь». Не сдаю проект и не
+                исчезаю: остаюсь, пока вы и команда не научитесь работать с ним без меня.
               </p>
               <div data-reveal className="mt-9 flex flex-wrap items-center gap-x-10 gap-y-4">
                 <div>
@@ -331,7 +383,7 @@ export default function AboutPage() {
                 data-reveal
                 className="max-w-3xl font-heading text-3xl leading-[1.1] font-extrabold tracking-[-0.035em] sm:text-5xl"
               >
-                Хотите понять, где AI <span className="lime-mark">окупится</span> именно у вас?
+                Хотите, чтобы AI наконец <span className="lime-mark">заработал</span> у вас?
               </h2>
               <p data-reveal className="mt-6 max-w-xl text-lg leading-relaxed text-ink-muted">
                 Начнём с часа. Разберём вашу задачу и выйдем с конкретным планом — что
@@ -363,7 +415,7 @@ export default function AboutPage() {
       <footer className="border-t border-line">
         <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-4 px-5 py-8 sm:px-8">
           <p className="font-mono text-xs text-ink-muted">
-            Влад Лямин · AI-инженер
+            Влад Лямин · работаю с AI с 2022
           </p>
           <div className="flex items-center gap-6">
             <Link href="/products" className="text-sm text-ink-muted transition-colors hover:text-ink">
@@ -383,6 +435,10 @@ export default function AboutPage() {
           </div>
         </div>
       </footer>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(aboutSchema) }}
+      />
     </div>
   );
 }

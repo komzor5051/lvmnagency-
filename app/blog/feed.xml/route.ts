@@ -8,7 +8,7 @@ export async function GET() {
     .order("published_at", { ascending: false })
     .limit(20);
 
-  const blogUrl = process.env.BLOG_URL ?? "https://lvmn-blog.vercel.app";
+  const blogUrl = process.env.BLOG_URL ?? process.env.NEXT_PUBLIC_SITE_URL ?? "https://vladlyamin.ru";
   const items = (posts ?? [])
     .map(
       (p) => `

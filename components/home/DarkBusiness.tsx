@@ -52,11 +52,11 @@ export function DarkBusiness() {
             02 — Для бизнеса
           </p>
           <h2 className="mt-4 max-w-[560px] font-heading text-3xl font-extrabold leading-[1.08] tracking-[-0.03em] md:text-[38px]">
-            Нужна система под ключ, а не созвон?
+            Нужно, чтобы AI заработал у всей команды, а не один созвон?
           </h2>
           <p className="mt-4 max-w-[520px] text-base leading-[1.55] text-white/65">
-            Внедрение агентов и пайплайнов от 50 000 ₽, обучение команд,
-            advisory-подписка. Начинаем с 30-минутного разговора о задаче.
+            Внедряю AI-системы под ключ от 50 000 ₽, учу команду работать с ними
+            и остаюсь на связи. Начинаем с 30-минутного разговора о задаче.
           </p>
           <p className="mt-3.5 font-hand text-[22px] font-semibold text-white/60">
             ↳ ответ в течение рабочего дня

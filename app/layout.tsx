@@ -38,14 +38,16 @@ const serifFont = Playfair_Display({
   display: "swap",
 });
 
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://vladlyamin.ru";
+
 export const metadata: Metadata = {
   title: {
     default: "Влад Лямин — AI-инженер. Внедряю AI-системы, которые окупаются",
     template: "%s — Влад Лямин",
   },
   description:
-    "Внедряю AI-системы, которые окупаются, а не презентуются. Консультации 1:1, AI-аудит, гайды и внедрение автоматизации для бизнеса. Влад Лямин, AI-инженер, Новосибирск.",
-  metadataBase: new URL("https://lvmn.vercel.app"),
+    "Внедряю AI-системы, которые окупаются, а не презентуются. Консультации 1:1, AI-аудит, гайды и внедрение автоматизации для бизнеса. Влад Лямин, AI-инженер.",
+  metadataBase: new URL(siteUrl),
   openGraph: {
     type: "website",
     siteName: "Влад Лямин — AI-инженер",
@@ -65,6 +67,40 @@ export const metadata: Metadata = {
   },
 };
 
+const personSchema = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "@id": `${siteUrl}/#person`,
+  name: "Влад Лямин",
+  alternateName: "Vladislav Lyamin",
+  url: siteUrl,
+  image: `${siteUrl}/portrait.jpg`,
+  description:
+    "AI-инженер: помогаю фаундерам и экспертам внедрить AI-системы, которые окупаются. 40+ внедрений, 50+ обученных с 2022 года.",
+  jobTitle: "AI Engineer",
+  knowsAbout: [
+    "AI-автоматизация бизнеса",
+    "n8n",
+    "Supabase",
+    "Claude API",
+    "Telegram Bot API",
+    "JavaScript",
+    "Node.js",
+    "Business Process Automation",
+  ],
+  sameAs: ["https://t.me/lyaminvl"],
+};
+
+const websiteSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "@id": `${siteUrl}/#website`,
+  name: "Влад Лямин",
+  url: siteUrl,
+  inLanguage: "ru",
+  author: { "@id": `${siteUrl}/#person` },
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -77,6 +113,14 @@ export default function RootLayout({
       >
         <PostHogProvider>{children}</PostHogProvider>
         <YandexMetrika />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(personSchema) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
+        />
       </body>
     </html>
   );

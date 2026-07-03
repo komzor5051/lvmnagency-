@@ -14,6 +14,18 @@ const btnOutline = `${btnBase} border-2 border-ink bg-transparent text-ink hover
 export function BuyAction({ product }: { product: Product }) {
   const { buy } = product;
 
+  if (buy.kind === "lava-widget") {
+    // lava.top embedded pay button — buyer pays without leaving the site.
+    return (
+      <iframe
+        title="Оплата — Lava.top"
+        src={buy.src}
+        className="block w-full"
+        style={{ border: "none", height: 52 }}
+      />
+    );
+  }
+
   if (buy.kind === "lava") {
     if (buy.url) {
       return (

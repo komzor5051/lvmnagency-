@@ -2,8 +2,6 @@ import { TELEGRAM_URL } from "@/lib/products";
 
 const links = [
   { label: "Telegram", href: TELEGRAM_URL },
-  { label: "GitHub", href: "https://github.com/komzor5051" },
-  { label: "Email", href: "mailto:komzor909@gmail.com" },
 ];
 
 /** Footer: thin top line, copyright left, contact links right, all mono small. */

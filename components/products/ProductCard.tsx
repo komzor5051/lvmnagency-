@@ -17,6 +17,17 @@ const tagOutline = `${tagBase} border-2 border-ink text-ink`;
 function BuyAction({ product }: { product: Product }) {
   const { buy } = product;
 
+  if (buy.kind === "lava-widget") {
+    return (
+      <iframe
+        title="Оплата — Lava.top"
+        src={buy.src}
+        className="block w-full"
+        style={{ border: "none", height: 52 }}
+      />
+    );
+  }
+
   if (buy.kind === "lava") {
     if (buy.url) {
       return (
@@ -25,7 +36,6 @@ function BuyAction({ product }: { product: Product }) {
         </a>
       );
     }
-    // Checkout not configured yet — degrade to the manual Telegram channel.
     return (
       <a href={TELEGRAM_URL} target="_blank" rel="noopener noreferrer" className={btnOutline}>
         {product.cta?.fallback ?? "Написать в Telegram"}
@@ -44,9 +54,9 @@ function BuyAction({ product }: { product: Product }) {
   return <WaitlistForm />;
 }
 
-function CardBody({ product, muted }: { product: Product; muted?: boolean }) {
+function CardBody({ product, step, muted }: { product: Product; step?: number; muted?: boolean }) {
   const tag =
-    product.type === "consultation" ? (
+    product.id === "guide" ? (
       <span className={tagLime}>Начните здесь</span>
     ) : product.type === "coming-soon" ? (
       <span className={tagOutline}>в разработке</span>
@@ -54,6 +64,11 @@ function CardBody({ product, muted }: { product: Product; muted?: boolean }) {
 
   return (
     <>
+      {step !== undefined && (
+        <div className="mb-4 font-mono text-[11px] font-bold tracking-[0.12em] text-ink-muted">
+          {String(step).padStart(2, "0")}
+        </div>
+      )}
       <div className="flex items-center justify-between gap-3">
         <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-ink-muted">
           {product.meta}
@@ -87,9 +102,9 @@ function CardBody({ product, muted }: { product: Product; muted?: boolean }) {
 /**
  * Product card (Brand DS): flat hairline card, sharp corners, no shadow. Border
  * darkens to ink on hover. Coming-soon products render muted with the waitlist
- * form.
+ * form. Pass `step` to show a step number badge (01, 02, …) at the top.
  */
-export function ProductCard({ product }: { product: Product }) {
+export function ProductCard({ product, step }: { product: Product; step?: number }) {
   if (product.type === "coming-soon") {
     return (
       <article className="flex h-full flex-col border border-line bg-paper p-7">
@@ -98,9 +113,17 @@ export function ProductCard({ product }: { product: Product }) {
     );
   }
 
+  const isEntry = product.id === "guide";
+
   return (
-    <article className="group flex h-full flex-col border border-line bg-white p-7 transition-colors duration-200 hover:border-ink">
-      <CardBody product={product} />
+    <article
+      className={`group flex h-full flex-col bg-white p-7 transition-colors duration-200 ${
+        isEntry
+          ? "border border-line border-t-2 border-t-lime hover:border-ink hover:border-t-lime"
+          : "border border-line hover:border-ink"
+      }`}
+    >
+      <CardBody product={product} step={step} />
     </article>
   );
 }

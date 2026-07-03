@@ -3,23 +3,29 @@
 import { useState, type FormEvent } from "react";
 import { TELEGRAM_URL } from "@/lib/products";
 
-const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+// Telegram username: 5-32 chars, starts with a letter, letters/digits/underscores.
+const TELEGRAM_RE = /^[a-zA-Z][a-zA-Z0-9_]{4,31}$/;
+
+// Strip a leading @ and surrounding whitespace so "@user" and "user" both work.
+function normalizeUsername(raw: string): string {
+  return raw.trim().replace(/^@+/, "");
+}
 
 type FormState = "idle" | "loading" | "success" | "error";
 
 /**
- * Course waitlist: email input + black submit button.
+ * Course waitlist: Telegram username input + black submit button.
  * Inline validation; on API failure degrades to the manual Telegram channel.
  */
 export function WaitlistForm() {
-  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [state, setState] = useState<FormState>("idle");
   const [invalid, setInvalid] = useState(false);
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
-    const value = email.trim();
-    if (!EMAIL_RE.test(value)) {
+    const value = normalizeUsername(username);
+    if (!TELEGRAM_RE.test(value)) {
       setInvalid(true);
       return;
     }
@@ -29,7 +35,7 @@ export function WaitlistForm() {
       const res = await fetch("/api/waitlist", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: value }),
+        body: JSON.stringify({ telegram: value }),
       });
       if (!res.ok) throw new Error(`status ${res.status}`);
       setState("success");
@@ -50,15 +56,17 @@ export function WaitlistForm() {
     <form onSubmit={handleSubmit} noValidate className="flex flex-col gap-2">
       <div className="flex gap-2">
         <input
-          type="email"
-          name="email"
-          inputMode="email"
-          autoComplete="email"
-          placeholder="ваш@email.ru"
-          aria-label="Email для листа ожидания"
-          value={email}
+          type="text"
+          name="telegram"
+          inputMode="text"
+          autoComplete="off"
+          autoCapitalize="off"
+          spellCheck={false}
+          placeholder="@username"
+          aria-label="Telegram-ник для листа ожидания"
+          value={username}
           onChange={(e) => {
-            setEmail(e.target.value);
+            setUsername(e.target.value);
             if (invalid) setInvalid(false);
           }}
           className="w-full min-w-0 border border-line bg-white px-3 py-2.5 text-sm text-ink placeholder:text-ink-muted/60 outline-none transition-colors focus:border-ink"
@@ -73,7 +81,7 @@ export function WaitlistForm() {
       </div>
       {invalid && (
         <p className="text-xs text-accent" role="alert">
-          Похоже, в email опечатка. Проверьте адрес.
+          Проверьте ник: латиница, цифры и подчёркивания, от 5 символов. Можно с @.
         </p>
       )}
       {state === "error" && (

@@ -16,11 +16,11 @@ export function FinalCta() {
       <Reveal className="mx-auto max-w-7xl px-5 py-20 text-center md:px-10 md:py-24">
         <div data-reveal>
           <h2 className="font-heading text-4xl font-extrabold tracking-[-0.03em] text-ink md:text-[52px] md:leading-none">
-            Один час изменит всё
+            Разберём вашу задачу вместе — за час
           </h2>
           <p className="mx-auto mt-4 max-w-[480px] text-base text-ink-muted">
-            Консультация — самый быстрый способ понять, что AI даст именно
-            вашему бизнесу.
+            Приходите с вопросом, процессом или идеей. Уходите со списком:
+            что делать, на каком инструменте, в каком порядке.
           </p>
           {isExternal(href) ? (
             <a href={href} target="_blank" rel="noopener noreferrer" className={btnClass}>

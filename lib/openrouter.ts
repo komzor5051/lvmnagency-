@@ -36,20 +36,36 @@ function stripArtifacts(text: string): string {
 
 export async function chatCompletion(
   prompt: string,
-  options?: { model?: string; temperature?: number; maxTokens?: number }
+  options?: {
+    model?: string;
+    temperature?: number;
+    maxTokens?: number;
+    // Reasoning ("thinking") models like gemini-2.5-flash spend hidden tokens on
+    // reasoning that count against max_tokens — left on, they can truncate the
+    // visible answer mid-output. Pass { enabled: false } for tasks that need a
+    // complete, parseable response (e.g. JSON generation).
+    reasoning?: { enabled?: boolean; max_tokens?: number; effort?: string };
+    // OpenRouter native JSON mode — forces a clean JSON object with no markdown
+    // fences, removing the need to strip ```json wrappers before parsing.
+    responseFormat?: { type: "json_object" };
+  }
 ): Promise<string> {
+  const body: Record<string, unknown> = {
+    model: options?.model ?? "google/gemini-2.5-flash",
+    messages: [{ role: "user", content: prompt }],
+    temperature: options?.temperature ?? 0.7,
+    max_tokens: options?.maxTokens ?? 8192,
+  };
+  if (options?.reasoning) body.reasoning = options.reasoning;
+  if (options?.responseFormat) body.response_format = options.responseFormat;
+
   const res = await fetch(`${BASE_URL}/chat/completions`, {
     method: "POST",
     headers: {
       ...HEADERS,
       Authorization: `Bearer ${process.env.OPENROUTER_API_KEY ?? ""}`,
     },
-    body: JSON.stringify({
-      model: options?.model ?? "google/gemini-2.5-flash",
-      messages: [{ role: "user", content: prompt }],
-      temperature: options?.temperature ?? 0.7,
-      max_tokens: options?.maxTokens ?? 8192,
-    }),
+    body: JSON.stringify(body),
   });
 
   if (!res.ok) {
@@ -71,7 +87,7 @@ export async function generateImage(prompt: string): Promise<Buffer> {
       Authorization: `Bearer ${process.env.OPENROUTER_API_KEY ?? ""}`,
     },
     body: JSON.stringify({
-      model: "google/gemini-3-pro-image-preview",
+      model: "openai/gpt-5.4-image-2",
       messages: [{ role: "user", content: prompt }],
     }),
   });
@@ -84,30 +100,17 @@ export async function generateImage(prompt: string): Promise<Buffer> {
   const data = await res.json();
   const message = data.choices?.[0]?.message;
 
-  // OpenRouter returns images in message.images[] array
+  // Response has images in message.images[].image_url
   const images = message?.images;
-  if (Array.isArray(images)) {
-    for (const img of images) {
-      const url: string = img?.image_url?.url ?? img?.url ?? "";
-      if (url.startsWith("data:")) {
-        const b64 = url.split(",")[1];
-        return Buffer.from(b64, "base64");
-      }
-      if (url) {
-        const imgRes = await fetch(url);
-        return Buffer.from(await imgRes.arrayBuffer());
-      }
+  if (Array.isArray(images) && images.length > 0) {
+    const url: string = images[0]?.image_url?.url ?? images[0]?.url ?? "";
+    if (url.startsWith("data:")) {
+      const b64 = url.split(",")[1];
+      return Buffer.from(b64, "base64");
     }
-  }
-
-  // Fallback: check content for inline base64
-  const content = message?.content;
-  if (typeof content === "string") {
-    const b64Match = content.match(
-      /data:image\/[^;]+;base64,([A-Za-z0-9+/=]+)/
-    );
-    if (b64Match) {
-      return Buffer.from(b64Match[1], "base64");
+    if (url) {
+      const imgRes = await fetch(url);
+      return Buffer.from(await imgRes.arrayBuffer());
     }
   }
 

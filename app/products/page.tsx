@@ -4,10 +4,21 @@ import { products, type Product } from "@/lib/products";
 import { Reveal } from "@/components/motion/Reveal";
 import { ProductSection } from "./ProductSection";
 
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://vladlyamin.ru";
+
 export const metadata: Metadata = {
   title: "Продукты — Влад Лямин",
   description:
     "Консультация 1:1, гайд по AI в бизнесе, AI-аудит процессов и мини-курс по автоматизации. Форматы под разный масштаб задачи — выберите свой.",
+  alternates: { canonical: `${siteUrl}/products` },
+  openGraph: {
+    title: "Продукты — Влад Лямин",
+    description:
+      "Консультация 1:1, гайд по AI в бизнесе, AI-аудит процессов и мини-курс по автоматизации.",
+    type: "website",
+    url: `${siteUrl}/products`,
+    locale: "ru_RU",
+  },
 };
 
 // Display order on the page; products outside this list are appended as-is.
@@ -54,9 +65,9 @@ export default function ProductsPage() {
               data-reveal
               className="mt-6 max-w-2xl text-lg leading-relaxed text-ink-muted"
             >
-              Один и тот же опыт — в форматах под разный масштаб задачи: от
-              гайда, который читается за вечер, до аудита всего бизнеса.
-              Начните с того, что уместно сейчас, — дальше видно будет.
+              Один и тот же опыт — в форматах под разный масштаб: от гайда на
+              вечер до разбора всего бизнеса. Начните с того, что уместно
+              сейчас, — дальше видно будет.
             </p>
           </header>
         </Reveal>

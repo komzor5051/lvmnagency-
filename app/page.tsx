@@ -1,8 +1,9 @@
 import { Nav } from "@/components/home/Nav";
 import { Hero } from "@/components/home/Hero";
-import { ProofStrip } from "@/components/home/ProofStrip";
+import { NotStrip } from "@/components/home/NotStrip";
 import { TeachingStrip } from "@/components/home/TeachingStrip";
 import { ProductsSection } from "@/components/home/ProductsSection";
+import { CourseBanner } from "@/components/home/CourseBanner";
 import { DarkBusiness } from "@/components/home/DarkBusiness";
 import { CasesSection } from "@/components/home/CasesSection";
 import { AboutTeaser } from "@/components/home/AboutTeaser";
@@ -17,9 +18,10 @@ export default function HomePage() {
       <Nav />
       <main>
         <Hero />
-        <ProofStrip />
         <TeachingStrip />
+        <NotStrip />
         <ProductsSection />
+        <CourseBanner />
         <DarkBusiness />
         <CasesSection />
         <AboutTeaser />

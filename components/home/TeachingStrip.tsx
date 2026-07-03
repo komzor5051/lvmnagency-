@@ -2,7 +2,8 @@ import { Reveal } from "@/components/motion/Reveal";
 
 type Item = {
   name: string;
-  role: string[];
+  desc: string;
+  audience?: string;
   href?: string;
   hrefLabel?: string;
 };
@@ -10,17 +11,20 @@ type Item = {
 const items: Item[] = [
   {
     name: "Web3nity",
-    role: ["куратор AI-курсов", "сейчас"],
+    desc: "Образовательная платформа о Web3 и AI — веду авторский курс по внедрению AI в работу для их аудитории.",
+    audience: "предприниматели и продакты",
     href: "https://www.youtube.com/@Web3nity",
     hrefLabel: "youtube",
   },
   {
     name: "Дмитрий Румянцев",
-    role: ["куратор курсов", "маркетолога"],
+    desc: "Известный digital-маркетолог, автор книг и курсов для профессионалов рынка — провожу AI-модуль в его программе.",
+    audience: "500+ маркетологов",
   },
   {
     name: "Никита Корытин · ТИТАНЫ",
-    role: ["экспертный AI-контент", "для закрытого клуба"],
+    desc: "Закрытый клуб топовых маркетологов с отбором по invite — приглашённый AI-эксперт: контент и занятия внутри клуба.",
+    audience: "закрытое сообщество",
     href: "https://nkorytin.ru/",
     hrefLabel: "nkorytin.ru",
   },
@@ -52,12 +56,13 @@ export function TeachingStrip() {
                 {item.name}
               </div>
               <p className="mt-2 text-sm leading-relaxed text-ink-muted">
-                {item.role.map((line, i) => (
-                  <span key={i} className="block">
-                    {line}
-                  </span>
-                ))}
+                {item.desc}
               </p>
+              {item.audience && (
+                <p className="mt-2 font-mono text-[11px] text-ink-muted/70 uppercase tracking-[0.1em]">
+                  {item.audience}
+                </p>
+              )}
               {item.href && (
                 <a
                   href={item.href}

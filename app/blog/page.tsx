@@ -4,19 +4,21 @@ import type { Metadata } from "next";
 
 export const revalidate = 60;
 
+const blogUrl = process.env.BLOG_URL ?? process.env.NEXT_PUBLIC_SITE_URL ?? "https://vladlyamin.ru";
+
 export const metadata: Metadata = {
-  title: "Блог об AI-автоматизации для бизнеса",
+  title: "AI для фаундеров — блог Влада Лямина",
   description:
-    "Практичные статьи об автоматизации бизнеса с помощью AI от инженера Влада Лямина. Кейсы из реальных внедрений, инструменты, пошаговые руководства.",
+    "Практичные статьи о том, как фаундеры и предприниматели используют AI: кейсы, инструменты, реальные цифры. Без теории — только то, что работает.",
   alternates: {
-    canonical: "https://lvmn.vercel.app/blog",
+    canonical: `${blogUrl}/blog`,
   },
   openGraph: {
-    title: "Блог об AI-автоматизации для бизнеса — Влад Лямин",
+    title: "AI для фаундеров — блог Влада Лямина",
     description:
-      "Практичные статьи об автоматизации бизнеса с помощью AI. Кейсы, инструменты, пошаговые руководства.",
+      "Как фаундеры используют AI: кейсы, инструменты, реальные цифры. Без теории — только то, что работает.",
     type: "website",
-    url: "https://lvmn.vercel.app/blog",
+    url: `${blogUrl}/blog`,
     locale: "ru_RU",
   },
 };
@@ -38,10 +40,10 @@ export default async function BlogPage() {
         Блог
       </p>
       <h1 className="font-heading text-4xl md:text-5xl font-extrabold tracking-[-0.03em] text-ink mb-3">
-        AI-автоматизация для бизнеса
+        AI для фаундеров
       </h1>
       <p className="text-ink-muted mb-4 max-w-[60ch]">
-        Кейсы, тренды, инструменты. Пишу о том, что внедряю руками.
+        Кейсы, инструменты, реальные цифры. Пишу о том, что помогает бизнесу расти.
       </p>
       <div aria-hidden className="h-[3px] w-16 bg-lime mb-10" />
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">

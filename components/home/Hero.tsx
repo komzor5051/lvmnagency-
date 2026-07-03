@@ -43,17 +43,6 @@ export function Hero() {
         stagger: 0.1,
         delay: 0.55,
       });
-
-      // The fact chip gently floats.
-      gsap.utils.toArray<HTMLElement>("[data-chip-float]", root.current).forEach((chip) => {
-        gsap.to(chip, {
-          y: -6,
-          duration: 2.6,
-          ease: "sine.inOut",
-          yoyo: true,
-          repeat: -1,
-        });
-      });
     },
     { scope: root }
   );
@@ -65,27 +54,20 @@ export function Hero() {
     >
       {/* Left: copy */}
       <div>
-        <p
-          data-hero-fade
-          className="mb-3 font-hand text-2xl font-semibold text-ink-muted"
-        >
-          AI-инженер для фаундеров и экспертов · открыт к проектам →
-        </p>
-
         <h1 className="font-heading text-[40px] font-black leading-[1.0] tracking-[-0.04em] text-ink sm:text-[52px] lg:text-[56px] xl:text-[64px]">
           <span className="block overflow-hidden pb-[0.04em]">
             <span data-hero-line className="block">
-              Внедряю AI-системы,
+              Фаундеры тратят часы
             </span>
           </span>
           <span className="block overflow-hidden pb-[0.08em]">
             <span data-hero-line className="block">
-              которые <span className="lime-mark">окупаются</span>,
+              на задачи, которые AI
             </span>
           </span>
           <span className="block overflow-hidden pb-[0.04em]">
             <span data-hero-line className="block">
-              а не презентуются.
+              решает <span className="lime-mark">за минуты</span>.
             </span>
           </span>
         </h1>
@@ -94,9 +76,9 @@ export function Hero() {
           data-hero-fade
           className="mt-7 max-w-[540px] text-[17px] leading-[1.55] text-ink-muted md:text-[18px]"
         >
-          Меня зовут Влад. С 2022 года я собрал 40+ AI-внедрений для бизнеса —
-          агенты, пайплайны, автоматизация. Помогаю в том масштабе, который
-          нужен вам сейчас: от часовой консультации до системы под ключ.
+          Нахожу, где ваш бизнес теряет время, строю AI-систему под ключ и
+          передаю команде — чтобы работало без меня. Один человек, конкретный
+          план, измеримый результат за 1–3 дня.
         </p>
 
         <div data-hero-fade className="mt-8 flex flex-wrap items-center gap-5">
@@ -105,27 +87,29 @@ export function Hero() {
               href={ctaHref}
               target="_blank"
               rel="noopener noreferrer"
-              className="group inline-flex items-center gap-2 bg-ink px-7 py-4 text-sm font-bold tracking-tight text-paper transition-transform duration-200 hover:-translate-y-0.5"
+              className="group inline-flex items-center gap-2 bg-ink px-7 py-4 text-sm font-bold tracking-tight text-paper transition-colors duration-200 hover:bg-ink/85"
+              aria-label="Записаться на консультацию — 5 000 рублей"
             >
-              Консультация — 5 000 ₽
+              Разобрать мою задачу — 5 000 ₽
               <span className="transition-transform duration-200 group-hover:translate-x-1">→</span>
             </a>
           ) : (
             <a
               href={ctaHref}
-              className="group inline-flex items-center gap-2 bg-ink px-7 py-4 text-sm font-bold tracking-tight text-paper transition-transform duration-200 hover:-translate-y-0.5"
+              className="group inline-flex items-center gap-2 bg-ink px-7 py-4 text-sm font-bold tracking-tight text-paper transition-colors duration-200 hover:bg-ink/85"
+              aria-label="Записаться на консультацию — 5 000 рублей"
             >
-              Консультация — 5 000 ₽
+              Разобрать мою задачу — 5 000 ₽
               <span className="transition-transform duration-200 group-hover:translate-x-1">→</span>
             </a>
           )}
           <a href="#products" className="link-ul py-1 text-sm">
-            Форматы и цены ↓
+            Или начать с гайда — 990 ₽
           </a>
         </div>
 
         <p data-hero-fade className="mt-4 font-hand text-[22px] font-semibold text-ink-muted">
-          ↳ запись и план остаются у вас
+          ↳ консультация 60 минут · план и запись остаются у вас
         </p>
       </div>
 
@@ -135,7 +119,7 @@ export function Hero() {
           <div className="relative aspect-[4/5] w-full overflow-hidden border border-line">
             <Image
               src="/portrait.jpg"
-              alt="Влад Лямин, AI-инженер"
+              alt="Влад Лямин"
               fill
               priority
               sizes="(min-width: 1024px) 420px, 90vw"
@@ -143,18 +127,6 @@ export function Hero() {
             />
           </div>
 
-          <div className="absolute -left-3.5 bottom-6 [transform:translateZ(0)]">
-            <div
-              data-chip-float
-              className="border border-ink bg-white px-3 py-2 font-mono text-[11px] font-medium text-ink"
-            >
-              <span
-                className="mr-1.5 inline-block h-[7px] w-[7px] bg-ink align-middle"
-                aria-hidden="true"
-              />
-              беру проекты на июль
-            </div>
-          </div>
         </div>
       </div>
     </section>
