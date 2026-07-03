@@ -4,6 +4,7 @@
 // page via [data-reveal] marks.
 
 import type { Product } from "@/lib/products";
+import Link from "next/link";
 import { BuyAction } from "./BuyAction";
 import { Faq } from "./Faq";
 import { productExtras } from "./content";
@@ -48,8 +49,15 @@ export function ProductSection({ product, index }: { product: Product; index: nu
         <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-ink-muted">
           <span className="text-accent">{num}</span> · {typeLabels[product.type]}
         </p>
-        <h2 className="font-heading mt-5 text-3xl font-bold leading-[1.05] tracking-[-0.03em] text-ink md:text-4xl">
+        <h2 className="font-heading mt-5 flex items-baseline gap-2 text-3xl font-bold leading-[1.05] tracking-[-0.03em] text-ink md:text-4xl">
           {product.title}
+          <Link
+            href={`/products/${product.id}`}
+            aria-label={`Постоянная ссылка на ${product.title}`}
+            className="font-mono text-base font-normal tracking-normal text-ink-muted no-underline transition-colors hover:text-ink"
+          >
+            #
+          </Link>
         </h2>
         <p className="mt-4 font-mono text-xs uppercase tracking-[0.14em] text-ink-muted">
           {product.meta}
