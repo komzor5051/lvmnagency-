@@ -29,7 +29,7 @@ export async function generateMetadata({
   const product = getProduct(slug);
   if (!product) return {};
 
-  const title = `${product.title} — Влад Лямин`;
+  const title = product.title;
   const description = product.tagline;
   const url = `${siteUrl}/products/${product.id}`;
 
