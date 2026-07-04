@@ -1,33 +1,33 @@
 import { Nav } from "@/components/home/Nav";
 import { Hero } from "@/components/home/Hero";
 import { NotStrip } from "@/components/home/NotStrip";
-import { TeachingStrip } from "@/components/home/TeachingStrip";
+import { SystemSection } from "@/components/home/SystemSection";
 import { ProductsSection } from "@/components/home/ProductsSection";
 import { CourseBanner } from "@/components/home/CourseBanner";
-import { DarkBusiness } from "@/components/home/DarkBusiness";
 import { CasesSection } from "@/components/home/CasesSection";
-import { AboutTeaser } from "@/components/home/AboutTeaser";
-import { FinalCta } from "@/components/home/FinalCta";
+import { SignalSection } from "@/components/home/SignalSection";
 import { Footer } from "@/components/home/Footer";
+import { CanvasStage } from "@/components/home/engine/CanvasStage";
 
-// Homepage — server component shell, client sections handle their own motion.
-// Spec: docs/superpowers/specs/2026-06-10-personal-site-redesign-design.md
+// Homepage — «Сигнал из шума»: a fixed particle canvas under server-rendered
+// chapters. Spec: docs/superpowers/specs/2026-07-04-signal-from-noise-design.md
 export default function HomePage() {
   return (
     <div className="bg-paper text-ink">
-      <Nav />
-      <main>
-        <Hero />
-        <TeachingStrip />
-        <NotStrip />
-        <ProductsSection />
-        <CourseBanner />
-        <DarkBusiness />
-        <CasesSection />
-        <AboutTeaser />
-        <FinalCta />
-      </main>
-      <Footer />
+      <CanvasStage />
+      <div className="relative z-[1]">
+        <Nav />
+        <main>
+          <Hero />
+          <SystemSection />
+          <NotStrip />
+          <CasesSection />
+          <ProductsSection />
+          <CourseBanner />
+          <SignalSection />
+        </main>
+        <Footer />
+      </div>
     </div>
   );
 }

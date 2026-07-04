@@ -1,6 +1,7 @@
 import { products } from "@/lib/products";
 import { ProductCard } from "@/components/products/ProductCard";
 import { Reveal } from "@/components/motion/Reveal";
+import { SketchFrame } from "@/components/motion/SketchFrame";
 
 export function ProductsSection() {
   const mainProducts = products.filter((p) => p.type !== "coming-soon");
@@ -10,7 +11,7 @@ export function ProductsSection() {
     <section id="products" className="scroll-mt-20">
       <div className="mx-auto max-w-7xl px-5 py-20 md:px-10 md:py-24">
         <p className="font-mono text-[11px] uppercase tracking-[0.15em] text-ink-muted">
-          01 — Продукты
+          03 — Продукты
         </p>
         <h2 className="mt-3 font-heading text-3xl font-extrabold tracking-[-0.03em] text-ink md:text-[42px] md:leading-tight">
           Выберите точку входа под свою задачу
@@ -29,14 +30,18 @@ export function ProductsSection() {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {mainProducts.map((p, i) => (
               <div key={p.id} data-reveal>
-                <ProductCard product={p} step={i + 1} />
+                <SketchFrame>
+                  <ProductCard product={p} step={i + 1} />
+                </SketchFrame>
               </div>
             ))}
           </div>
 
           {courseProduct && (
             <div data-reveal className="mt-4">
-              <ProductCard product={courseProduct} />
+              <SketchFrame>
+                <ProductCard product={courseProduct} />
+              </SketchFrame>
             </div>
           )}
         </Reveal>

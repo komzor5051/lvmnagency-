@@ -688,3 +688,12 @@ body {
   box-decoration-break: clone;
   -webkit-box-decoration-break: clone;
 }
+
+/* Homepage particle stage: when the canvas engine is running it draws the
+   halftone portrait itself, so the static fallback image fades out. */
+[data-canvas="on"] .canvas-hide {
+  opacity: 0;
+}
+.canvas-hide {
+  transition: opacity 0.4s ease;
+}

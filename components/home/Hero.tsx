@@ -113,20 +113,24 @@ export function Hero() {
         </p>
       </div>
 
-      {/* Right: photo in a flat hairline frame with one floating chip */}
+      {/* Right: halftone portrait in a flat hairline frame. When the particle
+          engine runs, it assembles the same portrait from dots at this anchor
+          and the static image fades out (.canvas-hide). */}
       <div className="mx-auto w-full max-w-[420px] lg:ml-auto lg:mr-0" data-hero-fade>
         <div className="relative w-full">
-          <div className="relative aspect-[4/5] w-full overflow-hidden border border-line">
+          <div
+            data-stage="portrait"
+            className="relative aspect-[3/4] w-full overflow-hidden border border-line"
+          >
             <Image
-              src="/portrait.jpg"
-              alt="Влад Лямин"
+              src="/portrait-halftone.png"
+              alt="Влад Лямин — halftone-портрет"
               fill
               priority
               sizes="(min-width: 1024px) 420px, 90vw"
-              className="object-cover"
+              className="canvas-hide object-cover"
             />
           </div>
-
         </div>
       </div>
     </section>

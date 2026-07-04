@@ -56,7 +56,7 @@ export function CasesSection() {
     <section id="cases" className="scroll-mt-20">
       <div className="mx-auto max-w-7xl px-5 py-20 md:px-10 md:py-24">
         <p className="font-mono text-[11px] uppercase tracking-[0.15em] text-ink-muted">
-          03 — Кейсы
+          02 — Кейсы
         </p>
         <h2 className="mt-3 font-heading text-3xl font-extrabold tracking-[-0.03em] text-ink md:text-[42px] md:leading-tight">
           Цифры из <span className="lime-mark">реальных</span> проектов
@@ -66,20 +66,23 @@ export function CasesSection() {
         </p>
 
         <Reveal className="mt-8 border-t border-ink" stagger={0.15}>
+          <div data-stage="counters">
           {cases.map((c) => (
             <div
               key={c.tag}
               data-reveal
               className="grid grid-cols-[96px_1fr] items-baseline gap-x-5 gap-y-2 border-b border-line py-6 md:grid-cols-[120px_1fr_200px]"
             >
-              <CountUp
-                value={c.value}
-                prefix={c.prefix}
-                suffix={c.suffix}
-                decimals={c.decimals}
-                duration={1.1}
-                className="font-heading text-3xl font-extrabold tracking-[-0.03em] text-ink"
-              />
+              <span data-stage-counter>
+                <CountUp
+                  value={c.value}
+                  prefix={c.prefix}
+                  suffix={c.suffix}
+                  decimals={c.decimals}
+                  duration={1.1}
+                  className="font-heading text-3xl font-extrabold tracking-[-0.03em] text-ink"
+                />
+              </span>
               <p className="text-[17px] font-medium leading-snug text-ink">
                 {c.description}
               </p>
@@ -88,6 +91,7 @@ export function CasesSection() {
               </p>
             </div>
           ))}
+          </div>
         </Reveal>
       </div>
     </section>
