@@ -27,7 +27,7 @@ export default function HandDrawn({ kind, className = '', children }: { kind: ke
       ease: 'power2.inOut',
       scrollTrigger: { trigger: ref.current, start: 'top 80%', once: true },
     })
-  }, { dependencies: [reduced] })
+  }, { dependencies: [reduced], revertOnUpdate: true })
 
   const underlineStyle = kind === 'underline'
     ? { left: '-2%', top: 'auto' as const, bottom: '-0.18em', width: '104%', height: '0.28em' }

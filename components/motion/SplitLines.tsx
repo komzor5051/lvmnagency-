@@ -32,7 +32,7 @@ export default function SplitLines({ as: Tag = 'div', className = '', children }
       scrollTrigger: { trigger: el, start: 'top 85%', once: true },
     })
     return () => split.revert()
-  }, { dependencies: [reduced] })
+  }, { dependencies: [reduced], revertOnUpdate: true })
 
   return <Tag ref={ref as React.Ref<never>} className={className}>{children}</Tag>
 }
