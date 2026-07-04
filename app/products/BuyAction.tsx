@@ -1,6 +1,7 @@
 // Local buy action for /products — mirrors the action logic of
 // components/products/ProductCard.tsx (shared file, not editable from here).
-// Buttons: black fill or black outline only. Orange never fills a button.
+// Buttons: ink fill (hover lime) or ink outline only — matches the White +
+// Lime CTA pattern used on the homepage and /about.
 
 import Link from "next/link";
 import { TELEGRAM_URL, type Product } from "@/lib/products";
@@ -8,7 +9,7 @@ import { WaitlistForm } from "@/components/products/WaitlistForm";
 
 const btnBase =
   "inline-flex w-full items-center justify-center px-6 py-3.5 text-sm font-bold tracking-tight transition-colors";
-const btnSolid = `${btnBase} bg-ink text-paper hover:bg-black`;
+const btnSolid = `${btnBase} bg-ink text-white hover:bg-lime hover:text-ink`;
 const btnOutline = `${btnBase} border-2 border-ink bg-transparent text-ink hover:bg-ink hover:text-paper`;
 
 export function BuyAction({ product }: { product: Product }) {

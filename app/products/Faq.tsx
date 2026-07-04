@@ -8,9 +8,7 @@ export function Faq({ items }: { items: ProductFaq[] }) {
 
   return (
     <div>
-      <h3 className="font-mono text-[11px] uppercase tracking-[0.18em] text-ink-muted">
-        Вопросы
-      </h3>
+      <h3 className="mono-label text-ink-muted">Вопросы</h3>
       <div className="mt-4 border-t border-line">
         {items.map((item) => (
           <details key={item.q} className="group border-b border-line">
@@ -20,7 +18,7 @@ export function Faq({ items }: { items: ProductFaq[] }) {
               </span>
               <span
                 aria-hidden="true"
-                className="relative top-0.5 shrink-0 font-mono text-lg leading-none text-accent transition-transform duration-200 ease-out group-open:rotate-45"
+                className="relative top-0.5 shrink-0 font-mono text-lg leading-none text-ink-muted transition-transform duration-200 ease-out group-open:rotate-45 group-open:text-lime-dark"
               >
                 +
               </span>

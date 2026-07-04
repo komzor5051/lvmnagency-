@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getProduct, products, type Product } from "@/lib/products";
-import { Reveal } from "@/components/motion/Reveal";
+import Chapter from "@/components/hud/Chapter";
+import SplitLines from "@/components/motion/SplitLines";
 import { BuyAction } from "../BuyAction";
 import { Faq } from "../Faq";
 import { productExtras } from "../content";
@@ -50,13 +51,11 @@ export async function generateMetadata({
 function BulletList({ title, items }: { title: string; items: string[] }) {
   return (
     <div>
-      <h3 className="font-mono text-[11px] uppercase tracking-[0.18em] text-ink-muted">
-        {title}
-      </h3>
+      <h3 className="mono-label text-ink-muted">{title}</h3>
       <ul className="mt-4 space-y-3">
         {items.map((item) => (
           <li key={item} className="flex gap-4 text-sm leading-relaxed text-ink">
-            <span aria-hidden="true" className="mt-[0.65em] h-0.5 w-4 shrink-0 bg-accent" />
+            <span aria-hidden="true" className="mt-[0.65em] h-0.5 w-4 shrink-0 bg-lime" />
             <span>{item}</span>
           </li>
         ))}
@@ -77,28 +76,24 @@ export default async function ProductPage({
   const extra = productExtras[product.id];
 
   return (
-    <main className="bg-paper text-ink">
-      <div className="mx-auto max-w-3xl px-6 pb-24 pt-10 md:pb-32">
-        <nav aria-label="Хлебные крошки">
-          <Link
-            href="/products"
-            className="font-mono text-xs tracking-[0.08em] text-ink-muted transition-colors hover:text-ink"
-          >
-            &larr; Продукты
-          </Link>
-        </nav>
+    <main>
+      <Chapter name={product.title} theme="light" className="px-[6vw] pb-24 pt-10 md:pb-32">
+        <div className="mx-auto max-w-3xl">
+          <nav aria-label="Хлебные крошки">
+            <Link
+              href="/products"
+              className="mono-label text-ink-muted transition-colors hover:text-ink"
+            >
+              &larr; Продукты
+            </Link>
+          </nav>
 
-        <Reveal>
-          <header data-reveal className="pb-10 pt-14 md:pt-20">
-            <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-ink-muted">
-              {typeLabels[product.type]}
-            </p>
-            <h1 className="font-heading mt-5 text-4xl font-extrabold leading-[1.02] tracking-[-0.04em] text-ink md:text-6xl">
+          <header className="pb-10 pt-14 md:pt-20">
+            <p className="mono-label text-ink-muted">{typeLabels[product.type]}</p>
+            <SplitLines as="h1" className="font-display mt-5 text-[clamp(40px,6vw,84px)]">
               {product.title}
-            </h1>
-            <p className="mt-4 font-mono text-xs uppercase tracking-[0.14em] text-ink-muted">
-              {product.meta}
-            </p>
+            </SplitLines>
+            <p className="mono-label mt-4 text-ink-muted">{product.meta}</p>
             <p className="mt-8 text-3xl font-bold tracking-[-0.02em] text-ink">
               {product.priceLabel}
             </p>
@@ -108,7 +103,7 @@ export default async function ProductPage({
           </header>
 
           <div className="space-y-12">
-            <div data-reveal className="space-y-5">
+            <div className="space-y-5">
               {product.description.map((paragraph) => (
                 <p key={paragraph} className="text-base leading-relaxed text-ink md:text-lg">
                   {paragraph}
@@ -117,20 +112,20 @@ export default async function ProductPage({
             </div>
 
             {extra && (
-              <div data-reveal className="grid gap-10 sm:grid-cols-2 sm:gap-8">
+              <div className="grid gap-10 sm:grid-cols-2 sm:gap-8">
                 <BulletList title="Для кого" items={extra.forWhom} />
                 <BulletList title="Что внутри" items={extra.inside} />
               </div>
             )}
 
             {product.faq && product.faq.length > 0 && (
-              <div data-reveal>
+              <div>
                 <Faq items={product.faq} />
               </div>
             )}
           </div>
-        </Reveal>
-      </div>
+        </div>
+      </Chapter>
     </main>
   );
 }
