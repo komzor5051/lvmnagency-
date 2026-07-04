@@ -1,5 +1,8 @@
 import { supabase } from "@/lib/supabase";
 import { PostCard } from "@/components/post-card";
+import Link from "next/link";
+import Chapter from "@/components/hud/Chapter";
+import SplitLines from "@/components/motion/SplitLines";
 import type { Metadata } from "next";
 
 export const revalidate = 60;
@@ -32,38 +35,44 @@ export default async function BlogPage() {
     .limit(50);
 
   return (
-    <div>
-      <p className="font-mono text-xs uppercase tracking-[0.15em] text-ink-muted mb-3">
-        <span aria-hidden className="text-accent">
-          {"//"}
-        </span>{" "}
-        Блог
-      </p>
-      <h1 className="font-heading text-4xl md:text-5xl font-extrabold tracking-[-0.03em] text-ink mb-3">
-        AI для фаундеров
-      </h1>
-      <p className="text-ink-muted mb-4 max-w-[60ch]">
-        Кейсы, инструменты, реальные цифры. Пишу о том, что помогает бизнесу расти.
-      </p>
-      <div aria-hidden className="h-[3px] w-16 bg-lime mb-10" />
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-        {(posts ?? []).map((post) => (
-          <PostCard
-            key={post.slug}
-            slug={post.slug}
-            title={post.title}
-            metaDesc={post.meta_desc}
-            publishedAt={post.published_at}
-            tags={post.tags ?? []}
-            coverImage={post.cover_image}
-          />
-        ))}
-        {(!posts || posts.length === 0) && (
-          <p className="text-ink-muted py-12 text-center font-mono text-sm">
-            Статьи скоро появятся
+    <main>
+      <Chapter name="Blog" theme="light" className="bg-paper2 px-[6vw] pb-24 pt-10 md:pb-32">
+        <nav aria-label="Хлебные крошки">
+          <Link
+            href="/"
+            className="mono-label text-ink-muted transition-colors hover:text-ink"
+          >
+            &larr; На главную
+          </Link>
+        </nav>
+
+        <header className="pb-14 pt-14 md:pb-20 md:pt-20">
+          <p className="mono-label text-ink-muted">Блог</p>
+          <SplitLines as="h1" className="font-display mt-6 text-[clamp(40px,7vw,96px)]">
+            Заметки о <em>системах</em>
+          </SplitLines>
+          <p className="mt-6 max-w-2xl text-lg leading-relaxed text-ink-muted">
+            Кейсы, инструменты, реальные цифры. Пишу о том, что помогает бизнесу расти.
           </p>
-        )}
-      </div>
-    </div>
+        </header>
+
+        <div className="border-t border-line">
+          {(posts ?? []).map((post) => (
+            <PostCard
+              key={post.slug}
+              slug={post.slug}
+              title={post.title}
+              publishedAt={post.published_at}
+              coverImage={post.cover_image}
+            />
+          ))}
+          {(!posts || posts.length === 0) && (
+            <p className="mono-label py-16 text-center text-ink-muted">
+              Статьи скоро появятся
+            </p>
+          )}
+        </div>
+      </Chapter>
+    </main>
   );
 }

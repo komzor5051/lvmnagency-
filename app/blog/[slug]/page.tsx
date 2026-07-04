@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { TableOfContents } from "@/components/table-of-contents";
 import { CopyableCode } from "@/components/copyable-code";
-import { CoverTitle } from "@/components/blog/CoverTitle";
+import SplitLines from "@/components/motion/SplitLines";
 
 export const revalidate = 60;
 
@@ -161,71 +161,53 @@ export default async function ArticlePage({ params }: Props) {
     <>
       <article>
         {/* Breadcrumbs */}
-        <nav className="font-mono text-xs uppercase tracking-wider text-ink-muted mb-6">
+        <nav className="mono-label mb-8 text-ink-muted">
           <Link
             href="/blog"
-            className="hover:text-ink hover:underline decoration-accent underline-offset-4 transition-colors"
+            className="transition-colors hover:text-ink"
           >
-            Блог
+            &larr; Блог
           </Link>
-          <span aria-hidden className="mx-2 text-accent">/</span>
-          <span className="text-ink truncate max-w-[200px] sm:max-w-none inline-block align-bottom normal-case">
-            {post.title}
-          </span>
         </nav>
 
-        {/* Header — cinematic cover hero with serif title overlay; falls back
-            to a text header for posts without a cover image. */}
-        {post.cover_image ? (
-          <header className="mb-10">
-            <CoverTitle
-              title={post.title}
-              byline={`${date} · ${minutes} мин чтения`}
-              image={post.cover_image}
-              variant="hero"
-              priority
+        {/* Header — poster H1 (Literata, line-reveal), plain cover image
+            below the title, mono byline/tags. */}
+        <header className="mb-12">
+          <SplitLines
+            as="h1"
+            className="font-display text-[clamp(32px,6vw,72px)] leading-[1.02] text-ink"
+          >
+            {post.title}
+          </SplitLines>
+          <div className="mono-label mt-6 flex flex-wrap items-center gap-x-3 gap-y-1 text-ink-muted">
+            <Link
+              href="/about"
+              className="text-ink transition-colors hover:text-lime-dark"
+            >
+              Влад Лямин
+            </Link>
+            <span aria-hidden>/</span>
+            <time dateTime={post.published_at}>{date}</time>
+            <span aria-hidden>/</span>
+            <span>{minutes} мин чтения</span>
+            {(post.tags ?? []).slice(0, 4).map((tag: string) => (
+              <span key={tag} className="inline-flex items-center gap-1">
+                <span aria-hidden>/</span>
+                {tag}
+              </span>
+            ))}
+          </div>
+          {post.cover_image && (
+            // Supabase public URLs — plain <img> avoids next/image remote config.
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              src={post.cover_image}
+              alt=""
+              aria-hidden
+              className="mt-8 aspect-[16/9] w-full border border-line object-cover sm:aspect-[2/1]"
             />
-            <div className="mt-4 flex flex-wrap items-center gap-x-3 gap-y-1 font-mono text-xs uppercase tracking-wider text-ink-muted">
-              <Link
-                href="/about"
-                className="text-ink hover:underline decoration-ink underline-offset-4 transition-colors"
-              >
-                Влад Лямин
-              </Link>
-              {(post.tags ?? []).slice(0, 4).map((tag: string) => (
-                <span key={tag} className="inline-flex items-center gap-1">
-                  <span aria-hidden className="text-lime-dark">/</span>
-                  {tag}
-                </span>
-              ))}
-            </div>
-          </header>
-        ) : (
-          <header className="mb-10">
-            <h1 className="font-heading text-3xl md:text-5xl font-extrabold tracking-[-0.03em] text-ink mb-5 leading-[1.1]">
-              {post.title}
-            </h1>
-            <div className="flex flex-wrap items-center gap-x-3 gap-y-1 font-mono text-xs uppercase tracking-wider text-ink-muted">
-              <Link
-                href="/about"
-                className="text-ink hover:underline decoration-ink underline-offset-4 transition-colors"
-              >
-                Влад Лямин
-              </Link>
-              <span aria-hidden className="text-ink-muted">/</span>
-              <time dateTime={post.published_at}>{date}</time>
-              <span aria-hidden className="text-ink-muted">/</span>
-              <span>{minutes} мин чтения</span>
-              {(post.tags ?? []).slice(0, 4).map((tag: string) => (
-                <span key={tag} className="inline-flex items-center gap-1">
-                  <span aria-hidden className="text-ink-muted">/</span>
-                  {tag}
-                </span>
-              ))}
-            </div>
-            <div aria-hidden className="mt-6 h-[3px] w-16 bg-lime" />
-          </header>
-        )}
+          )}
+        </header>
 
         {/* Two-column: TOC + Content */}
         <div className="flex flex-col lg:flex-row gap-6 lg:gap-10">

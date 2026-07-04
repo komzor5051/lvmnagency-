@@ -58,7 +58,7 @@ export function TableOfContents({ html }: { html: string }) {
       <nav className="lg:hidden mb-4" aria-label="Оглавление">
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className="flex items-center gap-2 font-mono text-xs uppercase tracking-[0.15em] text-ink w-full py-2.5 px-3 bg-white border border-line"
+          className="mono-label flex w-full items-center gap-2 border border-line px-3 py-2.5 text-ink"
         >
           <svg className={`w-3.5 h-3.5 transition-transform ${isOpen ? "rotate-90" : ""}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -66,7 +66,7 @@ export function TableOfContents({ html }: { html: string }) {
           Оглавление
         </button>
         {isOpen && (
-          <ul className="space-y-0.5 px-3 py-2 bg-white border border-t-0 border-line">
+          <ul className="space-y-0.5 border border-t-0 border-line px-3 py-2">
             {items.map((item) => (
               <li key={item.id}>
                 <a
@@ -93,8 +93,8 @@ export function TableOfContents({ html }: { html: string }) {
         className="hidden lg:block sticky top-24 self-start w-52 shrink-0 max-h-[calc(100vh-8rem)] overflow-y-auto"
         aria-label="Оглавление"
       >
-        <p className="font-mono text-[11px] uppercase tracking-[0.15em] text-ink-muted mb-3">
-          <span aria-hidden className="text-accent">{"//"}</span> Оглавление
+        <p className="mono-label mb-3 text-ink-muted">
+          <span aria-hidden>{"//"}</span> Оглавление
         </p>
         <ul className="space-y-0.5 border-l border-line">
           {items.map((item) => (
