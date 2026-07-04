@@ -79,8 +79,9 @@ export default function HudMenu({ open, onClose }: Props) {
       className={`fixed inset-0 z-[80] flex flex-col justify-between bg-dark text-dark-ink ${open ? 'pointer-events-auto' : 'pointer-events-none'}`}
       style={{ clipPath: HIDDEN_CLIP }}
       aria-hidden={!open}
+      inert={!open}
       onClick={(e) => {
-        if (e.target === e.currentTarget) onClose()
+        if (!(e.target as HTMLElement).closest('a, button')) onClose()
       }}
     >
       <nav
