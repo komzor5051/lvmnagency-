@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter_Tight, Onest, Marck_Script, Playfair_Display, Literata, JetBrains_Mono } from "next/font/google";
 import { YandexMetrika } from "@/components/YandexMetrika";
 import { PostHogProvider } from "@/components/PostHogProvider";
+import LenisProvider from "@/components/motion/LenisProvider";
 import "./globals.css";
 
 // Brand DS — White + Lime. Display: Inter Tight (headline), body: Onest,
@@ -127,16 +128,18 @@ export default function RootLayout({
       <body
         className={`${displayFont.variable} ${bodyFont.variable} ${handFont.variable} ${displaySerif.variable} ${monoFont.variable} ${serifFont.variable} antialiased`}
       >
-        <PostHogProvider>{children}</PostHogProvider>
-        <YandexMetrika />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(personSchema) }}
-        />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
-        />
+        <LenisProvider>
+          <PostHogProvider>{children}</PostHogProvider>
+          <YandexMetrika />
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{ __html: JSON.stringify(personSchema) }}
+          />
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
+          />
+        </LenisProvider>
       </body>
     </html>
   );
