@@ -60,7 +60,7 @@ export default function HudFrame() {
           </button>
         )}
         <span className="mono-label absolute bottom-5 left-6">{extras.bl ?? 'Влад Лямин'}</span>
-        <Link href="https://t.me/lyaminvl" target="_blank"
+        <Link href="https://t.me/lyaminvl" target="_blank" rel="noopener noreferrer"
           className="mono-label pointer-events-auto absolute right-6 bottom-5 hover:text-lime-dark">
           {extras.br ?? '@lyaminvl'}
         </Link>
