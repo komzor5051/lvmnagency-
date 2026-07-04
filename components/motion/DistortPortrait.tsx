@@ -45,9 +45,11 @@ export default function DistortPortrait({ src, alt, className = '' }: { src: str
           const r = el.getBoundingClientRect()
           program.uniforms.uMouse.value = [(e.clientX - r.left) / r.width, 1 - (e.clientY - r.top) / r.height]
         }
+        const onEnter = () => { target = 1 }
+        const onLeave = () => { target = 0 }
         el.addEventListener('mousemove', onMove)
-        el.addEventListener('mouseenter', () => { target = 1 })
-        el.addEventListener('mouseleave', () => { target = 0 })
+        el.addEventListener('mouseenter', onEnter)
+        el.addEventListener('mouseleave', onLeave)
         const loop = () => {
           hover += (target - hover) * 0.08
           program.uniforms.uHover.value = hover
@@ -55,7 +57,7 @@ export default function DistortPortrait({ src, alt, className = '' }: { src: str
           raf = requestAnimationFrame(loop)
         }
         loop()
-        cleanup = () => { cancelAnimationFrame(raf); removeEventListener('resize', resize); gl.canvas.remove() }
+        cleanup = () => { cancelAnimationFrame(raf); removeEventListener('resize', resize); el.removeEventListener('mousemove', onMove); el.removeEventListener('mouseenter', onEnter); el.removeEventListener('mouseleave', onLeave); gl.canvas.remove() }
       } catch { /* fallback: plain img */ }
     })()
     return () => { alive = false; cleanup() }
