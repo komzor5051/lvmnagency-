@@ -3,6 +3,8 @@ import { Inter_Tight, Onest, Marck_Script, Playfair_Display, Literata, JetBrains
 import { YandexMetrika } from "@/components/YandexMetrika";
 import { PostHogProvider } from "@/components/PostHogProvider";
 import LenisProvider from "@/components/motion/LenisProvider";
+import { HudProvider } from "@/components/hud/HudContext";
+import HudFrame from "@/components/hud/HudFrame";
 import "./globals.css";
 
 // Brand DS — White + Lime. Display: Inter Tight (headline), body: Onest,
@@ -129,16 +131,19 @@ export default function RootLayout({
         className={`${displayFont.variable} ${bodyFont.variable} ${handFont.variable} ${displaySerif.variable} ${monoFont.variable} ${serifFont.variable} antialiased`}
       >
         <LenisProvider>
-          <PostHogProvider>{children}</PostHogProvider>
-          <YandexMetrika />
-          <script
-            type="application/ld+json"
-            dangerouslySetInnerHTML={{ __html: JSON.stringify(personSchema) }}
-          />
-          <script
-            type="application/ld+json"
-            dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
-          />
+          <HudProvider>
+            <HudFrame />
+            <PostHogProvider>{children}</PostHogProvider>
+            <YandexMetrika />
+            <script
+              type="application/ld+json"
+              dangerouslySetInnerHTML={{ __html: JSON.stringify(personSchema) }}
+            />
+            <script
+              type="application/ld+json"
+              dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
+            />
+          </HudProvider>
         </LenisProvider>
       </body>
     </html>
