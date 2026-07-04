@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Nav } from "@/components/home/Nav";
 import { Footer } from "@/components/home/Footer";
 import { Reveal } from "@/components/motion/Reveal";
 import { WaitlistForm } from "@/components/products/WaitlistForm";
@@ -11,7 +10,8 @@ export const metadata: Metadata = {
     "8-недельный поток: с нуля собираешь свой работающий продукт — с базой данных, входом для пользователей и публикацией в интернете. Не туториал и не конструктор сайтов, а инженерный подход к работе с AI.",
 };
 
-// Standalone landing — reuses the home Nav/Footer and the White + Lime DS.
+// Standalone landing — reuses the home Footer and the White + Lime DS; the
+// global HUD (components/hud/HudFrame.tsx) replaces the old page-level Nav.
 // Content lives inline: one page, one source of truth.
 // Copy is written for a mixed-beginner audience — no engineering jargon.
 
@@ -145,7 +145,6 @@ const faq = [
 export default function VibecodingPage() {
   return (
     <div className="bg-paper text-ink">
-      <Nav />
       <main>
         {/* Hero */}
         <section className="mx-auto max-w-7xl px-5 pb-16 pt-12 md:px-10 md:pt-[72px] lg:pb-24">
