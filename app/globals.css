@@ -71,7 +71,7 @@
   --color-background: var(--bg);
   --color-foreground: var(--text);
   --font-sans: var(--font-body);
-  --font-heading: var(--font-display);
+  --font-heading: var(--font-heading);
   --font-hand: var(--font-hand);
   --font-serif: var(--font-serif);
   --font-mono: var(--font-mono);
@@ -649,6 +649,15 @@ body {
   --color-lime-dark: #a8d030;
   /* Muted gold for blog cover bylines (a16z-style overlay), cover-only. */
   --color-gold: #c9a875;
+  /* Poster/HUD dark theme colors */
+  --color-paper2: #F7F6F3;
+  --color-dark: #0C0C0C;
+  --color-dark-ink: #EDEDE8;
+  --color-dark-muted: #8A8A84;
+  --color-dark-line: #262626;
+  /* Poster/HUD fonts: display serif and branded mono */
+  --font-display: var(--font-display);
+  --font-mono-brand: var(--font-mono-brand);
   /* Legacy pages (blog/products/about) still read --color-accent as a TEXT
      colour. Lime is unreadable as text on white, so the accent token resolves
      to ink there; lime is applied explicitly (bg-lime / lime-mark) as a fill. */
@@ -697,3 +706,20 @@ body {
 .canvas-hide {
   transition: opacity 0.4s ease;
 }
+
+/* ===== Poster/HUD design system ===== */
+.font-display { font-family: var(--font-display), Georgia, serif; font-weight: 300; letter-spacing: -0.02em; line-height: 0.98; }
+.mono-label { font-family: var(--font-mono-brand), monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; }
+
+/* lime marker: behind text, lower 2/3 of the line only */
+.hl { position: relative; isolation: isolate; white-space: nowrap; }
+.hl::before { content: ''; position: absolute; left: -0.08em; right: -0.08em; top: 0.18em; bottom: -0.02em; background: var(--color-lime); z-index: -1; }
+
+/* outlined ("ghost") display text */
+.ghost { color: transparent; -webkit-text-stroke: 1px currentColor; }
+
+/* hand-drawn svg accents: behind text, below optical center */
+.hw-wrap { position: relative; display: inline-block; isolation: isolate; }
+.hw-wrap > svg { position: absolute; left: -6%; top: 14%; width: 112%; height: 118%; overflow: visible; pointer-events: none; z-index: -1; }
+.hw-wrap > svg path { fill: none; stroke: var(--color-lime-dark); stroke-width: 3; stroke-linecap: round; }
+[data-theme='dark'] .hw-wrap > svg path { stroke: var(--color-lime); }

@@ -1,15 +1,16 @@
 import type { Metadata } from "next";
-import { Inter_Tight, Onest, Caveat, Playfair_Display } from "next/font/google";
+import { Inter_Tight, Onest, Marck_Script, Playfair_Display, Literata, JetBrains_Mono } from "next/font/google";
 import { YandexMetrika } from "@/components/YandexMetrika";
 import { PostHogProvider } from "@/components/PostHogProvider";
 import "./globals.css";
 
-// Brand DS — White + Lime. Display: dense grotesk (Cabinet Grotesk's role),
-// body: Onest (Satoshi analogue), hand: Caveat for annotations. All carry a
+// Brand DS — White + Lime. Display: Inter Tight (headline), body: Onest,
+// serif: Playfair Display (blog covers), display: Literata (poster/HUD),
+// hand: Marck Script (annotations), mono: JetBrains Mono (labels). All carry
 // Cyrillic subset — the brand's Fontshare fonts ship Latin-only, which would
 // silently fall back to system sans on a Russian site.
 const displayFont = Inter_Tight({
-  variable: "--font-display",
+  variable: "--font-heading",
   subsets: ["latin", "cyrillic"],
   weight: ["600", "700", "800", "900"],
   display: "swap",
@@ -22,10 +23,25 @@ const bodyFont = Onest({
   display: "swap",
 });
 
-const handFont = Caveat({
+const handFont = Marck_Script({
   variable: "--font-hand",
   subsets: ["latin", "cyrillic"],
-  weight: ["600", "700"],
+  weight: "400",
+  display: "swap",
+});
+
+const displaySerif = Literata({
+  variable: "--font-display",
+  subsets: ["latin", "cyrillic"],
+  weight: ["200", "300", "400"],
+  style: ["normal", "italic"],
+  display: "swap",
+});
+
+const monoFont = JetBrains_Mono({
+  variable: "--font-mono-brand",
+  subsets: ["latin", "cyrillic"],
+  weight: ["400", "500"],
   display: "swap",
 });
 
@@ -109,7 +125,7 @@ export default function RootLayout({
   return (
     <html lang="ru" className="font-sans">
       <body
-        className={`${displayFont.variable} ${bodyFont.variable} ${handFont.variable} ${serifFont.variable} antialiased`}
+        className={`${displayFont.variable} ${bodyFont.variable} ${handFont.variable} ${displaySerif.variable} ${monoFont.variable} ${serifFont.variable} antialiased`}
       >
         <PostHogProvider>{children}</PostHogProvider>
         <YandexMetrika />
