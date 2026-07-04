@@ -1,7 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import { gsap } from "gsap";
+import Chapter from "@/components/hud/Chapter";
+import { useHudApi } from "@/components/hud/HudContext";
+import { useReducedMotion } from "@/components/motion/useReducedMotion";
 
 /* ------------------------------------------------------------------ */
 /*  Data                                                               */
@@ -89,6 +93,29 @@ export default function AuditPage() {
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<AuditResult | null>(null);
   const [error, setError] = useState("");
+
+  const { setHudExtras } = useHudApi();
+  const reduced = useReducedMotion();
+  const stageRef = useRef<HTMLDivElement>(null);
+
+  // HUD: show an estimated funnel duration in the bottom-right slot while
+  // this page is mounted, restore the default on unmount.
+  useEffect(() => {
+    setHudExtras({ br: "≈ 4 минуты" });
+    return () => setHudExtras({});
+  }, [setHudExtras]);
+
+  // Step transition: gsap vertical curtain (clip-path) on step change.
+  // Reduced motion -> instant swap (no animation).
+  useEffect(() => {
+    const el = stageRef.current;
+    if (!el || reduced) return;
+    gsap.fromTo(
+      el,
+      { clipPath: "inset(0 0 100% 0)", opacity: 0 },
+      { clipPath: "inset(0 0 0% 0)", opacity: 1, duration: 0.5, ease: "power3.out" }
+    );
+  }, [step, reduced]);
 
   // Form state
   const [niche, setNiche] = useState("");
@@ -204,6 +231,7 @@ export default function AuditPage() {
 
   if (result) {
     return (
+      <Chapter name="Результат" theme="dark" className="p-0" id="audit-result-chapter">
       <div className="audit-page">
         <nav className="audit-nav">
           <Link href="/" className="audit-logo">
@@ -297,6 +325,7 @@ export default function AuditPage() {
           </div>
         </div>
       </div>
+      </Chapter>
     );
   }
 
@@ -306,6 +335,7 @@ export default function AuditPage() {
 
   if (loading) {
     return (
+      <Chapter name="Анализ" theme="dark" className="p-0" id="audit-loading-chapter">
       <div className="audit-page">
         <nav className="audit-nav">
           <Link href="/" className="audit-logo">
@@ -320,6 +350,7 @@ export default function AuditPage() {
           </div>
         </div>
       </div>
+      </Chapter>
     );
   }
 
@@ -328,6 +359,7 @@ export default function AuditPage() {
   /* ---------------------------------------------------------------- */
 
   return (
+    <Chapter name={`Шаг ${step + 1}`} theme="dark" className="p-0" id="audit-step-chapter">
     <div className="audit-page">
       <nav className="audit-nav">
         <Link href="/" className="audit-logo">
@@ -336,7 +368,7 @@ export default function AuditPage() {
         <span className="audit-nav-label">AI-аудит бизнеса</span>
       </nav>
 
-      <div className="audit-container">
+      <div className="audit-container audit-container--stage">
         <div className="audit-progress">
           <div
             className="audit-progress-fill"
@@ -344,7 +376,7 @@ export default function AuditPage() {
           />
         </div>
 
-        <div className="audit-step">
+        <div className="audit-step" ref={stageRef}>
           {step === 0 && (
             <>
               <span className="audit-step-num">1 из 7</span>
@@ -515,5 +547,6 @@ export default function AuditPage() {
         </div>
       </div>
     </div>
+    </Chapter>
   );
 }
