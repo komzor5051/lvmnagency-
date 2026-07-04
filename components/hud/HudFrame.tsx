@@ -4,6 +4,7 @@ import { usePathname } from 'next/navigation'
 import { useState } from 'react'
 import { useHudState } from './HudContext'
 import HudMenu from './HudMenu'
+import HudBurger from './HudBurger'
 
 const PATH_NAMES: [string, string][] = [
   ['/products', 'Продукты'], ['/audit', 'AI-аудит'], ['/blog', 'Блог'],
@@ -22,8 +23,13 @@ export default function HudFrame() {
 
   return (
     <>
+      <div className={`pointer-events-none fixed inset-0 z-50 transition-colors duration-500 ${dark ? 'text-dark-ink' : 'text-ink'}`}>
+        <div className={`pointer-events-auto absolute top-5 left-6 transition-colors duration-500 ${dark ? 'text-dark-ink' : 'text-ink'}`}>
+          <HudBurger />
+        </div>
+      </div>
       <div className={`pointer-events-none fixed inset-0 z-50 transition-colors duration-500 ${dark ? 'text-dark-ink' : 'text-ink'}`} aria-hidden>
-        <span className="mono-label absolute top-5 left-6">{active?.name ?? fallback}</span>
+        <span className="mono-label absolute top-5 left-16">{active?.name ?? fallback}</span>
         {chapters.length > 0 ? (
           <button
             type="button"

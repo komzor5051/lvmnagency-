@@ -5,14 +5,16 @@ import SplitLines from '@/components/motion/SplitLines'
 import HandDrawn from '@/components/motion/HandDrawn'
 import Magnetic from '@/components/motion/Magnetic'
 import DistortPortrait from '@/components/motion/DistortPortrait'
-import HeroQuickNav from '@/components/home/HeroQuickNav'
 
 export default function ChapterHero() {
   return (
     <Chapter name="Hero" theme="light" className="flex min-h-svh flex-col justify-center px-[6vw] py-28">
       <div className="flex flex-col gap-12 md:grid md:grid-cols-[1.6fr_1fr] md:items-center md:gap-16">
         <div>
-          <HeroQuickNav />
+          <p className="mono-label mb-8 flex items-center gap-3">
+            <span className="inline-block size-2 rounded-full bg-lime" />
+            Влад Лямин
+          </p>
           <SplitLines as="h1" className="font-display text-[clamp(40px,6.2vw,96px)]">
             Помогаю фаундерам строить и масштабировать{' '}
             <HandDrawn kind="circle">системы</HandDrawn> <em>с помощью AI</em>

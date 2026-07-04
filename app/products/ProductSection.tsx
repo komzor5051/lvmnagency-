@@ -16,7 +16,7 @@ export function ProductSection({ product, index }: { product: Product; index: nu
       className="group relative flex items-center gap-6 border-b border-line px-2 py-8 transition-transform duration-200 hover:translate-x-3 md:gap-10 md:px-4"
     >
       <span className="mono-label text-ink-muted">{num}</span>
-      <span className="font-display flex-1 text-[clamp(28px,4.5vw,52px)] transition-[font-style] group-hover:italic">
+      <span className="font-display flex-1 text-[clamp(28px,4.5vw,52px)] underline-offset-[8px] decoration-1 group-hover:underline">
         {product.title}
       </span>
       <span className="mono-label text-right text-ink-muted">{product.priceLabel}</span>

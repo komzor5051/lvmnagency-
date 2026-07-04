@@ -4,23 +4,23 @@ import { usePathname } from 'next/navigation'
 import { useEffect, useRef, useState } from 'react'
 
 const LINKS = [
-  { label: 'Блог', href: '/blog' },
+  { label: 'Главная', href: '/' },
   { label: 'Продукты', href: '/products' },
   { label: 'AI-аудит', href: '/audit' },
+  { label: 'Блог', href: '/blog' },
   { label: 'Обо мне', href: '/about' },
 ]
 
 /**
- * Compact site-nav dropdown scoped to the hero's name label. Distinct from
- * the global fullscreen HudMenu — this is a small, ordinary dropdown for
- * quick navigation, no takeover, no gsap timeline.
+ * Burger trigger + compact dropdown, pinned top-left of the HUD on every
+ * page. Distinct from the fullscreen HudMenu (opened via the index/bars
+ * button) — this is an ordinary small dropdown for quick navigation.
  */
-export default function HeroQuickNav() {
+export default function HudBurger() {
   const [open, setOpen] = useState(false)
   const rootRef = useRef<HTMLDivElement>(null)
   const pathname = usePathname()
 
-  // Close on route change, same idea as HudMenu's usePathname effect.
   useEffect(() => {
     setOpen(false)
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -43,30 +43,31 @@ export default function HeroQuickNav() {
   }, [open])
 
   return (
-    <div ref={rootRef} className="relative mb-8 inline-block">
+    <div ref={rootRef} className="relative">
       <button
         type="button"
-        className="mono-label flex items-center gap-3"
-        aria-haspopup="menu"
+        className="flex h-[18px] w-[18px] flex-col items-center justify-center gap-[4px] bg-transparent p-0"
+        aria-label="Меню"
         aria-expanded={open}
+        aria-haspopup="menu"
         onClick={() => setOpen(v => !v)}
       >
-        <span className="inline-block size-2 rounded-full bg-lime" />
-        Влад Лямин
-        <span aria-hidden="true">{open ? '▴' : '▾'}</span>
+        <span className="block h-[2px] w-full bg-current" />
+        <span className="block h-[2px] w-full bg-current" />
+        <span className="block h-[2px] w-full bg-current" />
       </button>
       {open && (
         <nav
           role="menu"
-          aria-label="Быстрая навигация"
-          className="bg-paper border-line absolute top-full left-0 z-20 mt-1 min-w-[180px] border"
+          aria-label="Разделы сайта"
+          className="bg-paper border-line text-ink absolute top-full left-0 z-20 mt-3 min-w-[180px] border"
         >
           {LINKS.map(l => (
             <Link
               key={l.href}
               href={l.href}
               role="menuitem"
-              className="mono-label hover:bg-lime hover:text-ink block px-4 py-3 transition-colors duration-150"
+              className="mono-label hover:underline underline-offset-4 block px-4 py-3"
             >
               {l.label}
             </Link>

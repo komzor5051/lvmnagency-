@@ -92,7 +92,7 @@ export default function HudMenu({ open, onClose }: Props) {
           <Link
             key={l.href}
             href={l.href}
-            className="group font-display flex items-baseline gap-5 text-[clamp(40px,8vw,96px)] transition-[font-style] duration-150 hover:italic sm:gap-8"
+            className="group font-display flex items-baseline gap-5 text-[clamp(40px,8vw,96px)] underline-offset-[10px] decoration-2 duration-150 hover:underline sm:gap-8"
           >
             <span>{l.label}</span>
             <span className="mono-label text-dark-muted transition-colors duration-150 group-hover:text-lime">

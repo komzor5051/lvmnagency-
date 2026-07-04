@@ -22,7 +22,7 @@ export function PostCard({ slug, title, publishedAt, coverImage }: PostCardProps
       className="group flex items-center gap-5 border-b border-line px-2 py-7 transition-transform duration-200 hover:translate-x-3 md:gap-8 md:px-4 md:py-8"
     >
       <span className="mono-label w-24 shrink-0 text-ink-muted sm:w-32">{date}</span>
-      <span className="font-display flex-1 text-[clamp(20px,3.2vw,34px)] transition-[font-style] group-hover:italic">
+      <span className="font-display flex-1 text-[clamp(20px,3.2vw,34px)] underline-offset-[5px] decoration-1 group-hover:underline">
         {title}
       </span>
       {coverImage && (

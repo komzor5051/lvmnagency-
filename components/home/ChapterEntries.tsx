@@ -23,7 +23,7 @@ export default function ChapterEntries() {
             className="group relative flex items-center gap-6 border-b border-line px-2 py-7 transition-transform duration-200 hover:translate-x-3 md:gap-10 md:px-4"
           >
             <span className="mono-label text-ink-muted">{e.n}</span>
-            <span className="font-display flex-1 text-[clamp(22px,3.2vw,42px)] transition-[font-style] group-hover:italic">
+            <span className="font-display flex-1 text-[clamp(22px,3.2vw,42px)] underline-offset-[6px] decoration-1 group-hover:underline">
               {e.label}
             </span>
             <span className="mono-label opacity-0 transition-opacity duration-200 group-hover:opacity-100">

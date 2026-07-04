@@ -750,7 +750,7 @@ body {
 /* outlined ("ghost") display text */
 .ghost { color: transparent; -webkit-text-stroke: 1px currentColor; }
 
-/* hand-drawn svg accents: behind text, below optical center */
+/* hand-drawn svg accents: fully encircles the word, loose hand-drawn loop */
 .hw-wrap { position: relative; display: inline-block; isolation: isolate; }
 /*
  * !important is required here: split-type's `split()` (lib/split.js, used by
@@ -759,10 +759,10 @@ body {
  * styles) on any nested element that has children — including this decorative
  * <svg>, since it wraps a <path>. Inline styles beat any class selector on
  * specificity, so without !important the SVG falls out of absolute
- * positioning into normal flow, and its 112%/118% sizing then resolves against
+ * positioning into normal flow, and its 116%/130% sizing then resolves against
  * the wrong box, ballooning into a giant shape below the heading. See
  * components/motion/HandDrawn.tsx.
  */
-.hw-wrap > svg { position: absolute !important; left: -6% !important; top: 14% !important; width: 112% !important; height: 118% !important; overflow: visible; pointer-events: none; z-index: -1; }
+.hw-wrap > svg { position: absolute !important; left: -8% !important; top: -14% !important; width: 116% !important; height: 130% !important; overflow: visible; pointer-events: none; z-index: -1; }
 .hw-wrap > svg path { fill: none; stroke: var(--color-lime-dark); stroke-width: 3; stroke-linecap: round; }
 [data-theme='dark'] .hw-wrap > svg path { stroke: var(--color-lime); }
