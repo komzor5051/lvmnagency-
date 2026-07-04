@@ -5,6 +5,7 @@ import { PostHogProvider } from "@/components/PostHogProvider";
 import LenisProvider from "@/components/motion/LenisProvider";
 import { HudProvider } from "@/components/hud/HudContext";
 import HudFrame from "@/components/hud/HudFrame";
+import Preloader from "@/components/motion/Preloader";
 import "./globals.css";
 
 // Brand DS — White + Lime. Display: Inter Tight (headline), body: Onest,
@@ -132,6 +133,7 @@ export default function RootLayout({
       >
         <LenisProvider>
           <HudProvider>
+            <Preloader />
             <HudFrame />
             <PostHogProvider>{children}</PostHogProvider>
             <YandexMetrika />
