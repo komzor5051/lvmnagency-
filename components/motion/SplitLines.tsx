@@ -18,11 +18,19 @@ export default function SplitLines({ as: Tag = 'div', className = '', children }
     const el = ref.current
     if (!el || reduced) return
     const split = new SplitType(el as HTMLElement, { types: 'lines' })
+    // The reveal masks clip anything that leaves the line box — serif
+    // descenders (у, р, ф) and the HandDrawn circle/underline SVGs. Bleed
+    // (padding cancelled by negative margins) keeps glyphs intact while the
+    // line slides in; once the reveal is done the masks stop clipping at all.
+    const masks: HTMLDivElement[] = []
     split.lines?.forEach(line => {
       const mask = document.createElement('div')
       mask.style.overflow = 'hidden'
+      mask.style.padding = '0.1em 0.35em 0.22em'
+      mask.style.margin = '-0.1em -0.35em -0.22em'
       line.parentNode?.insertBefore(mask, line)
       mask.appendChild(line)
+      masks.push(mask)
     })
     gsap.from(split.lines, {
       yPercent: 110,
@@ -30,6 +38,7 @@ export default function SplitLines({ as: Tag = 'div', className = '', children }
       ease: 'power4.out',
       stagger: 0.08,
       scrollTrigger: { trigger: el, start: 'top 85%', once: true },
+      onComplete: () => masks.forEach(m => { m.style.overflow = 'visible' }),
     })
     return () => split.revert()
   }, { dependencies: [reduced], revertOnUpdate: true })

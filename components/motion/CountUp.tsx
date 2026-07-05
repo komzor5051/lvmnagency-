@@ -59,8 +59,16 @@ export function CountUp({
   );
 
   return (
-    <span ref={ref} className={className}>
-      {format(0)}
+    // The invisible final value owns the layout, the animating copy sits on
+    // top of it — intermediate values ("1 ч/мес" vs "60 ч/мес") wrap
+    // differently and would otherwise make the block jump mid-count.
+    <span className={`relative ${className ?? ""}`}>
+      <span aria-hidden className="invisible">
+        {format(value)}
+      </span>
+      <span ref={ref} className="absolute inset-0" style={{ fontVariantNumeric: "tabular-nums" }}>
+        {format(0)}
+      </span>
     </span>
   );
 }
