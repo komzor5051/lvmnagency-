@@ -8,7 +8,7 @@ import { ProductSection } from "./ProductSection";
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://vladlyamin.ru";
 
 export const metadata: Metadata = {
-  title: "Продукты — Влад Лямин",
+  title: "Продукты",
   description:
     "Консультация 1:1, гайд по AI в бизнесе, AI-аудит процессов и мини-курс по автоматизации. Форматы под разный масштаб задачи — выберите свой.",
   alternates: { canonical: `${siteUrl}/products` },

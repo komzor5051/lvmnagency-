@@ -2,7 +2,7 @@ import { ImageResponse } from "next/og";
 import { readFileSync, existsSync } from "fs";
 import { join } from "path";
 
-export const alt = "Влад Лямин — AI-инженер";
+export const alt = "Влад Лямин — помогаю фаундерам строить и масштабировать системы с помощью AI";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 

@@ -28,7 +28,7 @@ export default function ChapterHero() {
           </span>
           <div className="mt-12 flex items-center gap-8">
             <Magnetic>
-              <Link href="/audit" className="bg-ink px-9 py-4 text-[15px] font-medium text-white transition-colors hover:bg-lime hover:text-ink">
+              <Link href="/audit" className="inline-block text-center bg-ink px-9 py-4 text-[15px] font-medium text-white transition-colors hover:bg-lime hover:text-ink">
                 Пройти AI-аудит
               </Link>
             </Magnetic>

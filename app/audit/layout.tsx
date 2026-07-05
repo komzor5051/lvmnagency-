@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "AI-аудит бизнеса — Влад Лямин",
+  title: "AI-аудит бизнеса",
   description:
     "Узнайте за 5 минут, где AI даст реальный ROI в вашем бизнесе. Автоматический анализ процессов с конкретными рекомендациями.",
   openGraph: {

@@ -161,7 +161,8 @@ export default async function ArticlePage({ params }: Props) {
     <>
       <article>
         {/* Breadcrumbs */}
-        <nav className="mono-label mb-8 text-ink-muted">
+        {/* mt clears the fixed HUD label ("≡ Блог") pinned to the same top-left corner */}
+        <nav className="mono-label mt-10 mb-8 text-ink-muted">
           <Link
             href="/blog"
             className="transition-colors hover:text-ink"

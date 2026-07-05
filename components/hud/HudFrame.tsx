@@ -20,6 +20,9 @@ export default function HudFrame() {
   const fallback = PATH_NAMES.find(([p]) => pathname === p || (p !== '/' && pathname.startsWith(p)))?.[1] ?? ''
   const pad = (n: number) => String(n).padStart(2, '0')
   const openMenu = () => setMenuOpen(true)
+  // On mobile the fixed HUD labels ride over large headings while scrolling;
+  // a translucent theme-matched chip keeps both readable. Desktop stays bare.
+  const chip = `max-md:px-1.5 max-md:py-0.5 max-md:backdrop-blur-sm ${dark ? 'max-md:bg-dark/60' : 'max-md:bg-paper/60'}`
 
   return (
     <>
@@ -29,13 +32,13 @@ export default function HudFrame() {
         </div>
       </div>
       <div className={`pointer-events-none fixed inset-0 z-50 transition-colors duration-500 ${dark ? 'text-dark-ink' : 'text-ink'}`} aria-hidden>
-        <span className="mono-label absolute top-5 left-16">{active?.name ?? fallback}</span>
+        <span className={`mono-label absolute top-5 left-16 ${chip}`}>{active?.name ?? fallback}</span>
         {chapters.length > 0 ? (
           <button
             type="button"
             onClick={openMenu}
             aria-label="Открыть меню"
-            className="mono-label pointer-events-auto absolute top-5 right-6 bg-transparent p-0 hover:text-lime-dark"
+            className={`mono-label pointer-events-auto absolute top-5 right-6 bg-transparent p-0 hover:text-lime-dark ${chip}`}
           >
             {pad(activeIndex + 1)} / {pad(chapters.length)}
           </button>
@@ -47,7 +50,7 @@ export default function HudFrame() {
             type="button"
             onClick={openMenu}
             aria-label="Открыть меню"
-            className="mono-label pointer-events-auto absolute top-5 right-6 bg-transparent p-0 hover:text-lime-dark"
+            className={`mono-label pointer-events-auto absolute top-5 right-6 bg-transparent p-0 hover:text-lime-dark ${chip}`}
           >
             Меню
           </button>
@@ -65,9 +68,9 @@ export default function HudFrame() {
             ))}
           </button>
         )}
-        <span className="mono-label absolute bottom-5 left-6">{extras.bl ?? 'Влад Лямин'}</span>
+        <span className={`mono-label absolute bottom-5 left-6 ${chip}`}>{extras.bl ?? 'Влад Лямин'}</span>
         <Link href="https://t.me/lyaminvl" target="_blank" rel="noopener noreferrer"
-          className="mono-label pointer-events-auto absolute right-6 bottom-5 hover:text-lime-dark">
+          className={`mono-label pointer-events-auto absolute right-6 bottom-5 hover:text-lime-dark ${chip}`}>
           {extras.br ?? '@lyaminvl'}
         </Link>
       </div>

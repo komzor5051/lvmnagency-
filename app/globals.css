@@ -655,6 +655,12 @@ body {
 }
 
 /* Responsive */
+/* ≤768px: the global HUD (burger + step label + counter) collapses into the
+   same top row as the funnel's own header — hide the duplicate header, the
+   HUD carries branding and navigation on small screens. */
+@media (max-width: 768px) {
+  .audit-nav { display: none; }
+}
 @media (max-width: 600px) {
   .audit-nav { padding: 16px 20px; }
   .audit-container { padding: 0 20px 60px; }

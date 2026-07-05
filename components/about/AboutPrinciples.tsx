@@ -51,7 +51,7 @@ export default function AboutPrinciples() {
             href={TELEGRAM_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="bg-ink px-9 py-4 text-[15px] font-medium text-white transition-colors hover:bg-lime hover:text-ink"
+            className="inline-block text-center bg-ink px-9 py-4 text-[15px] font-medium text-white transition-colors hover:bg-lime hover:text-ink"
           >
             Написать в Telegram
           </Link>

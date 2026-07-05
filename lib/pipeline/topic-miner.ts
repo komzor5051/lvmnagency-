@@ -54,7 +54,7 @@ ${seedData.map((q) => `- "${q.phrase}" — ${q.volume} запросов/мес`)
   const existingTitles = (existing ?? []).map((t) => t.title).join("\n");
 
   // 4. Generate new topics
-  const prompt = `Ты контент-стратег блога Влада Лямина — AI-инженера, который внедряет AI-автоматизацию в бизнес.
+  const prompt = `Ты контент-стратег блога Влада Лямина — практика, который внедряет AI-автоматизацию в бизнес.
 
 Тренды:
 ${trendSummary}

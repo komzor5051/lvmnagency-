@@ -10,7 +10,7 @@ export const revalidate = 60;
 const blogUrl = process.env.BLOG_URL ?? process.env.NEXT_PUBLIC_SITE_URL ?? "https://vladlyamin.ru";
 
 export const metadata: Metadata = {
-  title: "AI для фаундеров — блог Влада Лямина",
+  title: { absolute: "AI для фаундеров — блог Влада Лямина" },
   description:
     "Практичные статьи о том, как фаундеры и предприниматели используют AI: кейсы, инструменты, реальные цифры. Без теории — только то, что работает.",
   alternates: {

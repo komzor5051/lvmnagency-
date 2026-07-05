@@ -6,7 +6,7 @@ import AboutPrinciples from "@/components/about/AboutPrinciples";
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://vladlyamin.ru";
 
 export const metadata: Metadata = {
-  title: "Обо мне — Влад Лямин",
+  title: "Обо мне",
   description:
     "С 2022 года помогаю фаундерам строить и масштабировать системы с помощью AI. 40+ внедрений, принципы скучного AI.",
   alternates: { canonical: `${siteUrl}/about` },
