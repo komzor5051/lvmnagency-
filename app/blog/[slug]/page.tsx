@@ -159,10 +159,10 @@ export default async function ArticlePage({ params }: Props) {
 
   return (
     <>
-      <article>
+      <article className="px-[6vw] pb-24">
         {/* Breadcrumbs */}
         {/* mt clears the fixed HUD label ("≡ Блог") pinned to the same top-left corner */}
-        <nav className="mono-label mt-10 mb-8 text-ink-muted">
+        <nav className="mono-label mx-auto mt-10 mb-8 max-w-[68ch] text-ink-muted">
           <Link
             href="/blog"
             className="transition-colors hover:text-ink"
@@ -173,7 +173,9 @@ export default async function ArticlePage({ params }: Props) {
 
         {/* Header — poster H1 (Literata, line-reveal), plain cover image
             below the title, mono byline/tags. */}
-        <header className="mb-12">
+        {/* Header column matches the centered 68ch text column, so the cover
+            image below the title is exactly text-width. */}
+        <header className="mx-auto mb-12 max-w-[68ch]">
           <SplitLines
             as="h1"
             className="font-display text-[clamp(32px,6vw,72px)] leading-[1.02] text-ink"
@@ -210,13 +212,16 @@ export default async function ArticlePage({ params }: Props) {
           )}
         </header>
 
-        {/* Two-column: TOC + Content */}
-        <div className="flex flex-col lg:flex-row gap-6 lg:gap-10">
+        {/* Centered text column with symmetric side rails: TOC lives in the
+            left rail, the right rail stays empty — the 68ch content column
+            sits exactly in the page center, aligned with the header above. */}
+        <div className="flex flex-col gap-6 lg:grid lg:grid-cols-[13rem_minmax(0,68ch)_13rem] lg:justify-center lg:gap-10">
           {/* TOC (handles mobile/desktop internally) */}
           <TableOfContents html={contentHtml} />
 
-          {/* Article content */}
-          <div className="min-w-0 flex-1 max-w-[68ch]">
+          {/* Article content — col-start-2 keeps it centered even when the
+              TOC renders nothing (fewer than 3 headings). */}
+          <div className="min-w-0 lg:col-start-2">
             <CopyableCode html={contentHtml} />
 
             {/* Prev/Next */}
