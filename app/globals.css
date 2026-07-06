@@ -769,6 +769,11 @@ body {
  * the wrong box, ballooning into a giant shape below the heading. See
  * components/motion/HandDrawn.tsx.
  */
-.hw-wrap > svg { position: absolute !important; left: -8% !important; top: -14% !important; width: 116% !important; height: 130% !important; overflow: visible; pointer-events: none; z-index: -1; }
+/*
+ * Sizing: the circled words are lowercase (no ascenders/descenders), so the
+ * top of their own line box is empty — the loop fits inside 2%..98% of the
+ * box and never crosses into the neighbouring lines (line-height is 0.98).
+ */
+.hw-wrap > svg { position: absolute !important; left: -8% !important; top: 0 !important; width: 116% !important; height: 110% !important; overflow: visible; pointer-events: none; z-index: -1; }
 .hw-wrap > svg path { fill: none; stroke: var(--color-lime-dark); stroke-width: 3; stroke-linecap: round; }
 [data-theme='dark'] .hw-wrap > svg path { stroke: var(--color-lime); }

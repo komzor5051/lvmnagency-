@@ -8,7 +8,7 @@ import { useReducedMotion } from './useReducedMotion'
 gsap.registerPlugin(ScrollTrigger, useGSAP)
 
 const PATHS = {
-  circle: { viewBox: '0 0 200 80', d: 'M12,42 C8,18 60,6 104,8 C160,10 194,22 192,42 C190,64 140,74 96,72 C50,70 14,62 14,44' },
+  circle: { viewBox: '0 0 220 90', d: 'M120,8 C70,5 16,20 13,45 C10,72 62,87 116,85 C172,83 214,68 214,44 C214,18 160,6 108,9 C94,9.8 80,12 70,16' },
   underline: { viewBox: '0 0 300 12', d: 'M2,8 C60,4 120,10 180,6 C230,3 270,8 298,5' },
 } as const
 
@@ -24,6 +24,9 @@ export default function HandDrawn({ kind, className = '', children }: { kind: ke
     gsap.fromTo(path, { strokeDasharray: len, strokeDashoffset: len }, {
       strokeDashoffset: 0,
       duration: 1.1,
+      // SplitLines reveals the line under a mask for ~0.9s; without the delay
+      // the stroke finishes drawing while the text is still hidden.
+      delay: 0.7,
       ease: 'power2.inOut',
       scrollTrigger: { trigger: ref.current, start: 'top 80%', once: true },
     })
