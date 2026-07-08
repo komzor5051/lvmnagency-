@@ -45,7 +45,7 @@ export const COVER_STYLE_GUIDE = `
  * @param concept one-sentence visual metaphor of the article (in Russian).
  */
 export function buildCoverPrompt(concept: string): string {
-  return `Создай кинематографичную редакторскую обложку для статьи в блоге об AI и автоматизации бизнеса. Стиль — как обложки newsletter a16z: премиально, атмосферно, фотореалистично.
+  return `Создай кинематографичную редакторскую обложку для статьи в блоге про Claude и AI-инструменты. Стиль — как обложки newsletter a16z: премиально, атмосферно, фотореалистично.
 
 КОНЦЕПЦИЯ КАДРА (визуальная метафора темы): ${concept}
 
@@ -76,7 +76,7 @@ export function buildCoverPrompt(concept: string): string {
  * @param scene one-sentence visual metaphor of the section (in Russian).
  */
 export function buildInlinePrompt(scene: string): string {
-  return `Создай кинематографичное редакторское изображение для статьи в блоге об AI и автоматизации бизнеса. Стиль — как обложки newsletter a16z: премиально, атмосферно, фотореалистично.
+  return `Создай кинематографичное редакторское изображение для статьи в блоге про Claude и AI-инструменты. Стиль — как обложки newsletter a16z: премиально, атмосферно, фотореалистично.
 
 КОНЦЕПЦИЯ КАДРА (визуальная метафора мысли раздела): ${scene}
 
