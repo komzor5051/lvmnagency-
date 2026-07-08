@@ -1,7 +1,6 @@
 import { generatePro } from "@/lib/gemini";
 import { searchSources } from "@/lib/researcher";
 import { supabase } from "@/lib/supabase";
-import { collectSeedQueries, getSearchVolume } from "@/lib/wordstat";
 
 interface GeneratedTopic {
   title: string;
@@ -10,39 +9,64 @@ interface GeneratedTopic {
   score: number;
 }
 
-const WORDSTAT_SEEDS = [
-  "автоматизация бизнеса",
-  "AI для бизнеса",
-  "нейросети для бизнеса",
-  "Telegram бот для бизнеса",
-  "n8n автоматизация",
-  "ChatGPT для бизнеса",
-  "внедрение ИИ в бизнес",
-  "AI автоматизация процессов",
+const RESEARCH_QUERIES = [
+  "Claude Code фичи обновления",
+  "Claude.ai use cases советы",
+  "Anthropic release notes новые модели",
+  "Claude tips workflow продуктивность",
 ];
 
+async function fetchAnthropicUpdates(): Promise<string> {
+  const urls = [
+    "https://docs.claude.com/en/release-notes/claude-code",
+    "https://www.anthropic.com/news",
+  ];
+
+  const chunks: string[] = [];
+  for (const url of urls) {
+    try {
+      const res = await fetch(url, { headers: { "User-Agent": "Mozilla/5.0" } });
+      if (!res.ok) continue;
+      const html = await res.text();
+      const text = html
+        .replace(/<script[\s\S]*?<\/script>/gi, " ")
+        .replace(/<style[\s\S]*?<\/style>/gi, " ")
+        .replace(/<[^>]+>/g, " ")
+        .replace(/\s+/g, " ")
+        .trim()
+        .slice(0, 3000);
+      if (text.length > 200) {
+        chunks.push(`Источник ${url}:\n${text}`);
+      }
+    } catch (err) {
+      console.warn(`[topic-miner] Failed to fetch ${url}:`, err);
+    }
+  }
+  return chunks.join("\n\n");
+}
+
 export async function mineTopics(): Promise<GeneratedTopic[]> {
-  // 1. Research current AI trends
-  const trends = await searchSources(
-    "AI автоматизация бизнеса нейросети тренды внедрение ChatGPT", 8
+  // 1. Research current Claude/Anthropic trends across multiple angles
+  const trendResults = await Promise.all(
+    RESEARCH_QUERIES.map((q) => searchSources(q, 2))
   );
+  const trends = trendResults.flat();
   const trendSummary = trends.map((t) => `- ${t.title}: ${t.summary}`).join("\n");
 
-  // 2. Fetch real search demand from Wordstat
-  let searchDemandContext = "";
+  // 2. Fetch official Anthropic release notes / news as a second research source
+  let officialUpdates = "";
   try {
-    console.log("[topic-miner] Fetching Wordstat search demand...");
-    const seedData = await collectSeedQueries(WORDSTAT_SEEDS, 5);
-    if (seedData.length > 0) {
-      searchDemandContext = `\nРЕАЛЬНЫЙ ПОИСКОВЫЙ СПРОС (Яндекс Wordstat):
-${seedData.map((q) => `- "${q.phrase}" — ${q.volume} запросов/мес`).join("\n")}
-Используй эти данные: темы с высоким спросом получают больший score.
-Включай популярные фразы в keywords.\n`;
-      console.log(`[topic-miner] Got ${seedData.length} Wordstat queries`);
+    console.log("[topic-miner] Fetching Anthropic official updates...");
+    officialUpdates = await fetchAnthropicUpdates();
+    if (officialUpdates) {
+      console.log("[topic-miner] Got official updates content");
     }
   } catch (err) {
-    console.warn("[topic-miner] Wordstat unavailable, continuing without:", err);
+    console.warn("[topic-miner] Official updates unavailable, continuing without:", err);
   }
+  const officialContext = officialUpdates
+    ? `\nОФИЦИАЛЬНЫЕ ОБНОВЛЕНИЯ ANTHROPIC:\n${officialUpdates}\n`
+    : "";
 
   // 3. Get existing topics to avoid duplicates
   const { data: existing } = await supabase
@@ -54,53 +78,50 @@ ${seedData.map((q) => `- "${q.phrase}" — ${q.volume} запросов/мес`)
   const existingTitles = (existing ?? []).map((t) => t.title).join("\n");
 
   // 4. Generate new topics
-  const prompt = `Ты контент-стратег блога Влада Лямина — практика, который внедряет AI-автоматизацию в бизнес.
+  const prompt = `Ты контент-стратег блога Влада Лямина — практика, который помогает фаундерам и разработчикам реально использовать Claude и Claude Code в работе.
 
 Тренды:
 ${trendSummary}
-${searchDemandContext}
+${officialContext}
 Уже опубликованные (НЕ повторяй):
 ${existingTitles || "Пока нет публикаций"}
 
-Сгенерируй 10 тем для блога.
+Сгенерируй 10 тем для блога, распределив их примерно поровну (2-3 темы на каждое) по 4 направлениям:
 
-ТЕМАТИКА — AI-автоматизация для бизнеса:
-- Кейсы внедрения AI в бизнес-процессы
-- ROI автоматизации (конкретные цифры)
-- Сравнения инструментов (n8n, Make, Zapier)
-- Telegram-боты для бизнеса
-- Тренды нейросетей с практическим применением
-- Ошибки при внедрении AI
-- Гайды по конкретным задачам автоматизации
+1. Claude.ai для нетехнических — Projects, Artifacts, стили ответов, голосовой ввод, работа с документами
+2. Claude Code для разработчиков — skills, hooks, MCP, субагенты, workflow, конкретные конфиги
+3. AI-автоматизация бизнеса через Claude — API, агенты, интеграция с ботами/n8n
+4. Сравнения и новости — Claude vs ChatGPT/Gemini, разборы обновлений и релизов Anthropic
 
 СТИЛЬ ЗАГОЛОВКОВ — разговорный, как пост в Telegram. Примеры ХОРОШИХ тем:
-- "Собрал бота для ресторана за 3 дня — вот что вышло"
-- "Почему 90% AI-проектов умирают после демо"
-- "n8n vs Make: что выбрать для автоматизации"
-- "Как Telegram-бот сэкономил ресторану 40 часов в месяц"
-- "5 процессов, которые любой бизнес может автоматизировать за неделю"
-- "ChatGPT для бизнеса: 3 реальных кейса, а не маркетинговый бред"
+- "Claude Code сам чинит баги — вот как я это настроил"
+- "Artifacts вместо десяти вкладок: как я веду проекты в Claude"
+- "MCP-сервер за 20 минут: подключил Claude к своей базе данных"
+- "Claude vs ChatGPT: что реально лучше для работы с документами"
+- "5 skills для Claude Code, которые экономят мне часы в неделю"
+- "Голосом вместо клавиатуры: как я веду Claude.ai с телефона"
 
 Примеры ПЛОХИХ тем (НЕ ДЕЛАЙ ТАК):
-- "Обзор возможностей современных нейросетей" — размыто
-- "Инновационные подходы к автоматизации бизнеса" — AI-слоп
-- "Как искусственный интеллект трансформирует бизнес" — клише
-- "Тренды цифровой трансформации 2026" — скучно
+- "Обзор возможностей Claude" — размыто
+- "Инновационные подходы к работе с ИИ" — AI-слоп
+- "Как Claude трансформирует индустрию" — клише
+- "Тренды AI-инструментов 2026" — скучно
 
 КЛЮЧЕВЫЕ СЛОВА:
-- 50% тем — популярные запросы (автоматизация бизнеса, Telegram бот, нейросети для бизнеса, ChatGPT для работы)
-- 50% тем — низкочастотные длинные запросы ("как автоматизировать приём заявок", "бот для записи клиентов Telegram")
+- Используй реальные термины из ресерча (названия фич, команд, инструментов)
+- Не выдумывай ключевые слова, которых нет в источниках
 
 ЗАПРЕЩЁННЫЕ ТЕМЫ (не генерируй):
 - Инструкции по обходу блокировок
 - Обзоры VPN-сервисов
 - Политические темы
-- Темы про мультичаты/агрегаторы нейросетей (это продукт Sabka, не профиль Влада)
+- Не выдумывай несуществующие фичи Claude/Anthropic — только то, что подтверждено источниками выше
 
 Каждая тема должна:
-- Быть практичной (как сделать X, кейс Y, сравнение Z vs W)
+- Быть практичной (как сделать X, приём Y, сравнение Z vs W)
 - Иметь конкретный угол, отличающий от типичных статей
 - Заголовок ≤ 55 символов
+- Читатель должен суметь применить что-то из статьи сразу после прочтения
 
 Ответь СТРОГО в JSON-формате (массив объектов):
 [{
@@ -116,25 +137,7 @@ ${existingTitles || "Пока нет публикаций"}
   const cleaned = raw.replace(/\`\`\`json?\n?/g, "").replace(/\`\`\`/g, "").trim();
   const topics: GeneratedTopic[] = JSON.parse(cleaned);
 
-  // 5. Validate keywords against Wordstat and enrich scores
-  for (const topic of topics) {
-    try {
-      const mainKeyword = topic.keywords[0];
-      if (mainKeyword) {
-        const volume = await getSearchVolume(mainKeyword);
-        if (volume > 0) {
-          // Boost score based on search volume
-          const boost = volume >= 1000 ? 3 : volume >= 300 ? 2 : volume >= 100 ? 1 : 0;
-          topic.score = Math.min(10, topic.score + boost);
-          console.log(`[topic-miner] "${mainKeyword}" → ${volume} searches, score ${topic.score}`);
-        }
-      }
-    } catch {
-      // Wordstat validation is best-effort
-    }
-  }
-
-  // 6. Save to Supabase
+  // 5. Save to Supabase
   const rows = topics.map((t) => ({
     title: t.title,
     angle: t.angle,
