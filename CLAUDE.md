@@ -63,7 +63,8 @@ System cron (server crontab, CRON_TZ=UTC — replaces the old Vercel Cron)
   scripts/cron-runner.sh curls each endpoint with CRON_SECRET; log: /var/log/lvmn/cron.log
   vercel.json crons are kept for reference only and do NOT run anywhere.
   ├── /api/cron/mine-topics  (every 3 days, 04:00 UTC)
-  │     └── Exa trends → Wordstat search demand → Gemini → validate keywords → save topics
+  │     └── Exa trends + docs.claude.com/anthropic.com scrape → Gemini → save topics
+  │         (4 pillars: Claude.ai, Claude Code, business automation via Claude, comparisons/news)
   │
   └── /api/cron/generate     (daily, 05:00 UTC = 08:00 MSK)
         ├── select top pending topic
@@ -107,11 +108,10 @@ RPC function: `increment_lvmn_views(post_slug TEXT)`
   audit, course)
 - `lib/pipeline/style-guide.ts` — writing rules
 - `lib/pipeline/writer.ts` — article writer (Влад's persona, not an agency)
-- `lib/pipeline/topic-miner.ts` — topic generation with Wordstat
+- `lib/pipeline/topic-miner.ts` — topic generation
 - `lib/pipeline/editors.ts` — 4-pass editing
 - `lib/pipeline/image-generator.ts` — Gemini 3 Pro images → `lvmn-blog-images` bucket
 - `lib/pipeline/publisher.ts` — slug, meta, publish to `lvmn_blog_posts`
-- `lib/wordstat.ts` — Yandex Wordstat API wrapper
 
 ## Design System — White + Lime (Brand DS)
 
@@ -147,12 +147,13 @@ TELEGRAM_BOT_TOKEN         # Telegram bot
 TELEGRAM_CHANNEL_ID        # Target channel
 CRON_SECRET                # cron endpoint auth (used by scripts/cron-runner.sh)
 BLOG_URL                   # https://vladlyamin.ru
-WORDSTAT_TOKEN             # Yandex Wordstat API OAuth token
 ```
 
 On Vercel these were managed in the dashboard; now they live in
 `/var/www/lvmn-site/.env.local` on the server. EXA_API_KEY currently returns 403
-(expired) — refresh it for blog autogeneration to work.
+(expired) — refresh it for blog autogeneration to work. `WORDSTAT_TOKEN` is no
+longer used (Wordstat validation was dropped when the blog pivoted to Claude
+content) — remove it from the server `.env.local` too if present.
 
 ## Gotchas
 
