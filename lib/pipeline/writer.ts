@@ -3,6 +3,7 @@ import { Source } from "@/lib/researcher";
 import { supabase } from "@/lib/supabase";
 import { LVMN_STYLE_GUIDE } from "./style-guide";
 import { LVMN_FEATURES } from "@/lib/lvmn-features";
+import { CLAUDE_SETUP_CONTEXT } from "@/lib/claude-setup-context";
 
 interface WriterInput {
   title: string;
@@ -68,6 +69,12 @@ ${LVMN_STYLE_GUIDE}
 
 О ВЛАДЕ И ЕГО ФОРМАТАХ РАБОТЫ (используй ТОЛЬКО эту информацию, НЕ выдумывай услуги):
 ${LVMN_FEATURES}
+
+${CLAUDE_SETUP_CONTEXT}
+Если тема статьи — из пилла "Claude Code для разработчиков" (skills, hooks, MCP, субагенты,
+workflow), ОБЯЗАТЕЛЬНО опирайся на реальный setup выше вместо общих советов из интернета:
+называй конкретные skills/MCP/паттерны, которые Влад реально использует. Если тема из
+другого пилла (Claude.ai, бизнес-автоматизация, сравнения) — этот блок можно игнорировать.
 
 СТРУКТУРА ЗАГОЛОВКОВ (СТРОГО):
 - Заголовок статьи НЕ НУЖЕН (он будет добавлен отдельно как H1)
