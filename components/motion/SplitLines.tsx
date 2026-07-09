@@ -18,6 +18,10 @@ export default function SplitLines({ as: Tag = 'div', className = '', children }
     const el = ref.current
     if (!el || reduced) return
     const split = new SplitType(el as HTMLElement, { types: 'lines' })
+    if (!split.lines || split.lines.length === 0) {
+      split.revert()
+      return
+    }
     // The reveal masks clip anything that leaves the line box — serif
     // descenders (у, р, ф) and the HandDrawn circle/underline SVGs. Bleed
     // (padding cancelled by negative margins) keeps glyphs intact while the
