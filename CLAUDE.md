@@ -58,18 +58,37 @@ ssh root@5.42.111.39 'cd /var/www/lvmn-site \
 
 ## Architecture
 
+**Blog content is Claude/Claude Code focused** (pivoted 2026-07-08/09, see
+`docs/superpowers/specs/2026-07-08-claude-content-pivot-design.md`): 4 pillars —
+Claude.ai for non-technical users, Claude Code for developers, business automation
+via Claude, comparisons/news. Old AI-automation/n8n-generic topics were retired.
+
+**Automated cron is currently BROKEN — generate articles manually instead.**
+`api.exa.ai` (used for research) blocks the VPS's Russian IP at the Cloudflare
+level (403, confirmed via `curl` with full browser headers — it's a geo/IP block,
+not an expired key). Vercel Cron itself was already retired for this exact
+reason. Until a non-RU proxy is set up for Exa requests, `mine-topics` and
+`generate` fail silently on the server. **To publish an article right now:**
+run `npx tsx scripts/run-pipeline.ts` from a non-RU machine (this repo checked
+out locally works — Exa returns 200 there) against the same Supabase project;
+it writes straight to `lvmn_blog_posts`, so the live site picks it up immediately
+with no deploy needed. Run `npx tsx scripts/seed-topic.ts`-style inserts (or edit
+`lvmn_blog_topics` directly) first if you need a specific topic queued.
+
 ```
 System cron (server crontab, CRON_TZ=UTC — replaces the old Vercel Cron)
   scripts/cron-runner.sh curls each endpoint with CRON_SECRET; log: /var/log/lvmn/cron.log
   vercel.json crons are kept for reference only and do NOT run anywhere.
-  ├── /api/cron/mine-topics  (every 3 days, 04:00 UTC)
+  ├── /api/cron/mine-topics  (every 3 days, 04:00 UTC — BROKEN, see note above)
   │     └── Exa trends + docs.claude.com/anthropic.com scrape → Gemini → save topics
   │         (4 pillars: Claude.ai, Claude Code, business automation via Claude, comparisons/news)
   │
-  └── /api/cron/generate     (daily, 05:00 UTC = 08:00 MSK)
+  └── /api/cron/generate     (daily, 05:00 UTC = 08:00 MSK — BROKEN, see note above)
         ├── select top pending topic
         ├── researcher (Exa API → 6 sources)
-        ├── writer (Gemini 2.0 Flash, 1500-2500 words with ![IMG:] placeholders)
+        ├── writer (Gemini 2.0 Flash, 1500-2500 words with ![IMG:] placeholders;
+        │         Claude Code-pillar articles are grounded in Влад's real skills/MCP
+        │         setup via lib/claude-setup-context.ts, not generic web advice)
         ├── 4 sequential editors (structure → coherence → anti-slop → factcheck)
         ├── image-generator (cinematic editorial covers via lib/pipeline/cover-style.ts → Supabase Storage)
         ├── publisher (slug, meta_desc, MD→HTML, save to lvmn_blog_posts)
@@ -104,6 +123,10 @@ RPC function: `increment_lvmn_views(post_slug TEXT)`
 
 - `lib/lvmn-features.ts` — Влад's offering + proof, written in first/third person
   (single source of truth for the blog writer; keep the `LVMN_*` export names)
+- `lib/claude-setup-context.ts` — Влад's real Claude Code setup (skills, MCP
+  servers, subagent/workflow patterns), client-free; writer.ts grounds
+  "Claude Code для разработчиков" pillar articles in this instead of generic
+  web-researched advice. Update as the real setup evolves.
 - `lib/products.ts` — product catalog for the marketing site (consultation, guide,
   audit, course)
 - `lib/pipeline/style-guide.ts` — writing rules
@@ -150,10 +173,13 @@ BLOG_URL                   # https://vladlyamin.ru
 ```
 
 On Vercel these were managed in the dashboard; now they live in
-`/var/www/lvmn-site/.env.local` on the server. EXA_API_KEY currently returns 403
-(expired) — refresh it for blog autogeneration to work. `WORDSTAT_TOKEN` is no
-longer used (Wordstat validation was dropped when the blog pivoted to Claude
-content) — remove it from the server `.env.local` too if present.
+`/var/www/lvmn-site/.env.local` on the server. EXA_API_KEY on the VPS returns 403
+— NOT an expired-key issue, `api.exa.ai` blocks the server's Russian IP at the
+Cloudflare level (same class of block that got Vercel itself retired for RU
+hosting). The key works fine from a non-RU machine. See the manual-generation
+note in Architecture above. `WORDSTAT_TOKEN` is no longer used (Wordstat
+validation was dropped when the blog pivoted to Claude content) — remove it
+from the server `.env.local` too if present.
 
 ## Gotchas
 
@@ -163,3 +189,7 @@ content) — remove it from the server `.env.local` too if present.
 - Inngest exists in code but the server crontab (system cron) is the active trigger.
 - `![IMG:]` placeholders must be preserved through the editing pipeline; the first becomes the cover (cinematic a16z-style, see `lib/pipeline/cover-style.ts`). No memes.
 - Forked from sabka-blog — no `sabka` references should remain in active code.
+- `lvmn_blog_topics` accumulated ~350 pre-pivot topics (old n8n/ROI/ChatGPT-generic
+  angles); most are marked `status: "skipped"` so `run-pipeline.ts`'s highest-score
+  selection can't pick them. If a manually-generated article comes out off-topic,
+  check the picked topic's `status`/title first before assuming a code bug.
