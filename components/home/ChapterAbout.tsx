@@ -33,7 +33,7 @@ export default function ChapterAbout() {
           <div className="mt-10 flex items-center gap-8">
             <Link
               href="/about"
-              className="inline-block border-b-2 border-dark-ink pb-[1px] text-[15px] font-medium text-dark-ink transition-opacity hover:opacity-60"
+              className="relative inline-block border-b-2 border-dark-ink pb-[1px] text-[15px] font-medium text-dark-ink transition-opacity hover:opacity-60 after:absolute after:content-[''] after:-inset-x-2 after:-inset-y-[8px]"
             >
               Обо мне
             </Link>

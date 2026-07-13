@@ -29,7 +29,7 @@ export default function HudFrame() {
             type="button"
             onClick={openMenu}
             aria-label="Открыть меню"
-            className={`mono-label pointer-events-auto absolute top-5 right-6 bg-transparent p-0 hover:text-lime-dark ${chip}`}
+            className={`mono-label pointer-events-auto absolute top-5 right-6 bg-transparent p-0 hover:text-lime-dark after:absolute after:inset-[-12px] after:content-[''] ${chip}`}
           >
             {pad(activeIndex + 1)} / {pad(chapters.length)}
           </button>
@@ -41,7 +41,7 @@ export default function HudFrame() {
             type="button"
             onClick={openMenu}
             aria-label="Открыть меню"
-            className={`mono-label pointer-events-auto absolute top-5 right-6 bg-transparent p-0 hover:text-lime-dark ${chip}`}
+            className={`mono-label pointer-events-auto absolute top-5 right-6 bg-transparent p-0 hover:text-lime-dark after:absolute after:inset-[-12px] after:content-[''] ${chip}`}
           >
             Меню
           </button>
@@ -61,7 +61,7 @@ export default function HudFrame() {
         )}
         <span className={`mono-label absolute bottom-5 left-6 ${chip}`}>{extras.bl ?? 'Влад Лямин'}</span>
         <Link href="https://t.me/lyaminvl" target="_blank" rel="noopener noreferrer"
-          className={`mono-label pointer-events-auto absolute right-6 bottom-5 hover:text-lime-dark ${chip}`}>
+          className={`mono-label pointer-events-auto absolute right-6 bottom-5 hover:text-lime-dark after:absolute after:inset-[-12px] after:content-[''] ${chip}`}>
           {extras.br ?? '@lyaminvl'}
         </Link>
       </div>

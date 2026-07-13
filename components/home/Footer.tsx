@@ -18,7 +18,7 @@ export function Footer() {
               {...(l.href.startsWith("http")
                 ? { target: "_blank", rel: "noopener noreferrer" }
                 : {})}
-              className="transition-colors hover:text-ink"
+              className="relative transition-colors hover:text-ink after:absolute after:content-[''] after:-inset-x-2 after:-inset-y-3"
             >
               {l.label}
             </a>

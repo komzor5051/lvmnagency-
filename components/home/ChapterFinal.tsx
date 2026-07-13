@@ -31,7 +31,7 @@ export default function ChapterFinal() {
               Смотреть продукты
             </Link>
           </Magnetic>
-          <Link href={TELEGRAM_URL} target="_blank" rel="noopener noreferrer" className="link-ul text-[15px]">
+          <Link href={TELEGRAM_URL} target="_blank" rel="noopener noreferrer" className="link-ul text-[15px] relative after:absolute after:content-[''] after:-inset-x-2 after:-inset-y-[8px]">
             Написать в Telegram
           </Link>
         </div>
@@ -47,10 +47,10 @@ export default function ChapterFinal() {
         </nav>
         <div className="mono-label mt-10 flex flex-wrap items-center gap-8 text-ink-muted">
           <span>© {new Date().getFullYear()} Влад Лямин</span>
-          <Link href={TELEGRAM_URL} target="_blank" rel="noopener noreferrer" className="hover:text-ink">
+          <Link href={TELEGRAM_URL} target="_blank" rel="noopener noreferrer" className="relative hover:text-ink after:absolute after:content-[''] after:-inset-x-2 after:-inset-y-3">
             Telegram
           </Link>
-          <Link href="/blog/feed.xml" className="hover:text-ink">
+          <Link href="/blog/feed.xml" className="relative hover:text-ink after:absolute after:content-[''] after:-inset-x-2 after:-inset-y-3">
             RSS
           </Link>
         </div>

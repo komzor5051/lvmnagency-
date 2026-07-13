@@ -46,7 +46,7 @@ export default function HudBurger() {
     <div ref={rootRef} className="relative">
       <button
         type="button"
-        className="flex h-[18px] w-[18px] flex-col items-center justify-center gap-[4px] bg-transparent p-0"
+        className="relative flex h-[18px] w-[18px] flex-col items-center justify-center gap-[4px] bg-transparent p-0 after:absolute after:inset-[-13px] after:content-['']"
         aria-label="Меню"
         aria-expanded={open}
         aria-haspopup="menu"
@@ -67,7 +67,7 @@ export default function HudBurger() {
               key={l.href}
               href={l.href}
               role="menuitem"
-              className="mono-label hover:underline underline-offset-4 block px-4 py-3"
+              className="mono-label hover:underline underline-offset-4 flex min-h-[44px] items-center px-4 py-2"
             >
               {l.label}
             </Link>

@@ -40,7 +40,7 @@ export default function ChapterHero() {
                 Получить гайд
               </Link>
             </Magnetic>
-            <Link href="https://t.me/lyaminvl" target="_blank" className="link-ul text-[15px]">
+            <Link href="https://t.me/lyaminvl" target="_blank" className="link-ul text-[15px] relative after:absolute after:content-[''] after:-inset-x-2 after:-inset-y-[8px]">
               Написать в Telegram
             </Link>
           </div>
