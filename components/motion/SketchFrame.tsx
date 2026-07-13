@@ -1,11 +1,8 @@
 "use client";
 
-import { useRef, type ReactNode } from "react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useGSAP } from "@gsap/react";
-
-gsap.registerPlugin(useGSAP, ScrollTrigger);
+import { useEffect, useRef, type ReactNode } from "react";
+import { animate, stagger, utils } from "animejs";
+import { observeOnce } from "./observeOnce";
 
 /**
  * Draws a 1px ink frame around its child stroke-by-stroke when the block
@@ -15,28 +12,30 @@ gsap.registerPlugin(useGSAP, ScrollTrigger);
 export function SketchFrame({ children }: { children: ReactNode }) {
   const root = useRef<HTMLDivElement>(null);
 
-  useGSAP(
-    () => {
-      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-      const h = gsap.utils.toArray<HTMLElement>("[data-sketch-line='h']", root.current);
-      const v = gsap.utils.toArray<HTMLElement>("[data-sketch-line='v']", root.current);
-      gsap.set(h, { scaleX: 0 });
-      gsap.set(v, { scaleY: 0 });
-      gsap.to([h[0], v[0], h[1], v[1]], {
-        scaleX: 1,
-        scaleY: 1,
-        duration: 0.35,
-        ease: "power2.out",
-        stagger: 0.09,
-        scrollTrigger: {
-          trigger: root.current,
-          start: "top 85%",
-          once: true,
-        },
-      });
-    },
-    { scope: root }
-  );
+  useEffect(() => {
+    const el = root.current;
+    if (!el) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    const h = Array.from(el.querySelectorAll<HTMLElement>("[data-sketch-line='h']"));
+    const v = Array.from(el.querySelectorAll<HTMLElement>("[data-sketch-line='v']"));
+    utils.set(h, { scaleX: 0 });
+    utils.set(v, { scaleY: 0 });
+
+    return observeOnce(
+      el,
+      () => {
+        animate([h[0], v[0], h[1], v[1]], {
+          scaleX: 1,
+          scaleY: 1,
+          duration: 350,
+          ease: "outCubic",
+          delay: stagger(90),
+        });
+      },
+      "0px 0px -15% 0px"
+    );
+  }, []);
 
   return (
     <div ref={root} className="relative">

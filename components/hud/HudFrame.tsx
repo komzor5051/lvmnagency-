@@ -1,23 +1,15 @@
 'use client'
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
 import { useState } from 'react'
 import { useHudState } from './HudContext'
 import HudMenu from './HudMenu'
 import HudBurger from './HudBurger'
 
-const PATH_NAMES: [string, string][] = [
-  ['/products', 'Продукты'], ['/audit', 'AI-аудит'], ['/blog', 'Блог'],
-  ['/about', 'Обо мне'], ['/vibecoding', 'Вайбкодинг'], ['/', 'Главная'],
-]
-
 export default function HudFrame() {
   const { chapters, activeIndex, extras } = useHudState()
-  const pathname = usePathname()
   const [menuOpen, setMenuOpen] = useState(false)
   const active = chapters[activeIndex]
   const dark = active?.theme === 'dark'
-  const fallback = PATH_NAMES.find(([p]) => pathname === p || (p !== '/' && pathname.startsWith(p)))?.[1] ?? ''
   const pad = (n: number) => String(n).padStart(2, '0')
   const openMenu = () => setMenuOpen(true)
   // On mobile the fixed HUD labels ride over large headings while scrolling;
@@ -32,7 +24,6 @@ export default function HudFrame() {
         </div>
       </div>
       <div className={`pointer-events-none fixed inset-0 z-50 transition-colors duration-500 ${dark ? 'text-dark-ink' : 'text-ink'}`} aria-hidden>
-        <span className={`mono-label absolute top-5 left-16 ${chip}`}>{active?.name ?? fallback}</span>
         {chapters.length > 0 ? (
           <button
             type="button"

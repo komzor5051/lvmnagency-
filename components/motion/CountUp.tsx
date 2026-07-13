@@ -1,11 +1,8 @@
 "use client";
 
-import { useRef } from "react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useGSAP } from "@gsap/react";
-
-gsap.registerPlugin(useGSAP, ScrollTrigger);
+import { useEffect, useRef } from "react";
+import { animate } from "animejs";
+import { observeOnce } from "./observeOnce";
 
 type CountUpProps = {
   value: number;
@@ -28,35 +25,38 @@ export function CountUp({
   prefix = "",
   suffix = "",
   decimals = 0,
-  duration = 1.4,
+  duration = 1400,
   className,
 }: CountUpProps) {
   const ref = useRef<HTMLSpanElement>(null);
   const format = (v: number) => `${prefix}${v.toFixed(decimals)}${suffix}`;
 
-  useGSAP(
-    () => {
-      const el = ref.current;
-      if (!el) return;
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
 
-      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-        el.textContent = format(value);
-        return;
-      }
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      el.textContent = format(value);
+      return;
+    }
 
-      const proxy = { v: 0 };
-      gsap.to(proxy, {
-        v: value,
-        duration,
-        ease: "power2.out",
-        onUpdate: () => {
-          el.textContent = format(proxy.v);
-        },
-        scrollTrigger: { trigger: el, start: "top 85%", once: true },
-      });
-    },
-    { scope: ref, dependencies: [value, prefix, suffix, decimals, duration] }
-  );
+    const proxy = { v: 0 };
+    return observeOnce(
+      el,
+      () => {
+        animate(proxy, {
+          v: value,
+          duration,
+          ease: "outCubic",
+          onUpdate: () => {
+            el.textContent = format(proxy.v);
+          },
+        });
+      },
+      "0px 0px -15% 0px"
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [value, prefix, suffix, decimals, duration]);
 
   return (
     // The invisible final value owns the layout, the animating copy sits on

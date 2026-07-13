@@ -2,7 +2,7 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useEffect, useRef } from 'react'
-import { gsap } from 'gsap'
+import { animate } from 'animejs'
 import { useReducedMotion } from '../motion/useReducedMotion'
 
 const LINKS = [
@@ -21,7 +21,7 @@ type Props = { open: boolean; onClose: () => void }
 /**
  * Fullscreen poster menu — the global replacement for the old top nav.
  * Opened from the HUD (index/bars button, or the "Меню" button on
- * chapter-less pages). Animates with a gsap clip-path wipe; instant
+ * chapter-less pages). Animates with an anime.js clip-path wipe; instant
  * show/hide when the user prefers reduced motion.
  */
 export default function HudMenu({ open, onClose }: Props) {
@@ -65,11 +65,10 @@ export default function HudMenu({ open, onClose }: Props) {
       el.style.clipPath = open ? VISIBLE_CLIP : HIDDEN_CLIP
       return
     }
-    gsap.to(el, {
+    animate(el, {
       clipPath: open ? VISIBLE_CLIP : HIDDEN_CLIP,
-      duration: 0.5,
-      ease: open ? 'power3.out' : 'power3.in',
-      overwrite: true,
+      duration: 500,
+      ease: open ? 'outQuart' : 'inQuart',
     })
   }, [open, reduced])
 

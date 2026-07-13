@@ -1,12 +1,8 @@
 'use client'
-import { useRef, useState } from 'react'
-import { gsap } from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import { useGSAP } from '@gsap/react'
+import { useEffect, useRef, useState } from 'react'
 import Chapter from '@/components/hud/Chapter'
 import { useReducedMotion } from '@/components/motion/useReducedMotion'
-
-gsap.registerPlugin(ScrollTrigger, useGSAP)
+import { useMediaQuery } from '@/components/motion/useMediaQuery'
 
 const STEPS = [
   {
@@ -27,40 +23,47 @@ const STEPS = [
 ] as const
 
 // Desktop: an unpinned tall (300vh) section with a sticky inner stage.
-// A single ScrollTrigger on the outer wrapper reports scroll progress
-// (0..1); progress is split into three even zones to pick the active
-// word/paragraph. Chosen over a pinned timeline because it needs no
-// pin-spacer bookkeeping and degrades to a plain static stack for free
-// when the effect is skipped (reduced motion / mobile — see below).
+// A scroll listener on the outer wrapper reports scroll progress (0..1);
+// progress is split into three even zones to pick the active word/paragraph.
+// Chosen over a pinned timeline because it needs no pin-spacer bookkeeping
+// and degrades to a plain static stack for free when the effect is skipped
+// (reduced motion / mobile — see below).
 export default function ChapterMethod() {
   const reduced = useReducedMotion()
+  const isCoarseOrNarrow = useMediaQuery('(pointer: coarse), (max-width: 767px)')
+  const staticMode = reduced || isCoarseOrNarrow
   const wrapRef = useRef<HTMLDivElement>(null)
   const [active, setActive] = useState(0)
-  const [staticMode, setStaticMode] = useState(false)
 
-  useGSAP(
-    () => {
-      const isCoarseOrNarrow = window.matchMedia('(pointer: coarse), (max-width: 767px)').matches
-      if (reduced || isCoarseOrNarrow) {
-        setStaticMode(true)
-        return
-      }
+  useEffect(() => {
+    if (staticMode) return
 
-      const el = wrapRef.current
-      if (!el) return
-      const trigger = ScrollTrigger.create({
-        trigger: el,
-        start: 'top top',
-        end: 'bottom bottom',
-        onUpdate: self => {
-          const zone = Math.min(STEPS.length - 1, Math.floor(self.progress * STEPS.length))
-          setActive(zone)
-        },
-      })
-      return () => trigger.kill()
-    },
-    { dependencies: [reduced] },
-  )
+    const el = wrapRef.current
+    if (!el) return
+
+    let ticking = false
+    const update = () => {
+      ticking = false
+      const rect = el.getBoundingClientRect()
+      const travelable = rect.height - window.innerHeight
+      const progress = travelable <= 0 ? 0 : Math.min(1, Math.max(0, -rect.top / travelable))
+      const zone = Math.min(STEPS.length - 1, Math.floor(progress * STEPS.length))
+      setActive(zone)
+    }
+    const onScroll = () => {
+      if (ticking) return
+      ticking = true
+      requestAnimationFrame(update)
+    }
+
+    requestAnimationFrame(update)
+    window.addEventListener('scroll', onScroll, { passive: true })
+    window.addEventListener('resize', onScroll)
+    return () => {
+      window.removeEventListener('scroll', onScroll)
+      window.removeEventListener('resize', onScroll)
+    }
+  }, [staticMode])
 
   if (staticMode) {
     return (

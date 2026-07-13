@@ -10,7 +10,7 @@ import { Reveal } from "@/components/motion/Reveal";
 export const metadata: Metadata = {
   title: "Второй мозг: Claude + Obsidian",
   description:
-    "Гайд из 10 шагов: наведите Claude на хранилище Obsidian и больше не объясняйте себя заново.",
+    "Гайд из 11 шагов: наведите Claude на хранилище Obsidian и больше не объясняйте себя заново.",
   robots: { index: false, follow: false },
 };
 
@@ -123,12 +123,22 @@ const steps: Step[] = [
   },
   {
     n: "09",
+    title: "Прокачайте мост",
+    body: [
+      "mcp-obsidian из шага 05 — это дверь. Дальше можно добавить то, что видит сквозь неё смысл, а не только файлы.",
+      "obsidian-mcp-tools (jacksteamdev, 800+ звёзд на GitHub) ставится поверх того же Local REST API и добавляет Claude поиск по смыслу заметки, а не по точному слову, плюс запуск ваших собственных Templater-шаблонов прямо из чата.",
+      "Семантический поиск ему даёт плагин Smart Connections (5000+ звёзд) — он строит локальную векторную базу вашего хранилища на устройстве, без API-ключей и без отправки заметок наружу. Поставьте его первым, obsidian-mcp-tools подключится к нему сам.",
+      "И один плагин на другом конце: официальный Obsidian Web Clipper сохраняет статьи и транскрипты YouTube в чистый markdown с готовым frontmatter прямо в raw/. Меньше рутины перед тем, как Claude возьмётся за файл.",
+    ],
+  },
+  {
+    n: "10",
     title: "Добавьте живые данные — и уходите",
     body: ["Статичные заметки — это половина мозга. Подключите то, что меняется. Для Google Calendar выполните:"],
     code: { text: "claude mcp add google-workspace uvx workspace-mcp --tools calendar" },
   },
   {
-    n: "09",
+    n: "10",
     title: "",
     body: [
       "Дайте доступ на чтение, а затем скажите: «Прочитай сегодняшний календарь, занеси в мои задачи всё, что я пообещал на каждой встрече, и пометь всё, у кого нет ясного следующего шага».",
@@ -137,13 +147,14 @@ const steps: Step[] = [
     ],
   },
   {
-    n: "10",
-    title: "Пропустите всю настройку: три бесплатных репозитория",
+    n: "11",
+    title: "Пропустите всю настройку: четыре бесплатных репозитория",
     body: [
       "Если собирать с нуля не хочется, сообщество уже упаковало всё целиком.",
       "AgriciDaniel/claude-obsidian — это самоорганизующийся мозг по паттерну Карпати: 15 скиллов Claude Code и пресеты под PARA, Zettelkasten и другие методы.",
       "eugeniughelbur/obsidian-second-brain даёт 43 команды вроде /obsidian-save, /obsidian-daily и /obsidian-find и работает сразу в Claude, Codex и Gemini.",
       "coleam00/second-brain-starter проводит с вами интервью, пишет план сборки, а затем разворачивает всё целиком из markdown и Python.",
+      "ballred/obsidian-claude-pkm (1500+ звёзд) — самый укомплектованный вариант: 4 агента с памятью, 10 скиллов, автокоммит изменений в git и готовые еженедельные и ежемесячные обзоры хранилища.",
       "Склонируйте любой. И перекроите под себя.",
     ],
   },
@@ -169,7 +180,7 @@ export default function SecondBrainGuidePage() {
         <section className="mx-auto max-w-3xl px-5 pb-12 pt-24 md:px-10 md:pt-28">
           <Reveal>
             <p data-reveal className="font-mono text-xs uppercase tracking-[0.18em] text-accent">
-              Гайд из 10 шагов
+              Гайд из 11 шагов
             </p>
             <h1
               data-reveal

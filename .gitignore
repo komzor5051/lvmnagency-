@@ -44,3 +44,8 @@ next-env.d.ts
 
 # git worktrees (superpowers workflow)
 .worktrees/
+.gstack/
+.playwright-mcp/
+.claude/settings.local.json
+.claude/worktrees/
+.DS_Store

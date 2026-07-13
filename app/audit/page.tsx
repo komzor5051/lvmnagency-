@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { gsap } from "gsap";
+import { animate } from "animejs";
 import Chapter from "@/components/hud/Chapter";
 import { useHudApi } from "@/components/hud/HudContext";
 import { useReducedMotion } from "@/components/motion/useReducedMotion";
@@ -105,16 +105,17 @@ export default function AuditPage() {
     return () => setHudExtras({});
   }, [setHudExtras]);
 
-  // Step transition: gsap vertical curtain (clip-path) on step change.
+  // Step transition: anime.js vertical curtain (clip-path) on step change.
   // Reduced motion -> instant swap (no animation).
   useEffect(() => {
     const el = stageRef.current;
     if (!el || reduced) return;
-    gsap.fromTo(
-      el,
-      { clipPath: "inset(0 0 100% 0)", opacity: 0 },
-      { clipPath: "inset(0 0 0% 0)", opacity: 1, duration: 0.5, ease: "power3.out" }
-    );
+    animate(el, {
+      clipPath: ["inset(0 0 100% 0)", "inset(0 0 0% 0)"],
+      opacity: [0, 1],
+      duration: 500,
+      ease: "outQuart",
+    });
   }, [step, reduced]);
 
   // Form state

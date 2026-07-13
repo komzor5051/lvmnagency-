@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import gsap from "gsap";
+import { createAnimatable, utils } from "animejs";
 
 /**
  * 3D tilt that follows the cursor (rotateX/rotateY, max ~9deg by default)
@@ -24,16 +24,18 @@ export function useTilt(maxTilt = 9) {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     if (window.matchMedia("(hover: none), (pointer: coarse)").matches) return;
 
-    gsap.set(el, { transformPerspective: 900 });
-    const toRotX = gsap.quickTo(el, "rotationX", { duration: 0.5, ease: "power3.out" });
-    const toRotY = gsap.quickTo(el, "rotationY", { duration: 0.5, ease: "power3.out" });
+    utils.set(el, { transformPerspective: 900 });
+    const tilt = createAnimatable(el, {
+      rotateX: { duration: 500, ease: "outQuart" },
+      rotateY: { duration: 500, ease: "outQuart" },
+    });
 
     const onMove = (e: MouseEvent) => {
       const rect = el.getBoundingClientRect();
       const px = (e.clientX - rect.left) / rect.width; // 0..1
       const py = (e.clientY - rect.top) / rect.height; // 0..1
-      toRotX((0.5 - py) * maxTilt * 2);
-      toRotY((px - 0.5) * maxTilt * 2);
+      tilt.rotateX((0.5 - py) * maxTilt * 2);
+      tilt.rotateY((px - 0.5) * maxTilt * 2);
 
       const glare = glareRef.current;
       if (glare) {
@@ -44,8 +46,8 @@ export function useTilt(maxTilt = 9) {
     };
 
     const onLeave = () => {
-      toRotX(0);
-      toRotY(0);
+      tilt.rotateX(0, 600, "outElastic(1, 0.4)");
+      tilt.rotateY(0, 600, "outElastic(1, 0.4)");
       const glare = glareRef.current;
       if (glare) glare.style.opacity = "0";
     };
@@ -55,7 +57,7 @@ export function useTilt(maxTilt = 9) {
     return () => {
       el.removeEventListener("mousemove", onMove);
       el.removeEventListener("mouseleave", onLeave);
-      gsap.killTweensOf(el);
+      tilt.revert();
     };
   }, [maxTilt]);
 

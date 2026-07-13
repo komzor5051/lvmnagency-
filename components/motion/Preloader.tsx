@@ -1,6 +1,6 @@
 'use client'
 import { useEffect, useRef, useState } from 'react'
-import { gsap } from 'gsap'
+import { createTimeline } from 'animejs'
 import { useReducedMotion } from './useReducedMotion'
 
 export default function Preloader() {
@@ -13,11 +13,19 @@ export default function Preloader() {
     if (reduced || sessionStorage.getItem('lvmn_seen')) return
     sessionStorage.setItem('lvmn_seen', '1')
     setShow(true)
-    const counter = { v: 0 }
-    const tl = gsap.timeline({ onComplete: () => setShow(false) })
-    tl.to(counter, { v: 100, duration: 0.9, ease: 'power2.inOut', onUpdate: () => setN(Math.round(counter.v)) })
-      .to(ref.current, { yPercent: -100, duration: 0.5, ease: 'power4.inOut' }, '+=0.1')
   }, [reduced])
+
+  useEffect(() => {
+    if (!show || !ref.current) return
+    const counter = { v: 0 }
+    const tl = createTimeline({ onComplete: () => setShow(false) })
+    tl.add(counter, {
+      v: 100,
+      duration: 900,
+      ease: 'inOutCubic',
+      onUpdate: () => setN(Math.round(counter.v)),
+    }).add(ref.current, { translateY: ['0%', '-100%'], duration: 500, ease: 'inOutQuart' }, '+=100')
+  }, [show])
 
   if (!show) return null
   return (

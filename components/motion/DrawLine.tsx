@@ -1,14 +1,12 @@
 "use client";
 
-import { useRef } from "react";
-import gsap from "gsap";
-import { useGSAP } from "@gsap/react";
-
-gsap.registerPlugin(useGSAP);
+import { useEffect, useRef } from "react";
+import { animate } from "animejs";
+import { createDrawable } from "animejs/svg";
 
 type DrawLineProps = {
   className?: string;
-  /** Seconds before drawing starts. */
+  /** Ms before drawing starts. */
   delay?: number;
   duration?: number;
   strokeWidth?: number;
@@ -16,30 +14,32 @@ type DrawLineProps = {
 
 /**
  * Hand-drawn orange underline (quadratic curve) that draws itself on mount
- * via stroke-dashoffset. Position it absolutely under the highlighted word:
+ * via anime.js's SVG `draw` property. Position it absolutely under the
+ * highlighted word:
  * <span className="relative">окупаются<DrawLine className="absolute -bottom-1 left-0 w-full h-[0.18em]" /></span>
  * prefers-reduced-motion: line renders fully drawn, no animation.
  */
 export function DrawLine({
   className,
-  delay = 0.4,
-  duration = 0.9,
+  delay = 400,
+  duration = 900,
   strokeWidth = 6,
 }: DrawLineProps) {
   const pathRef = useRef<SVGPathElement>(null);
 
-  useGSAP(() => {
+  useEffect(() => {
     const path = pathRef.current;
     if (!path) return;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
-    const length = path.getTotalLength();
-    gsap.fromTo(
-      path,
-      { strokeDasharray: length, strokeDashoffset: length },
-      { strokeDashoffset: 0, delay, duration, ease: "power2.inOut" }
-    );
-  });
+    const [drawable] = createDrawable(path);
+    animate(drawable, {
+      draw: ["0 0", "0 1"],
+      delay,
+      duration,
+      ease: "inOutCubic",
+    });
+  }, [delay, duration]);
 
   return (
     <svg

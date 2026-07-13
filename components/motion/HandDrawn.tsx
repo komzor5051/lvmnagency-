@@ -1,11 +1,9 @@
 'use client'
-import { useRef, type ReactNode } from 'react'
-import { gsap } from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import { useGSAP } from '@gsap/react'
+import { useEffect, useRef, type ReactNode } from 'react'
+import { animate } from 'animejs'
+import { createDrawable } from 'animejs/svg'
+import { observeOnce } from './observeOnce'
 import { useReducedMotion } from './useReducedMotion'
-
-gsap.registerPlugin(ScrollTrigger, useGSAP)
 
 const PATHS = {
   circle: { viewBox: '0 0 220 90', d: 'M120,8 C70,5 16,20 13,45 C10,72 62,87 116,85 C172,83 214,68 214,44 C214,18 160,6 108,9 C94,9.8 80,12 70,16' },
@@ -17,20 +15,27 @@ export default function HandDrawn({ kind, className = '', children }: { kind: ke
   const reduced = useReducedMotion()
   const { viewBox, d } = PATHS[kind]
 
-  useGSAP(() => {
-    const path = ref.current?.querySelector('path')
-    if (!path || reduced) return
-    const len = path.getTotalLength()
-    gsap.fromTo(path, { strokeDasharray: len, strokeDashoffset: len }, {
-      strokeDashoffset: 0,
-      duration: 1.1,
-      // SplitLines reveals the line under a mask for ~0.9s; without the delay
-      // the stroke finishes drawing while the text is still hidden.
-      delay: 0.7,
-      ease: 'power2.inOut',
-      scrollTrigger: { trigger: ref.current, start: 'top 80%', once: true },
-    })
-  }, { dependencies: [reduced], revertOnUpdate: true })
+  useEffect(() => {
+    const root = ref.current
+    const path = root?.querySelector('path')
+    if (!root || !path || reduced) return
+
+    const [drawable] = createDrawable(path)
+    return observeOnce(
+      root,
+      () => {
+        animate(drawable, {
+          draw: ['0 0', '0 1'],
+          duration: 1100,
+          // SplitLines reveals the line under a mask for ~0.9s; without the delay
+          // the stroke finishes drawing while the text is still hidden.
+          delay: 700,
+          ease: 'inOutCubic',
+        })
+      },
+      '0px 0px -20% 0px'
+    )
+  }, [reduced])
 
   const underlineStyle = kind === 'underline'
     ? { left: '-2%', top: 'auto' as const, bottom: '-0.18em', width: '104%', height: '0.28em' }

@@ -4,7 +4,7 @@ import Chapter from '@/components/hud/Chapter'
 import SplitLines from '@/components/motion/SplitLines'
 import HandDrawn from '@/components/motion/HandDrawn'
 import Magnetic from '@/components/motion/Magnetic'
-import DistortPortrait from '@/components/motion/DistortPortrait'
+import HeroSystemMap from './HeroSystemMap'
 
 export default function ChapterHero() {
   return (
@@ -12,7 +12,7 @@ export default function ChapterHero() {
       <div className="flex flex-col gap-6 md:grid md:grid-cols-[1.7fr_1fr] md:items-center md:gap-16">
         <div className="order-first flex items-center gap-3 md:hidden">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/portrait.jpg" alt="Влад Лямин" className="aspect-square w-16 shrink-0 border border-line object-cover" />
+          <img src="/portrait-editorial.jpg" alt="Влад Лямин" className="aspect-square w-16 shrink-0 border border-line object-cover object-[50%_30%] grayscale contrast-[1.06]" />
           <p className="mono-label flex items-center gap-3">
             <span className="inline-block size-2 rounded-full bg-lime" />
             Влад Лямин
@@ -34,10 +34,10 @@ export default function ChapterHero() {
           <span className="font-hand mt-3 hidden -rotate-2 text-2xl text-ink-muted lg:inline-block">
             строится 2 недели, работает годами →
           </span>
-          <div className="mt-6 flex items-center gap-8 md:mt-8">
+          <div className="mt-6 flex flex-wrap items-center gap-x-8 gap-y-4 md:mt-8">
             <Magnetic>
-              <Link href="/audit" className="inline-block text-center bg-ink px-9 py-4 text-[15px] font-medium text-white transition-colors hover:bg-lime hover:text-ink">
-                Пройти AI-аудит
+              <Link href="/products/guide" className="inline-block whitespace-nowrap text-center bg-ink px-9 py-4 text-[15px] font-medium text-white transition-colors hover:bg-lime hover:text-ink">
+                Получить гайд
               </Link>
             </Magnetic>
             <Link href="https://t.me/lyaminvl" target="_blank" className="link-ul text-[15px]">
@@ -45,11 +45,7 @@ export default function ChapterHero() {
             </Link>
           </div>
         </div>
-        <DistortPortrait
-          src="/portrait.jpg"
-          alt="Влад Лямин"
-          className="hidden aspect-[3/4] w-full max-w-[360px] border border-line md:mx-0 md:ml-auto md:block"
-        />
+        <HeroSystemMap />
       </div>
     </Chapter>
   )

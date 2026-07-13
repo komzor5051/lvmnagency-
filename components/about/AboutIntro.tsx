@@ -1,7 +1,7 @@
 'use client'
 import Chapter from '@/components/hud/Chapter'
 import SplitLines from '@/components/motion/SplitLines'
-import DistortPortrait from '@/components/motion/DistortPortrait'
+import PortraitFrame from '@/components/motion/PortraitFrame'
 
 export default function AboutIntro() {
   return (
@@ -17,11 +17,14 @@ export default function AboutIntro() {
             кем вы разговариваете, и тот, кто пишет код.
           </p>
         </div>
-        <DistortPortrait
-          src="/portrait.jpg"
-          alt="Влад Лямин"
-          className="aspect-[3/4] w-full max-w-[420px] border border-dark-line md:justify-self-end"
-        />
+        <figure className="relative w-full max-w-[420px] md:justify-self-end">
+          <span aria-hidden className="absolute -right-3 -bottom-3 h-full w-full border border-dark-line" />
+          <PortraitFrame
+            src="/portrait-editorial.jpg"
+            alt="Влад Лямин"
+            className="relative aspect-[3/4] w-full border border-dark-line bg-dark"
+          />
+        </figure>
       </div>
     </Chapter>
   )

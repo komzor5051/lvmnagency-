@@ -777,3 +777,29 @@ body {
 .hw-wrap > svg { position: absolute !important; left: -8% !important; top: 0 !important; width: 116% !important; height: 110% !important; overflow: visible; pointer-events: none; z-index: -1; }
 .hw-wrap > svg path { fill: none; stroke: var(--color-lime-dark); stroke-width: 3; stroke-linecap: round; }
 [data-theme='dark'] .hw-wrap > svg path { stroke: var(--color-lime); }
+
+/* Hero system map: the moving dash is the only motion in the illustration.
+   It turns the portrait into a diagram of the work instead of a decorative
+   tech effect. The component adds .system-map--still for reduced motion. */
+.system-line {
+  stroke: #111111;
+  stroke-width: 1;
+  stroke-dasharray: 4 8;
+  animation: system-flow 4s linear infinite;
+}
+.system-line--late { animation-delay: -2s; }
+.system-node {
+  fill: #c8f04c;
+  animation: system-pulse 2.4s ease-in-out infinite;
+}
+.system-node--late { animation-delay: -1.2s; }
+.system-map--still .system-line,
+.system-map--still .system-node { animation: none; }
+
+@keyframes system-flow {
+  to { stroke-dashoffset: -48; }
+}
+@keyframes system-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.32; }
+}
