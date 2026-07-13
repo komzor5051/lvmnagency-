@@ -19,7 +19,7 @@ export default function HudFrame() {
   return (
     <>
       <div className={`pointer-events-none fixed inset-0 z-50 transition-colors duration-500 ${dark ? 'text-dark-ink' : 'text-ink'}`}>
-        <div className={`pointer-events-auto absolute top-5 left-6 transition-colors duration-500 ${dark ? 'text-dark-ink' : 'text-ink'}`}>
+        <div className={`pointer-events-auto absolute top-5 left-6 transition-colors duration-500 ${dark ? 'text-dark-ink' : 'text-ink'} ${chip}`}>
           <HudBurger />
         </div>
       </div>
