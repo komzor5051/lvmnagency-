@@ -1,6 +1,7 @@
 'use client'
 import { useEffect, useRef, useState } from 'react'
 import Chapter from '@/components/hud/Chapter'
+import MethodMorph from '@/components/home/MethodMorph'
 import { useReducedMotion } from '@/components/motion/useReducedMotion'
 import { useMediaQuery } from '@/components/motion/useMediaQuery'
 
@@ -86,22 +87,27 @@ export default function ChapterMethod() {
   return (
     <Chapter name="Method" theme="light" className="px-0 py-0">
       <div ref={wrapRef} className="relative" style={{ height: '300vh' }}>
-        <div className="sticky top-0 flex min-h-svh flex-col justify-center gap-10 px-[6vw] py-28">
-          <div className="flex flex-col">
-            {STEPS.map((step, i) => (
-              <p
-                key={step.word}
-                className={`font-display text-[clamp(48px,9vw,130px)] transition-colors duration-300 ${
-                  i === active ? 'text-ink' : 'ghost'
-                }`}
-              >
-                {step.word}
-              </p>
-            ))}
+        <div className="sticky top-0 flex min-h-svh items-center justify-between gap-16 px-[6vw] py-28">
+          <div className="flex flex-col gap-10">
+            <div className="flex flex-col">
+              {STEPS.map((step, i) => (
+                <p
+                  key={step.word}
+                  className={`font-display text-[clamp(48px,9vw,130px)] transition-colors duration-300 ${
+                    i === active ? 'text-ink' : 'ghost'
+                  }`}
+                >
+                  {step.word}
+                </p>
+              ))}
+            </div>
+            <div>
+              <p className="mono-label text-ink-muted">{activeStep.stage}</p>
+              <p className="mt-3 max-w-[520px] text-[17px] leading-relaxed text-ink-muted">{activeStep.body}</p>
+            </div>
           </div>
-          <div>
-            <p className="mono-label text-ink-muted">{activeStep.stage}</p>
-            <p className="mt-3 max-w-[520px] text-[17px] leading-relaxed text-ink-muted">{activeStep.body}</p>
+          <div className="hidden shrink-0 lg:block">
+            <MethodMorph step={active} />
           </div>
         </div>
       </div>
