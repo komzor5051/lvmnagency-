@@ -2,15 +2,11 @@
 import { useEffect, useRef } from 'react'
 import { animate, utils } from 'animejs'
 import { observeOnce } from './observeOnce'
-import DistortPortrait from './DistortPortrait'
 
 /**
  * Editorial portrait treatment: monochrome grade over the photo plus a
  * top-to-bottom curtain reveal with a slow scale settle when the block first
  * enters the viewport. Static full image under prefers-reduced-motion.
- *
- * The element's aspect ratio must match the source image (WebGL in
- * DistortPortrait stretches the texture to the element, it does not cover-crop).
  */
 export default function PortraitFrame({
   src,
@@ -41,7 +37,8 @@ export default function PortraitFrame({
   return (
     <div ref={clipRef} className={`overflow-hidden ${className}`}>
       <div ref={innerRef} className="h-full w-full grayscale contrast-[1.06]">
-        <DistortPortrait src={src} alt={alt} className="h-full w-full" />
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src={src} alt={alt} className="h-full w-full object-cover" />
       </div>
     </div>
   )

@@ -1,6 +1,5 @@
 'use client'
 
-import DistortPortrait from '@/components/motion/DistortPortrait'
 import { useReducedMotion } from '@/components/motion/useReducedMotion'
 
 type SignalProps = {
@@ -51,7 +50,8 @@ export default function HeroSystemMap() {
 
       <div className="absolute inset-[13%] overflow-hidden border border-ink bg-paper">
         <div className="h-full w-full grayscale contrast-[1.06]">
-          <DistortPortrait src="/portrait-editorial.jpg" alt="Влад Лямин" className="h-full w-full" />
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/portrait-editorial.jpg" alt="Влад Лямин" className="h-full w-full object-cover" />
         </div>
         <div className="pointer-events-none absolute inset-x-0 bottom-0 border-t border-ink bg-paper px-3 py-2">
           <p className="mono-label flex items-center justify-between text-[9px]">
