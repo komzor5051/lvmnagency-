@@ -753,8 +753,10 @@ body {
 .hl { position: relative; isolation: isolate; white-space: nowrap; }
 .hl::before { content: ''; position: absolute; left: -0.08em; right: -0.08em; top: 0.18em; bottom: -0.02em; background: var(--color-lime); z-index: -1; }
 
-/* outlined ("ghost") display text */
-.ghost { color: transparent; -webkit-text-stroke: 1px currentColor; }
+/* outlined ("ghost") display text — stroke colour must be concrete:
+   currentColor resolves to the transparent fill and hides the outline */
+.ghost { color: transparent; -webkit-text-stroke: 1px rgba(17, 17, 17, 0.3); }
+[data-theme='dark'] .ghost { -webkit-text-stroke-color: rgba(247, 246, 242, 0.35); }
 
 /* hand-drawn svg accents: fully encircles the word, loose hand-drawn loop */
 .hw-wrap { position: relative; display: inline-block; isolation: isolate; }
