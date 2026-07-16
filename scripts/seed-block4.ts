@@ -159,7 +159,7 @@ Make и Zapier — американские компании, данные хр�
 
 Если хотите разобраться, что именно стоит связать между собой в вашем бизнесе и с каким инструментом — напишите мне в Telegram. Разберём вашу задачу и выйдем с конкретным планом.
 
-[Написать в Telegram](https://t.me/lyaminvl)`,
+[Написать в Telegram](https://telegram.me/lyaminvl)`,
   },
   {
     title: "Claude vs ChatGPT vs Gemini: честное сравнение для рабочих задач фаундера",
@@ -260,7 +260,7 @@ Claude, с заметным отрывом. ChatGPT — второй. Gemini н�
 
 Если хотите разобраться, какой инструмент закроет именно ваши задачи и как встроить его в реальный рабочий процесс — напишите мне в Telegram. Разберём вашу задачу и выйдем с конкретным планом.
 
-[Написать в Telegram](https://t.me/lyaminvl)`,
+[Написать в Telegram](https://telegram.me/lyaminvl)`,
   },
   {
     title: "Как анализировать бизнес-данные с помощью AI: без Excel и без аналитика",
@@ -383,7 +383,7 @@ Google Sheets — второй по удобству источник. Копи�
 
 Если хотите разобраться, как применить это к вашим данным — какие выгрузки делать, как формулировать запросы под вашу воронку — напишите мне в Telegram. Разберём вашу задачу и выйдем с конкретным планом.
 
-[Написать в Telegram](https://t.me/lyaminvl)`,
+[Написать в Telegram](https://telegram.me/lyaminvl)`,
   },
   {
     title: "Голосовые заметки + AI: как я превращаю мысли в задачи за 10 минут",
@@ -498,7 +498,7 @@ Google Sheets — второй по удобству источник. Копи�
 
 Если хотите встроить подобные процессы в свою работу — напишите мне в Telegram. Разберём вашу задачу и выйдем с конкретным планом.
 
-[Написать в Telegram](https://t.me/lyaminvl)`,
+[Написать в Telegram](https://telegram.me/lyaminvl)`,
   },
 ];
 
@@ -529,7 +529,7 @@ async function main() {
       content_html: html,
       cover_image: null,
       tags: article.tags,
-      cta_url: "https://t.me/lyaminvl",
+      cta_url: "https://telegram.me/lyaminvl",
       status: "published",
       published_at: new Date().toISOString(),
     });

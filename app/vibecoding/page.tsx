@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Footer } from "@/components/home/Footer";
+import DeskFooter from "@/components/desk/DeskFooter";
 import { Reveal } from "@/components/motion/Reveal";
 import { WaitlistForm } from "@/components/products/WaitlistForm";
 
@@ -464,7 +464,7 @@ export default function VibecodingPage() {
           </div>
         </section>
       </main>
-      <Footer />
+      <DeskFooter />
     </div>
   );
 }

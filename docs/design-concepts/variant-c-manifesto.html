@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Вариант C. Манифест</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@500;600;700;800;900&family=Onest:wght@400;500;600&family=Caveat:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #FAFAF8;
+    --sheet: #FFFFFF;
+    --ink: #111111;
+    --muted: #666666;
+    --line: #E4E4E0;
+    --lime: #C8F04C;
+    --lime-dark: #A8D030;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Onest', sans-serif; color: var(--ink);
+    background-color: var(--paper);
+    background-image:
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cpath d='M100 92v16M92 100h16' stroke='%23111111' stroke-opacity='0.13' stroke-width='1'/%3E%3C/svg%3E"),
+      repeating-linear-gradient(0deg, transparent 0 39px, rgba(17,17,17,.04) 39px 40px),
+      repeating-linear-gradient(90deg, transparent 0 39px, rgba(17,17,17,.04) 39px 40px),
+      repeating-linear-gradient(0deg, transparent 0 7px, rgba(17,17,17,.016) 7px 8px),
+      repeating-linear-gradient(90deg, transparent 0 7px, rgba(17,17,17,.016) 7px 8px);
+    overflow-x: hidden;
+  }
+  h1, h2, h3 { font-family: 'Inter Tight', sans-serif; letter-spacing: -0.035em; }
+  .hand { font-family: 'Caveat', cursive; }
+  .mono { font-family: ui-monospace, 'SF Mono', Menlo, monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+  .wrap { max-width: 1200px; margin: 0 auto; padding: 0 32px; }
+
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 50; height: 60px;
+    display: flex; align-items: center;
+    background: rgba(250,250,248,0.85); backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--line);
+  }
+  nav .wrap { width: 100%; display: flex; justify-content: space-between; align-items: center; }
+  .logo { display: flex; align-items: center; gap: 10px; font-family: 'Inter Tight'; font-weight: 700; font-size: 16px; text-decoration: none; color: var(--ink); }
+  .logo-mark { width: 26px; height: 26px; background: var(--lime); display: grid; place-items: center; font-size: 11px; font-weight: 800; }
+  .btn {
+    display: inline-flex; align-items: center; background: var(--ink); color: #fff;
+    font-weight: 600; font-size: 15px; padding: 13px 28px; text-decoration: none;
+    border: 1px solid var(--ink); cursor: pointer; transition: background .2s, color .2s;
+  }
+  .btn:hover { background: var(--lime); color: var(--ink); }
+  .btn:active { transform: translateY(1px); }
+  .btn-lime { background: var(--lime); color: var(--ink); }
+  .btn-lime:hover { background: var(--ink); color: #fff; }
+  .btn-sm { padding: 9px 18px; font-size: 13px; }
+
+  /* ===== HERO: manifesto ===== */
+  .hero {
+    min-height: 100dvh; display: flex; flex-direction: column;
+    align-items: center; justify-content: center; text-align: center;
+    padding: 100px 20px 60px;
+  }
+  .hero h1 {
+    font-size: clamp(44px, 7.2vw, 108px); font-weight: 900; line-height: 1.0;
+    max-width: 12ch;
+  }
+  .hero h1 .w { display: inline-block; opacity: 0; transform: translateY(40px); }
+  .hero h1 .lime-w { position: relative; z-index: 0; }
+  .hero h1 .lime-w::before {
+    content: ''; position: absolute; left: -0.08em; right: -0.08em; bottom: 0.02em; height: 0.5em;
+    background: var(--lime); z-index: -1; transform: scaleX(0); transform-origin: left center;
+  }
+  .hero h1 .lime-w.on::before { transform: scaleX(1); transition: transform .6s cubic-bezier(.16,1,.3,1); }
+  .hero p { margin-top: 30px; font-size: 19px; color: var(--muted); line-height: 1.6; max-width: 44ch; opacity: 0; }
+  .hero-cta { margin-top: 38px; display: flex; gap: 16px; opacity: 0; }
+
+  /* ===== negation strip (scrub-reveal manifesto lines) ===== */
+  .negate { padding: 160px 0; }
+  .negate-line {
+    font-family: 'Inter Tight'; font-weight: 800; letter-spacing: -0.03em;
+    font-size: clamp(36px, 5.4vw, 84px); line-height: 1.12;
+    color: rgba(17,17,17,0.12);
+    background: linear-gradient(90deg, var(--ink) 50%, transparent 50%) no-repeat;
+    background-size: 200% 100%; background-position: 100% 0;
+    -webkit-background-clip: text; background-clip: text;
+  }
+  .negate-line strong { font-weight: 800; }
+  .negate .yes {
+    margin-top: 24px;
+    font-size: clamp(40px, 6vw, 96px);
+  }
+  .negate .yes mark { background: linear-gradient(var(--lime), var(--lime)) 0 80%/100% 45% no-repeat; color: var(--ink); }
+
+  /* ===== zoom parallax portrait ===== */
+  .zoom-sec { position: relative; height: 220vh; }
+  .zoom-pin { position: sticky; top: 0; height: 100dvh; overflow: hidden; display: grid; place-items: center; }
+  .zoom-frame {
+    width: 46vw; max-width: 640px; aspect-ratio: 4/5; overflow: hidden;
+    background: var(--sheet); padding: 12px; border: 1px solid var(--ink);
+    box-shadow: 0 40px 90px -30px rgba(17,17,17,0.35);
+    will-change: transform;
+  }
+  .zoom-frame img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(1) contrast(1.05); }
+  .zoom-caption {
+    position: absolute; z-index: 2; text-align: center; color: var(--ink);
+    mix-blend-mode: normal; pointer-events: none;
+  }
+  .zoom-caption h2 { font-size: clamp(36px, 5vw, 72px); font-weight: 900; line-height: 1.04; text-shadow: 0 0 24px rgba(250,250,248,0.9), 0 0 8px rgba(250,250,248,0.9); }
+  .zoom-caption .hand { font-size: 28px; color: var(--ink); }
+
+  /* ===== horizontal product pan ===== */
+  .pan-sec { position: relative; height: 320vh; }
+  .pan-pin { position: sticky; top: 0; height: 100dvh; overflow: hidden; display: flex; flex-direction: column; justify-content: center; }
+  .pan-head { padding: 0 32px; max-width: 1200px; margin: 0 auto 40px; width: 100%; }
+  .pan-head h2 { font-size: clamp(30px, 3.4vw, 48px); font-weight: 800; }
+  .pan-track { display: flex; gap: 28px; padding: 0 32px; width: max-content; will-change: transform; }
+  .p-card {
+    width: min(420px, 78vw); background: var(--sheet); border: 1px solid var(--ink);
+    padding: 40px 36px; display: flex; flex-direction: column; gap: 16px; min-height: 320px;
+    box-shadow: 0 20px 44px -20px rgba(17,17,17,0.22);
+  }
+  .p-card h3 { font-size: 26px; font-weight: 800; }
+  .p-card p { color: var(--muted); font-size: 15px; line-height: 1.6; flex: 1; }
+  .p-card .row { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--line); padding-top: 18px; }
+  .p-card .price { font-family: 'Inter Tight'; font-weight: 800; font-size: 21px; }
+  .p-card.dark { background: var(--ink); border-color: var(--ink); }
+  .p-card.dark h3 { color: #fff; }
+  .p-card.dark p { color: #b5b5b5; }
+  .p-card.dark .price { color: var(--lime); }
+  .p-card.dark .row { border-top-color: #333; }
+  .p-card .link-ul { color: var(--ink); font-weight: 600; text-decoration: none; border-bottom: 1.5px solid var(--ink); font-size: 14px; }
+  .p-card.dark .link-ul { color: var(--lime); border-bottom-color: var(--lime); }
+
+  /* ===== CTA ===== */
+  .cta { padding: 180px 0; text-align: center; }
+  .cta h2 { font-size: clamp(40px, 6vw, 92px); font-weight: 900; line-height: 1.0; }
+  .cta h2 mark { background: linear-gradient(var(--lime), var(--lime)) 0 82%/100% 45% no-repeat; color: inherit; }
+  .cta p { margin: 24px auto 42px; max-width: 44ch; color: var(--muted); font-size: 18px; line-height: 1.6; }
+
+  footer { border-top: 1px solid var(--line); padding: 36px 0; }
+  footer .wrap { display: flex; justify-content: space-between; font-size: 14px; color: var(--muted); }
+  footer a { color: var(--ink); }
+
+  .rv { opacity: 0; }
+
+  @media (max-width: 900px) {
+    .zoom-frame { width: 84vw; }
+    .pan-sec { height: auto; }
+    .pan-pin { position: static; height: auto; overflow-x: auto; padding: 40px 0; }
+    .pan-track { transform: none !important; }
+    .negate { padding: 100px 0; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .rv, .hero h1 .w, .hero p, .hero-cta { opacity: 1 !important; transform: none !important; }
+    .negate-line { background-position: 0 0; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <a class="logo" href="#"><span class="logo-mark">ВЛ</span>Влад Лямин</a>
+    <a href="#cta" class="btn btn-sm">Пройти AI-аудит</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="hero">
+  <h1 id="heroH">
+    <span class="w">Хватит</span> <span class="w">играть</span><br>
+    <span class="w">с</span> <span class="w">чат-ботами.</span><br>
+    <span class="w lime-w" id="limeW">Стройте&nbsp;систему.</span>
+  </h1>
+  <p id="heroP">Я помогаю фаундерам превратить AI из игрушки во второй мозг: систему, которая работает на бизнес каждый день.</p>
+  <div class="hero-cta" id="heroC">
+    <a class="btn btn-lime" href="#cta">Пройти AI-аудит</a>
+    <a class="btn" href="#products" style="background:transparent;color:var(--ink)">Смотреть продукты</a>
+  </div>
+</header>
+
+<!-- NEGATION MANIFESTO: lines ink themselves in as you scroll -->
+<section class="negate">
+  <div class="wrap">
+    <p class="negate-line" data-scrub>Не курсы про нейросети.</p>
+    <p class="negate-line" data-scrub>Не подписка на волшебную кнопку.</p>
+    <p class="negate-line" data-scrub>Не команда консультантов.</p>
+    <p class="negate-line yes" data-scrub><mark>Рабочая система в вашем бизнесе.</mark></p>
+  </div>
+</section>
+
+<!-- ZOOM PARALLAX PORTRAIT -->
+<section class="zoom-sec">
+  <div class="zoom-pin">
+    <div class="zoom-frame" id="zoomFrame">
+      <img src="../../public/portrait-editorial.jpg" alt="Влад Лямин">
+    </div>
+    <div class="zoom-caption" id="zoomCap" style="opacity:0">
+      <h2>Один инженер.<br>Ноль посредников.</h2>
+      <span class="hand">я делаю это руками, лично</span>
+    </div>
+  </div>
+</section>
+
+<!-- HORIZONTAL PRODUCT PAN -->
+<section class="pan-sec" id="products">
+  <div class="pan-pin">
+    <div class="pan-head">
+      <h2>Четыре способа начать</h2>
+    </div>
+    <div class="pan-track" id="panTrack">
+      <article class="p-card dark">
+        <span class="mono" style="color:#8a8a8a">15 минут</span>
+        <h3>AI-аудит бизнеса</h3>
+        <p>Отвечаете на 7 вопросов, получаете карту: где теряется время, что автоматизировать первым, сколько это сэкономит.</p>
+        <div class="row"><span class="price">Бесплатно</span><a class="link-ul" href="#cta">Пройти</a></div>
+      </article>
+      <article class="p-card">
+        <span class="mono">60 минут онлайн</span>
+        <h3>Консультация</h3>
+        <p>Разбираем ваш процесс и находим, где AI сэкономит время уже на этой неделе. Уходите с планом действий.</p>
+        <div class="row"><span class="price">7 000 ₽</span><a class="link-ul" href="#cta">Записаться</a></div>
+      </article>
+      <article class="p-card">
+        <span class="mono">PDF-система</span>
+        <h3>Гайд по второму мозгу</h3>
+        <p>Пошаговая сборка личной AI-инфраструктуры: от заметок до агентов, которые работают за вас.</p>
+        <div class="row"><span class="price">2 900 ₽</span><a class="link-ul" href="#cta">Купить</a></div>
+      </article>
+      <article class="p-card">
+        <span class="mono">1-3 дня, лично</span>
+        <h3>Система под ключ</h3>
+        <p>Проектирую и внедряю AI-систему в ваш бизнес: процессы, агенты, обучение команды. Система остаётся у вас.</p>
+        <div class="row"><span class="price">от 70 000 ₽</span><a class="link-ul" href="#cta">Обсудить</a></div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta" id="cta">
+  <div class="wrap">
+    <h2 class="rv" data-rv>Первый шаг:<br><mark>15 минут аудита</mark></h2>
+    <p class="rv" data-rv>7 вопросов о вашем бизнесе. На выходе: карта автоматизации с расчётом экономии в деньгах.</p>
+    <a class="btn btn-lime rv" data-rv href="#">Пройти AI-аудит</a>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span>Влад Лямин, 2026</span>
+    <a href="https://t.me/lyaminvl">Telegram</a>
+  </div>
+</footer>
+
+<script type="module">
+import { animate, stagger, onScroll } from 'https://cdn.jsdelivr.net/npm/animejs@4.0.2/+esm';
+
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+if (!reduce) {
+  // Hero word cascade
+  animate('#heroH .w', {
+    opacity: [0, 1],
+    translateY: [40, 0],
+    delay: stagger(90, { start: 150 }),
+    duration: 700,
+    ease: 'outExpo',
+    onComplete: () => document.querySelector('#limeW').classList.add('on'),
+  });
+  animate('#heroP', { opacity: [0, 1], translateY: [20, 0], duration: 700, delay: 900, ease: 'outExpo' });
+  animate('#heroC', { opacity: [0, 1], translateY: [20, 0], duration: 700, delay: 1050, ease: 'outExpo' });
+
+  // Manifesto lines: ink fills left-to-right, scrubbed by scroll
+  try {
+    document.querySelectorAll('[data-scrub]').forEach(line => {
+      animate(line, {
+        backgroundPosition: ['100% 0', '0% 0'],
+        ease: 'linear',
+        autoplay: onScroll({
+          target: line,
+          enter: 'bottom top+=100',
+          leave: 'center center',
+          sync: 0.3,
+        }),
+      });
+    });
+  } catch (err) {
+    console.warn('scrub fallback', err);
+    document.querySelectorAll('[data-scrub]').forEach(l => l.style.backgroundPosition = '0 0');
+  }
+
+  // Zoom parallax: frame scales up while pinned
+  try {
+    animate('#zoomFrame', {
+      scale: [0.6, 1.15],
+      ease: 'linear',
+      autoplay: onScroll({
+        target: '.zoom-sec',
+        enter: 'top top',
+        leave: 'bottom bottom',
+        sync: 0.25,
+      }),
+    });
+    animate('#zoomCap', {
+      opacity: [0, 1],
+      translateY: [30, 0],
+      ease: 'linear',
+      autoplay: onScroll({
+        target: '.zoom-sec',
+        enter: 'center center',
+        leave: 'bottom bottom',
+        sync: 0.25,
+      }),
+    });
+  } catch (err) { console.warn('zoom skipped', err); }
+
+  // Horizontal pan scrubbed by vertical scroll
+  try {
+    const track = document.querySelector('#panTrack');
+    const setup = () => {
+      if (innerWidth < 900) return;
+      const dist = track.scrollWidth - innerWidth + 64;
+      animate(track, {
+        translateX: [0, -dist],
+        ease: 'linear',
+        autoplay: onScroll({
+          target: '.pan-sec',
+          enter: 'top top',
+          leave: 'bottom bottom',
+          sync: 0.2,
+        }),
+      });
+    };
+    setup();
+  } catch (err) { console.warn('pan skipped', err); }
+
+  // Reveals
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (!e.isIntersecting) return;
+      io.unobserve(e.target);
+      animate(e.target, { opacity: [0, 1], translateY: [26, 0], duration: 800, ease: 'outExpo' });
+    });
+  }, { threshold: 0.15 });
+  document.querySelectorAll('[data-rv]').forEach(el => io.observe(el));
+} else {
+  document.querySelectorAll('.rv, #heroP, .hero-cta').forEach(el => el.style.opacity = 1);
+  document.querySelectorAll('#heroH .w').forEach(el => { el.style.opacity = 1; el.style.transform = 'none'; });
+  document.querySelector('#zoomCap').style.opacity = 1;
+}
+</script>
+</body>
+</html>

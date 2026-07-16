@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Вариант B2. Стол, глубже</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;0,800;1,600&family=Marck+Script&family=Onest:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  @font-face {
+    font-family: 'Martina scriptC';
+    src: url('../../public/fonts/martina-script.woff2') format('woff2'), url('../../public/fonts/MartinaScriptC.ttf') format('truetype');
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'Amelia DG';
+    src: url('../../public/fonts/amelia-dg.woff2') format('woff2'), url('../../public/fonts/AmeliaDG.ttf') format('truetype');
+    font-display: swap;
+  }
+  :root {
+    --paper: #F8F8F5;
+    --sheet: #FFFFFF;
+    --ink: #131313;
+    --muted: #63635f;
+    --line: #E4E4E0;
+    --lime: #C8F04C;
+    --lime-dark: #A8D030;
+    --shadow-low: 0 6px 16px -6px rgba(19,19,19,0.16);
+    --shadow-mid: 0 18px 40px -16px rgba(19,19,19,0.22);
+    --shadow-high: 0 32px 70px -24px rgba(19,19,19,0.3);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Onest', sans-serif; color: var(--ink);
+    background-color: var(--paper);
+    background-image:
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cpath d='M100 92v16M92 100h16' stroke='%23111111' stroke-opacity='0.13' stroke-width='1'/%3E%3C/svg%3E"),
+      repeating-linear-gradient(0deg, transparent 0 39px, rgba(17,17,17,.04) 39px 40px),
+      repeating-linear-gradient(90deg, transparent 0 39px, rgba(17,17,17,.04) 39px 40px),
+      repeating-linear-gradient(0deg, transparent 0 7px, rgba(17,17,17,.016) 7px 8px),
+      repeating-linear-gradient(90deg, transparent 0 7px, rgba(17,17,17,.016) 7px 8px);
+    overflow-x: hidden;
+  }
+  .serif { font-family: 'Playfair Display', serif; }
+  .script { font-family: 'Martina scriptC', 'Marck Script', cursive; font-weight: 400; }
+  h1, h2, h3 { font-family: 'Playfair Display', serif; font-weight: 700; letter-spacing: -0.01em; }
+  .mono { font-family: ui-monospace, 'SF Mono', Menlo, monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+  .wrap { max-width: 1240px; margin: 0 auto; padding: 0 32px; }
+
+  /* nav */
+  nav {
+    position: fixed; top: 16px; left: 50%; transform: translateX(-50%); z-index: 50;
+    width: min(1180px, calc(100% - 32px));
+    background: var(--sheet); border: 1px solid var(--line);
+    box-shadow: var(--shadow-low);
+    height: 62px; display: flex; align-items: center; justify-content: space-between;
+    padding: 0 22px;
+  }
+  .logo { display: flex; align-items: baseline; gap: 8px; text-decoration: none; color: var(--ink); }
+  .logo .serif { font-size: 19px; font-weight: 700; }
+  .logo .script { font-size: 21px; color: var(--muted); }
+  .nav-links { display: flex; gap: 24px; align-items: center; }
+  .nav-links a { text-decoration: none; color: var(--ink); font-size: 14px; }
+  .nav-links a:not(.btn):hover { text-decoration: underline; text-underline-offset: 4px; }
+  .nav-links a.btn { color: #fff; }
+  .nav-links a.btn:hover { color: var(--ink); }
+  .btn {
+    display: inline-flex; align-items: center; background: var(--ink); color: #fff;
+    font-family: 'Onest'; font-weight: 600; font-size: 15px; padding: 13px 28px; text-decoration: none;
+    border: 1px solid var(--ink); cursor: pointer; transition: background .2s, color .2s;
+  }
+  .btn:hover { background: var(--lime); color: var(--ink); }
+  .btn:active { transform: translateY(1px); }
+  .btn-lime { background: var(--lime); color: var(--ink); }
+  .btn-lime:hover { background: var(--ink); color: #fff; }
+  .btn-sm { padding: 9px 18px; font-size: 13px; }
+
+  /* ===== HERO ===== */
+  .hero { position: relative; min-height: 100dvh; padding-top: 120px; }
+  .hero-inner { position: relative; height: calc(100dvh - 120px); min-height: 660px; }
+
+  .sheet-main {
+    position: absolute; top: 6%; left: 0; width: 58%;
+    background: var(--sheet); border: 1px solid var(--line);
+    padding: 60px 56px 52px; box-shadow: var(--shadow-mid);
+  }
+  .h-display { font-size: clamp(44px, 5vw, 76px); font-weight: 800; line-height: 0.98; text-transform: uppercase; letter-spacing: 0.01em; }
+  .h-script {
+    display: block; font-family: 'Martina scriptC', 'Marck Script', cursive; text-transform: none;
+    font-size: clamp(40px, 4.2vw, 68px); line-height: 1;
+    margin: -0.28em 0 0 0.18em; transform: rotate(-3deg); transform-origin: left center;
+    font-weight: 400; letter-spacing: 0;
+  }
+  .h-script .u { position: relative; white-space: nowrap; }
+  .h-script svg.uline { position: absolute; left: -2%; right: -4%; bottom: -0.22em; width: 106%; height: 0.5em; overflow: visible; }
+  .h-script svg.uline path { stroke: var(--lime-dark); stroke-width: 5; fill: none; stroke-linecap: round; opacity: 0.85; }
+  .sheet-main p { margin-top: 30px; font-size: 17px; line-height: 1.62; color: var(--muted); max-width: 44ch; }
+  .sheet-cta { margin-top: 32px; display: flex; align-items: center; gap: 18px; }
+  .link-ul { color: var(--ink); font-weight: 500; text-decoration: none; border-bottom: 1.5px solid var(--ink); padding-bottom: 2px; font-size: 15px; }
+
+  .polaroid {
+    position: absolute; top: 3%; right: 2%; width: 320px;
+    background: var(--sheet); padding: 14px 14px 54px;
+    box-shadow: var(--shadow-high);
+  }
+  .polaroid img { display: block; width: 100%; filter: grayscale(1) contrast(1.04); }
+  .polaroid .script { position: absolute; bottom: 8px; left: 0; right: 0; text-align: center; font-size: 26px; }
+  .tape {
+    position: absolute; top: -14px; left: 50%; transform: translateX(-50%) rotate(-4deg);
+    width: 110px; height: 30px; background: rgba(200,240,76,0.62);
+    border-left: 1px dashed rgba(17,17,17,0.15); border-right: 1px dashed rgba(17,17,17,0.15);
+  }
+  .note {
+    position: absolute; background: var(--lime); padding: 20px 22px;
+    box-shadow: var(--shadow-low);
+  }
+  .note-1 { bottom: 13%; right: 24%; width: 250px; padding: 22px 24px; }
+  .note-1 .script { font-size: 27px; line-height: 1.2; display: block; }
+  .chip {
+    position: absolute; background: var(--sheet); border: 1px solid var(--line);
+    padding: 10px 16px; box-shadow: var(--shadow-low); font-size: 13px; font-weight: 600;
+  }
+  .chip-1 { bottom: 30%; left: 62%; }
+  .chip-2 { bottom: 7%; left: 7%; }
+  .arrow-svg { position: absolute; bottom: 28%; right: 43%; width: 120px; height: 70px; overflow: visible; pointer-events: none; }
+  .arrow-svg path { stroke: var(--ink); stroke-width: 2; fill: none; }
+
+  /* ===== SECTION HEADS ===== */
+  section { padding: 130px 0; }
+  .sec-head { max-width: 720px; margin-bottom: 64px; }
+  .sec-head h2 { font-size: clamp(36px, 4vw, 58px); font-weight: 800; line-height: 1.02; text-transform: uppercase; letter-spacing: 0.01em; }
+  .sec-head h2 .h-script { font-size: clamp(30px, 3vw, 46px); margin-top: -0.2em; }
+  .sec-head p { margin-top: 18px; color: var(--muted); font-size: 17px; line-height: 1.6; }
+
+  /* ===== ABOUT (кто я) ===== */
+  .about { display: grid; grid-template-columns: 1fr 1fr; gap: 72px; align-items: center; }
+  .about-photos { position: relative; height: 520px; }
+  .ph {
+    position: absolute; background: var(--sheet); padding: 12px 12px 44px; box-shadow: var(--shadow-mid);
+  }
+  .ph img { display: block; width: 100%; filter: grayscale(1) contrast(1.05); }
+  .ph-1 { width: 300px; top: 0; left: 4%; transform: rotate(-3deg); }
+  .ph-2 { width: 250px; bottom: 0; right: 6%; transform: rotate(2.4deg); }
+  .ph .script { position: absolute; bottom: 6px; left: 0; right: 0; text-align: center; font-size: 22px; color: var(--muted); }
+  .about-text h2 { font-size: clamp(32px, 3.4vw, 48px); font-weight: 800; line-height: 1.04; }
+  .about-text h2 .script { text-transform: none; font-weight: 400; font-size: 0.9em; }
+  .about-text p { margin-top: 20px; color: var(--muted); font-size: 16.5px; line-height: 1.65; max-width: 50ch; }
+  .about-facts { margin-top: 32px; display: flex; flex-direction: column; gap: 0; border-top: 1px solid var(--line); }
+  .fact { display: flex; justify-content: space-between; align-items: baseline; padding: 16px 0; border-bottom: 1px solid var(--line); }
+  .fact b { font-family: 'Playfair Display'; font-size: 22px; font-weight: 700; }
+  .fact span { color: var(--muted); font-size: 14.5px; }
+
+  /* ===== STACK (услуги) ===== */
+  .stack { position: relative; }
+  .stack-card {
+    position: sticky; background: var(--sheet); border: 1px solid var(--line);
+    box-shadow: var(--shadow-mid); padding: 56px 60px;
+    display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 48px; align-items: center;
+    min-height: 380px; margin-bottom: 36px;
+  }
+  .stack-card:nth-child(1) { top: 104px; transform: rotate(-0.5deg); }
+  .stack-card:nth-child(2) { top: 128px; transform: rotate(0.6deg); }
+  .stack-card:nth-child(3) { top: 152px; transform: rotate(-0.4deg); }
+  .stack-card:nth-child(4) { top: 176px; transform: rotate(0.5deg); }
+  .stack-card h3 { font-size: clamp(28px, 3vw, 44px); font-weight: 800; margin: 14px 0 16px; }
+  .stack-card h3 .script { font-weight: 400; font-size: 0.85em; }
+  .stack-card .desc { color: var(--muted); font-size: 16px; line-height: 1.62; max-width: 46ch; }
+  .stack-card .side { border-left: 1px solid var(--line); padding-left: 44px; display: flex; flex-direction: column; gap: 18px; align-items: flex-start; }
+  .stack-card .price { font-family: 'Playfair Display'; font-size: 38px; font-weight: 800; }
+  .stack-card .side .script { font-size: 22px; color: var(--muted); }
+  .stack-card.dark { background: var(--ink); border-color: var(--ink); }
+  .stack-card.dark h3 { color: #fff; }
+  .stack-card.dark .desc { color: #b9b9b4; }
+  .stack-card.dark .price { color: var(--lime); }
+  .stack-card.dark .side { border-left-color: #3a3a3a; }
+  .stack-card.dark .mono { color: #8a8a86; }
+  .stack-card.dark .side .script { color: #b9b9b4; }
+
+  /* ===== PROCESS: pinned notes along drawn path ===== */
+  .proc { position: relative; }
+  .proc-path-svg { position: absolute; top: 30px; left: 4%; width: 92%; height: 120px; overflow: visible; pointer-events: none; }
+  .proc-path-svg path { stroke: var(--ink); stroke-width: 1.6; fill: none; stroke-dasharray: 7 7; }
+  .proc-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 44px; padding-top: 150px; }
+  .proc-note { background: var(--sheet); border: 1px solid var(--line); box-shadow: var(--shadow-low); padding: 34px 30px; position: relative; }
+  .proc-note:nth-child(odd) { transform: rotate(-1deg); }
+  .proc-note:nth-child(even) { transform: rotate(1.2deg); }
+  .proc-note .pin {
+    position: absolute; top: -12px; left: 50%; transform: translateX(-50%);
+    width: 22px; height: 22px; background: var(--lime); border: 1.5px solid var(--ink); border-radius: 50%;
+  }
+  .proc-note h3 { font-size: 26px; margin-bottom: 10px; }
+  .proc-note p { color: var(--muted); font-size: 15px; line-height: 1.58; }
+  .proc-note .script { display: inline-block; margin-top: 14px; font-size: 22px; color: var(--lime-dark); filter: brightness(0.7); }
+
+  /* ===== PROOF ===== */
+  .proof-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; }
+  .proof-note {
+    background: var(--sheet); border: 1px solid var(--line); box-shadow: var(--shadow-mid);
+    padding: 56px 48px; transform: rotate(-1.4deg); position: relative; text-align: center;
+  }
+  .proof-note .tape { background: rgba(200,240,76,0.65); }
+  .proof-note .big { font-family: 'Playfair Display'; font-size: clamp(72px, 8vw, 130px); font-weight: 800; line-height: 1; }
+  .proof-note .big mark { background: linear-gradient(var(--lime), var(--lime)) 0 82%/100% 36% no-repeat; color: inherit; }
+  .proof-note .script { display: block; margin-top: 10px; font-size: 28px; color: var(--muted); }
+  .quote { position: relative; }
+  .quote blockquote { font-family: 'Playfair Display'; font-style: italic; font-weight: 600; font-size: clamp(21px, 2vw, 27px); line-height: 1.45; }
+  .quote figcaption { margin-top: 18px; color: var(--muted); font-size: 15px; }
+  .quote .script { font-size: 24px; color: var(--ink); }
+
+  /* ===== CTA ===== */
+  .cta { position: relative; padding: 170px 0 190px; text-align: center; }
+  .cta h2 { font-size: clamp(44px, 6vw, 92px); font-weight: 800; line-height: 0.98; text-transform: uppercase; }
+  .cta .h-script { margin: -0.1em auto 0; transform: rotate(-3deg); position: relative; z-index: 2; text-shadow: 0 0 14px rgba(248,248,245,.95), 0 0 5px rgba(248,248,245,.9); }
+  .cta p { margin: 30px auto 40px; max-width: 46ch; color: var(--muted); font-size: 17px; line-height: 1.6; }
+  .cta .hand-note { position: absolute; top: 100px; right: 15%; transform: rotate(3deg); font-size: 26px; color: var(--muted); }
+
+  footer { border-top: 1px solid var(--line); padding: 36px 0; }
+  footer .wrap { display: flex; justify-content: space-between; font-size: 14px; color: var(--muted); }
+  footer a { color: var(--ink); }
+
+  .rv { opacity: 0; }
+
+  @media (max-width: 900px) {
+    .hero-inner { height: auto; min-height: 0; padding-bottom: 60px; }
+    .sheet-main { position: relative; width: 100%; top: 0; padding: 40px 28px; }
+    .polaroid { position: relative; top: 0; right: 0; margin: 40px auto 0; }
+    .note-1, .chip-1, .chip-2, .arrow-svg { display: none; }
+    .about { grid-template-columns: 1fr; gap: 48px; }
+    .about-photos { height: 420px; }
+    .ph-1 { width: 56%; }
+    .ph-2 { width: 46%; }
+    .stack-card { grid-template-columns: 1fr; padding: 36px 28px; min-height: 0; }
+    .stack-card .side { border-left: none; padding-left: 0; border-top: 1px solid var(--line); padding-top: 20px; }
+    .proc-grid { grid-template-columns: 1fr; padding-top: 40px; }
+    .proc-path-svg { display: none; }
+    .proof-wrap { grid-template-columns: 1fr; gap: 40px; }
+    .nav-links a:not(.btn) { display: none; }
+    section { padding: 84px 0; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .rv { opacity: 1 !important; transform: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="logo" href="#"><span class="serif">Влад Лямин</span><span class="script">второй мозг</span></a>
+  <div class="nav-links">
+    <a href="#about">Кто я</a>
+    <a href="#services">Продукты</a>
+    <a href="#proof">Результаты</a>
+    <a href="#cta" class="btn btn-sm">Пройти AI-аудит</a>
+  </div>
+</nav>
+
+<div class="wrap">
+
+  <!-- HERO -->
+  <header class="hero">
+    <div class="hero-inner">
+
+      <div class="sheet-main rv" data-rv data-depth="0.25">
+        <h1 class="h-display">Второй мозг
+          <span class="h-script"><span class="u">для вашего бизнеса<svg class="uline" viewBox="0 0 300 20" preserveAspectRatio="none"><path class="draw-u" d="M4 14 C 60 8, 150 6, 296 10"/></svg></span></span>
+        </h1>
+        <p>Разбираю ваш бизнес на бумаги, нахожу, где утекает время, и собираю систему с AI внутри. За 1-3 дня.</p>
+        <div class="sheet-cta">
+          <a class="btn btn-lime" href="#cta">Пройти AI-аудит</a>
+          <a class="link-ul" href="#services">Смотреть продукты</a>
+        </div>
+      </div>
+
+      <figure class="polaroid rv" data-rv data-depth="0.55" data-rot="3.4">
+        <span class="tape"></span>
+        <img src="../../public/portrait.jpg" alt="Влад Лямин">
+        <figcaption class="script">это я, Влад</figcaption>
+      </figure>
+
+      <div class="note note-1 rv" data-rv data-depth="0.8" data-rot="-2.6">
+        <span class="script">освободить 20 часов в неделю. реально?</span>
+      </div>
+
+      <svg class="arrow-svg rv" data-rv viewBox="0 0 130 80">
+        <path class="draw-me" d="M 6 10 C 50 6, 95 22, 118 62 M 118 62 l -14 -6 M 118 62 l 2 -15"/>
+      </svg>
+
+      <span class="chip chip-1 rv" data-rv data-depth="0.4" data-rot="1.8">Внедрение за 1-3 дня</span>
+      <span class="chip chip-2 rv" data-rv data-depth="0.65" data-rot="-1.4">Без кода и найма</span>
+    </div>
+  </header>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="about">
+      <div class="about-photos rv" data-rv>
+        <figure class="ph ph-1">
+          <span class="tape"></span>
+          <img src="../../public/portrait-editorial.jpg" alt="Влад за работой">
+          <figcaption class="script">за работой</figcaption>
+        </figure>
+        <figure class="ph ph-2">
+          <img src="../../public/founder.jpg" alt="Влад Лямин">
+          <figcaption class="script">без галстука</figcaption>
+        </figure>
+      </div>
+      <div class="about-text rv" data-rv>
+        <h2 class="serif">Я не агентство. <span class="script">И это плюс.</span></h2>
+        <p>Меня зовут Влад. Я лично проектирую и внедряю AI-системы для фаундеров и владельцев digital-бизнеса. Никаких менеджеров между нами: вы говорите с тем, кто делает руками.</p>
+        <p>Моя работа заканчивается не презентацией, а системой, которая каждый день экономит вам часы.</p>
+        <div class="about-facts">
+          <div class="fact"><b>1-3 дня</b><span>от аудита до работающей системы</span></div>
+          <div class="fact"><b>Лично</b><span>без посредников и субподряда</span></div>
+          <div class="fact"><b>Ваша</b><span>система остаётся у вас навсегда</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section id="services">
+    <div class="sec-head">
+      <h2>Бумаги <span class="h-script">на подпись</span></h2>
+      <p>Четыре формата работы. Листайте: карточки лягут стопкой.</p>
+    </div>
+
+    <div class="stack">
+      <article class="stack-card">
+        <div>
+          <span class="mono">60 минут онлайн</span>
+          <h3>Консультация</h3>
+          <p class="desc">Разбираем ваш процесс и находим, где AI сэкономит время уже на этой неделе. Уходите с конкретным планом.</p>
+        </div>
+        <div class="side">
+          <span class="price">7 000 ₽</span>
+          <a class="btn" href="#cta">Записаться</a>
+        </div>
+      </article>
+
+      <article class="stack-card dark">
+        <div>
+          <span class="mono">7 шагов, 15 минут</span>
+          <h3>AI-аудит <span class="script">бесплатно</span></h3>
+          <p class="desc">Карта вашего бизнеса: где теряется время, что автоматизировать первым и сколько это сэкономит в деньгах.</p>
+        </div>
+        <div class="side">
+          <span class="price">0 ₽</span>
+          <a class="btn btn-lime" href="#cta">Пройти аудит</a>
+        </div>
+      </article>
+
+      <article class="stack-card">
+        <div>
+          <span class="mono">PDF-система</span>
+          <h3>Гайд по второму мозгу</h3>
+          <p class="desc">Пошаговая сборка личной AI-инфраструктуры: от заметок до агентов, которые работают за вас.</p>
+        </div>
+        <div class="side">
+          <span class="price">2 900 ₽</span>
+          <a class="btn" href="#cta">Купить гайд</a>
+          <span class="script">для самостоятельных</span>
+        </div>
+      </article>
+
+      <article class="stack-card">
+        <div>
+          <span class="mono">Внедрение под ключ</span>
+          <h3>Система для бизнеса</h3>
+          <p class="desc">Проектирую и внедряю AI-систему лично: процессы, агенты, обучение команды. Система остаётся у вас.</p>
+        </div>
+        <div class="side">
+          <span class="price">от 70 000 ₽</span>
+          <a class="btn" href="#cta">Обсудить проект</a>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- PROCESS -->
+  <section>
+    <div class="sec-head">
+      <h2>Как это <span class="h-script">происходит</span></h2>
+    </div>
+    <div class="proc">
+      <svg class="proc-path-svg" viewBox="0 0 1100 120" preserveAspectRatio="none">
+        <path class="draw-proc" d="M 20 90 C 200 20, 380 110, 550 60 S 900 20, 1080 80"/>
+      </svg>
+      <div class="proc-grid">
+        <div class="proc-note rv" data-rv>
+          <span class="pin"></span>
+          <h3>Аудит</h3>
+          <p>Смотрю, как устроен ваш бизнес: где рутина съедает часы и что можно передать машине.</p>
+          <span class="script">начинаем здесь</span>
+        </div>
+        <div class="proc-note rv" data-rv>
+          <span class="pin"></span>
+          <h3>Прототип</h3>
+          <p>Собираю рабочий прототип на ваших данных. Вы видите результат до того, как платите за внедрение.</p>
+        </div>
+        <div class="proc-note rv" data-rv>
+          <span class="pin"></span>
+          <h3>Система</h3>
+          <p>Внедряю, обучаю вас и команду. Система остаётся у вас и работает без меня.</p>
+          <span class="script">ваш второй мозг готов</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROOF -->
+  <section id="proof">
+    <div class="proof-wrap">
+      <div class="proof-note rv" data-rv>
+        <span class="tape"></span>
+        <div class="big"><mark><span id="counter">50</span>-70%</mark></div>
+        <span class="script">времени освобождается</span>
+      </div>
+      <figure class="quote rv" data-rv>
+        <blockquote>«Раньше заявки разбирали два человека полдня. Теперь система делает это к девяти утра».</blockquote>
+        <figcaption>Основатель онлайн-школы, клиент по внедрению<br><span class="script">результат за первую неделю</span></figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta" id="cta">
+    <span class="hand-note script rv" data-rv>15 минут, честно</span>
+    <h2 class="rv" data-rv>Положите бизнес
+      <span class="h-script"><span class="u">на этот стол<svg class="uline" viewBox="0 0 300 20" preserveAspectRatio="none"><path class="draw-u2" d="M4 14 C 60 8, 150 6, 296 10"/></svg></span></span>
+    </h2>
+    <p class="rv" data-rv>AI-аудит: отвечаете на 7 вопросов, получаете карту автоматизации с расчётом экономии в деньгах.</p>
+    <a class="btn btn-lime rv" data-rv href="#">Пройти AI-аудит</a>
+  </section>
+
+  <footer>
+    <div class="wrap" style="padding:0">
+      <span>Влад Лямин, 2026</span>
+      <a href="https://t.me/lyaminvl">Telegram</a>
+    </div>
+  </footer>
+</div>
+
+<script type="module">
+import { animate, stagger, svg, onScroll } from 'https://cdn.jsdelivr.net/npm/animejs@4.0.2/+esm';
+
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+if (!reduce) {
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (!e.isIntersecting) return;
+      io.unobserve(e.target);
+      animate(e.target, { opacity: [0, 1], duration: 900, ease: 'outExpo' });
+    });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('[data-rv]').forEach(el => io.observe(el));
+
+  // Depth parallax above the desk
+  try {
+    document.querySelectorAll('.hero [data-depth]').forEach(el => {
+      const depth = parseFloat(el.dataset.depth);
+      const rot = parseFloat(el.dataset.rot || 0);
+      animate(el, {
+        rotate: rot,
+        translateY: [0, -120 * depth],
+        ease: 'linear',
+        autoplay: onScroll({ target: '.hero', enter: 'top top', leave: 'bottom top', sync: 0.4 }),
+      });
+    });
+  } catch (err) { console.warn('parallax skipped', err); }
+
+  // Hand-drawn strokes draw themselves
+  try {
+    animate(svg.createDrawable('.draw-u'), { draw: ['0 0', '0 1'], duration: 900, delay: 700, ease: 'inOutQuad' });
+    animate(svg.createDrawable('.draw-me'), { draw: ['0 0', '0 1'], duration: 1100, delay: 1100, ease: 'inOutQuad' });
+  } catch (err) { console.warn('draw skipped', err); }
+
+  // Process dashed path scrubbed by scroll
+  try {
+    animate(svg.createDrawable('.draw-proc'), {
+      draw: ['0 0', '0 1'],
+      ease: 'linear',
+      autoplay: onScroll({ target: '.proc', enter: 'bottom top+=120', leave: 'center center', sync: 0.3 }),
+    });
+  } catch (err) { console.warn('proc skipped', err); }
+
+  // CTA underline draws when visible
+  try {
+    const u2 = svg.createDrawable('.draw-u2');
+    const uio = new IntersectionObserver((es) => {
+      es.forEach(e => {
+        if (!e.isIntersecting) return;
+        uio.disconnect();
+        animate(u2, { draw: ['0 0', '0 1'], duration: 900, ease: 'inOutQuad' });
+      });
+    }, { threshold: 0.5 });
+    uio.observe(document.querySelector('.cta h2'));
+  } catch (err) { console.warn('u2 skipped', err); }
+
+  // Counter
+  const counterEl = document.querySelector('#counter');
+  const obj = { n: 0 };
+  const cio = new IntersectionObserver((es) => {
+    es.forEach(e => {
+      if (!e.isIntersecting) return;
+      cio.disconnect();
+      animate(obj, {
+        n: 50, duration: 1400, ease: 'outExpo',
+        onUpdate: () => counterEl.textContent = Math.round(obj.n),
+      });
+    });
+  }, { threshold: 0.4 });
+  cio.observe(counterEl);
+
+  // Polaroid photo tilt
+  const pol = document.querySelector('.polaroid');
+  const polImg = pol.querySelector('img');
+  polImg.style.transition = 'transform .15s ease-out';
+  pol.addEventListener('pointermove', (ev) => {
+    const r = pol.getBoundingClientRect();
+    const rx = ((ev.clientY - r.top) / r.height - 0.5) * -6;
+    const ry = ((ev.clientX - r.left) / r.width - 0.5) * 6;
+    polImg.style.transform = `perspective(600px) rotateX(${rx}deg) rotateY(${ry}deg)`;
+  });
+  pol.addEventListener('pointerleave', () => { polImg.style.transform = 'none'; });
+} else {
+  document.querySelectorAll('[data-rv]').forEach(el => el.style.opacity = 1);
+}
+</script>
+</body>
+</html>

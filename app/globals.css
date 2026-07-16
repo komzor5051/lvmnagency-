@@ -74,6 +74,7 @@
   --font-heading: var(--font-heading);
   --font-hand: var(--font-hand);
   --font-serif: var(--font-serif);
+  --font-tektur: var(--font-tektur);
   --font-mono: var(--font-mono);
   --color-card: var(--card);
   --color-card-foreground: var(--card-foreground);
@@ -164,52 +165,31 @@ body {
 
 .audit-page {
   min-height: 100vh;
-  background: var(--color-dark);
-  color: var(--color-dark-ink);
+  /* Desk DS re-theme (2026-07): the funnel now sits on the site-wide paper
+     grid (body калька shows through) instead of the old dark stage. The
+     audit-* rules below read these legacy vars (--text, --surface, --border,
+     --accent...) so retheming happens here without touching any selector or
+     the page's step logic. Lime is a fill/highlight only (hover/selected
+     states); ink text sits on top of it. Corners stay sharp; paper surfaces
+     carry desk shadows. The global DeskNav is the header — .audit-nav is gone.
+     Top padding clears the fixed nav strip. */
+  padding-top: 92px;
+  color: var(--color-ink);
   font-family: var(--font-body), sans-serif;
 
-  /* Poster/HUD dark re-theme, scoped to the audit funnel: the audit-* rules
-     below read these legacy vars (--text, --surface, --border, --accent...)
-     so retheming happens here without touching any selector or the page's
-     step logic. Lime is a fill/highlight only (hover/selected states);
-     ink text sits on top of it. Corners stay sharp, no shadows. */
-  --text: var(--color-dark-ink);
-  --text-2: var(--color-dark-muted);
-  --text-3: var(--color-dark-muted);
-  --border: var(--color-dark-line);
-  --surface: #141414;
+  --text: var(--color-ink);
+  --text-2: var(--color-ink-muted);
+  --text-3: #9a9a94;
+  --border: var(--color-line);
+  --surface: #ffffff;
   --accent: var(--color-lime);
   --accent-hover: var(--color-lime-dark);
-  --accent-subtle: rgba(200, 240, 76, 0.1);
+  --accent-subtle: rgba(200, 240, 76, 0.28);
   --accent-muted: var(--color-lime);
   --r-sm: 0px;
   --r-md: 0px;
   --r-lg: 0px;
   --r-pill: 0px;
-}
-
-.audit-nav {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 20px 32px;
-  max-width: 720px;
-  margin: 0 auto;
-}
-
-.audit-logo {
-  font-family: var(--font-heading), sans-serif;
-  font-weight: 700;
-  font-size: 18px;
-  color: var(--text);
-  text-decoration: none;
-  letter-spacing: -0.02em;
-}
-
-.audit-nav-label {
-  font-size: 13px;
-  color: var(--text-3);
-  font-weight: 500;
 }
 
 .audit-container {
@@ -218,10 +198,10 @@ body {
   padding: 0 32px 80px;
 }
 
-/* Full-screen dark stage: one question per screen, centered. */
+/* Full-screen stage: one question per screen, centered on the desk. */
 .audit-container--stage {
   max-width: 880px;
-  min-height: calc(100svh - 80px);
+  min-height: calc(100svh - 132px);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -232,22 +212,46 @@ body {
 .audit-progress {
   height: 3px;
   background: var(--border);
-  border-radius: 2px;
   margin-bottom: 48px;
   overflow: hidden;
 }
 
 .audit-progress-fill {
   height: 100%;
-  background: var(--accent);
-  border-radius: 2px;
+  background: var(--color-lime-dark);
   transition: width 0.4s ease;
 }
 
-/* Step content — the full-screen "stage" for one question */
+/* Step content — one question per paper sheet, taped to the desk. */
 .audit-step {
   animation: auditFadeIn 0.3s ease;
   text-align: center;
+  position: relative;
+  background: var(--surface);
+  border: 1px solid #e4e4e0;
+  box-shadow:
+    0 1px 2px rgba(19, 19, 19, 0.1),
+    0 10px 22px -8px rgba(19, 19, 19, 0.2),
+    0 30px 55px -18px rgba(19, 19, 19, 0.3);
+  padding: 56px 48px;
+}
+.audit-step::before {
+  content: '';
+  position: absolute; top: -14px; left: 50%;
+  transform: translateX(-50%) rotate(-4deg);
+  width: 110px; height: 30px;
+  background:
+    linear-gradient(100deg,
+      rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0.05) 24%,
+      rgba(17, 17, 17, 0.05) 46%, rgba(255, 255, 255, 0.3) 64%,
+      rgba(255, 255, 255, 0.02) 86%, rgba(255, 255, 255, 0.25) 100%),
+    rgba(200, 240, 76, 0.62);
+  border-left: 1px dashed rgba(17, 17, 17, 0.15);
+  border-right: 1px dashed rgba(17, 17, 17, 0.15);
+  box-shadow: 0 3px 5px -1px rgba(19, 19, 19, 0.22);
+}
+@media (max-width: 600px) {
+  .audit-step { padding: 36px 20px; }
 }
 
 @keyframes auditFadeIn {
@@ -269,18 +273,18 @@ body {
   font-size: 11px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--color-lime);
+  color: var(--text-2);
   margin-bottom: 16px;
 }
 
 .audit-step h2 {
-  font-family: var(--font-display), Georgia, serif;
-  font-weight: 300;
-  font-size: clamp(26px, 4vw, 48px);
+  font-family: var(--font-tektur), sans-serif;
+  font-weight: 700;
+  font-size: clamp(24px, 3.2vw, 38px);
   line-height: 1.1;
   margin: 0 auto 8px;
-  letter-spacing: -0.02em;
-  max-width: 18ch;
+  letter-spacing: 0;
+  max-width: 20ch;
 }
 
 .audit-hint {
@@ -411,10 +415,10 @@ body {
 .audit-error {
   margin-top: 16px;
   padding: 12px 16px;
-  background: rgba(220, 38, 38, 0.12);
-  border: 1px solid rgba(220, 38, 38, 0.4);
+  background: rgba(220, 38, 38, 0.08);
+  border: 1px solid rgba(220, 38, 38, 0.35);
   border-radius: var(--r-sm);
-  color: #f87171;
+  color: #b91c1c;
   font-size: 14px;
 }
 
@@ -429,11 +433,11 @@ body {
 }
 
 .audit-loading h2 {
-  font-family: var(--font-heading), sans-serif;
+  font-family: var(--font-tektur), sans-serif;
   font-size: 24px;
   font-weight: 700;
   margin: 24px 0 8px;
-  letter-spacing: -0.02em;
+  letter-spacing: 0;
 }
 
 .audit-loading p {
@@ -473,20 +477,20 @@ body {
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.06em;
-  color: var(--accent);
-  background: var(--accent-subtle);
+  color: var(--color-ink);
+  background: var(--color-lime);
   padding: 4px 12px;
   border-radius: var(--r-pill);
   margin-bottom: 16px;
 }
 
 .audit-result-header h1 {
-  font-family: var(--font-heading), sans-serif;
+  font-family: var(--font-tektur), sans-serif;
   font-size: clamp(24px, 4vw, 34px);
   font-weight: 700;
   line-height: 1.2;
   margin: 0 0 16px;
-  letter-spacing: -0.02em;
+  letter-spacing: 0;
 }
 
 .audit-summary {
@@ -509,14 +513,17 @@ body {
   border-radius: var(--r-md);
   padding: 20px;
   text-align: center;
+  box-shadow:
+    0 1px 1px rgba(19, 19, 19, 0.1),
+    0 5px 12px -4px rgba(19, 19, 19, 0.18);
 }
 
 .audit-stat-value {
   display: block;
-  font-family: var(--font-heading), sans-serif;
+  font-family: var(--font-tektur), sans-serif;
   font-size: 22px;
   font-weight: 700;
-  color: var(--accent);
+  color: var(--color-ink);
   margin-bottom: 4px;
 }
 
@@ -539,6 +546,9 @@ body {
   border-radius: var(--r-md);
   padding: 20px 24px;
   transition: border-color 0.15s;
+  box-shadow:
+    0 1px 1px rgba(19, 19, 19, 0.1),
+    0 5px 12px -4px rgba(19, 19, 19, 0.18);
 }
 
 .audit-auto-card:hover {
@@ -556,12 +566,12 @@ body {
   font-family: var(--font-mono), monospace;
   font-size: 13px;
   font-weight: 600;
-  color: var(--accent);
+  color: var(--text-2);
   flex-shrink: 0;
 }
 
 .audit-auto-head h3 {
-  font-family: var(--font-heading), sans-serif;
+  font-family: var(--font-tektur), sans-serif;
   font-size: 16px;
   font-weight: 700;
   margin: 0;
@@ -596,11 +606,11 @@ body {
 }
 
 .audit-first-step h3 {
-  font-family: var(--font-heading), sans-serif;
+  font-family: var(--font-tektur), sans-serif;
   font-size: 16px;
   font-weight: 700;
   margin: 0 0 8px;
-  color: var(--accent-hover);
+  color: var(--color-ink);
 }
 
 .audit-first-step p {
@@ -617,10 +627,13 @@ body {
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--r-lg);
+  box-shadow:
+    0 1px 2px rgba(19, 19, 19, 0.1),
+    0 10px 22px -8px rgba(19, 19, 19, 0.2);
 }
 
 .audit-cta-block h3 {
-  font-family: var(--font-heading), sans-serif;
+  font-family: var(--font-tektur), sans-serif;
   font-size: 22px;
   font-weight: 700;
   margin: 0 0 8px;
@@ -655,18 +668,12 @@ body {
 }
 
 /* Responsive */
-/* ≤768px: the global HUD (burger + step label + counter) collapses into the
-   same top row as the funnel's own header — hide the duplicate header, the
-   HUD carries branding and navigation on small screens. */
-@media (max-width: 768px) {
-  .audit-nav { display: none; }
-}
 @media (max-width: 600px) {
-  .audit-nav { padding: 16px 20px; }
   .audit-container { padding: 0 20px 60px; }
   .audit-stats-row { grid-template-columns: 1fr; }
   .audit-options { gap: 8px; }
-  .audit-option { font-size: 13px; padding: 9px 14px; }
+  /* 44px minimum touch target (WCAG) — the old 9px padding gave ~40px rows. */
+  .audit-option { font-size: 14px; padding: 12px 16px; min-height: 44px; }
 }
 
 /* =============================================================================
@@ -805,3 +812,204 @@ body {
   0%, 100% { opacity: 1; }
   50% { opacity: 0.32; }
 }
+
+/* ===== Brutalist marquee ticker ===== */
+.marquee {
+  display: flex;
+  overflow: hidden;
+  user-select: none;
+}
+.marquee__track {
+  display: flex;
+  flex-shrink: 0;
+  gap: 0;
+  min-width: 100%;
+  animation: marquee-scroll 28s linear infinite;
+}
+@keyframes marquee-scroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-100%); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .marquee__track { animation: none; }
+}
+
+/* =============================================================================
+   DESK DS (2026-07 redesign) — «стол с чертёжной калькой».
+   Paper-grid background site-wide; elements are paper sheets floating above
+   the desk (soft ink-tinted shadows allowed here, radius stays 0).
+   Fonts: Playfair Display (display, via --font-serif), Martina scriptC
+   (handwriting, via --font-hand), Onest (body). Prototype reference:
+   docs/design-concepts/variant-b2-desk.html
+   ============================================================================= */
+body {
+  background-color: #f8f8f5;
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cpath d='M100 92v16M92 100h16' stroke='%23111111' stroke-opacity='0.13' stroke-width='1'/%3E%3C/svg%3E"),
+    repeating-linear-gradient(0deg, transparent 0 39px, rgba(17, 17, 17, 0.04) 39px 40px),
+    repeating-linear-gradient(90deg, transparent 0 39px, rgba(17, 17, 17, 0.04) 39px 40px),
+    repeating-linear-gradient(0deg, transparent 0 7px, rgba(17, 17, 17, 0.016) 7px 8px),
+    repeating-linear-gradient(90deg, transparent 0 7px, rgba(17, 17, 17, 0.016) 7px 8px);
+}
+
+/* Component classes live in the components layer so Tailwind utilities
+   (max-sm:hidden etc.) keep winning over them. */
+@layer components {
+
+/* Display headline: Tektur, sentence case, lime .hl mark on the key word. */
+.desk-display {
+  font-family: var(--font-tektur), sans-serif;
+  font-weight: 800;
+  text-transform: none;
+  letter-spacing: 0;
+  line-height: 1.04;
+}
+.desk-script {
+  font-family: var(--font-hand), cursive;
+  font-weight: 400;
+  text-transform: none;
+  letter-spacing: 0;
+  /* Martina is hairline-thin; a sub-pixel stroke keeps it legible at caption sizes. */
+  -webkit-text-stroke: 0.4px currentColor;
+}
+/* Script line that hangs off the display headline, slightly rotated. */
+.desk-script-line {
+  display: block;
+  font-family: var(--font-hand), cursive;
+  font-weight: 400;
+  text-transform: none;
+  letter-spacing: 0;
+  -webkit-text-stroke: 0.4px currentColor;
+  line-height: 1;
+  margin: -0.24em 0 0 0.18em;
+  transform: rotate(-3deg);
+  transform-origin: left center;
+  position: relative;
+  z-index: 2;
+}
+/* Small readable annotation (photo captions, margin notes): Playfair italic —
+   the calligraphic Martina is headline-only, it dissolves at caption sizes. */
+.desk-note {
+  font-family: var(--font-serif), Georgia, serif;
+  font-style: italic;
+  font-weight: 600;
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+/* Lime underline holder, usable under any headline word. */
+.desk-u { position: relative; white-space: nowrap; }
+.desk-u > svg.uline {
+  position: absolute; left: -2%; right: -4%; bottom: -0.12em;
+  width: 106%; height: 0.4em; overflow: visible;
+}
+.desk-u > svg.uline path {
+  stroke: var(--color-lime-dark); stroke-width: 5; fill: none;
+  stroke-linecap: round; opacity: 0.85;
+}
+
+.desk-script-line .u { position: relative; white-space: nowrap; }
+.desk-script-line svg.uline {
+  position: absolute; left: -2%; right: -4%; bottom: -0.22em;
+  width: 106%; height: 0.5em; overflow: visible;
+}
+.desk-script-line svg.uline path {
+  stroke: var(--color-lime-dark); stroke-width: 5; fill: none;
+  stroke-linecap: round; opacity: 0.85;
+}
+
+/* Paper objects above the desk. Layered shadows = contact + ambient + cast,
+   so sheets read as physically lifted off the desk at three heights.
+   Rotation pivot sits at the top-centre — where the pin/tape visually holds
+   the sheet — so both the static tilt and the scroll sway hinge from the
+   fastening point, not the sheet centre. */
+.desk-sheet, .desk-sheet--high, .desk-sheet--low {
+  transform-origin: 50% 0;
+}
+.desk-sheet {
+  background: #ffffff;
+  border: 1px solid #e4e4e0;
+  box-shadow:
+    0 1px 2px rgba(19, 19, 19, 0.1),
+    0 10px 22px -8px rgba(19, 19, 19, 0.2),
+    0 30px 55px -18px rgba(19, 19, 19, 0.3);
+}
+.desk-sheet--high {
+  box-shadow:
+    0 2px 3px rgba(19, 19, 19, 0.12),
+    0 18px 32px -10px rgba(19, 19, 19, 0.26),
+    0 48px 90px -24px rgba(19, 19, 19, 0.38);
+}
+.desk-sheet--low {
+  box-shadow:
+    0 1px 1px rgba(19, 19, 19, 0.1),
+    0 5px 12px -4px rgba(19, 19, 19, 0.18),
+    0 14px 28px -10px rgba(19, 19, 19, 0.2);
+}
+/* Glossy tape: sheen gradient + creases + a soft shadow it casts on the paper. */
+.desk-tape {
+  position: absolute; top: -14px; left: 50%;
+  transform: translateX(-50%) rotate(-4deg);
+  width: 110px; height: 30px;
+  background:
+    linear-gradient(100deg,
+      rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0.05) 24%,
+      rgba(17, 17, 17, 0.05) 46%, rgba(255, 255, 255, 0.3) 64%,
+      rgba(255, 255, 255, 0.02) 86%, rgba(255, 255, 255, 0.25) 100%),
+    rgba(200, 240, 76, 0.62);
+  border-left: 1px dashed rgba(17, 17, 17, 0.15);
+  border-right: 1px dashed rgba(17, 17, 17, 0.15);
+  box-shadow: 0 3px 5px -1px rgba(19, 19, 19, 0.22);
+}
+/* Push-pin: light-shaded lime ball head + needle contact shadow on the paper. */
+.desk-pin {
+  position: absolute; top: -12px; left: 50%; transform: translateX(-50%);
+  width: 24px; height: 24px; border-radius: 50%;
+  background: radial-gradient(circle at 32% 28%,
+    #f2ffb8 0%, #d9f877 28%, var(--color-lime) 55%, #8fb32c 88%, #718f1f 100%);
+  border: 0;
+  box-shadow:
+    inset -3px -4px 6px rgba(17, 17, 17, 0.28),
+    inset 2px 3px 4px rgba(255, 255, 255, 0.55),
+    0 7px 9px -3px rgba(19, 19, 19, 0.45);
+}
+.desk-pin::after {
+  content: ''; position: absolute; left: 50%; bottom: -9px;
+  width: 16px; height: 6px; transform: translateX(-50%);
+  background: radial-gradient(ellipse at center, rgba(17, 17, 17, 0.3), transparent 70%);
+}
+
+/* Desk buttons (ink / lime), radius 0, tactile press. */
+.desk-btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  background: #111; color: #fff; font-weight: 600; font-size: 15px;
+  padding: 13px 28px; border: 1px solid #111; cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.desk-btn:hover { background: var(--color-lime); color: #111; }
+.desk-btn:active { transform: translateY(1px); }
+.desk-btn--lime { background: var(--color-lime); color: #111; }
+.desk-btn--lime:hover { background: #111; color: #fff; }
+
+/* Hand-drawn SVG strokes (drawn in by anime.js). */
+.desk-stroke { stroke: #111; stroke-width: 2; fill: none; }
+
+/* Scroll-reveal initial state; DeskFx animates to visible. Without JS (or with
+   reduced motion) elements stay visible. */
+@media (prefers-reduced-motion: no-preference) {
+  .js-desk [data-rv] { opacity: 0; }
+}
+
+/* Sticky service stack. */
+.desk-stack-card { position: sticky; }
+.desk-stack-card:nth-child(1) { top: 104px; transform: rotate(-0.5deg); }
+.desk-stack-card:nth-child(2) { top: 128px; transform: rotate(0.6deg); }
+.desk-stack-card:nth-child(3) { top: 152px; transform: rotate(-0.4deg); }
+.desk-stack-card:nth-child(4) { top: 176px; transform: rotate(0.5deg); }
+/* ≤900px: no sticky stacking, but the papers keep their slight tilt —
+   flat cards kill the desk metaphor on mobile. */
+@media (max-width: 900px) {
+  .desk-stack-card { position: static; }
+}
+
+} /* end @layer components (Desk DS) */

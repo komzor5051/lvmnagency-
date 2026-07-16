@@ -1,10 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import Link from "next/link";
 import { animate } from "animejs";
-import Chapter from "@/components/hud/Chapter";
-import { useHudApi } from "@/components/hud/HudContext";
 import { useReducedMotion } from "@/components/motion/useReducedMotion";
 
 /* ------------------------------------------------------------------ */
@@ -94,16 +91,8 @@ export default function AuditPage() {
   const [result, setResult] = useState<AuditResult | null>(null);
   const [error, setError] = useState("");
 
-  const { setHudExtras } = useHudApi();
   const reduced = useReducedMotion();
   const stageRef = useRef<HTMLDivElement>(null);
-
-  // HUD: show an estimated funnel duration in the bottom-right slot while
-  // this page is mounted, restore the default on unmount.
-  useEffect(() => {
-    setHudExtras({ br: "≈ 4 минуты" });
-    return () => setHudExtras({});
-  }, [setHudExtras]);
 
   // Step transition: anime.js vertical curtain (clip-path) on step change.
   // Reduced motion -> instant swap (no animation).
@@ -217,7 +206,7 @@ export default function AuditPage() {
       case "medium":
         return "var(--amber)";
       case "complex":
-        return "var(--accent)";
+        return "var(--color-ink)";
       default:
         return "var(--text-2)";
     }
@@ -232,14 +221,7 @@ export default function AuditPage() {
 
   if (result) {
     return (
-      <Chapter name="Результат" theme="dark" className="p-0" id="audit-result-chapter">
       <div className="audit-page">
-        <nav className="audit-nav">
-          <Link href="/" className="audit-logo">
-            Влад Лямин
-          </Link>
-        </nav>
-
         <div className="audit-container">
           <div className="audit-result">
             <div className="audit-result-header">
@@ -305,7 +287,7 @@ export default function AuditPage() {
                 Это автоматический анализ — он показывает направления. Полный AI-аудит занимает две недели и включает встречи, карту процессов и план внедрения с оценкой окупаемости по каждому шагу. Напишите в Telegram — обсудим, подходит ли формат для вашей ситуации. 30 минут, без обязательств.
               </p>
               <a
-                href="https://t.me/lyaminvl?text=%D0%9F%D1%80%D0%BE%D1%88%D1%91%D0%BB+AI-%D0%B0%D1%83%D0%B4%D0%B8%D1%82%2C+%D1%85%D0%BE%D1%87%D1%83+%D0%BE%D0%B1%D1%81%D1%83%D0%B4%D0%B8%D1%82%D1%8C+%D0%BF%D0%BE%D0%BB%D0%BD%D1%8B%D0%B9+%D0%B0%D1%83%D0%B4%D0%B8%D1%82"
+                href="https://telegram.me/lyaminvl?text=%D0%9F%D1%80%D0%BE%D1%88%D1%91%D0%BB+AI-%D0%B0%D1%83%D0%B4%D0%B8%D1%82%2C+%D1%85%D0%BE%D1%87%D1%83+%D0%BE%D0%B1%D1%81%D1%83%D0%B4%D0%B8%D1%82%D1%8C+%D0%BF%D0%BE%D0%BB%D0%BD%D1%8B%D0%B9+%D0%B0%D1%83%D0%B4%D0%B8%D1%82"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="audit-cta-btn"
@@ -326,7 +308,6 @@ export default function AuditPage() {
           </div>
         </div>
       </div>
-      </Chapter>
     );
   }
 
@@ -336,13 +317,7 @@ export default function AuditPage() {
 
   if (loading) {
     return (
-      <Chapter name="Анализ" theme="dark" className="p-0" id="audit-loading-chapter">
       <div className="audit-page">
-        <nav className="audit-nav">
-          <Link href="/" className="audit-logo">
-            Влад Лямин
-          </Link>
-        </nav>
         <div className="audit-container">
           <div className="audit-loading">
             <div className="audit-spinner" />
@@ -351,7 +326,6 @@ export default function AuditPage() {
           </div>
         </div>
       </div>
-      </Chapter>
     );
   }
 
@@ -360,15 +334,7 @@ export default function AuditPage() {
   /* ---------------------------------------------------------------- */
 
   return (
-    <Chapter name={`Шаг ${step + 1}`} theme="dark" className="p-0" id="audit-step-chapter">
     <div className="audit-page">
-      <nav className="audit-nav">
-        <Link href="/" className="audit-logo">
-          Влад Лямин
-        </Link>
-        <span className="audit-nav-label">AI-аудит бизнеса</span>
-      </nav>
-
       <div className="audit-container audit-container--stage">
         <div className="audit-progress">
           <div
@@ -548,6 +514,5 @@ export default function AuditPage() {
         </div>
       </div>
     </div>
-    </Chapter>
   );
 }

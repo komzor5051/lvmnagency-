@@ -136,7 +136,7 @@ const ARTICLES: {
 
 Если хотите разобраться, как применить это в конкретных задачах вашего бизнеса — напишите мне в Telegram. Разберём вашу задачу и выйдем с конкретным планом.
 
-[Написать в Telegram](https://t.me/lyaminvl)`,
+[Написать в Telegram](https://telegram.me/lyaminvl)`,
   },
   {
     title: "ChatGPT, Claude, Gemini: какой ИИ для какой задачи фаундера",
@@ -275,7 +275,7 @@ Perplexity — когда нужно что-то проверить. Конку�
 
 Если хотите разобраться, какой стек подойдёт под ваши конкретные задачи и как его встроить в работу без лишних трат — напишите мне в Telegram. Разберём вашу ситуацию и выйдем с конкретным планом.
 
-[Написать в Telegram](https://t.me/lyaminvl)`,
+[Написать в Telegram](https://telegram.me/lyaminvl)`,
   },
   {
     title: "10 задач фаундера, которые ИИ закрывает прямо сейчас — без программиста",
@@ -382,7 +382,7 @@ Perplexity — когда нужно что-то проверить. Конку�
 
 Если хотите разобраться, какие именно задачи в вашем бизнесе можно передать ИИ прямо сейчас — напишите мне в Telegram. Разберём вашу ситуацию и выйдем с конкретным планом.
 
-[Написать в Telegram](https://t.me/lyaminvl)`,
+[Написать в Telegram](https://telegram.me/lyaminvl)`,
   },
 ];
 
@@ -413,7 +413,7 @@ async function main() {
       content_html: html,
       cover_image: null,
       tags: article.tags,
-      cta_url: "https://t.me/lyaminvl",
+      cta_url: "https://telegram.me/lyaminvl",
       status: "published",
       published_at: new Date().toISOString(),
     });

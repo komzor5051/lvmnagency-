@@ -56,7 +56,7 @@ export async function publishPost(input: PublishInput): Promise<string> {
       content_html: contentHtml,
       cover_image: input.coverImage ?? null,
       tags: input.tags,
-      cta_url: `https://t.me/lyaminvl?text=Аудит`,
+      cta_url: `https://telegram.me/lyaminvl?text=Аудит`,
       status: "published",
       published_at: new Date().toISOString(),
     })

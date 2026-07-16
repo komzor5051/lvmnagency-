@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Концепты vladlyamin.ru</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@600;700;800&family=Onest:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root { --paper:#FAFAF8; --ink:#111; --muted:#666; --line:#E4E4E0; --lime:#C8F04C; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    font-family:'Onest',sans-serif; color:var(--ink); background:var(--paper);
+    background-image:
+      repeating-linear-gradient(0deg, transparent 0 39px, rgba(17,17,17,.04) 39px 40px),
+      repeating-linear-gradient(90deg, transparent 0 39px, rgba(17,17,17,.04) 39px 40px);
+    min-height:100vh; padding:64px 32px;
+  }
+  h1 { font-family:'Inter Tight'; font-size:clamp(28px,4vw,48px); letter-spacing:-0.03em; }
+  h1 mark { background:linear-gradient(var(--lime),var(--lime)) 0 80%/100% 45% no-repeat; color:inherit; }
+  .sub { color:var(--muted); margin-top:12px; font-size:16px; }
+  .grid { display:grid; grid-template-columns:repeat(3,1fr); gap:24px; max-width:1280px; margin:48px auto 0; }
+  a.card {
+    display:flex; flex-direction:column; gap:14px; background:#fff; border:1px solid var(--ink);
+    padding:28px; text-decoration:none; color:var(--ink);
+    transition:transform .2s, box-shadow .2s;
+  }
+  a.card:hover { transform:translate(-3px,-3px); box-shadow:6px 6px 0 var(--lime); }
+  .tag { font-family:ui-monospace,Menlo,monospace; font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); }
+  a.card h2 { font-family:'Inter Tight'; font-size:26px; letter-spacing:-0.02em; }
+  a.card p { color:var(--muted); font-size:14.5px; line-height:1.55; flex:1; }
+  .go { font-weight:600; border-bottom:1.5px solid var(--ink); align-self:flex-start; padding-bottom:2px; }
+  .head { max-width:1280px; margin:0 auto; }
+  @media (max-width:900px){ .grid{grid-template-columns:1fr;} }
+</style>
+</head>
+<body>
+  <div class="head">
+    <h1>Три концепта <mark>vladlyamin.ru</mark></h1>
+    <p class="sub">Все на одной идее: белая чертёжная калька как стол, элементы парят над ним. Скролльте каждый до конца: анимации живут по всей странице.</p>
+  </div>
+  <div class="grid">
+    <a class="card" href="variant-a-blueprint.html">
+      <span class="tag">вариант A</span>
+      <h2>Чертёж</h2>
+      <p>Сайт как технический чертёж: размерные линии рисуются сами, портрет со штампом «объект: основатель», услуги как спецификация, процесс как схема с рисующейся линией.</p>
+      <span class="go">Открыть</span>
+    </a>
+    <a class="card" href="variant-b2-desk.html" style="box-shadow:6px 6px 0 var(--lime)">
+      <span class="tag">вариант B2, новый</span>
+      <h2>Стол, глубже</h2>
+      <p>Развитие варианта B по фидбеку: серифный дисплей + рукописный курсив поверх (Playfair Display + Marck Script), секция «кто я» с двумя фото, процесс на пришпиленных записках, цитата клиента.</p>
+      <span class="go">Открыть</span>
+    </a>
+    <a class="card" href="variant-b-desk.html">
+      <span class="tag">вариант B</span>
+      <h2>Стол</h2>
+      <p>Вид сверху на рабочий стол: полароид на скотче, бумаги с parallax на разной высоте, рукописные пометки, услуги складываются стопкой при скролле.</p>
+      <span class="go">Открыть</span>
+    </a>
+    <a class="card" href="variant-c-manifesto.html">
+      <span class="tag">вариант C</span>
+      <h2>Манифест</h2>
+      <p>Кинетическая типографика: слова каскадом, манифест проявляется чернилами по скроллу, zoom-параллакс портрета, горизонтальная протяжка продуктов.</p>
+      <span class="go">Открыть</span>
+    </a>
+  </div>
+</body>
+</html>

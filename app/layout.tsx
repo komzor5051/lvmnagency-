@@ -1,11 +1,10 @@
 import type { Metadata } from "next";
-import { Inter_Tight, Onest, Marck_Script, Playfair_Display, Literata, JetBrains_Mono } from "next/font/google";
+import { Inter_Tight, Onest, Playfair_Display, Literata, JetBrains_Mono, Tektur } from "next/font/google";
+import localFont from "next/font/local";
 import { YandexMetrika } from "@/components/YandexMetrika";
 import { PostHogProvider } from "@/components/PostHogProvider";
 import LenisProvider from "@/components/motion/LenisProvider";
-import { HudProvider } from "@/components/hud/HudContext";
-import HudFrame from "@/components/hud/HudFrame";
-import Preloader from "@/components/motion/Preloader";
+import DeskNav from "@/components/desk/DeskNav";
 import "./globals.css";
 
 // Brand DS — White + Lime. Display: Inter Tight (headline), body: Onest,
@@ -27,10 +26,12 @@ const bodyFont = Onest({
   display: "swap",
 });
 
-const handFont = Marck_Script({
+// Desk DS handwriting: Martina scriptC (A. Gophmann) — elegant Cyrillic
+// calligraphy, self-hosted (not on Google Fonts). Replaces Marck Script
+// site-wide via the same --font-hand variable.
+const handFont = localFont({
+  src: "../public/fonts/martina-script.woff2",
   variable: "--font-hand",
-  subsets: ["latin", "cyrillic"],
-  weight: "400",
   display: "swap",
 });
 
@@ -49,12 +50,20 @@ const monoFont = JetBrains_Mono({
   display: "swap",
 });
 
-// Editorial serif for blog cover titles (a16z-style overlay). Cover-only — the
-// rest of the site stays sans (Inter Tight / Onest).
+// Desk DS display: Tektur — faceted technical grotesk, matches the drafting-
+// table metaphor. Headlines, prices, card titles.
+const tekturFont = Tektur({
+  variable: "--font-tektur",
+  subsets: ["latin", "cyrillic"],
+  weight: ["500", "600", "700", "800"],
+  display: "swap",
+});
+
+// Editorial serif (blog covers, desk margin notes in italic).
 const serifFont = Playfair_Display({
   variable: "--font-serif",
   subsets: ["latin", "cyrillic"],
-  weight: ["500", "600", "700"],
+  weight: ["500", "600", "700", "800"],
   display: "swap",
 });
 
@@ -104,7 +113,7 @@ const personSchema = {
     "Node.js",
     "Business Process Automation",
   ],
-  sameAs: ["https://t.me/lyaminvl"],
+  sameAs: ["https://telegram.me/lyaminvl"],
 };
 
 const websiteSchema = {
@@ -125,23 +134,20 @@ export default function RootLayout({
   return (
     <html lang="ru" className="font-sans">
       <body
-        className={`${displayFont.variable} ${bodyFont.variable} ${handFont.variable} ${displaySerif.variable} ${monoFont.variable} ${serifFont.variable} antialiased`}
+        className={`${displayFont.variable} ${bodyFont.variable} ${handFont.variable} ${displaySerif.variable} ${monoFont.variable} ${serifFont.variable} ${tekturFont.variable} antialiased`}
       >
         <LenisProvider>
-          <HudProvider>
-            <Preloader />
-            <HudFrame />
-            <PostHogProvider>{children}</PostHogProvider>
-            <YandexMetrika />
-            <script
-              type="application/ld+json"
-              dangerouslySetInnerHTML={{ __html: JSON.stringify(personSchema) }}
-            />
-            <script
-              type="application/ld+json"
-              dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
-            />
-          </HudProvider>
+          <DeskNav />
+          <PostHogProvider>{children}</PostHogProvider>
+          <YandexMetrika />
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{ __html: JSON.stringify(personSchema) }}
+          />
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
+          />
         </LenisProvider>
       </body>
     </html>

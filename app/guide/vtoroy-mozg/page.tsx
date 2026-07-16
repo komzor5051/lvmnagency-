@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Footer } from "@/components/home/Footer";
+import DeskFooter from "@/components/desk/DeskFooter";
 import { Reveal } from "@/components/motion/Reveal";
 
 // Unlisted lead-magnet page: reachable only via the direct URL handed out by
@@ -277,7 +277,7 @@ export default function SecondBrainGuidePage() {
           </Reveal>
         </section>
       </main>
-      <Footer />
+      <DeskFooter />
     </div>
   );
 }

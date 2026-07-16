@@ -59,7 +59,7 @@ export const LVMN_FEATURES = `
 
 export const LVMN_LINKS = {
   main: "https://vladlyamin.ru",
-  telegram: "https://t.me/lyaminvl",
-  telegramAudit: "https://t.me/lyaminvl?text=Аудит",
+  telegram: "https://telegram.me/lyaminvl",
+  telegramAudit: "https://telegram.me/lyaminvl?text=Аудит",
   blog: "https://vladlyamin.ru/blog",
 } as const;

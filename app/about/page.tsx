@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
-import AboutIntro from "@/components/about/AboutIntro";
-import AboutTimeline from "@/components/about/AboutTimeline";
-import AboutPrinciples from "@/components/about/AboutPrinciples";
+import DeskFx from "@/components/desk/DeskFx";
+import DeskAboutHero from "@/components/desk/DeskAboutHero";
+import DeskAboutTimeline from "@/components/desk/DeskAboutTimeline";
+import DeskAboutPrinciples from "@/components/desk/DeskAboutPrinciples";
+import DeskFooter from "@/components/desk/DeskFooter";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://vladlyamin.ru";
 
@@ -41,7 +43,7 @@ const aboutSchema = {
     "Business Process Automation",
     "LLM Integration",
   ],
-  sameAs: ["https://t.me/lyaminvl"],
+  sameAs: ["https://telegram.me/lyaminvl"],
   mainEntityOfPage: {
     "@type": "WebPage",
     "@id": `${siteUrl}/about`,
@@ -51,9 +53,11 @@ const aboutSchema = {
 export default function AboutPage() {
   return (
     <main>
-      <AboutIntro />
-      <AboutTimeline />
-      <AboutPrinciples />
+      <DeskFx />
+      <DeskAboutHero />
+      <DeskAboutTimeline />
+      <DeskAboutPrinciples />
+      <DeskFooter />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(aboutSchema) }}

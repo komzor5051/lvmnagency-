@@ -49,3 +49,7 @@ next-env.d.ts
 .claude/settings.local.json
 .claude/worktrees/
 .DS_Store
+
+# local agent/test artifacts
+.claude/
+.playwright-mcp/

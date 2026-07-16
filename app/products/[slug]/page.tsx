@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getProduct, products, type Product } from "@/lib/products";
-import Chapter from "@/components/hud/Chapter";
-import SplitLines from "@/components/motion/SplitLines";
+import DeskFx from "@/components/desk/DeskFx";
+import DeskFooter from "@/components/desk/DeskFooter";
 import { BuyAction } from "../BuyAction";
 import { Faq } from "../Faq";
 import { productExtras } from "../content";
@@ -55,7 +55,7 @@ function BulletList({ title, items }: { title: string; items: string[] }) {
       <ul className="mt-4 space-y-3">
         {items.map((item) => (
           <li key={item} className="flex gap-4 text-sm leading-relaxed text-ink">
-            <span aria-hidden="true" className="mt-[0.65em] h-0.5 w-4 shrink-0 bg-lime" />
+            <span aria-hidden="true" className="mt-[0.55em] size-2.5 shrink-0 bg-lime" />
             <span>{item}</span>
           </li>
         ))}
@@ -77,55 +77,62 @@ export default async function ProductPage({
 
   return (
     <main>
-      <Chapter name={product.title} theme="light" className="px-[6vw] pb-24 pt-10 md:pb-32">
-        <div className="mx-auto max-w-3xl">
-          <nav aria-label="Хлебные крошки">
-            <Link
-              href="/products"
-              className="mono-label text-ink-muted transition-colors hover:text-ink"
-            >
+      <DeskFx />
+      <section className="pt-[130px] pb-[110px] max-md:pt-[110px] max-md:pb-[72px]">
+        <div className="mx-auto max-w-[860px] px-8 max-md:px-4">
+          <nav aria-label="Хлебные крошки" className="mb-8" data-rv>
+            <Link href="/products" className="mono-label text-ink-muted transition-colors hover:text-ink no-underline">
               &larr; Продукты
             </Link>
           </nav>
 
-          <header className="pb-10 pt-14 md:pt-20">
-            <p className="mono-label text-ink-muted">{typeLabels[product.type]}</p>
-            <SplitLines as="h1" className="font-display mt-5 text-[clamp(40px,6vw,84px)]">
-              {product.title}
-            </SplitLines>
-            <p className="mono-label mt-4 text-ink-muted">{product.meta}</p>
-            <p className="mt-8 text-3xl font-bold tracking-[-0.02em] text-ink">
-              {product.priceLabel}
-            </p>
-            <div className="mt-6 max-w-xs">
-              <BuyAction product={product} />
-            </div>
-          </header>
+          {/* The product is one document on the desk: header, write-up, FAQ —
+              all on a single taped sheet. */}
+          <article
+            className="desk-sheet relative -rotate-[0.3deg] px-14 py-14 max-md:rotate-0 max-md:px-6 max-md:py-8"
+            data-rv
+          >
+            <span className="desk-tape" aria-hidden />
 
-          <div className="space-y-12">
-            <div className="space-y-5">
-              {product.description.map((paragraph) => (
-                <p key={paragraph} className="text-base leading-relaxed text-ink md:text-lg">
-                  {paragraph}
-                </p>
-              ))}
-            </div>
-
-            {extra && (
-              <div className="grid gap-10 sm:grid-cols-2 sm:gap-8">
-                <BulletList title="Для кого" items={extra.forWhom} />
-                <BulletList title="Что внутри" items={extra.inside} />
+            <header className="border-b border-line pb-10">
+              <p className="mono-label text-ink-muted">
+                {product.meta.startsWith(typeLabels[product.type])
+                  ? product.meta
+                  : `${typeLabels[product.type]} · ${product.meta}`}
+              </p>
+              <h1 className="desk-display mt-4 text-[clamp(30px,3.6vw,50px)] text-ink">
+                {product.title}
+              </h1>
+              <p className="font-tektur mt-6 text-[32px] font-bold text-ink">
+                {product.priceLabel}
+              </p>
+              <div className="mt-6 max-w-xs">
+                <BuyAction product={product} />
               </div>
-            )}
+            </header>
 
-            {product.faq && product.faq.length > 0 && (
-              <div>
-                <Faq items={product.faq} />
+            <div className="space-y-12 pt-10">
+              <div className="space-y-5">
+                {product.description.map((paragraph) => (
+                  <p key={paragraph} className="text-base leading-relaxed text-ink md:text-[17px]">
+                    {paragraph}
+                  </p>
+                ))}
               </div>
-            )}
-          </div>
+
+              {extra && (
+                <div className="grid gap-10 sm:grid-cols-2 sm:gap-8">
+                  <BulletList title="Для кого" items={extra.forWhom} />
+                  <BulletList title="Что внутри" items={extra.inside} />
+                </div>
+              )}
+
+              {product.faq && product.faq.length > 0 && <Faq items={product.faq} />}
+            </div>
+          </article>
         </div>
-      </Chapter>
+      </section>
+      <DeskFooter />
     </main>
   );
 }

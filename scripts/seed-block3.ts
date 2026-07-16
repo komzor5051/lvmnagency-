@@ -157,7 +157,7 @@ const ARTICLES: {
 
 Если хочешь разобраться, как встроить ИИ в найм или другие процессы в своём проекте — напишите мне в Telegram. Разберём вашу задачу и выйдем с конкретным планом.
 
-[Написать в Telegram](https://t.me/lyaminvl)`,
+[Написать в Telegram](https://telegram.me/lyaminvl)`,
   },
   {
     title:
@@ -281,7 +281,7 @@ const ARTICLES: {
 
 Если хотите разобраться как встроить ИИ в принятие решений в своём бизнесе — напишите мне в Telegram. Разберём вашу задачу и выйдем с конкретным планом.
 
-[Написать в Telegram](https://t.me/lyaminvl)`,
+[Написать в Telegram](https://telegram.me/lyaminvl)`,
   },
   {
     title: "Как AI помогает писать тексты: не вместо вас, а рядом",
@@ -394,7 +394,7 @@ const ARTICLES: {
 
 Если хотите разобраться, как встроить ИИ в свой процесс создания контента — напишите мне в Telegram. Разберём вашу задачу и выйдем с конкретным планом.
 
-[Написать в Telegram](https://t.me/lyaminvl)`,
+[Написать в Telegram](https://telegram.me/lyaminvl)`,
   },
   {
     title: "Делегирование AI: какую рутину убрать со своего стола прямо сейчас",
@@ -529,7 +529,7 @@ const ARTICLES: {
 
 Если хотите разобраться, какие задачи в вашем конкретном расписании можно убрать на ИИ в первую очередь — напишите мне в Telegram. Разберём вашу задачу и выйдем с конкретным планом.
 
-[Написать в Telegram](https://t.me/lyaminvl)`,
+[Написать в Telegram](https://telegram.me/lyaminvl)`,
   },
 ];
 
@@ -560,7 +560,7 @@ async function main() {
       content_html: html,
       cover_image: null,
       tags: article.tags,
-      cta_url: "https://t.me/lyaminvl",
+      cta_url: "https://telegram.me/lyaminvl",
       status: "published",
       published_at: new Date().toISOString(),
     });

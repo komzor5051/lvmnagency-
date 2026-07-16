@@ -1,6 +1,5 @@
-// Poster row for the /blog index — mono publish date, Literata title (goes
-// italic on hover), small cover thumbnail on the right. Mirrors the row
-// pattern used on /products (see app/products/ProductSection.tsx).
+// Row on the /blog index sheet — mono publish date, Tektur title, small cover
+// thumbnail on the right (covers keep their cinematic style untouched).
 
 interface PostCardProps {
   slug: string;
@@ -19,10 +18,10 @@ export function PostCard({ slug, title, publishedAt, coverImage }: PostCardProps
   return (
     <a
       href={`/blog/${slug}`}
-      className="group flex items-center gap-5 border-b border-line px-2 py-7 transition-transform duration-200 hover:translate-x-3 md:gap-8 md:px-4 md:py-8"
+      className="group flex items-center gap-5 border-b border-line px-2 py-7 transition-transform duration-200 last:border-b-0 hover:translate-x-3 md:gap-8 md:px-4 md:py-8"
     >
       <span className="mono-label w-24 shrink-0 text-ink-muted sm:w-32">{date}</span>
-      <span className="font-display flex-1 text-[clamp(20px,3.2vw,34px)] underline-offset-[5px] decoration-1 group-hover:underline">
+      <span className="font-tektur flex-1 text-[clamp(18px,2.2vw,26px)] font-bold leading-snug underline-offset-[5px] decoration-1 group-hover:underline">
         {title}
       </span>
       {coverImage && (

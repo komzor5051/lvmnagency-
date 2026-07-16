@@ -153,7 +153,7 @@ Claude ничего не знает о вашем бизнесе, если вы 
 
 Если хотите разобраться, как выстроить работу с AI системно под ваш бизнес — напишите мне в Telegram. Разберём вашу ситуацию и выйдем с конкретным планом.
 
-[Написать в Telegram](https://t.me/lyaminvl)`,
+[Написать в Telegram](https://telegram.me/lyaminvl)`,
   },
 ];
 
@@ -184,7 +184,7 @@ async function main() {
       content_html: html,
       cover_image: null,
       tags: article.tags,
-      cta_url: "https://t.me/lyaminvl",
+      cta_url: "https://telegram.me/lyaminvl",
       status: "published",
       published_at: new Date().toISOString(),
     });

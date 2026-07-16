@@ -115,7 +115,7 @@ PDF на 27 страниц, мгновенная выдача после опл�
 
 ## Контакт
 
-Telegram: @lyaminvl (https://t.me/lyaminvl)
+Telegram: @lyaminvl (https://telegram.me/lyaminvl)
 Блог: /blog
 AI-аудит бизнеса: /audit
 

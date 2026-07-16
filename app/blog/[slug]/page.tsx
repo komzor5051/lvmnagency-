@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { TableOfContents } from "@/components/table-of-contents";
 import { CopyableCode } from "@/components/copyable-code";
-import SplitLines from "@/components/motion/SplitLines";
+import DeskFooter from "@/components/desk/DeskFooter";
 
 export const revalidate = 60;
 
@@ -159,10 +159,9 @@ export default async function ArticlePage({ params }: Props) {
 
   return (
     <>
-      <article className="px-[6vw] pb-24">
-        {/* Breadcrumbs */}
-        {/* mt clears the fixed HUD label ("≡ Блог") pinned to the same top-left corner */}
-        <nav className="mono-label mx-auto mt-10 mb-8 max-w-[68ch] text-ink-muted">
+      <article className="px-[6vw] pb-24 pt-[110px] max-md:px-4">
+        {/* Breadcrumbs — pt above clears the fixed DeskNav strip. */}
+        <nav className="mono-label mx-auto mb-8 max-w-[68ch] text-ink-muted">
           <Link
             href="/blog"
             className="transition-colors hover:text-ink"
@@ -171,17 +170,20 @@ export default async function ArticlePage({ params }: Props) {
           </Link>
         </nav>
 
-        {/* Header — poster H1 (Literata, line-reveal), plain cover image
-            below the title, mono byline/tags. */}
+        {/* The article is one big paper sheet on the desk: header, body and
+            CTA live on it; the TOC sits in the sheet's left margin like
+            margin notes on a printout. */}
+        <div className="desk-sheet relative mx-auto max-w-[1200px] px-12 pt-14 pb-12 max-md:px-5 max-md:pt-10">
+        <span className="desk-tape" aria-hidden />
+
+        {/* Header — Tektur H1 on the article sheet, cover image below the
+            title (covers keep their cinematic style), mono byline/tags. */}
         {/* Header column matches the centered 68ch text column, so the cover
             image below the title is exactly text-width. */}
         <header className="mx-auto mb-12 max-w-[68ch]">
-          <SplitLines
-            as="h1"
-            className="font-display text-[clamp(32px,6vw,72px)] leading-[1.02] text-ink"
-          >
+          <h1 className="desk-display text-[clamp(30px,4.4vw,52px)] text-ink">
             {post.title}
-          </SplitLines>
+          </h1>
           <div className="mono-label mt-6 flex flex-wrap items-center gap-x-3 gap-y-1 text-ink-muted">
             <Link
               href="/about"
@@ -273,7 +275,7 @@ export default async function ArticlePage({ params }: Props) {
                 Напишите «Аудит» в Telegram — разберу ваши процессы и предложу конкретное решение
               </p>
               <a
-                href={post.cta_url ?? "https://t.me/lyaminvl?text=Аудит"}
+                href={post.cta_url ?? "https://telegram.me/lyaminvl?text=Аудит"}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-block px-6 py-3 bg-ink text-paper text-sm font-medium hover:bg-black transition-colors"
@@ -283,7 +285,9 @@ export default async function ArticlePage({ params }: Props) {
             </div>
           </div>
         </div>
+        </div>
       </article>
+      <DeskFooter />
 
       {/* JSON-LD: BlogPosting */}
       <script
@@ -306,7 +310,7 @@ export default async function ArticlePage({ params }: Props) {
               "@id": `${blogUrl}/#person`,
               name: "Влад Лямин",
               url: `${blogUrl}/about`,
-              sameAs: ["https://t.me/lyaminvl"],
+              sameAs: ["https://telegram.me/lyaminvl"],
             },
             publisher: {
               "@type": "Person",

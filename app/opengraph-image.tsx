@@ -1,20 +1,16 @@
 import { ImageResponse } from "next/og";
-import { readFileSync, existsSync } from "fs";
+import { readFileSync } from "fs";
 import { join } from "path";
 
-export const alt = "Влад Лямин — помогаю фаундерам строить и масштабировать системы с помощью AI";
+// Desk DS OG card: paper-grid desk, a white sheet with lime tape, Tektur
+// headline with the lime .hl mark — mirrors the live hero.
+export const alt = "Влад Лямин — я строю системы с AI";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
-function loadBg(name: string): string | null {
-  const p = join(process.cwd(), "public", name);
-  if (!existsSync(p)) return null;
-  const buf = readFileSync(p);
-  return `data:image/png;base64,${buf.toString("base64")}`;
-}
-
 export default function Image() {
-  const bg = loadBg("og-home-bg.png");
+  const tektur = readFileSync(join(process.cwd(), "public", "fonts", "tektur-800.ttf"));
+  const onest = readFileSync(join(process.cwd(), "public", "fonts", "onest-500.ttf"));
 
   return new ImageResponse(
     (
@@ -23,132 +19,94 @@ export default function Image() {
           display: "flex",
           width: "100%",
           height: "100%",
-          backgroundColor: "#FFFFFF",
+          backgroundColor: "#f8f8f5",
+          backgroundImage:
+            "repeating-linear-gradient(0deg, transparent 0px, transparent 39px, rgba(17,17,17,0.05) 39px, rgba(17,17,17,0.05) 40px), repeating-linear-gradient(90deg, transparent 0px, transparent 39px, rgba(17,17,17,0.05) 39px, rgba(17,17,17,0.05) 40px)",
+          alignItems: "center",
+          justifyContent: "center",
           position: "relative",
         }}
       >
-        {/* AI-generated background (right side) */}
-        {bg && (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img
-            src={bg}
-            alt=""
-            style={{
-              position: "absolute",
-              inset: 0,
-              width: "100%",
-              height: "100%",
-              objectFit: "cover",
-              objectPosition: "right center",
-            }}
-          />
-        )}
-
-        {/* White text area overlay — left 65% */}
+        {/* Paper sheet */}
         <div
           style={{
-            position: "absolute",
-            top: 0,
-            left: 0,
-            bottom: 0,
-            width: "65%",
-            background: bg
-              ? "linear-gradient(to right, #FFFFFF 80%, transparent)"
-              : "#FFFFFF",
-          }}
-        />
-
-        {/* Lime top bar */}
-        <div
-          style={{
-            position: "absolute",
-            top: 0,
-            left: 0,
-            right: 0,
-            height: "7px",
-            backgroundColor: "#C8F04C",
-          }}
-        />
-
-        {/* Content */}
-        <div
-          style={{
-            position: "relative",
             display: "flex",
             flexDirection: "column",
-            justifyContent: "center",
-            padding: "64px 64px 56px",
-            width: "65%",
+            width: "920px",
+            padding: "72px 80px 64px",
+            backgroundColor: "#ffffff",
+            border: "1px solid #e4e4e0",
+            boxShadow: "0 30px 55px -18px rgba(19,19,19,0.3), 0 10px 22px -8px rgba(19,19,19,0.2)",
+            transform: "rotate(-0.8deg)",
+            position: "relative",
           }}
         >
+          {/* Lime tape */}
           <div
             style={{
-              fontFamily: "sans-serif",
-              fontSize: "15px",
+              position: "absolute",
+              top: "-16px",
+              left: "390px",
+              width: "140px",
+              height: "34px",
+              backgroundColor: "rgba(200,240,76,0.75)",
+              transform: "rotate(-4deg)",
+              boxShadow: "0 3px 5px -1px rgba(19,19,19,0.22)",
+            }}
+          />
+
+          <div
+            style={{
+              fontFamily: "Onest",
+              fontSize: "17px",
               color: "#888888",
               letterSpacing: "0.14em",
               textTransform: "uppercase",
-              marginBottom: "24px",
+              marginBottom: "28px",
             }}
           >
             vladlyamin.ru
           </div>
-          <div
-            style={{
-              fontFamily: "sans-serif",
-              fontSize: "76px",
-              fontWeight: 800,
-              color: "#111111",
-              lineHeight: 1.0,
-              marginBottom: "24px",
-              letterSpacing: "-0.03em",
-            }}
-          >
-            Влад Лямин
-          </div>
-          <div
-            style={{
-              fontFamily: "sans-serif",
-              fontSize: "26px",
-              color: "#444444",
-              fontWeight: 500,
-              lineHeight: 1.35,
-              maxWidth: "600px",
-            }}
-          >
-            Внедряю AI-системы, которые окупаются, а не презентуются
-          </div>
 
-          {/* Bottom accent */}
           <div
             style={{
               display: "flex",
-              alignItems: "center",
-              gap: "14px",
-              marginTop: "36px",
+              flexDirection: "column",
+              fontFamily: "Tektur",
+              fontSize: "72px",
+              color: "#111111",
+              lineHeight: 1.08,
             }}
           >
-            <div
-              style={{
-                width: "44px",
-                height: "3px",
-                backgroundColor: "#C8F04C",
-              }}
-            />
-            <div
-              style={{
-                fontFamily: "sans-serif",
-                fontSize: "14px",
-                color: "#888888",
-                letterSpacing: "0.06em",
-              }}
-            >
-              AI-автоматизация · консультации · аудит
-            </div>
+            <span>Я Влад.</span>
+            <span style={{ display: "flex" }}>
+              Строю
+              <span style={{ backgroundColor: "#C8F04C", marginLeft: "20px", padding: "0 10px" }}>
+                системы с AI
+              </span>
+            </span>
+          </div>
+
+          <div
+            style={{
+              fontFamily: "Onest",
+              fontSize: "26px",
+              color: "#555555",
+              lineHeight: 1.4,
+              marginTop: "30px",
+            }}
+          >
+            Внедряю AI в бизнес, обучаю людей и пишу о том, что реально работает
           </div>
         </div>
       </div>
     ),
-    { ...size }
+    {
+      ...size,
+      fonts: [
+        { name: "Tektur", data: tektur, weight: 800, style: "normal" },
+        { name: "Onest", data: onest, weight: 500, style: "normal" },
+      ],
+    }
   );
 }

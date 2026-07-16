@@ -30,7 +30,7 @@ export type Product = {
   cta?: { buy: string; fallback: string }; // buy = checkout configured; fallback = manual Telegram channel
 };
 
-export const TELEGRAM_URL = "https://t.me/lyaminvl";
+export const TELEGRAM_URL = "https://telegram.me/lyaminvl";
 
 export const products: Product[] = [
   {

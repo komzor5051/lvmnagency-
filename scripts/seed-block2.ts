@@ -119,7 +119,7 @@ const ARTICLES: {
 
 Если хотите разобраться, как выстроить систему под ваши конкретные задачи — напишите мне в Telegram. Разберём вашу задачу и выйдем с конкретным планом.
 
-[Написать в Telegram](https://t.me/lyaminvl)`,
+[Написать в Telegram](https://telegram.me/lyaminvl)`,
   },
   {
     title:
@@ -241,7 +241,7 @@ ChatGPT Memory, Projects в Claude, персонализация в Gemini — �
 
 ---
 
-Если хотите разобраться, как выстроить систему контекста под ваши задачи — напишите мне в Telegram. Разберём вашу задачу и выйдем с конкретным планом. [Написать в Telegram](https://t.me/lyaminvl)`,
+Если хотите разобраться, как выстроить систему контекста под ваши задачи — напишите мне в Telegram. Разберём вашу задачу и выйдем с конкретным планом. [Написать в Telegram](https://telegram.me/lyaminvl)`,
   },
   {
     title: "Как научить AI знать ваш бизнес: базы знаний без программиста",
@@ -360,7 +360,7 @@ Supabase с расширением pgvector или аналоги. Вы хран
 
 Если хотите разобраться, какой уровень базы знаний нужен именно вам и что туда писать — напишите мне в Telegram. Разберём вашу задачу и выйдем с конкретным планом.
 
-[Написать в Telegram](https://t.me/lyaminvl)`,
+[Написать в Telegram](https://telegram.me/lyaminvl)`,
   },
   {
     title: "Шаблоны промптов для фаундера: 7 ситуаций на каждый день",
@@ -543,7 +543,7 @@ Supabase с расширением pgvector или аналоги. Вы хран
 
 Если хотите разобраться, как выстроить личную систему работы с ИИ под вашу конкретную задачу — напишите мне в Telegram. Разберём вашу ситуацию и выйдем с конкретным планом.
 
-[Написать в Telegram](https://t.me/lyaminvl)`,
+[Написать в Telegram](https://telegram.me/lyaminvl)`,
   },
 ];
 
@@ -574,7 +574,7 @@ async function main() {
       content_html: html,
       cover_image: null,
       tags: article.tags,
-      cta_url: "https://t.me/lyaminvl",
+      cta_url: "https://telegram.me/lyaminvl",
       status: "published",
       published_at: new Date().toISOString(),
     });
