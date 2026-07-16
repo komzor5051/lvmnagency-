@@ -1,12 +1,7 @@
-import { supabase } from "@/lib/supabase";
+import { getPublishedPosts } from "@/lib/posts";
 
 export async function GET() {
-  const { data: posts } = await supabase
-    .from("lvmn_blog_posts")
-    .select("slug, title, meta_desc, published_at, content_html")
-    .eq("status", "published")
-    .order("published_at", { ascending: false })
-    .limit(20);
+  const posts = (await getPublishedPosts()).slice(0, 20);
 
   const blogUrl = process.env.BLOG_URL ?? process.env.NEXT_PUBLIC_SITE_URL ?? "https://vladlyamin.ru";
   const items = (posts ?? [])

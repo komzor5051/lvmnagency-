@@ -1,18 +1,13 @@
-import { supabase } from "@/lib/supabase";
+import { getPublishedPosts } from "@/lib/posts";
 
 // llms.txt (https://llmstxt.org/): a markdown index of the site for AI
 // agents/assistants, similar in spirit to sitemap.xml but human/LLM-readable.
 export async function GET() {
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://vladlyamin.ru";
 
-  const { data: posts } = await supabase
-    .from("lvmn_blog_posts")
-    .select("slug, title, meta_desc, published_at")
-    .eq("status", "published")
-    .order("published_at", { ascending: false })
-    .limit(50);
+  const posts = (await getPublishedPosts()).slice(0, 50);
 
-  const postLines = (posts ?? [])
+  const postLines = posts
     .map((p) => `- [${p.title}](${siteUrl}/blog/${p.slug}): ${p.meta_desc ?? ""}`)
     .join("\n");
 

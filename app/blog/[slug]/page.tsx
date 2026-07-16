@@ -1,4 +1,4 @@
-import { supabase } from "@/lib/supabase";
+import { getPostBySlug, getPrevNext } from "@/lib/posts";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
@@ -76,12 +76,7 @@ function stripCoverImage(html: string, src: string | null): string {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const { data: post } = await supabase
-    .from("lvmn_blog_posts")
-    .select("title, meta_desc, slug, tags, published_at, cover_image")
-    .eq("slug", slug)
-    .eq("status", "published")
-    .single();
+  const post = await getPostBySlug(slug);
 
   if (!post) return {};
 
@@ -115,33 +110,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function ArticlePage({ params }: Props) {
   const { slug } = await params;
-  const { data: post } = await supabase
-    .from("lvmn_blog_posts")
-    .select("*")
-    .eq("slug", slug)
-    .eq("status", "published")
-    .single();
+  const post = await getPostBySlug(slug);
 
   if (!post) notFound();
 
-  const [{ data: prev }, { data: next }] = await Promise.all([
-    supabase
-      .from("lvmn_blog_posts")
-      .select("slug, title")
-      .eq("status", "published")
-      .lt("published_at", post.published_at)
-      .order("published_at", { ascending: false })
-      .limit(1)
-      .single(),
-    supabase
-      .from("lvmn_blog_posts")
-      .select("slug, title")
-      .eq("status", "published")
-      .gt("published_at", post.published_at)
-      .order("published_at", { ascending: true })
-      .limit(1)
-      .single(),
-  ]);
+  const { prev, next } = await getPrevNext(post);
 
   const date = new Date(post.published_at).toLocaleDateString("ru-RU", {
     year: "numeric",

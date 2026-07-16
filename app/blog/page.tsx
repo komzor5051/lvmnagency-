@@ -1,4 +1,4 @@
-import { supabase } from "@/lib/supabase";
+import { getPublishedPosts } from "@/lib/posts";
 import { PostCard } from "@/components/post-card";
 import DeskFooter from "@/components/desk/DeskFooter";
 import type { Metadata } from "next";
@@ -25,12 +25,7 @@ export const metadata: Metadata = {
 };
 
 export default async function BlogPage() {
-  const { data: posts } = await supabase
-    .from("lvmn_blog_posts")
-    .select("slug, title, meta_desc, published_at, tags, cover_image")
-    .eq("status", "published")
-    .order("published_at", { ascending: false })
-    .limit(50);
+  const posts = (await getPublishedPosts()).slice(0, 50);
 
   return (
     <main>

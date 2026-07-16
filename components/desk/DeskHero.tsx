@@ -39,7 +39,7 @@ export default function DeskHero() {
           >
             <span className="desk-tape" aria-hidden />
             <Image
-              src="/portrait.jpg"
+              src="/portrait-editorial.jpg"
               alt="Влад Лямин"
               width={640}
               height={800}

@@ -15,7 +15,7 @@ export default function DeskAbout() {
             <figure className="desk-sheet absolute top-0 left-[4%] w-[300px] -rotate-3 border border-line bg-white p-3 pb-11 max-md:w-[56%]">
               <span className="desk-tape" aria-hidden />
               <Image
-                src="/portrait-editorial.jpg"
+                src="/portrait.jpg"
                 alt="Влад за работой"
                 width={600}
                 height={750}

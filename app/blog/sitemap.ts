@@ -1,16 +1,12 @@
-import { supabase } from "@/lib/supabase";
+import { getPublishedPosts } from "@/lib/posts";
 import type { MetadataRoute } from "next";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const blogUrl = process.env.BLOG_URL ?? "https://lvmn.vercel.app";
+  const blogUrl = process.env.BLOG_URL ?? "https://vladlyamin.ru";
 
-  const { data: posts } = await supabase
-    .from("lvmn_blog_posts")
-    .select("slug, published_at")
-    .eq("status", "published")
-    .order("published_at", { ascending: false });
+  const posts = await getPublishedPosts();
 
-  const postEntries = (posts ?? []).map((post) => ({
+  const postEntries = posts.map((post) => ({
     url: `${blogUrl}/blog/${post.slug}`,
     lastModified: post.published_at,
     changeFrequency: "weekly" as const,
