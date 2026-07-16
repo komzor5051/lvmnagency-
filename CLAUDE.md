@@ -46,10 +46,22 @@ Hosted on a Timeweb cloud server, region Novosibirsk. NOT Vercel.
   nginx reverse-proxies 80/443 → localhost:3000 (`/etc/nginx/sites-available/lvmn`).
 - **Secrets**: `/var/www/lvmn-site/.env.local` on the server (not in git).
 
+**Supabase is unreachable from the VPS** (poisoned DNS for `*.supabase.co` +
+TCP 443 blocked to its IPs from the Timeweb DC; works fine from Влад's Mac).
+All server-side post reads go through `lib/posts.ts`: Supabase with a 5s
+timeout, then fallback to `data/posts-snapshot.json`. **Regenerate the snapshot
+before every deploy** — otherwise new articles won't appear on the site
+(publishing to Supabase alone is no longer enough):
+
+```bash
+npx tsx scripts/export-posts.ts
+```
+
 **Deploy an update** (from `~/Desktop/Бизнес/lvmn-site` on the Mac):
 
 ```bash
-rsync -az --exclude node_modules --exclude .next --exclude .git \
+npx tsx scripts/export-posts.ts   # refresh article snapshot
+rsync -az --exclude node_modules --exclude .next --exclude .git --exclude .env.local \
   ./ root@5.42.111.39:/var/www/lvmn-site/
 ssh root@5.42.111.39 'cd /var/www/lvmn-site \
   && NODE_OPTIONS="--max-old-space-size=2048" npm run build \
