@@ -1,0 +1,55 @@
+# Daily blog pipeline. Runs on GitHub's non-RU runners because the Timeweb VPS
+# cannot reach api.exa.ai or *.supabase.co (see CLAUDE.md, Deployment section).
+#   1. refills the topic queue when it runs low (Exa + Gemini)
+#   2. generates and publishes one article to Supabase
+#   3. exports the posts snapshot and ships it to the VPS
+#      (the live site reads data/posts-snapshot.json — lib/posts.ts fallback)
+name: blog-pipeline
+
+on:
+  schedule:
+    - cron: "0 5 * * *" # 08:00 MSK
+  workflow_dispatch:
+
+concurrency:
+  group: blog-pipeline
+  cancel-in-progress: false
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+      SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
+      GOOGLE_AI_API_KEY: ${{ secrets.GOOGLE_AI_API_KEY }}
+      EXA_API_KEY: ${{ secrets.EXA_API_KEY }}
+      BLOG_URL: https://vladlyamin.ru
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - run: npm ci
+
+      - name: Mine topics if queue is low
+        run: npx tsx scripts/mine-topics.ts --if-low
+
+      - name: Generate and publish article
+        run: npx tsx scripts/run-pipeline.ts
+
+      - name: Export posts snapshot
+        run: npx tsx scripts/export-posts.ts
+
+      - name: Deploy snapshot to VPS
+        env:
+          VPS_SSH_KEY: ${{ secrets.VPS_SSH_KEY }}
+        run: |
+          mkdir -p ~/.ssh
+          printf '%s\n' "$VPS_SSH_KEY" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          echo "5.42.111.39 ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGQulEXaiYZwgc6ugq+FqXAvXhxzEHN9h3m1QjKzM9sq" >> ~/.ssh/known_hosts
+          scp data/posts-snapshot.json root@5.42.111.39:/var/www/lvmn-site/data/posts-snapshot.json

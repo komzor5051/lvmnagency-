@@ -20,7 +20,7 @@ async function run() {
     .limit(1)
     .single();
 
-  if (!topic) { console.error("No pending topics!"); return; }
+  if (!topic) { console.error("No pending topics!"); process.exit(1); }
   console.log(`   Topic: ${topic.title}`);
 
   // Mark as writing
@@ -68,4 +68,7 @@ async function run() {
   console.log("\nDone! Check the blog at http://localhost:3000/blog/" + slug);
 }
 
-run().catch(console.error);
+run().catch((e) => {
+  console.error(e);
+  process.exit(1);
+});
