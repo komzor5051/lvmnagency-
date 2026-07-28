@@ -97,7 +97,7 @@ export default async function HomePage() {
           </div>
         </div>
         <div className="studio-ticker" aria-hidden="true">
-          <div>AI-АУДИТ • ПРОТОТИП • АВТОМАТИЗАЦИЯ • ВНЕДРЕНИЕ • ОБУЧЕНИЕ • AI-АУДИТ • ПРОТОТИП • АВТОМАТИЗАЦИЯ • ВНЕДРЕНИЕ •</div>
+          <div>AI-АУДИТ • ПРОТОТИП • АВТОМАТИЗАЦИЯ • ВНЕДРЕНИЕ • ОБУЧЕНИЕ • AI-АУДИТ • ПРОТОТИП • АВТОМАТИЗАЦИЯ • ВНЕДРЕНИЕ • ОБУЧЕНИЕ • </div>
         </div>
       </section>
 

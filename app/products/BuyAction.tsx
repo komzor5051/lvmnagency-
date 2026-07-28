@@ -21,7 +21,7 @@ export function BuyAction({ product }: { product: Product }) {
         title="Оплата — Lava.top"
         src={buy.src}
         className="block w-full"
-        style={{ border: "none", height: 52 }}
+        style={{ border: "none", height: 54 }}
       />
     );
   }

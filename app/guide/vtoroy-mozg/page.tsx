@@ -232,7 +232,11 @@ export default function SecondBrainGuidePage() {
                     i > 0 ? "border-t border-line" : ""
                   }`}
                 >
-                  <p className="font-mono text-2xl font-bold text-accent">
+                  <p
+                    className={`font-mono text-2xl font-bold text-accent ${
+                      step.title ? "" : "hidden md:block"
+                    }`}
+                  >
                     {step.title ? step.n : ""}
                   </p>
                   <div>

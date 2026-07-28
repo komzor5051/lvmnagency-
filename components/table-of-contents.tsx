@@ -58,7 +58,8 @@ export function TableOfContents({ html }: { html: string }) {
       <nav className="lg:hidden mb-4" aria-label="Оглавление">
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className="mono-label flex w-full items-center gap-2 border border-line px-3 py-2.5 text-ink"
+          aria-expanded={isOpen}
+          className="mono-label flex min-h-11 w-full items-center gap-2 border border-line px-3 py-2.5 text-ink"
         >
           <svg className={`w-3.5 h-3.5 transition-transform ${isOpen ? "rotate-90" : ""}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -72,7 +73,7 @@ export function TableOfContents({ html }: { html: string }) {
                 <a
                   href={`#${item.id}`}
                   onClick={() => setIsOpen(false)}
-                  className={`block py-1 text-[13px] leading-snug transition-colors ${
+                  className={`block py-2 text-[13px] leading-snug transition-colors ${
                     item.level === 3 ? "pl-3" : ""
                   } ${
                     activeId === item.id

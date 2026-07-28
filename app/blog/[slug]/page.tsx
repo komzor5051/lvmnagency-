@@ -133,10 +133,10 @@ export default async function ArticlePage({ params }: Props) {
     <>
       <article className="studio-article px-[6vw] pb-24 pt-[130px] max-md:px-4">
         {/* Breadcrumbs — pt above clears the fixed DeskNav strip. */}
-        <nav className="mono-label mx-auto mb-8 max-w-[68ch] text-ink-muted">
+        <nav className="mono-label mx-auto mb-8 max-w-[1200px] px-12 text-ink-muted max-md:px-5">
           <Link
             href="/blog"
-            className="transition-colors hover:text-ink"
+            className="inline-block py-2 transition-colors hover:text-ink"
           >
             &larr; Блог
           </Link>
@@ -153,7 +153,7 @@ export default async function ArticlePage({ params }: Props) {
         {/* Header column matches the centered 68ch text column, so the cover
             image below the title is exactly text-width. */}
         <header className="mx-auto mb-12 max-w-[68ch]">
-          <h1 className="desk-display text-[clamp(30px,4.4vw,52px)] text-ink">
+          <h1 className="desk-display text-balance text-[clamp(30px,4.4vw,52px)] text-ink">
             {post.title}
           </h1>
           <div className="mono-label mt-6 flex flex-wrap items-center gap-x-3 gap-y-1 text-ink-muted">
@@ -213,7 +213,7 @@ export default async function ArticlePage({ params }: Props) {
                     </p>
                   </a>
                 ) : (
-                  <div />
+                  <div className="max-sm:hidden" />
                 )}
                 {next ? (
                   <a
@@ -228,7 +228,7 @@ export default async function ArticlePage({ params }: Props) {
                     </p>
                   </a>
                 ) : (
-                  <div />
+                  <div className="max-sm:hidden" />
                 )}
               </nav>
             )}

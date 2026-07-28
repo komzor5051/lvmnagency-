@@ -12,7 +12,7 @@ function addCopyButton(el: HTMLElement, getText: () => string) {
   btn.className =
     "copy-btn absolute top-2 right-2 px-2 py-1 text-xs font-mono font-medium " +
     "bg-neutral-800 text-neutral-300 border border-neutral-700 hover:bg-neutral-700 hover:text-white " +
-    "opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer z-10";
+    "lg:opacity-0 lg:group-hover:opacity-100 focus-visible:opacity-100 transition-opacity cursor-pointer z-10";
   btn.textContent = "Скопировать";
 
   btn.addEventListener("click", async () => {

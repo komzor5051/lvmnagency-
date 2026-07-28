@@ -147,11 +147,11 @@ export default function VibecodingPage() {
     <div className="bg-paper text-ink">
       <main>
         {/* Hero */}
-        <section className="mx-auto max-w-7xl px-5 pb-16 pt-12 md:px-10 md:pt-[72px] lg:pb-24">
+        <section className="mx-auto max-w-7xl px-5 pb-16 pt-24 md:px-10 md:pt-28 lg:pb-24">
           <nav aria-label="Хлебные крошки">
             <Link
               href="/products"
-              className="font-mono text-xs tracking-[0.08em] text-ink-muted transition-colors hover:text-ink"
+              className="-my-3 inline-block py-3 font-mono text-xs tracking-[0.08em] text-ink-muted transition-colors hover:text-ink"
             >
               &larr; Все продукты
             </Link>
@@ -167,7 +167,7 @@ export default function VibecodingPage() {
 
             <h1
               data-reveal
-              className="font-heading mt-6 max-w-4xl text-[40px] font-black leading-[1.0] tracking-[-0.04em] text-ink sm:text-[52px] lg:text-[64px]"
+              className="font-heading mt-6 max-w-4xl text-balance text-[40px] font-black leading-[1.04] tracking-[-0.04em] text-ink sm:text-[52px] lg:text-[64px]"
             >
               Доведи свой продукт до{" "}
               <span
@@ -202,7 +202,7 @@ export default function VibecodingPage() {
                 Записаться в лист ожидания первого потока
               </p>
               <WaitlistForm />
-              <p className="mt-3 font-hand text-[20px] font-semibold text-ink-muted">
+              <p className="desk-script mt-3 font-hand text-[20px] font-semibold text-ink-muted">
                 ↳ участники потока узнают о старте первыми и получат стартовую цену
               </p>
             </div>
@@ -447,7 +447,7 @@ export default function VibecodingPage() {
             <Reveal>
               <h2
                 data-reveal
-                className="font-heading max-w-3xl text-4xl font-black leading-[1.0] tracking-[-0.04em] text-ink md:text-5xl"
+                className="font-heading max-w-3xl text-balance text-4xl font-black leading-[1.04] tracking-[-0.04em] text-ink md:text-5xl"
               >
                 Первый поток ограничен. Оставь ник — напишу о старте лично
               </h2>
@@ -456,7 +456,7 @@ export default function VibecodingPage() {
               </div>
               <p
                 data-reveal
-                className="mt-4 font-hand text-[22px] font-semibold text-ink-muted"
+                className="desk-script mt-4 font-hand text-[22px] font-semibold text-ink-muted"
               >
                 ↳ без спама — одно сообщение, когда откроются места
               </p>

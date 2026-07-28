@@ -22,9 +22,9 @@ const NICHES = [
 ];
 
 const TEAM_SIZES = [
-  "1-3 человека",
-  "4-10 человек",
-  "11-30 человек",
+  "1–3 человека",
+  "4–10 человек",
+  "11–30 человек",
   "30+ человек",
 ];
 
@@ -189,11 +189,11 @@ export default function AuditPage() {
   const complexityLabel = (c: string) => {
     switch (c) {
       case "simple":
-        return "3-5 дней";
+        return "3–5 дней";
       case "medium":
-        return "1-2 недели";
+        return "1–2 недели";
       case "complex":
-        return "2-4 недели";
+        return "2–4 недели";
       default:
         return c;
     }
@@ -322,7 +322,7 @@ export default function AuditPage() {
           <div className="audit-loading">
             <div className="audit-spinner" />
             <h2>Разбираю ваши ответы</h2>
-            <p>AI ищет в ваших процессах места, где автоматизация окупится. Обычно это занимает 10-15 секунд.</p>
+            <p>AI ищет в ваших процессах места, где автоматизация окупится. Обычно это занимает 10–15 секунд.</p>
           </div>
         </div>
       </div>
@@ -336,7 +336,14 @@ export default function AuditPage() {
   return (
     <div className="audit-page">
       <div className="audit-container audit-container--stage">
-        <div className="audit-progress">
+        <div
+          className="audit-progress"
+          role="progressbar"
+          aria-label="Шаг анкеты"
+          aria-valuemin={1}
+          aria-valuemax={7}
+          aria-valuenow={Math.min(step + 1, 7)}
+        >
           <div
             className="audit-progress-fill"
             style={{ width: `${progress}%` }}
@@ -353,6 +360,7 @@ export default function AuditPage() {
                   <button
                     key={n}
                     className={`audit-option ${niche === n ? "selected" : ""}`}
+                    aria-pressed={niche === n}
                     onClick={() => setNiche(n)}
                   >
                     {n}
@@ -381,6 +389,7 @@ export default function AuditPage() {
                   <button
                     key={s}
                     className={`audit-option ${teamSize === s ? "selected" : ""}`}
+                    aria-pressed={teamSize === s}
                     onClick={() => setTeamSize(s)}
                   >
                     {s}
@@ -400,6 +409,7 @@ export default function AuditPage() {
                   <button
                     key={r}
                     className={`audit-option ${routines.includes(r) ? "selected" : ""}`}
+                    aria-pressed={routines.includes(r)}
                     onClick={() => toggleItem(routines, setRoutines, r)}
                   >
                     {r}
@@ -419,6 +429,7 @@ export default function AuditPage() {
                   <button
                     key={t}
                     className={`audit-option ${tools.includes(t) ? "selected" : ""}`}
+                    aria-pressed={tools.includes(t)}
                     onClick={() => toggleItem(tools, setTools, t)}
                   >
                     {t}
@@ -437,7 +448,7 @@ export default function AuditPage() {
               </p>
               <textarea
                 className="audit-textarea"
-                placeholder="Например: менеджеры тратят полдня на ответы в WhatsApp, а новые заявки теряются..."
+                placeholder="Например: менеджеры тратят полдня на ответы в WhatsApp, а новые заявки теряются…"
                 value={biggestPain}
                 onChange={(e) => setBiggestPain(e.target.value)}
                 rows={4}
@@ -455,6 +466,7 @@ export default function AuditPage() {
                   <button
                     key={t}
                     className={`audit-option ${triedAI === t ? "selected" : ""}`}
+                    aria-pressed={triedAI === t}
                     onClick={() => setTriedAI(t)}
                   >
                     {t}

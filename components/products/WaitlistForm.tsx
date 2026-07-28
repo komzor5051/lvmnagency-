@@ -69,12 +69,12 @@ export function WaitlistForm() {
             setUsername(e.target.value);
             if (invalid) setInvalid(false);
           }}
-          className="w-full min-w-0 border border-line bg-white px-3 py-2.5 text-sm text-ink placeholder:text-ink-muted/60 outline-none transition-colors focus:border-ink"
+          className="min-h-[44px] w-full min-w-0 border border-line bg-white px-3 py-2.5 text-sm text-ink placeholder:text-ink-muted/60 outline-none transition-colors focus:border-ink"
         />
         <button
           type="submit"
           disabled={state === "loading"}
-          className="shrink-0 cursor-pointer bg-ink px-5 py-2.5 text-sm font-bold text-paper transition-colors hover:bg-black disabled:cursor-default disabled:opacity-60"
+          className="min-h-[44px] min-w-[6.5rem] shrink-0 cursor-pointer bg-ink px-5 py-2.5 text-sm font-bold text-paper transition-colors hover:bg-black disabled:cursor-default disabled:opacity-60"
         >
           {state === "loading" ? "Секунду" : "Жду"}
         </button>
