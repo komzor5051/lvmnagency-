@@ -1,69 +1,18 @@
 import type { Metadata } from "next";
-import { Inter_Tight, Onest, Playfair_Display, Literata, JetBrains_Mono, Tektur } from "next/font/google";
 import localFont from "next/font/local";
 import { YandexMetrika } from "@/components/YandexMetrika";
 import { PostHogProvider } from "@/components/PostHogProvider";
 import LenisProvider from "@/components/motion/LenisProvider";
-import DeskNav from "@/components/desk/DeskNav";
+import StudioNav from "@/components/studio/StudioNav";
+import StudioFooter from "@/components/studio/StudioFooter";
+import StudioFx from "@/components/studio/StudioFx";
 import "./globals.css";
+import "./studio.css";
 
-// Brand DS — White + Lime. Display: Inter Tight (headline), body: Onest,
-// serif: Playfair Display (blog covers), display: Literata (poster/HUD),
-// hand: Marck Script (annotations), mono: JetBrains Mono (labels). All carry
-// Cyrillic subset — the brand's Fontshare fonts ship Latin-only, which would
-// silently fall back to system sans on a Russian site.
-const displayFont = Inter_Tight({
-  variable: "--font-heading",
-  subsets: ["latin", "cyrillic"],
-  weight: ["600", "700", "800", "900"],
-  display: "swap",
-});
-
-const bodyFont = Onest({
-  variable: "--font-body",
-  subsets: ["latin", "cyrillic"],
-  weight: ["400", "500", "600", "700"],
-  display: "swap",
-});
-
-// Desk DS handwriting: Martina scriptC (A. Gophmann) — elegant Cyrillic
-// calligraphy, self-hosted (not on Google Fonts). Replaces Marck Script
-// site-wide via the same --font-hand variable.
+// Self-hosted fonts keep production builds independent from Google Fonts.
 const handFont = localFont({
   src: "../public/fonts/martina-script.woff2",
   variable: "--font-hand",
-  display: "swap",
-});
-
-const displaySerif = Literata({
-  variable: "--font-display",
-  subsets: ["latin", "cyrillic"],
-  weight: ["200", "300", "400"],
-  style: ["normal", "italic"],
-  display: "swap",
-});
-
-const monoFont = JetBrains_Mono({
-  variable: "--font-mono-brand",
-  subsets: ["latin", "cyrillic"],
-  weight: ["400", "500"],
-  display: "swap",
-});
-
-// Desk DS display: Tektur — faceted technical grotesk, matches the drafting-
-// table metaphor. Headlines, prices, card titles.
-const tekturFont = Tektur({
-  variable: "--font-tektur",
-  subsets: ["latin", "cyrillic"],
-  weight: ["500", "600", "700", "800"],
-  display: "swap",
-});
-
-// Editorial serif (blog covers, desk margin notes in italic).
-const serifFont = Playfair_Display({
-  variable: "--font-serif",
-  subsets: ["latin", "cyrillic"],
-  weight: ["500", "600", "700", "800"],
   display: "swap",
 });
 
@@ -81,6 +30,14 @@ export const metadata: Metadata = {
     type: "website",
     siteName: "Влад Лямин",
     locale: "ru_RU",
+    images: [
+      {
+        url: "/og-studio.png",
+        width: 1536,
+        height: 1024,
+        alt: "Влад Лямин — AI systems studio",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
@@ -134,11 +91,13 @@ export default function RootLayout({
   return (
     <html lang="ru" className="font-sans">
       <body
-        className={`${displayFont.variable} ${bodyFont.variable} ${handFont.variable} ${displaySerif.variable} ${monoFont.variable} ${serifFont.variable} ${tekturFont.variable} antialiased`}
+        className={`${handFont.variable} antialiased`}
       >
         <LenisProvider>
-          <DeskNav />
+          <StudioFx />
+          <StudioNav />
           <PostHogProvider>{children}</PostHogProvider>
+          <StudioFooter />
           <YandexMetrika />
           <script
             type="application/ld+json"

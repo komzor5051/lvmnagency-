@@ -19,6 +19,8 @@ export default async function Image({ params }: { params: Promise<{ slug: string
   const bg = loadBg("og-products-bg.png");
   const title = product?.title ?? "Продукты";
   const badge = product?.meta ?? "vladlyamin.ru";
+  const tektur = readFileSync(join(process.cwd(), "public", "fonts", "tektur-800.ttf"));
+  const onest = readFileSync(join(process.cwd(), "public", "fonts", "onest-500.ttf"));
 
   return new ImageResponse(
     (
@@ -83,7 +85,7 @@ export default async function Image({ params }: { params: Promise<{ slug: string
         >
           <div
             style={{
-              fontFamily: "sans-serif",
+              fontFamily: "Onest",
               fontSize: "15px",
               color: "#888888",
               letterSpacing: "0.14em",
@@ -95,7 +97,7 @@ export default async function Image({ params }: { params: Promise<{ slug: string
           </div>
           <div
             style={{
-              fontFamily: "sans-serif",
+              fontFamily: "Tektur",
               fontSize: title.length > 24 ? "56px" : "76px",
               fontWeight: 800,
               color: "#111111",
@@ -111,7 +113,7 @@ export default async function Image({ params }: { params: Promise<{ slug: string
             style={{
               padding: "8px 16px",
               border: "1.5px solid #D0D0D0",
-              fontFamily: "sans-serif",
+              fontFamily: "Onest",
               fontSize: "17px",
               color: "#333333",
               backgroundColor: "#FFFFFF",
@@ -138,7 +140,7 @@ export default async function Image({ params }: { params: Promise<{ slug: string
             />
             <div
               style={{
-                fontFamily: "sans-serif",
+                fontFamily: "Onest",
                 fontSize: "14px",
                 color: "#888888",
               }}
@@ -149,6 +151,12 @@ export default async function Image({ params }: { params: Promise<{ slug: string
         </div>
       </div>
     ),
-    { ...size }
+    {
+      ...size,
+      fonts: [
+        { name: "Tektur", data: tektur, weight: 800, style: "normal" },
+        { name: "Onest", data: onest, weight: 500, style: "normal" },
+      ],
+    }
   );
 }

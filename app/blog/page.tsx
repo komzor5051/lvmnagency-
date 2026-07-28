@@ -1,6 +1,5 @@
 import { getPublishedPosts } from "@/lib/posts";
 import { PostCard } from "@/components/post-card";
-import DeskFooter from "@/components/desk/DeskFooter";
 import type { Metadata } from "next";
 
 export const revalidate = 60;
@@ -28,39 +27,37 @@ export default async function BlogPage() {
   const posts = (await getPublishedPosts()).slice(0, 50);
 
   return (
-    <main>
-      <section className="pt-[130px] pb-[110px] max-md:pt-[110px] max-md:pb-[72px]">
-        <div className="mx-auto max-w-[1240px] px-8 max-md:px-4">
-          <header className="mb-14 max-w-[760px]">
-            <h1 className="desk-display text-[clamp(34px,4vw,58px)] text-ink">
-              Заметки <span className="hl">о системах</span>
-            </h1>
-            <p className="mt-6 max-w-[54ch] text-[17px] leading-[1.62] text-ink-muted">
-              Кейсы, инструменты, реальные цифры. Пишу о том, что помогает бизнесу расти.
-            </p>
-          </header>
+    <main className="studio-main studio-blog">
+      <section className="studio-page-hero">
+        <div className="studio-frame">
+          <p className="studio-eyebrow" data-studio-reveal>ЛАБОРАТОРНЫЕ ЗАМЕТКИ / {posts.length}</p>
+          <h1 data-studio-reveal>Пишу о том,<br />что <em>работает.</em></h1>
+          <p data-studio-reveal>
+            Кейсы, инструменты и реальные цифры. Без новостного шума — только
+            практические способы встроить AI в работу.
+          </p>
+        </div>
+      </section>
 
-          {/* The whole index is one long paper sheet on the desk. */}
-          <div className="desk-sheet relative px-10 py-2 max-md:px-4">
-            <span className="desk-tape" aria-hidden />
-            {(posts ?? []).map((post) => (
+      <section className="studio-blog-list">
+        <div className="studio-frame">
+          <div className="studio-post-index">
+            {(posts ?? []).map((post, index) => (
               <PostCard
                 key={post.slug}
                 slug={post.slug}
                 title={post.title}
                 publishedAt={post.published_at}
                 coverImage={post.cover_image}
+                index={index + 1}
               />
             ))}
             {(!posts || posts.length === 0) && (
-              <p className="mono-label py-16 text-center text-ink-muted">
-                Статьи скоро появятся
-              </p>
+              <p className="studio-mono studio-blog-empty">Статьи скоро появятся</p>
             )}
           </div>
         </div>
       </section>
-      <DeskFooter />
     </main>
   );
 }

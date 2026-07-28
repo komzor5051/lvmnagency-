@@ -6,9 +6,10 @@ interface PostCardProps {
   title: string;
   publishedAt: string;
   coverImage?: string | null;
+  index?: number;
 }
 
-export function PostCard({ slug, title, publishedAt, coverImage }: PostCardProps) {
+export function PostCard({ slug, title, publishedAt, coverImage, index = 1 }: PostCardProps) {
   const date = new Date(publishedAt).toLocaleDateString("ru-RU", {
     year: "numeric",
     month: "long",
@@ -18,24 +19,23 @@ export function PostCard({ slug, title, publishedAt, coverImage }: PostCardProps
   return (
     <a
       href={`/blog/${slug}`}
-      className="group flex items-center gap-5 border-b border-line px-2 py-7 transition-transform duration-200 last:border-b-0 hover:translate-x-3 md:gap-8 md:px-4 md:py-8"
+      className="studio-post-row"
+      data-studio-reveal
     >
-      <span className="mono-label w-24 shrink-0 text-ink-muted sm:w-32">{date}</span>
-      <span className="font-tektur flex-1 text-[clamp(18px,2.2vw,26px)] font-bold leading-snug underline-offset-[5px] decoration-1 group-hover:underline">
-        {title}
-      </span>
+      <span className="studio-post-num">{String(index).padStart(2, "0")}</span>
+      <span className="studio-mono">{date}</span>
+      <h2>{title}</h2>
       {coverImage && (
-        <span className="hidden h-16 w-24 shrink-0 overflow-hidden border border-line sm:block">
+        <span className="studio-post-thumb">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={coverImage}
-            alt=""
-            aria-hidden
+            alt={title}
             loading="lazy"
-            className="h-full w-full object-cover grayscale transition-[filter] duration-300 group-hover:grayscale-0"
           />
         </span>
       )}
+      <b aria-hidden="true">↗</b>
     </a>
   );
 }

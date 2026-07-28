@@ -7,10 +7,9 @@ import Link from "next/link";
 import { TELEGRAM_URL, type Product } from "@/lib/products";
 import { WaitlistForm } from "@/components/products/WaitlistForm";
 
-const btnBase =
-  "inline-flex w-full items-center justify-center px-6 py-3.5 text-sm font-bold tracking-tight transition-colors";
-const btnSolid = `${btnBase} bg-ink text-white hover:bg-lime hover:text-ink`;
-const btnOutline = `${btnBase} border-2 border-ink bg-transparent text-ink hover:bg-ink hover:text-paper`;
+const btnBase = "studio-buy-action";
+const btnSolid = `${btnBase} studio-buy-action--solid`;
+const btnOutline = `${btnBase} studio-buy-action--outline`;
 
 export function BuyAction({ product }: { product: Product }) {
   const { buy } = product;

@@ -15,6 +15,8 @@ function loadBg(name: string): string | null {
 
 export default function Image() {
   const bg = loadBg("og-products-bg.png");
+  const tektur = readFileSync(join(process.cwd(), "public", "fonts", "tektur-800.ttf"));
+  const onest = readFileSync(join(process.cwd(), "public", "fonts", "onest-500.ttf"));
 
   return new ImageResponse(
     (
@@ -83,7 +85,7 @@ export default function Image() {
         >
           <div
             style={{
-              fontFamily: "sans-serif",
+              fontFamily: "Onest",
               fontSize: "15px",
               color: "#888888",
               letterSpacing: "0.14em",
@@ -95,7 +97,7 @@ export default function Image() {
           </div>
           <div
             style={{
-              fontFamily: "sans-serif",
+              fontFamily: "Tektur",
               fontSize: "76px",
               fontWeight: 800,
               color: "#111111",
@@ -116,7 +118,7 @@ export default function Image() {
                   style={{
                     padding: "8px 16px",
                     border: "1.5px solid #D0D0D0",
-                    fontFamily: "sans-serif",
+                    fontFamily: "Onest",
                     fontSize: "17px",
                     color: "#333333",
                     backgroundColor: "#FFFFFF",
@@ -146,7 +148,7 @@ export default function Image() {
             />
             <div
               style={{
-                fontFamily: "sans-serif",
+                fontFamily: "Onest",
                 fontSize: "14px",
                 color: "#888888",
               }}
@@ -157,6 +159,12 @@ export default function Image() {
         </div>
       </div>
     ),
-    { ...size }
+    {
+      ...size,
+      fonts: [
+        { name: "Tektur", data: tektur, weight: 800, style: "normal" },
+        { name: "Onest", data: onest, weight: 500, style: "normal" },
+      ],
+    }
   );
 }

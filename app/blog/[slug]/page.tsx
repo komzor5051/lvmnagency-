@@ -4,7 +4,6 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { TableOfContents } from "@/components/table-of-contents";
 import { CopyableCode } from "@/components/copyable-code";
-import DeskFooter from "@/components/desk/DeskFooter";
 
 export const revalidate = 60;
 
@@ -132,7 +131,7 @@ export default async function ArticlePage({ params }: Props) {
 
   return (
     <>
-      <article className="px-[6vw] pb-24 pt-[110px] max-md:px-4">
+      <article className="studio-article px-[6vw] pb-24 pt-[130px] max-md:px-4">
         {/* Breadcrumbs — pt above clears the fixed DeskNav strip. */}
         <nav className="mono-label mx-auto mb-8 max-w-[68ch] text-ink-muted">
           <Link
@@ -180,8 +179,7 @@ export default async function ArticlePage({ params }: Props) {
             // eslint-disable-next-line @next/next/no-img-element
             <img
               src={post.cover_image}
-              alt=""
-              aria-hidden
+              alt={post.title}
               className="mt-8 aspect-[16/9] w-full border border-line object-cover sm:aspect-[2/1]"
             />
           )}
@@ -260,7 +258,6 @@ export default async function ArticlePage({ params }: Props) {
         </div>
         </div>
       </article>
-      <DeskFooter />
 
       {/* JSON-LD: BlogPosting */}
       <script
