@@ -336,6 +336,11 @@ export default function AuditPage() {
   return (
     <div className="audit-page">
       <div className="audit-container audit-container--stage">
+        {/* The quiz UI is all step-level H2s, so the crawled page had no H1 at
+            all. Visually hidden keeps the stage design untouched. */}
+        <h1 className="sr-only">
+          AI-аудит бизнеса: где AI даст реальный ROI
+        </h1>
         <div
           className="audit-progress"
           role="progressbar"

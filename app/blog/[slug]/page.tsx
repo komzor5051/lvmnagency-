@@ -4,6 +4,8 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { TableOfContents } from "@/components/table-of-contents";
 import { CopyableCode } from "@/components/copyable-code";
+import { SITE_URL } from "@/lib/site";
+import { jsonLd } from "@/lib/json-ld";
 
 export const revalidate = 60;
 
@@ -14,15 +16,6 @@ interface Props {
 function readingTime(text: string): number {
   const words = text.trim().split(/\s+/).length;
   return Math.max(1, Math.round(words / 200));
-}
-
-// Safe JSON-LD serialization: prevents </script> injection by escaping < and >.
-// JSON.stringify alone does not escape these, which could break the script block.
-function jsonLd(obj: unknown): string {
-  return JSON.stringify(obj)
-    .replace(/</g, "\\u003c")
-    .replace(/>/g, "\\u003e")
-    .replace(/&/g, "\\u0026");
 }
 
 // Detect step-by-step articles and extract HowTo steps.
@@ -73,13 +66,35 @@ function stripCoverImage(html: string, src: string | null): string {
   return html.replace(new RegExp(`<img[^>]*src="${esc}"[^>]*>`, "i"), "");
 }
 
+// Body images come from stored markdown-rendered HTML, so they carry no
+// loading hints — every article shipped ~3.5 MB of PNGs eagerly. Rewriting at
+// render time fixes all existing posts without a database migration.
+// Applied only to in-body images; the cover above stays eager (it is the LCP).
+function lazyLoadImages(html: string): string {
+  return html.replace(/<img\b([^>]*)>/gi, (tag, attrs: string) => {
+    let next = attrs;
+    if (!/\bloading=/i.test(next)) next += ' loading="lazy"';
+    if (!/\bdecoding=/i.test(next)) next += ' decoding="async"';
+    return `<img${next}>`;
+  });
+}
+
+// The page already renders post.title as the H1. When a generated body repeats
+// the title as its own <h1>, the page ships two — demote body H1s to H2 so the
+// document keeps exactly one top-level heading.
+function demoteBodyH1(html: string): string {
+  return html
+    .replace(/<h1\b([^>]*)>/gi, "<h2$1>")
+    .replace(/<\/h1>/gi, "</h2>");
+}
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const post = await getPostBySlug(slug);
 
   if (!post) return {};
 
-  const blogUrl = process.env.BLOG_URL ?? process.env.NEXT_PUBLIC_SITE_URL ?? "https://vladlyamin.ru";
+  const blogUrl = SITE_URL;
 
   return {
     title: post.title,
@@ -107,6 +122,44 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
+// The end-of-article CTA. Most posts sell the audit, but a post that teases a
+// product has to point at that product instead — otherwise the button says
+// "write to Telegram" and lands on a sales page.
+function resolveCta(ctaUrl: string | null) {
+  const href = ctaUrl ?? "https://telegram.me/lyaminvl?text=Аудит";
+
+  if (href.includes("/products/guide")) {
+    return {
+      href,
+      external: false,
+      eyebrow: "Гайд",
+      title: "Claude как рабочий инструмент",
+      text: "128 страниц: контекст, база знаний, каскады моделей и хуки. Два трека — для тех, кто не открывал терминал, и для тех, кому нужен готовый код",
+      label: "Забрать гайд →",
+    };
+  }
+
+  if (href.startsWith("/")) {
+    return {
+      href,
+      external: false,
+      eyebrow: "Продукт",
+      title: "Посмотреть подробнее",
+      text: "Разбор задачи, решение и результат — на отдельной странице",
+      label: "Открыть →",
+    };
+  }
+
+  return {
+    href,
+    external: true,
+    eyebrow: "AI-аудит",
+    title: "Автоматизируйте свой бизнес с AI",
+    text: "Напишите «Аудит» в Telegram — разберу ваши процессы и предложу конкретное решение",
+    label: "Написать в Telegram →",
+  };
+}
+
 export default async function ArticlePage({ params }: Props) {
   const { slug } = await params;
   const post = await getPostBySlug(slug);
@@ -122,10 +175,16 @@ export default async function ArticlePage({ params }: Props) {
   });
 
   const minutes = readingTime(post.content_md);
-  const blogUrl = process.env.BLOG_URL ?? process.env.NEXT_PUBLIC_SITE_URL ?? "https://vladlyamin.ru";
+  const blogUrl = SITE_URL;
+
+  const cta = resolveCta(post.cta_url);
   const rawHtml = post.content_html ?? "";
   // With a cover hero, drop the duplicate first inline image from the body.
-  const contentHtml = post.cover_image ? stripCoverImage(rawHtml, post.cover_image) : rawHtml;
+  const contentHtml = demoteBodyH1(
+    lazyLoadImages(
+      post.cover_image ? stripCoverImage(rawHtml, post.cover_image) : rawHtml,
+    ),
+  );
   const faqItems = extractFaq(rawHtml);
   const howToSteps = extractHowToSteps(rawHtml);
 
@@ -180,6 +239,13 @@ export default async function ArticlePage({ params }: Props) {
             <img
               src={post.cover_image}
               alt={post.title}
+              width={1200}
+              height={630}
+              // The cover is the LCP element: load it eagerly at high priority
+              // while every in-body image below is deferred.
+              loading="eager"
+              fetchPriority="high"
+              decoding="async"
               className="mt-8 aspect-[16/9] w-full border border-line object-cover sm:aspect-[2/1]"
             />
           )}
@@ -233,25 +299,27 @@ export default async function ArticlePage({ params }: Props) {
               </nav>
             )}
 
-            {/* CTA */}
+            {/* CTA. Copy follows the destination: posts that tease a product
+                point at it, everything else keeps the default audit offer. */}
             <div className="relative mt-10 p-6 sm:p-8 bg-white border border-line text-center overflow-hidden">
               <span aria-hidden className="absolute top-0 left-0 right-0 h-[3px] bg-lime" />
               <p className="font-mono text-[11px] uppercase tracking-[0.15em] text-ink-muted mb-3">
-                AI-аудит
+                {cta.eyebrow}
               </p>
               <p className="font-heading text-xl font-extrabold tracking-[-0.02em] text-ink mb-2">
-                Автоматизируйте свой бизнес с AI
+                {cta.title}
               </p>
               <p className="text-sm text-ink-muted mb-5 max-w-[48ch] mx-auto">
-                Напишите «Аудит» в Telegram — разберу ваши процессы и предложу конкретное решение
+                {cta.text}
               </p>
               <a
-                href={post.cta_url ?? "https://telegram.me/lyaminvl?text=Аудит"}
-                target="_blank"
-                rel="noopener noreferrer"
+                href={cta.href}
+                {...(cta.external
+                  ? { target: "_blank", rel: "noopener noreferrer" }
+                  : {})}
                 className="inline-block px-6 py-3 bg-ink text-paper text-sm font-medium hover:bg-black transition-colors"
               >
-                Написать в Telegram →
+                {cta.label}
               </a>
             </div>
           </div>

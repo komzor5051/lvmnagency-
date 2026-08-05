@@ -168,76 +168,7 @@ export default function DeskFx() {
       });
     });
 
-    // Scroll sway: papers wobble with scroll velocity, as if pinned to the desk
-    // and nudged by the movement. Composes with each element's own rotation:
-    // the static base transform is baked in, Tailwind v4 rotate-* utilities use
-    // the separate `rotate` property and are untouched. Elements whose transform
-    // anime.js owns (hero depth parallax) and the fixed nav are excluded.
-    const swayItems = Array.from(
-      document.querySelectorAll<HTMLElement>(".desk-sheet, .desk-sheet--high, .desk-sheet--low"),
-    )
-      .filter((el) => !el.hasAttribute("data-depth") && !el.closest("nav"))
-      .map((el, i) => {
-        const computed = getComputedStyle(el).transform;
-        // Same sign for every sheet — one gust swings all papers the same
-        // way; only the amplitude varies so they don't move in lockstep.
-        return {
-          el,
-          base: computed === "none" ? "" : computed,
-          factor: 0.65 + ((i * 7) % 5) * 0.14,
-        };
-      });
-    // Under-damped spring driven by scroll velocity (sampled per frame, so it
-    // works with Lenis smooth scrolling): a flick pushes the papers over, they
-    // overshoot and wobble back like paper caught by wind.
-    let sway = 0; // current deflection, deg
-    let swayVel = 0; // deg/s
-    let gust = 0; // smoothed wind push from scroll velocity, deg
-    let swayActive = false;
-    let lastY = window.scrollY;
-    let lastT = performance.now();
-    let swayRaf = 0;
-    const swayLoop = (now: number) => {
-      const dt = Math.min((now - lastT) / 1000, 0.05);
-      lastT = now;
-      const y = window.scrollY;
-      const v = dt > 0 ? (y - lastY) / dt : 0; // px/s
-      lastY = y;
-      const push = Math.max(-5, Math.min(5, v * 0.0045));
-      gust += (push - gust) * Math.min(1, dt * 18);
-      const acc = (gust - sway) * 130 - swayVel * 6;
-      swayVel += acc * dt;
-      sway += swayVel * dt;
-      const moving = Math.abs(sway) > 0.02 || Math.abs(swayVel) > 0.2 || Math.abs(gust) > 0.02;
-      if (moving) {
-        if (!swayActive) {
-          swayActive = true;
-          // CSS transitions (e.g. hover transition-transform on cards) would
-          // low-pass the per-frame writes down to nothing — pause them.
-          for (const it of swayItems) it.el.style.transitionProperty = "none";
-        }
-        for (const it of swayItems) {
-          it.el.style.transform = `${it.base} rotate(${(sway * it.factor).toFixed(3)}deg)`;
-        }
-      } else if (swayActive) {
-        swayActive = false;
-        // Settled: hand transform/transitions back to CSS so hover states work.
-        for (const it of swayItems) {
-          it.el.style.transform = "";
-          it.el.style.transitionProperty = "";
-        }
-      }
-      swayRaf = requestAnimationFrame(swayLoop);
-    };
-    if (swayItems.length) {
-      swayRaf = requestAnimationFrame(swayLoop);
-    }
-
     return () => {
-      cancelAnimationFrame(swayRaf);
-      swayItems.forEach((it) => {
-        it.el.style.transform = "";
-      });
       observers.forEach((o) => o.disconnect());
       tiltCleanups.forEach((fn) => fn());
       anims.forEach((a) => {

@@ -5,8 +5,10 @@ import { getProduct, products, type Product } from "@/lib/products";
 import { BuyAction } from "../BuyAction";
 import { Faq } from "../Faq";
 import { productExtras } from "../content";
+import { SITE_URL } from "@/lib/site";
+import { jsonLd } from "@/lib/json-ld";
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://vladlyamin.ru";
+const siteUrl = SITE_URL;
 
 const typeLabels: Record<Product["type"], string> = {
   consultation: "консультация",
@@ -14,6 +16,62 @@ const typeLabels: Record<Product["type"], string> = {
   service: "услуга",
   "coming-soon": "скоро",
 };
+
+// A downloadable guide is a Product; everything delivered as work with a person
+// is a Service. Both hang an Offer with the real price so answer engines can
+// state what this costs instead of guessing from page copy.
+function productSchema(product: Product) {
+  const url = `${siteUrl}/products/${product.id}`;
+  const isGoods = product.type === "digital";
+
+  const offer =
+    product.price === null
+      ? {
+          "@type": "Offer",
+          url,
+          availability: "https://schema.org/PreOrder",
+          priceCurrency: "RUB",
+        }
+      : {
+          "@type": "Offer",
+          url,
+          price: product.price,
+          priceCurrency: "RUB",
+          availability: "https://schema.org/InStock",
+          seller: { "@id": `${siteUrl}/#business` },
+        };
+
+  return {
+    "@context": "https://schema.org",
+    "@type": isGoods ? "Product" : "Service",
+    "@id": `${url}#offer`,
+    name: product.title,
+    description: product.tagline,
+    url,
+    inLanguage: "ru",
+    ...(isGoods
+      ? { brand: { "@id": `${siteUrl}/#business` } }
+      : {
+          provider: { "@id": `${siteUrl}/#business` },
+          serviceType: typeLabels[product.type],
+          areaServed: "Worldwide",
+        }),
+    offers: offer,
+  };
+}
+
+function faqSchema(product: Product) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "@id": `${siteUrl}/products/${product.id}#faq`,
+    mainEntity: (product.faq ?? []).map((item) => ({
+      "@type": "Question",
+      name: item.q,
+      acceptedAnswer: { "@type": "Answer", text: item.a },
+    })),
+  };
+}
 
 export function generateStaticParams() {
   return products.map((p) => ({ slug: p.id }));
@@ -103,7 +161,7 @@ export default async function ProductPage({
       <section className="studio-product-body">
         <div className="studio-frame studio-product-body-grid">
           <div className="studio-product-copy" data-studio-reveal>
-            <p className="studio-mono">О ФОРМАТЕ</p>
+            <p className="studio-mono">ЧТО ЭТО И ЧТО ВЫ ПОЛУЧИТЕ</p>
             {product.description.map((paragraph) => (
               <p key={paragraph}>{paragraph}</p>
             ))}
@@ -123,6 +181,16 @@ export default async function ProductPage({
           )}
         </div>
       </section>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: jsonLd(productSchema(product)) }}
+      />
+      {product.faq && product.faq.length > 0 && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: jsonLd(faqSchema(product)) }}
+        />
+      )}
     </main>
   );
 }

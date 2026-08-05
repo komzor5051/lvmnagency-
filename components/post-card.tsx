@@ -31,11 +31,14 @@ export function PostCard({ slug, title, publishedAt, coverImage, index = 1 }: Po
           <img
             src={coverImage}
             alt={title}
+            width={1200}
+            height={630}
             loading="lazy"
+            decoding="async"
           />
         </span>
       )}
-      <b aria-hidden="true">↗</b>
+      <b aria-hidden="true">→</b>
     </a>
   );
 }

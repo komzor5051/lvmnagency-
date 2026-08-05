@@ -1,10 +1,11 @@
 import { getPublishedPosts } from "@/lib/posts";
 import { PostCard } from "@/components/post-card";
+import { SITE_URL } from "@/lib/site";
 import type { Metadata } from "next";
 
 export const revalidate = 60;
 
-const blogUrl = process.env.BLOG_URL ?? process.env.NEXT_PUBLIC_SITE_URL ?? "https://vladlyamin.ru";
+const blogUrl = SITE_URL;
 
 export const metadata: Metadata = {
   title: { absolute: "AI для фаундеров — блог Влада Лямина" },
