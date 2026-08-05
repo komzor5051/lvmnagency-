@@ -205,3 +205,16 @@ from the server `.env.local` too if present.
   angles); most are marked `status: "skipped"` so `run-pipeline.ts`'s highest-score
   selection can't pick them. If a manually-generated article comes out off-topic,
   check the picked topic's `status`/title first before assuming a code bug.
+- `status` values in `lvmn_blog_topics`: `pending`, `writing`, `used`, `skipped`,
+  `duplicate`. ~32 topics are stuck in `writing` from runs that died mid-pipeline
+  (Exa 403) — inert, since only `pending` is ever picked, but they never retry.
+- **Duplicate topics** (`lib/pipeline/dedupe.ts`): the blog accumulated ~20
+  duplicate articles because the only guard was a slug-collision check that
+  appended `-2/-3/-4` and published anyway — and that missed rewordings entirely,
+  since a different title yields a different slug. Now `topic-miner` hard-filters
+  generated topics against *all* topic and post titles (it used to compare against
+  only the 50 newest, so older topics fell out of the window and got regenerated),
+  and `publisher` throws `DuplicateArticleError` instead of suffixing, parking the
+  topic as `duplicate`. Matching is Jaccard overlap of slugified title tokens at
+  0.6 — calibrated on the live corpus, where it flags 25 pairs with no false
+  positives. Rejections are logged with their score, so tune from the logs.
