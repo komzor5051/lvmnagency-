@@ -1,6 +1,7 @@
 import { generatePro } from "@/lib/gemini";
 import { searchSources } from "@/lib/researcher";
 import { supabase } from "@/lib/supabase";
+import { findDuplicate } from "@/lib/pipeline/dedupe";
 
 interface GeneratedTopic {
   title: string;
@@ -68,14 +69,24 @@ export async function mineTopics(): Promise<GeneratedTopic[]> {
     ? `\nОФИЦИАЛЬНЫЕ ОБНОВЛЕНИЯ ANTHROPIC:\n${officialUpdates}\n`
     : "";
 
-  // 3. Get existing topics to avoid duplicates
-  const { data: existing } = await supabase
-    .from("lvmn_blog_topics")
-    .select("title")
-    .order("created_at", { ascending: false })
-    .limit(50);
+  // 3. Get everything already mined or published, to avoid duplicates.
+  //    This used to fetch only the 50 newest topics, so anything older fell out
+  //    of the window and got regenerated — that is how the blog ended up with
+  //    ~20 duplicate articles. The filter in step 5 needs the full corpus.
+  const [{ data: existingTopics }, { data: existingPosts }] = await Promise.all([
+    supabase.from("lvmn_blog_topics").select("title").order("created_at", { ascending: false }),
+    supabase.from("lvmn_blog_posts").select("title"),
+  ]);
 
-  const existingTitles = (existing ?? []).map((t) => t.title).join("\n");
+  const knownTitles = [
+    ...(existingTopics ?? []).map((t) => t.title),
+    ...(existingPosts ?? []).map((p) => p.title),
+  ].filter(Boolean);
+
+  // The prompt only gets a recent slice — the full list is hundreds of titles
+  // and would crowd out the research context. The hard filter below is what
+  // actually enforces uniqueness; this is just a nudge.
+  const existingTitles = (existingTopics ?? []).slice(0, 80).map((t) => t.title).join("\n");
 
   // 4. Generate new topics
   const prompt = `Ты контент-стратег блога Влада Лямина — практика, который помогает фаундерам и разработчикам реально использовать Claude и Claude Code в работе.
@@ -135,9 +146,30 @@ ${existingTitles || "Пока нет публикаций"}
 
   const raw = await generatePro(prompt);
   const cleaned = raw.replace(/\`\`\`json?\n?/g, "").replace(/\`\`\`/g, "").trim();
-  const topics: GeneratedTopic[] = JSON.parse(cleaned);
+  const generated: GeneratedTopic[] = JSON.parse(cleaned);
 
-  // 5. Save to Supabase
+  // 5. Drop near-duplicates. "НЕ повторяй" in the prompt is a suggestion the
+  //    model ignores once the corpus grows; this check is deterministic.
+  //    Titles accepted earlier in this batch count as taken too — one run can
+  //    otherwise emit the same topic twice.
+  const accepted = [...knownTitles];
+  const topics: GeneratedTopic[] = [];
+  for (const t of generated) {
+    const clash = findDuplicate(t.title, accepted);
+    if (clash) {
+      console.log(
+        `[topic-miner] Skipped "${t.title}" — ${clash.score.toFixed(2)} similar to "${clash.title}"`
+      );
+      continue;
+    }
+    accepted.push(t.title);
+    topics.push(t);
+  }
+
+  console.log(`[topic-miner] ${topics.length}/${generated.length} topics are new`);
+  if (topics.length === 0) return [];
+
+  // 6. Save to Supabase
   const rows = topics.map((t) => ({
     title: t.title,
     angle: t.angle,

@@ -8,7 +8,7 @@ async function run() {
   const { writeArticle } = await import("../lib/pipeline/writer");
   const { runAllEditors } = await import("../lib/pipeline/editors");
   const { generateArticleImages } = await import("../lib/pipeline/image-generator");
-  const { publishPost } = await import("../lib/pipeline/publisher");
+  const { publishPost, DuplicateArticleError } = await import("../lib/pipeline/publisher");
   const { slugify } = await import("../lib/utils");
 
   console.log("1. Selecting topic...");
@@ -56,13 +56,27 @@ async function run() {
   console.log(`   Images done. Cover: ${coverImage ? "yes" : "no"}`);
 
   console.log("6. Publishing...");
-  const slug = await publishPost({
-    topicId: topic.id,
-    title: topic.title,
-    content: withImages,
-    tags: topic.keywords ?? [],
-    coverImage,
-  });
+  let slug: string;
+  try {
+    slug = await publishPost({
+      topicId: topic.id,
+      title: topic.title,
+      content: withImages,
+      tags: topic.keywords ?? [],
+      coverImage,
+    });
+  } catch (err) {
+    if (err instanceof DuplicateArticleError) {
+      // Park the topic so the next run picks something else instead of
+      // retrying it forever (and don't leave it stuck in "writing").
+      await supabase.from("lvmn_blog_topics").update({ status: "duplicate" }).eq("id", topic.id);
+      console.error(`   Not published — ${err.message}`);
+      console.error(`   Topic marked as "duplicate".`);
+      process.exit(1);
+    }
+    await supabase.from("lvmn_blog_topics").update({ status: "pending" }).eq("id", topic.id);
+    throw err;
+  }
   console.log(`   Published: /blog/${slug}`);
 
   console.log("\nDone! Check the blog at http://localhost:3000/blog/" + slug);

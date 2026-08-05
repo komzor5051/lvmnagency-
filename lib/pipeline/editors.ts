@@ -15,7 +15,7 @@ const EDITOR_PROMPTS: Record<EditorRole, string> = {
 4. Используются ТОЛЬКО ## (H2) и ### (H3)? Если есть # (H1) — убери его.
 5. Есть ли "мост" между секциями? Добавь переходы.
 6. CTA-секция в конце понятна и мотивирует?
-7. CTA ведёт на гайд «AI вместо команды» (https://vladlyamin.ru/products/guide), а не на консультацию/Telegram?
+7. CTA ведёт на гайд «Claude как рабочий инструмент» (https://vladlyamin.ru/products/guide), а не на консультацию/Telegram?
 ${IMAGE_PRESERVATION}
 Верни ИСПРАВЛЕННУЮ статью целиком в Markdown. Без комментариев.`,
 

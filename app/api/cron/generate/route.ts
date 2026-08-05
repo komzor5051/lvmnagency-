@@ -4,7 +4,7 @@ import { searchSources } from "@/lib/researcher";
 import { writeArticle } from "@/lib/pipeline/writer";
 import { runAllEditors } from "@/lib/pipeline/editors";
 import { generateArticleImages } from "@/lib/pipeline/image-generator";
-import { publishPost } from "@/lib/pipeline/publisher";
+import { publishPost, DuplicateArticleError } from "@/lib/pipeline/publisher";
 import { slugify } from "@/lib/utils";
 
 export const maxDuration = 300;
@@ -61,13 +61,27 @@ export async function GET(request: Request) {
     );
 
     // Publish
-    const slug = await publishPost({
-      topicId: topic.id,
-      title: topic.title,
-      content: withImages,
-      tags: topic.keywords ?? [],
-      coverImage,
-    });
+    let slug: string;
+    try {
+      slug = await publishPost({
+        topicId: topic.id,
+        title: topic.title,
+        content: withImages,
+        tags: topic.keywords ?? [],
+        coverImage,
+      });
+    } catch (err) {
+      if (err instanceof DuplicateArticleError) {
+        // Park it, otherwise the topic stays "writing" and the next cron run
+        // picks the same near-duplicate again.
+        await supabase
+          .from("lvmn_blog_topics")
+          .update({ status: "duplicate" })
+          .eq("id", topic.id);
+        return NextResponse.json({ skipped: "duplicate", reason: err.message });
+      }
+      throw err;
+    }
 
     return NextResponse.json({ success: true, slug, imagesGenerated: !!coverImage });
   } catch (error) {

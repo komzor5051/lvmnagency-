@@ -1,5 +1,6 @@
 import { generateFlash } from "@/lib/gemini";
 import { supabase } from "@/lib/supabase";
+import { SITE_URL } from "@/lib/site";
 
 const BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN!;
 const CHANNEL_ID = process.env.TELEGRAM_CHANNEL_ID!;
@@ -22,7 +23,7 @@ export async function sendTelegramAnnouncement(slug: string): Promise<void> {
 Только текст анонса, без кавычек.`
   );
 
-  const blogUrl = process.env.BLOG_URL ?? "https://vladlyamin.ru";
+  const blogUrl = SITE_URL;
   const message = `<b>${post.title}</b>\n\n${hook.trim()}\n\n<a href="${blogUrl}/blog/${post.slug}">Читать статью</a>`;
 
   // Send to Telegram
