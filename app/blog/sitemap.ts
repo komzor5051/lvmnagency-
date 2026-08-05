@@ -1,8 +1,9 @@
 import { getPublishedPosts } from "@/lib/posts";
+import { SITE_URL } from "@/lib/site";
 import type { MetadataRoute } from "next";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const blogUrl = process.env.BLOG_URL ?? "https://vladlyamin.ru";
+  const blogUrl = SITE_URL;
 
   const posts = await getPublishedPosts();
 

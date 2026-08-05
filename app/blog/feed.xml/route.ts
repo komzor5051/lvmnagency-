@@ -1,9 +1,10 @@
 import { getPublishedPosts } from "@/lib/posts";
+import { SITE_URL } from "@/lib/site";
 
 export async function GET() {
   const posts = (await getPublishedPosts()).slice(0, 20);
 
-  const blogUrl = process.env.BLOG_URL ?? process.env.NEXT_PUBLIC_SITE_URL ?? "https://vladlyamin.ru";
+  const blogUrl = SITE_URL;
   const items = (posts ?? [])
     .map(
       (p) => `
