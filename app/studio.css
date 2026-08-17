@@ -670,6 +670,10 @@ html.studio-fx-armed [data-studio-reveal].is-visible {
 .studio-product-faq summary span:first-child { color: var(--studio-carbon); }
 .studio-product-faq details p { color: rgba(10,11,10,.58); }
 
+.studio-product-deliverables,
+.studio-product-not-for,
+.studio-product-guarantee { grid-column: 2; }
+
 .studio-product-deliverables ul,
 .studio-product-not-for ul {
   list-style: none;
