@@ -8,6 +8,7 @@
 import Link from "next/link";
 import { TELEGRAM_URL, type Product } from "@/lib/products";
 import { WaitlistForm } from "@/components/products/WaitlistForm";
+import { BuyLink } from "./BuyLink";
 
 const btnBase = "studio-buy-action";
 const btnSolid = `${btnBase} studio-buy-action--solid`;
@@ -31,9 +32,12 @@ export function BuyAction({ product }: { product: Product }) {
   if (buy.kind === "lava") {
     if (buy.url) {
       return (
-        <a href={buy.url} target="_blank" rel="noopener noreferrer" className={btnSolid}>
-          {product.cta?.buy ?? "Оформить"}
-        </a>
+        <BuyLink
+          url={buy.url}
+          label={product.cta?.buy ?? "Оформить"}
+          productId={product.id}
+          className={btnSolid}
+        />
       );
     }
     // Checkout not configured yet — degrade to the manual Telegram channel.

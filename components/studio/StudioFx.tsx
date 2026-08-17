@@ -2,6 +2,7 @@
 
 import { useEffect } from "react";
 import { usePathname } from "next/navigation";
+import posthog from "posthog-js";
 
 export default function StudioFx() {
   const pathname = usePathname();
@@ -13,6 +14,11 @@ export default function StudioFx() {
       window.clearTimeout(window.__studioFxSafety);
       window.__studioFxSafety = undefined;
     }
+
+    // Разница между количеством $pageview и этого события показывает долю
+    // людей, у которых бандл не доехал — то есть реальный масштаб проблемы
+    // белого экрана и результат её починки.
+    if (posthog.__loaded) posthog.capture("client_js_ready");
 
     const items = document.querySelectorAll<HTMLElement>("[data-studio-reveal]");
     const observer = new IntersectionObserver(

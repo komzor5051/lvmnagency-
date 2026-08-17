@@ -20,6 +20,12 @@ test.describe("отрисовка без клиентского JS", () => {
     await expect(page.locator("h1")).toHaveText(/\S/);
     expect(await revealOpacity(page)).toBe("1");
   });
+
+  test("кнопка оплаты остаётся рабочей ссылкой без JS", async ({ page }) => {
+    await page.goto(PAGE);
+    const link = page.locator('a[href*="lava.top"]').first();
+    await expect(link).toHaveAttribute("href", /^https:\/\/app\.lava\.top\//);
+  });
 });
 
 test("контент раскрывается, если основной бандл не загрузился", async ({ page }) => {
