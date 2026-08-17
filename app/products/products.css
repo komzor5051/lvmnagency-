@@ -1,0 +1,63 @@
+/* ==========================================================================
+   /products bento additions — phase 2 of the bento redesign.
+   Only additive rules on top of the BENTO LAYER in app/studio.css;
+   palette, tokens and radii stay untouched.
+   ========================================================================== */
+
+/* Page-level h1 inside .bento-head (studio.css only styles h2 there). */
+.bento-head h1 {
+  max-width: 16ch;
+  margin: .55rem 0 0;
+  font-family: var(--font-heading), Onest, sans-serif;
+  font-size: clamp(2.1rem, 7.5vw, 3.2rem);
+  font-weight: 660;
+  letter-spacing: -.05em;
+  line-height: 1;
+  text-wrap: balance;
+}
+
+/* Breadcrumb above the product hero grid. */
+.bento-crumb {
+  display: inline-block;
+  margin-bottom: 1.1rem;
+  color: var(--color-ink-muted);
+  font-family: var(--font-mono-brand), "JetBrains Mono", monospace;
+  font-size: .68rem;
+  font-weight: 500;
+  letter-spacing: .11em;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+.bento-crumb:hover { color: var(--color-ink); }
+
+/* Product h1 inside the hero tile — same scale as tile h2/h3, one size up. */
+.bento-product-title {
+  margin: .6rem 0 0;
+  font-family: var(--font-heading), Onest, sans-serif;
+  font-size: clamp(1.9rem, 6.5vw, 2.8rem);
+  font-weight: 660;
+  letter-spacing: -.05em;
+  line-height: 1.02;
+  text-wrap: balance;
+}
+
+/* Long-copy tile: description paragraphs. */
+.bento-copy p:not(.bento-mono) {
+  max-width: 62ch;
+  margin: 1rem 0 0;
+  color: var(--color-ink-muted);
+  font-size: .96rem;
+  line-height: 1.7;
+}
+
+/* Buy tile: price, CTA, fine print. */
+.bento-buy .bento-price { margin-top: 0; padding-top: 1.1rem; }
+.bento-buy .bento-btn,
+.bento-buy .bento-text-link { margin-top: 1.1rem; }
+.bento-buy small {
+  margin-top: .9rem;
+  color: var(--color-ink-muted);
+  font-size: .74rem;
+  line-height: 1.5;
+}
+.bento-tile--carbon.bento-buy small { color: rgba(255, 254, 249, .6); }

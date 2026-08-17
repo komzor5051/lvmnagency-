@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
-import Link from "next/link";
-import { products, type Product } from "@/lib/products";
+import { products } from "@/lib/products";
 import { SITE_URL } from "@/lib/site";
 import { jsonLd } from "@/lib/json-ld";
-import { FaqSection } from "@/components/FaqSection";
+import { ProductShowcase } from "@/components/bento/ProductShowcase";
+import "./products.css";
 
 const siteUrl = SITE_URL;
 
@@ -77,89 +77,95 @@ const faq = [
   },
 ];
 
-// Four points of entry, in the order the offer is meant to be read —
-// presentation-only; lib/products.ts stays untouched. The coming-soon course
-// is rendered separately as a lime sticky note at the end of the desk.
-const ORDER = ["guide", "consultation", "audit", "ai-os"];
-
-const typeLabels: Record<Product["type"], string> = {
-  consultation: "консультация",
-  digital: "цифровой продукт",
-  service: "услуга",
-  "coming-soon": "скоро",
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "@id": `${siteUrl}/products#faq`,
+  inLanguage: "ru",
+  mainEntity: faq.map((item) => ({
+    "@type": "Question",
+    name: item.q,
+    acceptedAnswer: { "@type": "Answer", text: item.a },
+  })),
 };
 
-// p.meta sometimes already leads with the type word ("услуга · 2 недели") —
-// prepend the type label only when it adds information.
-function metaLine(p: Product): string {
-  const label = typeLabels[p.type];
-  return p.meta.startsWith(label) ? p.meta : `${label} · ${p.meta}`;
-}
-
-function orderedProducts(): Product[] {
-  return ORDER.map((id) => products.find((p) => p.id === id)).filter(
-    (p): p is Product => Boolean(p)
+// FAQ accordion body — same <details> pattern as app/products/Faq.tsx, split
+// across two tiles for bento rhythm (no duplicated inner "Вопросы" label).
+function FaqTile({ items, delay }: { items: typeof faq; delay?: number }) {
+  return (
+    <div
+      className="bento-tile bento-col-6"
+      data-studio-reveal
+      style={delay ? { transitionDelay: `${delay}ms` } : undefined}
+    >
+      <div className="border-t border-line" style={{ marginTop: ".4rem" }}>
+        {items.map((item) => (
+          <details key={item.q} className="group border-b border-line">
+            <summary className="flex cursor-pointer list-none items-baseline justify-between gap-6 py-4 text-left [&::-webkit-details-marker]:hidden">
+              <span className="text-base font-bold leading-snug tracking-[-0.01em] text-ink">
+                {item.q}
+              </span>
+              <span
+                aria-hidden="true"
+                className="relative top-0.5 shrink-0 font-mono text-lg leading-none text-ink-muted transition-transform duration-200 ease-out group-open:rotate-45"
+              >
+                +
+              </span>
+            </summary>
+            <p className="pb-5 pr-10 text-sm leading-relaxed text-ink-muted">{item.a}</p>
+          </details>
+        ))}
+      </div>
+    </div>
   );
 }
 
 export default function ProductsPage() {
-  const items = orderedProducts();
-  const course = products.find((p) => p.id === "course");
+  const half = Math.ceil(faq.length / 2);
 
   return (
-    <main className="studio-main studio-products">
-      <section className="studio-page-hero">
+    <main className="studio-main bento-page">
+      {/* 1. Head + the shared bento showcase (same grid as the home page). */}
+      <section className="bento-section bento-section--hero" id="products">
         <div className="studio-frame">
-          <p className="studio-eyebrow" data-studio-reveal>ФОРМАТЫ РАБОТЫ / 01—04</p>
-          <h1 data-studio-reveal>Что можно<br />заказать и <em>почём?</em></h1>
-          <p data-studio-reveal>
-            Четыре формата: гайд за 990 ₽, часовая консультация за 5 000 ₽, аудит
-            с планом за 15 000 ₽ и внедрение под ключ от 150 000 ₽. Форматы
-            независимы — начать можно с любого и остановиться на нём же.
-          </p>
+          <header className="bento-head" data-studio-reveal>
+            <p className="bento-mono">Форматы работы / 01—04</p>
+            <h1>Что можно заказать и почём</h1>
+            <p>
+              Четыре формата: гайд за 990 ₽, часовая консультация за 5 000 ₽,
+              аудит с планом за 15 000 ₽ и внедрение под ключ от 150 000 ₽.
+              Форматы независимы — начать можно с любого и остановиться на нём же.
+            </p>
+          </header>
+          <ProductShowcase section="products_page" />
         </div>
       </section>
 
-      <section className="studio-products-list">
+      {/* 2. FAQ: how to pick a format — restyled as bento tiles. */}
+      <section className="bento-section bento-section--last" id="faq">
         <div className="studio-frame">
-          <div className="studio-product-index">
-            {items.map((p, i) => (
-              <Link key={p.id} href={`/products/${p.id}`} className="studio-product-row" data-studio-reveal>
-                <span className="studio-product-num">0{i + 1}</span>
-                <div>
-                  <span className="studio-mono">{metaLine(p)}</span>
-                  <h2>{p.title}</h2>
-                  <p>{p.tagline}</p>
-                </div>
-                <strong>{p.priceLabel}</strong>
-                <b aria-hidden="true">→</b>
-              </Link>
-            ))}
-            {course && (
-              <Link
-                href={`/products/${course.id}`}
-                className="studio-course-note"
-                data-studio-reveal
-              >
-                <span className="studio-mono">В РАЗРАБОТКЕ</span>
-                <h3>{course.title}</h3>
-                <p>Оставьте email — узнаете первым и получите стартовую цену.</p>
-                <b>В список ожидания →</b>
-              </Link>
-            )}
+          <header className="bento-head" data-studio-reveal>
+            <p className="bento-mono">Вопросы</p>
+            <h2>Как выбрать формат</h2>
+            <p>
+              Что брать под вашу задачу, как проходит оплата и что будет, если
+              формат не подойдёт.
+            </p>
+          </header>
+          <div className="bento-grid">
+            <FaqTile items={faq.slice(0, half)} />
+            <FaqTile items={faq.slice(half)} delay={60} />
           </div>
         </div>
       </section>
-      <FaqSection
-        items={faq}
-        eyebrow="ВОПРОСЫ"
-        heading={<>Как выбрать<br /><em>формат.</em></>}
-        lead="Что брать под вашу задачу, как проходит оплата и что будет, если формат не подойдёт."
-        schemaId="/products#faq"
-      />
+
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: jsonLd(catalogSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: jsonLd(faqSchema) }}
       />
     </main>
   );

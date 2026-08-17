@@ -15,6 +15,10 @@ export type ProductType = "consultation" | "digital" | "service" | "coming-soon"
 
 export type ProductFaq = { q: string; a: string };
 
+// "Что дальше" bridge to the next funnel step, rendered as a clickable tile
+// on the product page. Clicks fire funnel_bridge_click {from, to}.
+export type ProductNextStep = { slug: string; label: string; text: string };
+
 export type Product = {
   id: string;
   type: ProductType;
@@ -28,6 +32,7 @@ export type Product = {
   faq?: ProductFaq[];
   // CTA labels: action + what you get, never bare "купи".
   cta?: { buy: string; fallback: string }; // buy = checkout configured; fallback = manual Telegram channel
+  nextStep?: ProductNextStep; // funnel bridge to the next ladder step
 };
 
 export const TELEGRAM_URL = "https://telegram.me/lyaminvl";
@@ -56,6 +61,11 @@ export const products: Product[] = [
       url: "https://app.lava.top/products/95eb7e70-41b7-48b7-8730-dcd991fc1f0b/a4309e6f-119a-47d9-ad3a-a82efc9ff94c?currency=RUB&domainId=2b8044d9-fd3c-47ce-ad84-1cb65c1e0fc8&domainName=vladlyamin.ru",
     },
     cta: { buy: "Получить гайд", fallback: "Получить через Telegram" },
+    nextStep: {
+      slug: "consultation",
+      label: "После гайда — консультация 1:1",
+      text: "Гайд даёт системы, консультация подгоняет их под ваш бизнес: час один на один и план внедрения под вашу задачу.",
+    },
     faq: [
       {
         q: "Подойдёт, если я только начинаю с AI?",
@@ -99,6 +109,11 @@ export const products: Product[] = [
     meta: "1:1 · 60 минут · онлайн",
     buy: { kind: "lava", url: "" },
     cta: { buy: "Забронировать час", fallback: "Забронировать в Telegram" },
+    nextStep: {
+      slug: "audit",
+      label: "Следующий шаг — AI-аудит",
+      text: "Если после консультации хочется пройтись по всем процессам: две недели разбора и план внедрения с расчётом окупаемости по каждому пункту.",
+    },
     faq: [
       {
         q: "Что если за час не успеем?",
@@ -141,6 +156,11 @@ export const products: Product[] = [
     priceLabel: "15 000 ₽",
     meta: "услуга · 2 недели",
     buy: { kind: "form", url: "/audit" },
+    nextStep: {
+      slug: "ai-os",
+      label: "Дальше — внедрение",
+      text: "План из аудита можно внедрить со мной: 4–6 недель, и AI встроен в повторяющиеся задачи команды — с обучением и документацией.",
+    },
     faq: [
       {
         q: "Что нужно от меня?",
