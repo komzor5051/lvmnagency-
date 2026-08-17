@@ -1,11 +1,13 @@
-// Editorial content for /products sections, derived from product descriptions
-// in lib/products.ts (which is shared and must not be edited).
-// Keyed by product id; adding a product here is optional — sections render
-// without these lists if a key is missing.
+// Редакционный контент для секций /products. Ключ — id продукта.
+// Все поля кроме forWhom и inside необязательные: страницы продуктов,
+// у которых их нет, рендерятся без соответствующих секций.
 
 export type ProductExtra = {
   forWhom: string[];
   inside: string[];
+  deliverables?: string[];
+  notFor?: string[];
+  guarantee?: string;
 };
 
 export const productExtras: Record<string, ProductExtra> = {
@@ -21,6 +23,20 @@ export const productExtras: Record<string, ProductExtra> = {
       "Инструменты и бюджет под каждую задачу, включая то, что делается без разработчика",
       "Запись звонка и анкета до встречи, чтобы не тратить оплаченное время на вводные",
     ],
+    deliverables: [
+      "Карту того, где в вашем текущем процессе теряется время",
+      "Список 3-5 автоматизаций в порядке приоритета, с оценкой в часах и рублях по каждой",
+      "Решение по каждому пункту: делается без разработчика, нужен подрядчик или не окупается",
+      "Запись созвона — пересматривать и передавать команде без ограничений",
+    ],
+    notFor: [
+      "Нужна помощь с монтажом контента или ведением соцсетей — это не мой формат",
+      "Нет своего процесса, который можно разобрать: разбирать нечего",
+      "Ищете обучение работе с нейросетями, а не разбор своей ситуации — для этого есть гайд за 990 ₽",
+      "Хотите, чтобы за этот час всё сделали под ключ: за час собирается план, не внедрение",
+    ],
+    guarantee:
+      "Если по итогу часа ни один пункт плана не окажется применим — возвращаю полную стоимость. Решаете вы.",
   },
   guide: {
     forWhom: [
