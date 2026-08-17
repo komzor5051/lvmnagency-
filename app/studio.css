@@ -65,8 +65,6 @@
   --studio-lime-dark: #a8d120;
   --studio-steel: #9ca39b;
   --studio-rule: #2b2e2b;
-  --pointer-x: 50vw;
-  --pointer-y: 35vh;
   --studio-ease: cubic-bezier(0.22, 1, 0.36, 1);
   --bg: var(--studio-carbon);
   --text: var(--studio-white);
@@ -110,38 +108,12 @@ body.studio-menu-open { overflow: hidden; }
   margin-inline: auto;
 }
 
-.studio-grain {
-  position: fixed;
-  z-index: 50;
-  inset: 0;
-  pointer-events: none;
-  opacity: .14;
-  background-image:
-    repeating-radial-gradient(circle at 18% 31%, transparent 0 1px, rgba(255,255,255,.09) 1.2px 1.8px, transparent 2px 4px),
-    repeating-radial-gradient(circle at 76% 58%, transparent 0 1.4px, rgba(0,0,0,.13) 1.6px 2px, transparent 2.2px 5px);
-  background-size: 11px 13px, 13px 17px;
-  mix-blend-mode: soft-light;
-}
-
-.studio-pointer {
-  position: fixed;
-  z-index: 0;
-  top: 0;
-  left: 0;
-  width: 560px;
-  height: 560px;
-  border-radius: 50%;
-  pointer-events: none;
-  opacity: .18;
-  background: radial-gradient(circle, rgba(200,240,76,.24), transparent 68%);
-  transform: translate3d(calc(var(--pointer-x) - 50%), calc(var(--pointer-y) - 50%), 0);
-  filter: blur(30px);
-}
-
+/* Scroll reveal: fade + 12px lift, applied once by components/bento/BentoReveal.
+   Stagger is set per-tile via an inline transition-delay. */
 [data-studio-reveal] {
   opacity: 0;
-  transform: translateY(30px);
-  transition: opacity 900ms var(--studio-ease), transform 900ms var(--studio-ease);
+  transform: translateY(12px);
+  transition: opacity 560ms var(--studio-ease), transform 560ms var(--studio-ease);
 }
 
 [data-studio-reveal].is-visible {
@@ -877,5 +849,351 @@ body.studio-menu-open { overflow: hidden; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
   [data-studio-reveal] { opacity: 1; transform: none; }
-  .studio-pointer { display: none; }
+}
+
+/* =============================================================================
+   BENTO LAYER — phase 1 of the bento redesign.
+   Spec: docs/superpowers/specs/2026-08-17-bento-redesign-design.md
+
+   Rules, in short:
+   - 12-column grid on desktop (gap 14px), tiles span 3/4/6/8/12 columns,
+     a single column on mobile.
+   - Tile = white surface (--studio-white) + 1px --color-line border + 18px
+     radius. Carbon variant (--studio-carbon) is the accent, roughly one dark
+     tile per 4-5 light ones.
+   - Lime (--studio-lime) is ONLY a fill: CTA buttons, badges, markers.
+     Never a text colour, never an underline, never a glow.
+   - No shadows, no gradients, no glassmorphism.
+   - Mono captions (.bento-mono) use JetBrains Mono; headings/copy use Onest.
+   ========================================================================== */
+
+/* Page shell: paper ground for pages rebuilt in the bento style. */
+.bento-page {
+  background: var(--studio-paper);
+  color: var(--color-ink);
+}
+
+/* Vertical rhythm between bento sections. --hero pads under the fixed nav. */
+.bento-section { padding: 2.25rem 0; }
+.bento-section--hero { padding-top: calc(6.6rem + env(safe-area-inset-top)); }
+.bento-section--last { padding-bottom: 4.5rem; }
+
+/* Section header: mono eyebrow + Onest heading. */
+.bento-head { margin: 1rem 0 1.4rem; }
+.bento-head h2 {
+  max-width: 16ch;
+  margin: .55rem 0 0;
+  font-family: var(--font-heading), Onest, sans-serif;
+  font-size: clamp(1.9rem, 6.5vw, 2.9rem);
+  font-weight: 660;
+  letter-spacing: -.05em;
+  line-height: 1;
+  text-wrap: balance;
+}
+.bento-head p:not(.bento-mono) {
+  max-width: 52ch;
+  margin: .9rem 0 0;
+  color: var(--color-ink-muted);
+  font-size: .94rem;
+  line-height: 1.65;
+}
+
+/* The grid. Mobile: one column, source order = funnel priority. */
+.bento-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 14px;
+}
+
+/* Tile: the only building block. Clickable tiles get .bento-tile--link. */
+.bento-tile {
+  position: relative;
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  padding: clamp(1.15rem, 2.2vw, 1.6rem);
+  border: 1px solid var(--color-line);
+  border-radius: 18px;
+  background: var(--studio-white);
+  color: inherit;
+  text-decoration: none;
+}
+
+/* Hover for clickable tiles: border shifts to carbon + 2px lift. No shadows. */
+.bento-tile--link {
+  transition: border-color 180ms ease, transform 180ms ease;
+}
+.bento-tile--link:hover {
+  border-color: var(--studio-carbon);
+  transform: translateY(-2px);
+}
+.bento-tile--link:focus-visible {
+  outline: 3px solid var(--studio-carbon);
+  outline-offset: 2px;
+}
+
+/* Carbon tile: the dark accent for funnel emphasis and rhythm. */
+.bento-tile--carbon {
+  border-color: var(--studio-carbon);
+  background: var(--studio-carbon);
+  color: var(--studio-white);
+}
+.bento-tile--carbon.bento-tile--link:hover { border-color: rgba(255, 254, 249, .45); }
+.bento-tile--carbon.bento-tile--link:focus-visible { outline-color: var(--studio-lime); }
+.bento-tile--carbon .bento-mono { color: rgba(255, 254, 249, .55); }
+.bento-tile--carbon p:not(.bento-mono) { color: rgba(255, 254, 249, .68); }
+
+/* Mono caption: category / meta / funnel bridges. JetBrains Mono, uppercase. */
+.bento-mono {
+  font-family: var(--font-mono-brand), "JetBrains Mono", monospace;
+  font-size: .64rem;
+  font-weight: 500;
+  letter-spacing: .11em;
+  line-height: 1.45;
+  text-transform: uppercase;
+  color: var(--color-ink-muted);
+}
+
+/* Badge: carbon fill + lime text (lime as marker, not body text). */
+.bento-badge {
+  display: inline-flex;
+  width: fit-content;
+  align-items: center;
+  padding: .38rem .7rem;
+  border-radius: 999px;
+  background: var(--studio-carbon);
+  color: var(--studio-lime);
+  font-family: var(--font-mono-brand), "JetBrains Mono", monospace;
+  font-size: .58rem;
+  font-weight: 600;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+
+/* Lime dot marker (allowed lime use: markers). */
+.bento-marker {
+  display: inline-block;
+  width: .55rem;
+  height: .55rem;
+  border-radius: 50%;
+  background: var(--studio-lime);
+}
+
+/* Lime CTA button — the only lime fill besides badges/markers. No shadow. */
+.bento-btn {
+  display: inline-flex;
+  width: fit-content;
+  min-height: 3.1rem;
+  align-items: center;
+  justify-content: center;
+  gap: .6rem;
+  padding: .85rem 1.5rem;
+  border-radius: 999px;
+  background: var(--studio-lime);
+  color: var(--studio-carbon);
+  font-size: .88rem;
+  font-weight: 700;
+  line-height: 1;
+  text-decoration: none;
+  transition: transform 180ms ease;
+}
+.bento-btn:hover { transform: translateY(-2px); }
+.bento-btn:focus-visible { outline: 3px solid var(--studio-carbon); outline-offset: 3px; }
+.bento-tile--carbon .bento-btn:focus-visible { outline-color: var(--studio-white); }
+
+/* Ink-underline text link (and its on-carbon variant). */
+.bento-text-link {
+  display: inline-block;
+  width: fit-content;
+  padding-block: .35rem;
+  border-bottom: 1px solid currentColor;
+  color: var(--color-ink);
+  font-size: .84rem;
+  font-weight: 650;
+  line-height: 1.2;
+  text-decoration: none;
+}
+.bento-text-link:hover { border-bottom-width: 2px; }
+.bento-tile--carbon .bento-text-link { color: var(--studio-white); }
+
+/* Tile typography helpers. */
+.bento-tile h1,
+.bento-tile h2,
+.bento-tile h3 {
+  margin: .6rem 0 0;
+  font-family: var(--font-heading), Onest, sans-serif;
+  font-weight: 660;
+  letter-spacing: -.045em;
+  line-height: 1.02;
+  text-wrap: balance;
+}
+.bento-tile h3 { font-size: clamp(1.35rem, 3.2vw, 1.8rem); }
+.bento-lead {
+  max-width: 56ch;
+  margin: 1rem 0 0;
+  color: var(--color-ink-muted);
+  font-size: clamp(.96rem, 2.6vw, 1.05rem);
+  line-height: 1.65;
+}
+
+/* Price line: mono, pinned to the tile bottom above the CTA label. */
+.bento-price {
+  margin-top: auto;
+  padding-top: 1.4rem;
+  font-family: var(--font-mono-brand), "JetBrains Mono", monospace;
+  font-size: 1.15rem;
+  font-weight: 700;
+  letter-spacing: -.01em;
+}
+
+/* Funnel bridge caption under the price ("шаг 1 из 4 · дальше — ..."). */
+.bento-bridge { margin-top: .7rem; }
+
+/* Hairline list inside a tile. */
+.bento-list {
+  margin: 1.1rem 0 0;
+  padding: 0;
+  list-style: none;
+  color: var(--color-ink-muted);
+  font-size: .82rem;
+  line-height: 1.5;
+}
+.bento-list li {
+  display: flex;
+  gap: .7rem;
+  padding: .55rem 0;
+  border-top: 1px solid var(--color-line);
+}
+.bento-list li::before {
+  content: "";
+  width: .45rem;
+  height: .45rem;
+  flex: 0 0 auto;
+  margin-top: .35rem;
+  border-radius: 50%;
+  background: var(--studio-lime);
+}
+.bento-tile--carbon .bento-list { color: rgba(255, 254, 249, .62); }
+.bento-tile--carbon .bento-list li { border-top-color: rgba(255, 254, 249, .16); }
+
+/* Hero h1 inside the big hero tile. */
+.bento-hero-title {
+  max-width: 14ch;
+  font-size: clamp(2.4rem, 9vw, 4rem) !important;
+}
+.bento-hero-cta { margin-top: 1.8rem; }
+
+/* Photo tile: image fills the tile above a mono caption. */
+.bento-photo { padding: .55rem; }
+.bento-photo img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: .92;
+  border-radius: 13px;
+  object-fit: cover;
+}
+.bento-photo .bento-mono { padding: .75rem .35rem .25rem; }
+
+/* Stat tile: big Onest number over a muted label. */
+.bento-stat { justify-content: center; min-height: 7.5rem; }
+.bento-stat strong {
+  font-family: var(--font-heading), Onest, sans-serif;
+  font-size: clamp(1.9rem, 4.5vw, 2.6rem);
+  font-weight: 680;
+  letter-spacing: -.05em;
+  line-height: 1;
+}
+.bento-stat span {
+  margin-top: .45rem;
+  color: var(--color-ink-muted);
+  font-size: .82rem;
+}
+
+/* Guide cover: typographic CSS cover (no image) inside the showcase tile. */
+.bento-cover {
+  display: flex;
+  min-height: 12.5rem;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 2.2rem;
+  margin-bottom: 1.15rem;
+  padding: 1.15rem 1.25rem;
+  border-radius: 12px;
+  background: var(--studio-carbon);
+  color: var(--studio-white);
+}
+.bento-cover .bento-mono { color: rgba(255, 254, 249, .55); }
+.bento-cover strong {
+  max-width: 13ch;
+  font-family: var(--font-heading), Onest, sans-serif;
+  font-size: clamp(1.5rem, 4vw, 2.3rem);
+  font-weight: 680;
+  letter-spacing: -.05em;
+  line-height: 1.04;
+}
+.bento-cover i {
+  display: block;
+  width: 2.4rem;
+  height: .5rem;
+  background: var(--studio-lime);
+}
+
+/* Big before/after number in the case tiles. */
+.bento-case-num {
+  display: block;
+  margin-top: 2.2rem;
+  font-family: var(--font-heading), Onest, sans-serif;
+  font-size: clamp(3.6rem, 12vw, 5.5rem);
+  font-weight: 680;
+  letter-spacing: -.07em;
+  line-height: .85;
+}
+.bento-case-num span { font-size: .34em; letter-spacing: -.03em; }
+
+/* Waitlist strip (12 columns): copy left, form right on desktop. */
+.bento-waitlist { gap: 1.1rem; }
+.bento-waitlist > div:last-child { max-width: 26rem; }
+
+/* Row under a grid for a secondary "all products" style link. */
+.bento-more { margin: 1.3rem 0 0; }
+
+/* Final CTA row inside the carbon tile. */
+.bento-final-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: .9rem 1.5rem;
+  margin-top: 1.6rem;
+}
+
+/* FAQ band inherits the bento page ground (component kept as-is). */
+.bento-page .studio-faq { background: transparent; }
+
+/* Tablet: two columns; wide tiles span both. */
+@media (min-width: 45rem) {
+  .bento-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .bento-col-8,
+  .bento-col-12 { grid-column: 1 / -1; }
+  .bento-waitlist {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .bento-waitlist > div:first-child { max-width: 46ch; }
+  .bento-waitlist > div:last-child { flex: 0 0 24rem; }
+}
+
+/* Desktop: the real 12-column bento grid. */
+@media (min-width: 56.25rem) {
+  .bento-section { padding: 3rem 0; }
+  .bento-section--hero { padding-top: calc(8.25rem + env(safe-area-inset-top)); }
+  .bento-section--last { padding-bottom: 6rem; }
+  .bento-grid { grid-template-columns: repeat(12, minmax(0, 1fr)); }
+  .bento-col-3 { grid-column: span 3; }
+  .bento-col-4 { grid-column: span 4; }
+  .bento-col-6 { grid-column: span 6; }
+  .bento-col-8 { grid-column: span 8; }
+  .bento-col-12 { grid-column: 1 / -1; }
+  .bento-tile--tall { min-height: 22rem; }
 }

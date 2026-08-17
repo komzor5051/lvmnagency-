@@ -1,7 +1,10 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 import { getPublishedPosts } from "@/lib/posts";
+import { getProduct } from "@/lib/products";
 import { FaqSection } from "@/components/FaqSection";
+import { ProductShowcase } from "@/components/bento/ProductShowcase";
+import { TrackedLink } from "@/components/bento/TrackedLink";
 
 // Canonical lives on the page, not the root layout: a layout-level canonical
 // would leak "/" onto every page that doesn't set its own.
@@ -31,6 +34,24 @@ const process = [
     title: "Система",
     text: "Встраиваю в работу команды, документирую и обучаю. Система остаётся у вас и работает без меня.",
     result: "Доступы и знания — ваши",
+  },
+];
+
+const principles = [
+  {
+    n: "01",
+    title: "Данные остаются у вас",
+    text: "Работаю в ваших аккаунтах и на ваших доступах. Ничего не переношу в свои продукты и не переиспользую в других проектах.",
+  },
+  {
+    n: "02",
+    title: "Команда понимает, что происходит",
+    text: "Сценарии, документация и обучение входят в проект. Никаких чёрных ящиков, которыми умеет пользоваться один подрядчик.",
+  },
+  {
+    n: "03",
+    title: "Система работает без меня",
+    text: "Доступы, знания и право развивать систему — ваши. Привязки к подрядчику не возникает, это заложено с самого начала.",
   },
 ];
 
@@ -68,47 +89,39 @@ const faq = [
   },
 ];
 
-function Button({ href, children, light = false }: { href: string; children: React.ReactNode; light?: boolean }) {
-  return (
-    <Link className={`studio-button ${light ? "studio-button--light" : "studio-button--lime"}`} href={href}>
-      {children}<b aria-hidden="true">→</b>
-    </Link>
-  );
-}
-
 export default async function HomePage() {
   const posts = (await getPublishedPosts()).slice(0, 3);
+  const guide = getProduct("guide");
+  const consultation = getProduct("consultation");
 
   return (
-    <main className="studio-main">
-      <section className="studio-hero" id="top">
-        <div className="studio-frame studio-hero-grid">
-          <div className="studio-hero-copy">
-            <p className="studio-eyebrow">
-              <span className="studio-status" />
-              AI-консультант для предпринимателей и команд
-            </p>
-            <h1>
-              Помогаю встроить <span>AI в ежедневную работу</span>
-            </h1>
-            <p className="studio-hero-lead">
-              Разбираю, где AI действительно сэкономит время, настраиваю понятный
-              рабочий процесс и помогаю команде освоить его. Без технического языка
-              и внедрения ради внедрения.
-            </p>
-            <div className="studio-hero-actions">
-              <Button href="/audit">Получить разбор</Button>
-              <a className="studio-text-link" href="#case">Посмотреть пример</a>
+    <main className="studio-main bento-page">
+      {/* 1. Hero — bento composition: big copy tile, photo tile, stat tiles. */}
+      <section className="bento-section bento-section--hero" id="top">
+        <div className="studio-frame">
+          <div className="bento-grid">
+            <div className="bento-tile bento-col-8 bento-tile--tall" data-studio-reveal>
+              <p className="bento-mono">AI-консультант для предпринимателей и команд</p>
+              <h1 className="bento-hero-title">
+                Помогаю встроить AI в ежедневную работу
+              </h1>
+              <p className="bento-lead">
+                Разбираю, где AI действительно сэкономит время, настраиваю понятный
+                рабочий процесс и помогаю команде освоить его. Без технического языка
+                и внедрения ради внедрения.
+              </p>
+              <div className="bento-hero-cta" style={{ marginTop: "auto", paddingTop: "1.8rem" }}>
+                <TrackedLink href="#products" event="hero_cta_click" className="bento-btn">
+                  Смотреть продукты
+                </TrackedLink>
+              </div>
             </div>
-            <div className="studio-hero-proof" aria-label="Опыт Влада Лямина">
-              <span><strong>40+</strong> внедрений</span>
-              <span><strong>50+</strong> обученных</span>
-              <span><strong>с 2022</strong> работаю с AI</span>
-            </div>
-          </div>
 
-          <div className="studio-hero-visual">
-            <div className="studio-portrait">
+            <div
+              className="bento-tile bento-col-4 bento-photo"
+              data-studio-reveal
+              style={{ transitionDelay: "60ms" }}
+            >
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src="/portrait-editorial.jpg"
@@ -117,144 +130,266 @@ export default async function HomePage() {
                 height="1350"
                 fetchPriority="high"
               />
+              <p className="bento-mono">Влад Лямин · работаю лично</p>
             </div>
-            <div className="studio-portrait-caption">
-              <span>Влад Лямин · работаю лично</span>
+
+            <div
+              className="bento-tile bento-col-4 bento-stat"
+              data-studio-reveal
+              style={{ transitionDelay: "120ms" }}
+            >
+              <strong>40+</strong>
+              <span>внедрений AI в рабочие процессы</span>
+            </div>
+            <div
+              className="bento-tile bento-col-4 bento-stat"
+              data-studio-reveal
+              style={{ transitionDelay: "180ms" }}
+            >
+              <strong>50+</strong>
+              <span>человек обучил работе с AI</span>
+            </div>
+            <div
+              className="bento-tile bento-col-4 bento-stat"
+              data-studio-reveal
+              style={{ transitionDelay: "240ms" }}
+            >
+              <strong>с 2022</strong>
+              <span>работаю с AI каждый день</span>
             </div>
           </div>
         </div>
       </section>
 
-      <section className="studio-case" id="case">
+      {/* 2. Product showcase — the main block of the page. */}
+      <section className="bento-section" id="products">
         <div className="studio-frame">
-          <header className="studio-section-head" data-studio-reveal>
-            <p className="studio-eyebrow studio-eyebrow--dark">01 / РЕАЛЬНЫЙ ПРИМЕР</p>
-            <h2>Что меняется<br />после <em>внедрения?</em></h2>
-            <p>Контент-цикл сжался с 20 часов до 3, и эти 3 часа уходят на контроль, а не на производство. Ниже — тот самый процесс: тема, исследование, черновик, фактчек, публикация.</p>
+          <header className="bento-head" data-studio-reveal>
+            <p className="bento-mono">Продукты</p>
+            <h2>С чего начать</h2>
+            <p>
+              От гайда за 990 ₽ до внедрения под ключ. Форматы не связаны между
+              собой — начать можно с любого и остановиться на нём же.
+            </p>
           </header>
-          <div className="studio-case-grid" data-studio-reveal>
-            <div className="studio-case-card studio-case-card--before">
-              <p className="studio-mono">БЫЛО / РУЧНОЙ ПРОЦЕСС</p>
-              <strong>20<span>ч</span></strong>
+          <ProductShowcase section="showcase" />
+          <p className="bento-more">
+            <Link href="/products" className="bento-text-link">
+              Все форматы подробно
+            </Link>
+          </p>
+        </div>
+      </section>
+
+      {/* 3. Case: before / after. */}
+      <section className="bento-section" id="case">
+        <div className="studio-frame">
+          <header className="bento-head" data-studio-reveal>
+            <p className="bento-mono">Реальный пример</p>
+            <h2>Что меняется после внедрения</h2>
+            <p>
+              Контент-цикл сжался с 20 часов до 3, и эти 3 часа уходят на контроль,
+              а не на производство: тема, исследование, черновик, фактчек, публикация.
+            </p>
+          </header>
+          <div className="bento-grid">
+            <div className="bento-tile bento-col-6" data-studio-reveal>
+              <p className="bento-mono">Было · ручной процесс</p>
+              <strong className="bento-case-num">
+                20<span>ч</span>
+              </strong>
               <h3>на один контент-цикл</h3>
-              <ul><li>6 ручных передач</li><li>разъехавшийся tone of voice</li><li>фактчек «когда успеем»</li></ul>
+              <ul className="bento-list">
+                <li>6 ручных передач между людьми</li>
+                <li>разъехавшийся tone of voice</li>
+                <li>фактчек «когда успеем»</li>
+              </ul>
             </div>
-            <div className="studio-case-pipeline" aria-label="Автоматизированный процесс">
-              {["Тема", "Исследование", "Черновик", "Фактчек", "Публикация"].map((item, i) => (
-                <div key={item}><span>0{i + 1}</span><b>{item}</b><i /></div>
-              ))}
-            </div>
-            <div className="studio-case-card studio-case-card--after">
-              <p className="studio-mono">СТАЛО / AI-СИСТЕМА</p>
-              <strong>3<span>ч</span></strong>
+            <div
+              className="bento-tile bento-col-6 bento-tile--carbon"
+              data-studio-reveal
+              style={{ transitionDelay: "60ms" }}
+            >
+              <p className="bento-mono">
+                <span className="bento-marker" style={{ marginRight: ".55rem" }} />
+                Стало · AI-система
+              </p>
+              <strong className="bento-case-num">
+                3<span>ч</span>
+              </strong>
               <h3>контроля вместо производства</h3>
-              <ul><li>единый голос бренда</li><li>проверяемые источники</li><li>масштаб без найма</li></ul>
+              <ul className="bento-list">
+                <li>единый голос бренда</li>
+                <li>проверяемые источники</li>
+                <li>масштаб без найма</li>
+              </ul>
             </div>
           </div>
         </div>
       </section>
 
-      <section className="studio-process" id="systems">
+      {/* 4. How the work goes — three process tiles. */}
+      <section className="bento-section" id="systems">
         <div className="studio-frame">
-          <header className="studio-section-head studio-section-head--light" data-studio-reveal>
-            <p className="studio-eyebrow">02 / КАК Я РАБОТАЮ</p>
-            <h2>Как проходит<br /><em>работа?</em></h2>
-            <p>Три этапа: аудит, прототип, система. Первый рабочий результат вы видите за 1–3 дня — до того, как соглашаетесь на большое внедрение.</p>
+          <header className="bento-head" data-studio-reveal>
+            <p className="bento-mono">Как я работаю</p>
+            <h2>Как проходит работа</h2>
+            <p>
+              Три этапа: аудит, прототип, система. Первый рабочий результат вы видите
+              за 1–3 дня — до того, как соглашаетесь на большое внедрение.
+            </p>
           </header>
-          <div className="studio-process-list">
-            {process.map((item) => (
-              <article key={item.n} data-studio-reveal>
-                <span className="studio-process-number">{item.n}</span>
-                <p className="studio-mono">{item.label}</p>
+          <div className="bento-grid">
+            {process.map((item, i) => (
+              <article
+                key={item.n}
+                className="bento-tile bento-col-4"
+                data-studio-reveal
+                style={{ transitionDelay: `${i * 60}ms` }}
+              >
+                <p className="bento-mono">
+                  {item.n} · {item.label}
+                </p>
                 <h3>{item.title}</h3>
-                <p>{item.text}</p>
-                <b>{item.result}</b>
+                <p className="bento-lead">{item.text}</p>
+                <p className="bento-price" style={{ fontSize: ".78rem" }}>
+                  {item.result}
+                </p>
               </article>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="studio-offers" id="products">
+      {/* 5. About + principles. */}
+      <section className="bento-section" id="about">
         <div className="studio-frame">
-          <header className="studio-section-head" data-studio-reveal>
-            <p className="studio-eyebrow studio-eyebrow--dark">03 / ТОЧКИ ВХОДА</p>
-            <h2>Сколько это<br /><em>стоит?</em></h2>
-            <p>От 990 ₽ за гайд до 150 000 ₽ за внедрение под ключ. Форматы не связаны между собой — начать можно с любого и остановиться на нём же.</p>
+          <header className="bento-head" data-studio-reveal>
+            <p className="bento-mono">Принципы</p>
+            <h2>Что останется у вас после</h2>
           </header>
-          <div className="studio-offer-grid">
-            <Link href="/products/guide" className="studio-offer studio-offer--guide" data-studio-reveal>
-              <span className="studio-mono">PDF · 54 СТРАНИЦЫ + AI-ВЕРСИЯ</span>
-              <h3>Claude как<br />рабочий инструмент</h3>
-              <p>Семь рабочих систем для фаундера — от профиля до автоматизаций и голоса бренда.</p>
-              <strong>990 ₽</strong><b>Получить гайд →</b>
-            </Link>
-            <Link href="/products/audit" className="studio-offer studio-offer--audit" data-studio-reveal>
-              <span className="studio-badge">РЕКОМЕНДУЮ</span>
-              <span className="studio-mono">2 НЕДЕЛИ · ПЛАН С ЦИФРАМИ</span>
-              <h3>AI-аудит<br />бизнеса</h3>
-              <p>Нахожу процессы, где AI окупится, и отдаю понятный план внедрения с расчётом экономии.</p>
-              <strong>15 000 ₽</strong><b>Разобрать бизнес →</b>
-            </Link>
-            <Link href="/products/consultation" className="studio-offer studio-offer--consult" data-studio-reveal>
-              <span className="studio-mono">1:1 · 60 МИНУТ</span>
-              <h3>Консультация</h3>
-              <p>Один час на вашу задачу. На выходе — конкретный маршрут, инструменты и следующие действия.</p>
-              <strong>5 000 ₽</strong><b>Забронировать →</b>
-            </Link>
-            <Link href="/products/ai-os" className="studio-offer studio-offer--os" data-studio-reveal>
-              <span className="studio-mono">КОМАНДА 3–15 ЧЕЛ · 4–6 НЕДЕЛЬ</span>
-              <h3>AI в работе<br />команды</h3>
-              <p>Помогаю встроить AI в повторяющиеся задачи так, чтобы команде было понятно и удобно им пользоваться.</p>
-              <strong>от 150 000 ₽</strong><b>Обсудить проект →</b>
-            </Link>
-          </div>
-          <div className="studio-all-products"><Button href="/products">Все форматы работы</Button></div>
-        </div>
-      </section>
-
-      <section className="studio-notes" id="notes">
-        <div className="studio-frame">
-          <header className="studio-notes-head" data-studio-reveal>
-            <div><p className="studio-eyebrow">04 / ПРАКТИКА И ЗАМЕТКИ</p><h2>Как я решаю<br />такие <em>задачи?</em></h2></div>
-            <Button href="/blog" light>Все статьи</Button>
-          </header>
-          <div className="studio-notes-grid">
-            {posts.map((post) => (
-              <Link href={`/blog/${post.slug}`} key={post.slug} className="studio-note-card" data-studio-reveal>
-                {post.cover_image ? (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img src={post.cover_image} alt="" loading="lazy" />
-                ) : <div className="studio-note-placeholder">VL / NOTE</div>}
-                <span className="studio-mono">
-                  {new Date(post.published_at).toLocaleDateString("ru-RU")} · {(post.tags ?? [])[0] ?? "AI"}
-                </span>
-                <h3>{post.title}</h3>
-                <b>Читать →</b>
-              </Link>
+          <div className="bento-grid">
+            <div className="bento-tile bento-col-8" data-studio-reveal>
+              <p className="bento-mono">Обо мне</p>
+              <h3>Веду проект лично — от аудита до передачи</h3>
+              <p className="bento-lead">
+                Сценарии, документация, доступы и понимание, как всё устроено. Я не
+                держу ключи от вашей системы: развивать её можно без меня, и это
+                заложено в проект с самого начала. Работаю один, без
+                аккаунт-менеджеров, поэтому одновременно беру ограниченное число
+                проектов.
+              </p>
+              <p style={{ marginTop: "auto", paddingTop: "1.4rem" }}>
+                <Link href="/about" className="bento-text-link">
+                  Подробнее обо мне
+                </Link>
+              </p>
+            </div>
+            <div
+              className="bento-tile bento-col-4 bento-photo"
+              data-studio-reveal
+              style={{ transitionDelay: "60ms" }}
+            >
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/portrait.jpg" alt="Влад Лямин" loading="lazy" width="800" height="1000" />
+              <p className="bento-mono">AI-инженер · практика с 2022</p>
+            </div>
+            {principles.map((item, i) => (
+              <article
+                key={item.n}
+                className="bento-tile bento-col-4"
+                data-studio-reveal
+                style={{ transitionDelay: `${i * 60}ms` }}
+              >
+                <p className="bento-mono">Принцип {item.n}</p>
+                <h3>{item.title}</h3>
+                <p className="bento-lead">{item.text}</p>
+              </article>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="studio-ownership">
-        <div className="studio-frame studio-ownership-grid" data-studio-reveal>
-          <div><p className="studio-eyebrow studio-eyebrow--dark">05 / ПРИНЦИП</p><h2>Что останется<br />у вас <em>после?</em></h2></div>
-          <div>
-            <p>Сценарии, документация, доступы и понимание, как всё устроено. Я не держу ключи от вашей системы: развивать её можно без меня, и это заложено в проект с самого начала.</p>
-            <ul><li>Ваши данные не уходят в чужой продукт</li><li>Команда понимает, что происходит</li><li>Систему можно развивать без привязки ко мне</li></ul>
-            <Button href="/audit">Проверить мой процесс</Button>
+      {/* 6. Blog — three latest articles. */}
+      {posts.length > 0 && (
+        <section className="bento-section" id="notes">
+          <div className="studio-frame">
+            <header className="bento-head" data-studio-reveal>
+              <p className="bento-mono">Практика и заметки</p>
+              <h2>Как я решаю такие задачи</h2>
+            </header>
+            <div className="bento-grid">
+              {posts.map((post, i) => (
+                <Link
+                  href={`/blog/${post.slug}`}
+                  key={post.slug}
+                  className="bento-tile bento-tile--link bento-col-4"
+                  data-studio-reveal
+                  style={{ transitionDelay: `${i * 60}ms` }}
+                >
+                  <p className="bento-mono">
+                    {new Date(post.published_at).toLocaleDateString("ru-RU")} ·{" "}
+                    {(post.tags ?? [])[0] ?? "AI"}
+                  </p>
+                  <h3 style={{ fontSize: "1.25rem", lineHeight: 1.15 }}>{post.title}</h3>
+                  <p className="bento-price" style={{ fontSize: ".78rem" }}>
+                    Читать
+                  </p>
+                </Link>
+              ))}
+            </div>
+            <p className="bento-more">
+              <Link href="/blog" className="bento-text-link">
+                Все статьи
+              </Link>
+            </p>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
+      {/* 7. FAQ — existing component, kept as-is. */}
       <FaqSection
         items={faq}
-        eyebrow="06 / ВОПРОСЫ"
-        heading={<>Что спрашивают<br />чаще <em>всего.</em></>}
+        eyebrow="Вопросы"
+        heading={<>Что спрашивают чаще всего</>}
         lead="То, что фаундеры спрашивают на первом созвоне: цена, сроки, данные и что остаётся после проекта."
         schemaId="/#faq"
       />
+
+      {/* 8. Final CTA — wide carbon tile: start with the guide. */}
+      <section className="bento-section bento-section--last">
+        <div className="studio-frame">
+          <div className="bento-tile bento-col-12 bento-tile--carbon" data-studio-reveal>
+            <p className="bento-mono">Первый шаг</p>
+            <h2 style={{ fontSize: "clamp(1.9rem, 6vw, 2.9rem)" }}>Начните с гайда</h2>
+            <p className="bento-lead">
+              {guide
+                ? `«${guide.title}» — ${guide.meta.toLowerCase()}, ${guide.priceLabel}. Самый дешёвый способ проверить, как AI встроится в вашу работу.`
+                : "Самый дешёвый способ проверить, как AI встроится в вашу работу."}
+            </p>
+            <div className="bento-final-actions">
+              <TrackedLink
+                href="/products/guide"
+                event="product_tile_click"
+                eventProps={{ product: "guide", position: 1, section: "final" }}
+                className="bento-btn"
+              >
+                Получить гайд
+              </TrackedLink>
+              <TrackedLink
+                href="/products/consultation"
+                event="product_tile_click"
+                eventProps={{ product: "consultation", position: 2, section: "final" }}
+                className="bento-text-link"
+              >
+                {consultation
+                  ? `или консультация — ${consultation.priceLabel}`
+                  : "или консультация"}
+              </TrackedLink>
+            </div>
+          </div>
+        </div>
+      </section>
     </main>
   );
 }

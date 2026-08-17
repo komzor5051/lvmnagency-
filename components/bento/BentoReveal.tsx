@@ -3,11 +3,23 @@
 import { useEffect } from "react";
 import { usePathname } from "next/navigation";
 
-export default function StudioFx() {
+/**
+ * Scroll reveal for [data-studio-reveal] elements: adds .is-visible once when
+ * the element enters the viewport (fade + 12px lift, defined in studio.css).
+ * Replaces the reveal half of the removed StudioFx (the pointer glow is gone).
+ * Respects prefers-reduced-motion by revealing everything immediately.
+ */
+export default function BentoReveal() {
   const pathname = usePathname();
 
   useEffect(() => {
     const items = document.querySelectorAll<HTMLElement>("[data-studio-reveal]");
+
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      items.forEach((item) => item.classList.add("is-visible"));
+      return;
+    }
+
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -21,23 +33,8 @@ export default function StudioFx() {
     );
 
     items.forEach((item) => observer.observe(item));
-
-    const handlePointer = (event: PointerEvent) => {
-      document.documentElement.style.setProperty("--pointer-x", `${event.clientX}px`);
-      document.documentElement.style.setProperty("--pointer-y", `${event.clientY}px`);
-    };
-
-    window.addEventListener("pointermove", handlePointer, { passive: true });
-    return () => {
-      observer.disconnect();
-      window.removeEventListener("pointermove", handlePointer);
-    };
+    return () => observer.disconnect();
   }, [pathname]);
 
-  return (
-    <>
-      <div className="studio-grain" aria-hidden="true" />
-      <div className="studio-pointer" aria-hidden="true" />
-    </>
-  );
+  return null;
 }

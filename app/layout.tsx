@@ -5,7 +5,7 @@ import { PostHogProvider } from "@/components/PostHogProvider";
 import LenisProvider from "@/components/motion/LenisProvider";
 import StudioNav from "@/components/studio/StudioNav";
 import StudioFooter from "@/components/studio/StudioFooter";
-import StudioFx from "@/components/studio/StudioFx";
+import BentoReveal from "@/components/bento/BentoReveal";
 import { SITE_URL } from "@/lib/site";
 import "./globals.css";
 import "./studio.css";
@@ -140,7 +140,7 @@ export default function RootLayout({
         className={`${handFont.variable} antialiased`}
       >
         <LenisProvider>
-          <StudioFx />
+          <BentoReveal />
           <StudioNav />
           <PostHogProvider>{children}</PostHogProvider>
           <StudioFooter />

@@ -6,12 +6,12 @@
  */
 
 :root {
-  --studio-ink: #11120f;
+  --studio-ink: #0a0b0a;
   --studio-muted: #666960;
   --studio-faint: #8b8e85;
-  --studio-line: #e3e5de;
-  --studio-paper: #fafaf7;
-  --studio-white: #ffffff;
+  --studio-line: #d8d6cf;
+  --studio-paper: #fbfaf5;
+  --studio-white: #fffef9;
   --studio-soft: #f1f2ec;
   --studio-lime: #c8f04c;
   --studio-lime-dark: #77930d;
@@ -60,12 +60,9 @@ body.studio-menu-open { overflow: hidden; }
   margin-inline: auto;
 }
 
-.studio-grain,
-.studio-pointer { display: none; }
-
 [data-studio-reveal] {
   opacity: 0;
-  transform: translateY(14px);
+  transform: translateY(12px);
   transition: opacity 560ms var(--studio-ease), transform 560ms var(--studio-ease);
 }
 
@@ -331,17 +328,6 @@ body.studio-menu-open { overflow: hidden; }
   color: var(--studio-ink);
 }
 
-.studio-hero::before {
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 34%;
-  height: 100%;
-  background: rgba(200, 240, 76, .12);
-  content: "";
-  pointer-events: none;
-}
-
 .studio-hero-grid {
   position: relative;
   display: grid;
@@ -378,15 +364,14 @@ body.studio-menu-open { overflow: hidden; }
   text-wrap: normal;
 }
 
+/* No lime underline on headings any more — spans render as plain text. */
 .studio-hero-copy h1 span {
   display: inline;
   margin: 0;
-  padding: 0 .08em .04em;
-  background: linear-gradient(transparent 75%, var(--studio-lime) 75%);
+  padding: 0;
+  background: none;
   color: inherit;
   white-space: normal;
-  box-decoration-break: clone;
-  -webkit-box-decoration-break: clone;
 }
 
 .studio-hero-lead {
@@ -556,20 +541,19 @@ body.studio-menu-open { overflow: hidden; }
   text-wrap: balance;
 }
 
+/* Heading <em> is plain text now — the lime underline is retired. */
 .studio-section-head h2 em,
 .studio-page-hero h1 em,
 .studio-about h1 em,
 .studio-about h2 em,
 .studio-notes h2 em,
 .studio-ownership h2 em {
-  padding-inline: .04em;
-  background: linear-gradient(transparent 62%, var(--studio-lime) 62%);
+  padding-inline: 0;
+  background: none;
   color: inherit;
   font-family: inherit;
   font-style: normal;
   font-weight: inherit;
-  box-decoration-break: clone;
-  -webkit-box-decoration-break: clone;
 }
 
 .studio-section-head > p:last-child {
