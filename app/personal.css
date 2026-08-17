@@ -63,13 +63,13 @@ body.studio-menu-open { overflow: hidden; }
 .studio-grain,
 .studio-pointer { display: none; }
 
-[data-studio-reveal] {
+html.studio-fx-armed [data-studio-reveal] {
   opacity: 0;
   transform: translateY(14px);
   transition: opacity 560ms var(--studio-ease), transform 560ms var(--studio-ease);
 }
 
-[data-studio-reveal].is-visible {
+html.studio-fx-armed [data-studio-reveal].is-visible {
   opacity: 1;
   transform: none;
 }
@@ -1683,5 +1683,5 @@ body.studio-menu-open { overflow: hidden; }
     animation-iteration-count: 1 !important;
   }
 
-  [data-studio-reveal] { opacity: 1; transform: none; }
+  html.studio-fx-armed [data-studio-reveal] { opacity: 1; transform: none; }
 }
