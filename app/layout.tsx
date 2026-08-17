@@ -135,7 +135,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ru" className="font-sans">
+    // suppressHydrationWarning: инлайн-скрипт ниже добавляет на <html> класс
+    // studio-fx-armed до гидратации, поэтому серверная и клиентская разметка
+    // здесь заведомо расходятся. Без этого React пишет ошибку несовпадения на
+    // каждой загрузке и заглушает ею настоящие ошибки в консоли.
+    <html lang="ru" className="font-sans" suppressHydrationWarning>
       <head>
         <script
           // Вооружает скрытие синхронно, до первой отрисовки — иначе контент
