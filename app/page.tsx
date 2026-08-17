@@ -200,7 +200,7 @@ export default async function HomePage() {
               <span className="studio-mono">1:1 · 60 МИНУТ</span>
               <h3>Консультация</h3>
               <p>Один час на вашу задачу. На выходе — конкретный маршрут, инструменты и следующие действия.</p>
-              <strong>5 000 ₽</strong><b>Забронировать →</b>
+              <strong>3 850 ₽</strong><b>Забронировать →</b>
             </Link>
             <Link href="/products/ai-os" className="studio-offer studio-offer--os" data-studio-reveal>
               <span className="studio-mono">КОМАНДА 3–15 ЧЕЛ · 4–6 НЕДЕЛЬ</span>
