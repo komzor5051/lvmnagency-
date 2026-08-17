@@ -3,6 +3,7 @@
 import { useEffect } from "react";
 import { usePathname } from "next/navigation";
 import posthog from "posthog-js";
+import { ensurePostHog } from "@/lib/posthog";
 
 export default function StudioFx() {
   const pathname = usePathname();
@@ -18,7 +19,7 @@ export default function StudioFx() {
     // Разница между количеством $pageview и этого события показывает долю
     // людей, у которых бандл не доехал — то есть реальный масштаб проблемы
     // белого экрана и результат её починки.
-    if (posthog.__loaded) posthog.capture("client_js_ready");
+    if (ensurePostHog()) posthog.capture("client_js_ready");
 
     const items = document.querySelectorAll<HTMLElement>("[data-studio-reveal]");
     const observer = new IntersectionObserver(
