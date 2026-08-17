@@ -8,11 +8,13 @@ export function BuyLink({
   url,
   label,
   productId,
+  position,
   className,
 }: {
   url: string;
   label: string;
   productId: string;
+  position: "hero" | "close";
   className: string;
 }) {
   return (
@@ -22,7 +24,7 @@ export function BuyLink({
       rel="noopener noreferrer"
       className={className}
       onClick={() => {
-        if (posthog.__loaded) posthog.capture("checkout_click", { product: productId });
+        if (posthog.__loaded) posthog.capture("checkout_click", { product: productId, position });
       }}
     >
       {label}

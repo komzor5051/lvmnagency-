@@ -14,7 +14,13 @@ const btnBase = "studio-buy-action";
 const btnSolid = `${btnBase} studio-buy-action--solid`;
 const btnOutline = `${btnBase} studio-buy-action--outline`;
 
-export function BuyAction({ product }: { product: Product }) {
+export function BuyAction({
+  product,
+  position = "hero",
+}: {
+  product: Product;
+  position?: "hero" | "close";
+}) {
   const { buy } = product;
 
   if (buy.kind === "lava-widget") {
@@ -36,6 +42,7 @@ export function BuyAction({ product }: { product: Product }) {
           url={buy.url}
           label={product.cta?.buy ?? "Оформить"}
           productId={product.id}
+          position={position}
           className={btnSolid}
         />
       );

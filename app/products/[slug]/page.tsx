@@ -218,11 +218,20 @@ export default async function ProductPage({
             </div>
           )}
 
-          <div className="studio-product-close" data-studio-reveal>
-            <span className="studio-mono">СТОИМОСТЬ</span>
-            <strong>{product.priceLabel}</strong>
-            <BuyAction product={product} />
-          </div>
+          {product.buy.kind === "lava" && product.buy.url && (
+            <div className="studio-product-close" data-studio-reveal>
+              <span className="studio-mono">СТОИМОСТЬ</span>
+              <strong>{product.priceLabel}</strong>
+              <BuyAction product={product} position="close" />
+              <small>
+                После оплаты напишите мне в{" "}
+                <a href={TELEGRAM_URL} target="_blank" rel="noopener noreferrer">
+                  Telegram
+                </a>{" "}
+                — согласуем время в течение пары дней и пришлю анкету.
+              </small>
+            </div>
+          )}
         </div>
       </section>
       <script
