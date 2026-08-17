@@ -34,3 +34,17 @@ test("контент раскрывается, если основной бан�
     .poll(() => revealOpacity(page), { timeout: 6000, intervals: [250] })
     .toBe("1");
 });
+
+test("при рабочем JS анимация появления работает как раньше", async ({ page }) => {
+  await page.goto(PAGE);
+
+  // Скрытие вооружено — значит инлайн-скрипт сработал и анимации живы.
+  await expect(page.locator("html")).toHaveClass(/studio-fx-armed/);
+
+  // Первый блок в вьюпорте раскрыт наблюдателем.
+  const first = page.locator("[data-studio-reveal]").first();
+  await expect(first).toHaveClass(/is-visible/);
+  await expect
+    .poll(() => revealOpacity(page), { timeout: 4000, intervals: [200] })
+    .toBe("1");
+});

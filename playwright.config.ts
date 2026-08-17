@@ -16,7 +16,10 @@ export default defineConfig({
   webServer: {
     command: "npm run dev",
     url: "http://127.0.0.1:3000",
-    reuseExistingServer: true,
+    // Переиспользуемый dev-сервер уже дважды отдавал закэшированный HTML со
+    // старой версией инлайн-скрипта — в CI сервер всегда должен стартовать
+    // заново, локально можно переиспользовать для скорости.
+    reuseExistingServer: !process.env.CI,
     timeout: 120_000,
   },
 });
