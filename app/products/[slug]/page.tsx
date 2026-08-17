@@ -160,6 +160,17 @@ export default async function ProductPage({
 
       <section className="studio-product-body">
         <div className="studio-frame studio-product-body-grid">
+          {extra?.deliverables && (
+            <div className="studio-product-deliverables" data-studio-reveal>
+              <p className="studio-mono">ЧТО ОСТАЁТСЯ НА РУКАХ</p>
+              <ul>
+                {extra.deliverables.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
+              </ul>
+            </div>
+          )}
+
           <div className="studio-product-copy" data-studio-reveal>
             <p className="studio-mono">ЧТО ЭТО И ЧТО ВЫ ПОЛУЧИТЕ</p>
             {product.description.map((paragraph) => (
@@ -171,6 +182,23 @@ export default async function ProductPage({
             <div className="studio-product-extra" data-studio-reveal>
               <BulletList title="Для кого" items={extra.forWhom} />
               <BulletList title="Что внутри" items={extra.inside} />
+            </div>
+          )}
+
+          {extra?.notFor && (
+            <div className="studio-product-not-for" data-studio-reveal>
+              <p className="studio-mono">НЕ ПОДОЙДЁТ, ЕСЛИ</p>
+              <ul>
+                {extra.notFor.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          {extra?.guarantee && (
+            <div className="studio-product-guarantee" data-studio-reveal>
+              <p>{extra.guarantee}</p>
             </div>
           )}
 

@@ -670,6 +670,43 @@ html.studio-fx-armed [data-studio-reveal].is-visible {
 .studio-product-faq summary span:first-child { color: var(--studio-carbon); }
 .studio-product-faq details p { color: rgba(10,11,10,.58); }
 
+.studio-product-deliverables ul,
+.studio-product-not-for ul {
+  list-style: none;
+  margin: 1rem 0 0;
+  padding: 0;
+  display: grid;
+  gap: .75rem;
+}
+
+.studio-product-deliverables li,
+.studio-product-not-for li {
+  padding-left: 1.25rem;
+  position: relative;
+  line-height: 1.5;
+}
+
+.studio-product-deliverables li::before,
+.studio-product-not-for li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: .6em;
+  width: .5rem;
+  height: 1px;
+  background: currentColor;
+}
+
+.studio-product-guarantee {
+  margin-top: 1.5rem;
+  border-top: 1px solid currentColor;
+  padding-top: 1.25rem;
+}
+
+.studio-product-guarantee p {
+  line-height: 1.5;
+}
+
 /* About */
 .studio-about-hero { padding: 150px 0 110px; background: var(--studio-carbon); }
 .studio-about-hero-grid { display: grid; grid-template-columns: 1.05fr .7fr; gap: 8vw; align-items: center; }
