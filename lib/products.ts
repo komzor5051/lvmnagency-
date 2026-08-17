@@ -2,7 +2,7 @@
 // Adding a product = adding an object to the array below.
 // Spec: docs/superpowers/specs/2026-06-10-personal-site-redesign-design.md
 
-// TODO(Влад): создать чекауты консультации и гайда на lava.top и вставить url
+// TODO(Влад): создать оставшиеся чекауты на lava.top и вставить url
 // в buy.url ниже — кнопки «Купить через Telegram» переключатся на оплату автоматически.
 
 export type ProductBuy =
@@ -148,10 +148,13 @@ export const products: Product[] = [
       "Вы уходите со списком: что автоматизировать в первую очередь, какими инструментами и сколько это будет стоить. Часть задач закрывается вообще без разработчика — покажу как.",
       "Формат: видеозвонок, запись остаётся у вас. Перед встречей пришлю короткую анкету, чтобы не тратить оплаченное время на знакомство.",
     ],
-    price: 5000,
-    priceLabel: "5 000 ₽",
+    price: 3850,
+    priceLabel: "3 850 ₽",
     meta: "1:1 · 60 минут · онлайн",
-    buy: { kind: "lava", url: "" },
+    buy: {
+      kind: "lava",
+      url: "https://app.lava.top/products/00229885-2a19-4b39-84e8-ce18c868c955/content",
+    },
     cta: { buy: "Забронировать час", fallback: "Забронировать в Telegram" },
     nextStep: {
       slug: "audit",
