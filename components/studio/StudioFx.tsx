@@ -7,6 +7,13 @@ export default function StudioFx() {
   const pathname = usePathname();
 
   useEffect(() => {
+    // Бандл приехал и смонтировался — страховка больше не нужна,
+    // раскрытием дальше управляет observer.
+    if (window.__studioFxSafety !== undefined) {
+      window.clearTimeout(window.__studioFxSafety);
+      window.__studioFxSafety = undefined;
+    }
+
     const items = document.querySelectorAll<HTMLElement>("[data-studio-reveal]");
     const observer = new IntersectionObserver(
       (entries) => {

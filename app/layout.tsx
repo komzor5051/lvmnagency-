@@ -136,6 +136,17 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ru" className="font-sans">
+      <head>
+        <script
+          // Вооружает скрытие синхронно, до первой отрисовки — иначе контент
+          // мигнёт. Таймер снимает вооружение, если StudioFx так и не
+          // смонтировался: инлайн-скрипт доказывает лишь то, что исполняется
+          // инлайн-JS, а не то, что приехал основной бандл.
+          dangerouslySetInnerHTML={{
+            __html: `(function(){var d=document.documentElement;d.classList.add("studio-fx-armed");window.__studioFxSafety=window.setTimeout(function(){d.classList.remove("studio-fx-armed")},2500)})()`,
+          }}
+        />
+      </head>
       <body
         className={`${handFont.variable} antialiased`}
       >

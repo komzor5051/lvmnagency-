@@ -21,3 +21,16 @@ test.describe("отрисовка без клиентского JS", () => {
     expect(await revealOpacity(page)).toBe("1");
   });
 });
+
+test("контент раскрывается, если основной бандл не загрузился", async ({ page }) => {
+  // Инлайн-скрипт в <head> исполнится и вооружит скрытие, а React так и не
+  // смонтируется — ровно то, что происходит на медленном VPN и в in-app
+  // браузере Instagram при обрыве чанка.
+  await page.route(/\/_next\/static\/chunks\/.*\.js(\?.*)?$/, (route) => route.abort());
+  await page.goto(PAGE);
+
+  await expect(page.locator("h1")).toHaveText(/\S/);
+  await expect
+    .poll(() => revealOpacity(page), { timeout: 6000, intervals: [250] })
+    .toBe("1");
+});
