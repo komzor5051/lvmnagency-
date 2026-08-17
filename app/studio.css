@@ -685,7 +685,7 @@ html.studio-fx-armed [data-studio-reveal].is-visible {
 
 .studio-product-deliverables li,
 .studio-product-not-for li {
-  padding-left: 1.25rem;
+  padding-left: 1.5rem;
   position: relative;
   line-height: 1.5;
 }
@@ -695,10 +695,11 @@ html.studio-fx-armed [data-studio-reveal].is-visible {
   content: "";
   position: absolute;
   left: 0;
-  top: .6em;
-  width: .5rem;
-  height: 1px;
-  background: currentColor;
+  top: .5em;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--studio-lime);
 }
 
 .studio-product-guarantee {
@@ -709,6 +710,21 @@ html.studio-fx-armed [data-studio-reveal].is-visible {
 
 .studio-product-guarantee p {
   line-height: 1.5;
+}
+
+.studio-product-close {
+  grid-column: 2;
+  margin-top: 2rem;
+  border-top: 1px solid currentColor;
+  padding-top: 1.5rem;
+  display: grid;
+  gap: .5rem;
+  justify-items: start;
+}
+
+.studio-product-close strong {
+  font-size: 1.75rem;
+  line-height: 1;
 }
 
 /* About */

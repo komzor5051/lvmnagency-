@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { getProduct, products, type Product } from "@/lib/products";
+import { getProduct, products, TELEGRAM_URL, type Product } from "@/lib/products";
 import { BuyAction } from "../BuyAction";
 import { Faq } from "../Faq";
 import { productExtras } from "../content";
@@ -152,7 +152,17 @@ export default async function ProductPage({
               <span className="studio-mono">СТОИМОСТЬ</span>
               <strong>{product.priceLabel}</strong>
               <BuyAction product={product} />
-              <small>Без скрытых условий. Детали формата — ниже.</small>
+              {product.buy.kind === "lava" ? (
+                <small>
+                  После оплаты напишите мне в{" "}
+                  <a href={TELEGRAM_URL} target="_blank" rel="noopener noreferrer">
+                    Telegram
+                  </a>{" "}
+                  — согласуем время в течение пары дней и пришлю анкету.
+                </small>
+              ) : (
+                <small>Без скрытых условий. Детали формата — ниже.</small>
+              )}
             </aside>
           </div>
         </div>
@@ -207,6 +217,12 @@ export default async function ProductPage({
               <Faq items={product.faq} />
             </div>
           )}
+
+          <div className="studio-product-close" data-studio-reveal>
+            <span className="studio-mono">СТОИМОСТЬ</span>
+            <strong>{product.priceLabel}</strong>
+            <BuyAction product={product} />
+          </div>
         </div>
       </section>
       <script

@@ -1,5 +1,7 @@
 // Local buy action for /products — mirrors the action logic of
-// components/products/ProductCard.tsx (shared file, not editable from here).
+// components/products/ProductCard.tsx. For kind "lava" this renders a plain
+// link to the lava.top checkout page; the embedded iframe path is only used
+// for kind "lava-widget".
 // Buttons: ink fill (hover lime) or ink outline only — matches the White +
 // Lime CTA pattern used on the homepage and /about.
 
