@@ -2,6 +2,7 @@
 
 import { useState, type FormEvent } from "react";
 import { TELEGRAM_URL } from "@/lib/products";
+import { track } from "@/lib/analytics";
 
 // Telegram username: 5-32 chars, starts with a letter, letters/digits/underscores.
 const TELEGRAM_RE = /^[a-zA-Z][a-zA-Z0-9_]{4,31}$/;
@@ -38,6 +39,7 @@ export function WaitlistForm() {
         body: JSON.stringify({ telegram: value }),
       });
       if (!res.ok) throw new Error(`status ${res.status}`);
+      track("waitlist_submit");
       setState("success");
     } catch {
       setState("error");
