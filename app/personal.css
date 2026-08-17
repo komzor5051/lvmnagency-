@@ -1135,8 +1135,13 @@ html.studio-fx-armed [data-studio-reveal].is-visible {
 .studio-blog-empty { padding: 4rem 0; color: var(--studio-muted); text-align: center; }
 
 /* Product detail */
+/* Отступы мобильного первого экрана посчитаны под требование «обещание,
+   цена и кнопка видны без прокрутки». На экранах высотой 667 видимая
+   область около 570 пикселей после адресной строки, поэтому запас
+   вырезан здесь, в hero, а не за счёт самого текста оффера.
+   Прежние значения возвращаются на 45rem. */
 .studio-product-detail-hero {
-  padding: calc(7.2rem + env(safe-area-inset-top)) 0 4rem;
+  padding: calc(2.5rem + env(safe-area-inset-top)) 0 3rem;
   background: var(--studio-white);
   color: var(--studio-ink);
 }
@@ -1152,9 +1157,9 @@ html.studio-fx-armed [data-studio-reveal].is-visible {
 
 .studio-product-hero-grid {
   display: grid;
-  margin-top: 2.2rem;
+  margin-top: 1rem;
   grid-template-columns: minmax(0, 1fr);
-  gap: 2rem;
+  gap: 1.25rem;
 }
 
 .studio-product-hero-grid h1 {
@@ -1180,7 +1185,10 @@ html.studio-fx-armed [data-studio-reveal].is-visible {
 
 .studio-product-hero-grid aside {
   display: flex;
-  min-height: 16rem;
+  /* Обнуляет margin-top: 3rem из studio.css (медиа-запрос max-width: 820px),
+     который отодвигал панель цены ниже сгиба на мобильном. */
+  margin-top: 0;
+  min-height: auto;
   flex-direction: column;
   padding: 1.4rem;
   border: 1px solid var(--studio-ink);
@@ -1192,7 +1200,7 @@ html.studio-fx-armed [data-studio-reveal].is-visible {
 .studio-product-hero-grid aside .studio-mono { color: var(--studio-muted); }
 
 .studio-product-hero-grid aside > strong {
-  margin: 2rem 0 auto;
+  margin: 1rem 0 auto;
   font-family: var(--font-heading), var(--font-body), Onest, sans-serif;
   font-size: clamp(2.2rem, 11vw, 3.8rem);
   letter-spacing: -.06em;
@@ -1544,6 +1552,13 @@ html.studio-fx-armed [data-studio-reveal].is-visible {
   .studio-post-row > .studio-mono { grid-column: 2; grid-row: 1; }
   .studio-post-row h2 { grid-column: 3; grid-row: 1; }
   .studio-post-row > b { grid-column: 4; grid-row: 1; }
+
+  /* Возврат просторных отступов первого экрана: борьба за высоту нужна
+     только на телефонах, см. комментарий у .studio-product-detail-hero. */
+  .studio-product-detail-hero { padding: calc(7.2rem + env(safe-area-inset-top)) 0 4rem; }
+  .studio-product-hero-grid { margin-top: 2.2rem; gap: 2rem; }
+  .studio-product-hero-grid aside { min-height: 16rem; }
+  .studio-product-hero-grid aside > strong { margin: 2rem 0 auto; }
 
   .studio-product-hero-grid { grid-template-columns: minmax(0, 1.15fr) minmax(17rem, .55fr); align-items: end; }
   .studio-product-body-grid { grid-template-columns: .55fr 1fr; }
