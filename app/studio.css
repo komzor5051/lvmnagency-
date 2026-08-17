@@ -670,10 +670,6 @@ html.studio-fx-armed [data-studio-reveal].is-visible {
 .studio-product-faq summary span:first-child { color: var(--studio-carbon); }
 .studio-product-faq details p { color: rgba(10,11,10,.58); }
 
-.studio-product-deliverables,
-.studio-product-not-for,
-.studio-product-guarantee { grid-column: 2; }
-
 .studio-product-deliverables ul,
 .studio-product-not-for ul {
   list-style: none;
@@ -696,15 +692,15 @@ html.studio-fx-armed [data-studio-reveal].is-visible {
   position: absolute;
   left: 0;
   top: .5em;
-  width: 8px;
-  height: 8px;
+  width: .45rem;
+  height: .45rem;
   border-radius: 50%;
-  background: var(--studio-lime);
+  background: var(--studio-lime-dark);
 }
 
 .studio-product-guarantee {
   margin-top: 1.5rem;
-  border-top: 1px solid currentColor;
+  border-top: 1px solid var(--studio-line);
   padding-top: 1.25rem;
 }
 
@@ -713,17 +709,22 @@ html.studio-fx-armed [data-studio-reveal].is-visible {
 }
 
 .studio-product-close {
-  grid-column: 2;
   margin-top: 2rem;
-  border-top: 1px solid currentColor;
-  padding-top: 1.5rem;
-  display: grid;
+  display: flex;
+  flex-direction: column;
+  padding: 1.4rem;
+  border: 1px solid var(--studio-ink);
+  border-radius: 0;
+  background: var(--studio-lime);
+  color: var(--studio-ink);
   gap: .5rem;
-  justify-items: start;
+  align-items: flex-start;
 }
 
 .studio-product-close strong {
-  font-size: 1.75rem;
+  font-family: var(--font-heading), var(--font-body), Onest, sans-serif;
+  font-size: clamp(2.2rem, 11vw, 3.8rem);
+  letter-spacing: -.06em;
   line-height: 1;
 }
 
