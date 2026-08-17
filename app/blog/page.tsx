@@ -28,21 +28,19 @@ export default async function BlogPage() {
   const posts = (await getPublishedPosts()).slice(0, 50);
 
   return (
-    <main className="studio-main studio-blog">
-      <section className="studio-page-hero">
+    <main className="studio-main bento-page">
+      <section className="bento-section bento-section--hero bento-section--last">
         <div className="studio-frame">
-          <p className="studio-eyebrow" data-studio-reveal>ЛАБОРАТОРНЫЕ ЗАМЕТКИ / {posts.length}</p>
-          <h1 data-studio-reveal>Пишу о том,<br />что <em>работает.</em></h1>
-          <p data-studio-reveal>
-            Кейсы, инструменты и реальные цифры. Без новостного шума — только
-            практические способы встроить AI в работу.
-          </p>
-        </div>
-      </section>
+          <header className="bento-head" data-studio-reveal>
+            <p className="bento-mono">Лабораторные заметки / {posts.length}</p>
+            <h1>Пишу о том, что работает</h1>
+            <p>
+              Кейсы, инструменты и реальные цифры. Без новостного шума — только
+              практические способы встроить AI в работу.
+            </p>
+          </header>
 
-      <section className="studio-blog-list">
-        <div className="studio-frame">
-          <div className="studio-post-index">
+          <div className="bento-grid">
             {(posts ?? []).map((post, index) => (
               <PostCard
                 key={post.slug}
@@ -53,10 +51,10 @@ export default async function BlogPage() {
                 index={index + 1}
               />
             ))}
-            {(!posts || posts.length === 0) && (
-              <p className="studio-mono studio-blog-empty">Статьи скоро появятся</p>
-            )}
           </div>
+          {(!posts || posts.length === 0) && (
+            <p className="bento-mono studio-blog-empty">Статьи скоро появятся</p>
+          )}
         </div>
       </section>
     </main>

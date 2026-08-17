@@ -1410,7 +1410,7 @@ body.studio-menu-open { overflow: hidden; }
 .audit-container--stage,
 .audit-result {
   border-color: var(--studio-line) !important;
-  border-radius: 0 !important;
+  border-radius: 18px !important;
   background: var(--studio-white) !important;
   box-shadow: none !important;
   backdrop-filter: none;
@@ -1439,7 +1439,7 @@ body.studio-menu-open { overflow: hidden; }
 .audit-first-step,
 .audit-cta-block {
   border-color: var(--studio-line) !important;
-  border-radius: 0 !important;
+  border-radius: 14px !important;
   background: var(--studio-paper) !important;
   color: var(--studio-ink) !important;
   box-shadow: none !important;
@@ -1460,14 +1460,14 @@ body.studio-menu-open { overflow: hidden; }
 
 .audit-btn-next,
 .audit-cta-btn {
-  border-radius: 0 !important;
+  border-radius: 999px !important;
   background: var(--studio-lime) !important;
   color: var(--studio-ink) !important;
 }
 
 .audit-btn-back { color: var(--studio-muted) !important; }
-.audit-progress { background: var(--studio-line) !important; }
-.audit-progress-fill { background: var(--studio-lime-dark) !important; }
+.audit-progress { border-radius: 999px !important; background: var(--studio-line) !important; }
+.audit-progress-fill { border-radius: 999px !important; background: var(--studio-lime-dark) !important; }
 .audit-stat-value,
 .audit-auto-card h3,
 .audit-first-step h3,

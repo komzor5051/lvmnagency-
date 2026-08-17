@@ -5,9 +5,9 @@ import { useEffect, useState } from "react";
 
 const links = [
   { href: "/#systems", label: "Как работаю" },
-  { href: "/products", label: "Форматы" },
   { href: "/about", label: "Обо мне" },
   { href: "/blog", label: "Блог" },
+  { href: "/audit", label: "AI-аудит" },
 ];
 
 function Mark() {
@@ -31,7 +31,7 @@ export default function StudioNav() {
   return (
     <>
       <header className="studio-nav-shell">
-        <nav className="studio-nav" aria-label="Основная навигация">
+        <nav className="studio-nav bento-nav" aria-label="Основная навигация">
           <Link className="studio-brand" href="/" aria-label="Влад Лямин — на главную" onClick={() => setOpen(false)}>
             <Mark />
             <span>
@@ -48,8 +48,8 @@ export default function StudioNav() {
             ))}
           </div>
 
-          <Link className="studio-nav-cta" href="/audit" onClick={() => setOpen(false)}>
-            AI-аудит <span aria-hidden="true">→</span>
+          <Link className="studio-nav-cta bento-nav-cta" href="/products" onClick={() => setOpen(false)}>
+            Продукты <span aria-hidden="true">→</span>
           </Link>
 
           <button
@@ -73,9 +73,12 @@ export default function StudioNav() {
               {link.label}
             </Link>
           ))}
-          <Link className="studio-button studio-button--lime" href="/audit" onClick={() => setOpen(false)}>
-            Разобрать мой бизнес <b aria-hidden="true">→</b>
-          </Link>
+          {/* Wrapper keeps the CTA out of the `> div > a` menu-row selector. */}
+          <div className="bento-nav-mobile-cta">
+            <Link className="bento-btn" href="/products" onClick={() => setOpen(false)}>
+              Продукты <span aria-hidden="true">→</span>
+            </Link>
+          </div>
         </div>
       </div>
     </>

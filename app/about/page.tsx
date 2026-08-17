@@ -50,6 +50,20 @@ const faq = [
   },
 ];
 
+const timeline = [
+  ["2022", "Первые проекты с AI", "Контентные процессы, личные помощники и первые автоматизации — ещё до того, как AI стал обязательной темой в бизнесе."],
+  ["2023–24", "От инструментов к работе", "Фокус сместился с отдельных промптов на понятные процессы, качество результата и обучение команды."],
+  ["2025", "40+ внедрений", "Практика в разных задачах — от продаж и маркетинга до внутренних операций и продуктов."],
+  ["Сейчас", "AI в ежедневной работе", "Помогаю предпринимателям и небольшим командам встроить AI в привычный ритм без технической перегрузки."],
+] as const;
+
+const principles = [
+  ["01", "Сначала эффект", "Если нельзя объяснить, что станет быстрее, дешевле или точнее, внедрение не нужно."],
+  ["02", "Прототип до масштаба", "Проверяем сценарий на реальных данных до большой разработки и долгого контракта."],
+  ["03", "Человек контролирует", "AI делает рутину и предлагает решения, но критические точки остаются прозрачными."],
+  ["04", "Всё остаётся у вас", "Доступы, документация и знания передаются команде. Никакой искусственной зависимости."],
+] as const;
+
 const aboutSchema = {
   "@context": "https://schema.org",
   "@type": "Person",
@@ -79,94 +93,131 @@ const aboutSchema = {
 
 export default function AboutPage() {
   return (
-    <main className="studio-main studio-about">
-      <section className="studio-about-hero">
-        <div className="studio-frame studio-about-hero-grid">
-          <div data-studio-reveal>
-            <p className="studio-eyebrow">ОБО МНЕ / VL 2026</p>
-            <h1>Кто я<br />и чем <em>помогу.</em></h1>
-            <p className="studio-about-lead">
-              Я Влад Лямин, AI-консультант и практик. С 2022 года помог провести 40+
-              внедрений и обучил 50+ человек: объясняю сложное простыми словами и
-              превращаю разрозненные AI-инструменты в понятную ежедневную работу.
-            </p>
-            <Link className="studio-button studio-button--lime" href="/audit">
-              Разобрать мой бизнес <b aria-hidden="true">→</b>
-            </Link>
-          </div>
-          <div className="studio-about-portrait" data-studio-reveal>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/portrait.jpg" alt="Влад Лямин" width="1200" height="1600" />
-            <div><span>AI-КОНСУЛЬТАНТ</span><span>40+ ВНЕДРЕНИЙ</span></div>
-          </div>
-        </div>
-      </section>
-
-      <section className="studio-about-story">
-        <div className="studio-frame studio-about-story-grid">
-          <p className="studio-eyebrow studio-eyebrow--dark" data-studio-reveal>КОНТЕКСТ / НЕ БИОГРАФИЯ</p>
-          <div data-studio-reveal>
-            <h2>Чем это отличается<br />от <em>обычного</em> внедрения?</h2>
-            <p>
-              Я не продаю «нейросети» и не подключаю модный инструмент к тому, что и так
-              сломано. Начинаю с того, где бизнес теряет время и деньги, а модель выбираю
-              последней — когда уже понятно, какой процесс чиним.
-            </p>
-            <p>
-              В 2022 году AI стал моей основной рабочей средой: от личных помощников и
-              контентных сценариев до процессов, которые связывают информацию, решения и
-              действия команды. Мне важен спокойный практический результат: меньше рутины,
-              быстрее работа, понятнее ответственность.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      <section className="studio-about-timeline">
+    <main className="studio-main bento-page">
+      {/* Hero: copy tile + photo tile. */}
+      <section className="bento-section bento-section--hero">
         <div className="studio-frame">
-          <header className="studio-section-head studio-section-head--light" data-studio-reveal>
-            <p className="studio-eyebrow">ТРАЕКТОРИЯ</p>
-            <h2>Какой у меня<br /><em>опыт?</em></h2>
-            <p>С 2022 года: 40+ внедрений, 50+ обученных, задачи от продаж и маркетинга до внутренних операций. Ниже — как менялся мой фокус: от знакомства с инструментами к реальной работе команд.</p>
+          <div className="bento-grid">
+            <div className="bento-tile bento-col-8 bento-tile--tall" data-studio-reveal>
+              <p className="bento-mono">Обо мне / VL 2026</p>
+              <h1 className="bento-hero-title">Кто я и чем помогу</h1>
+              <p className="bento-lead">
+                Я Влад Лямин, AI-консультант и практик. С 2022 года помог провести 40+
+                внедрений и обучил 50+ человек: объясняю сложное простыми словами и
+                превращаю разрозненные AI-инструменты в понятную ежедневную работу.
+              </p>
+              <div style={{ marginTop: "auto", paddingTop: "1.8rem" }}>
+                <Link className="bento-btn" href="/audit">
+                  Разобрать мой бизнес <span aria-hidden="true">→</span>
+                </Link>
+              </div>
+            </div>
+            <div
+              className="bento-tile bento-col-4 bento-photo"
+              data-studio-reveal
+              style={{ transitionDelay: "60ms" }}
+            >
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/portrait.jpg" alt="Влад Лямин" width="1200" height="1600" />
+              <p className="bento-mono">AI-консультант · 40+ внедрений</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Story: two text tiles. */}
+      <section className="bento-section">
+        <div className="studio-frame">
+          <header className="bento-head" data-studio-reveal>
+            <p className="bento-mono">Контекст / не биография</p>
+            <h2>Чем это отличается от обычного внедрения?</h2>
           </header>
-          <div className="studio-timeline">
-            {[
-              ["2022", "Первые проекты с AI", "Контентные процессы, личные помощники и первые автоматизации — ещё до того, как AI стал обязательной темой в бизнесе."],
-              ["2023–24", "От инструментов к работе", "Фокус сместился с отдельных промптов на понятные процессы, качество результата и обучение команды."],
-              ["2025", "40+ внедрений", "Практика в разных задачах — от продаж и маркетинга до внутренних операций и продуктов."],
-              ["Сейчас", "AI в ежедневной работе", "Помогаю предпринимателям и небольшим командам встроить AI в привычный ритм без технической перегрузки."],
-            ].map(([year, title, text]) => (
-              <article key={year} data-studio-reveal>
-                <span>{year}</span><h3>{title}</h3><p>{text}</p>
+          <div className="bento-grid">
+            <div className="bento-tile bento-col-6" data-studio-reveal>
+              <p className="bento-lead" style={{ marginTop: 0 }}>
+                Я не продаю «нейросети» и не подключаю модный инструмент к тому, что и так
+                сломано. Начинаю с того, где бизнес теряет время и деньги, а модель выбираю
+                последней — когда уже понятно, какой процесс чиним.
+              </p>
+            </div>
+            <div
+              className="bento-tile bento-col-6"
+              data-studio-reveal
+              style={{ transitionDelay: "60ms" }}
+            >
+              <p className="bento-lead" style={{ marginTop: 0 }}>
+                В 2022 году AI стал моей основной рабочей средой: от личных помощников и
+                контентных сценариев до процессов, которые связывают информацию, решения и
+                действия команды. Мне важен спокойный практический результат: меньше рутины,
+                быстрее работа, понятнее ответственность.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Timeline: four tiles, the current stage in carbon. */}
+      <section className="bento-section">
+        <div className="studio-frame">
+          <header className="bento-head" data-studio-reveal>
+            <p className="bento-mono">Траектория</p>
+            <h2>Какой у меня опыт?</h2>
+            <p>
+              С 2022 года: 40+ внедрений, 50+ обученных, задачи от продаж и маркетинга до
+              внутренних операций. Ниже — как менялся мой фокус: от знакомства с
+              инструментами к реальной работе команд.
+            </p>
+          </header>
+          <div className="bento-grid">
+            {timeline.map(([year, title, text], i) => (
+              <article
+                key={year}
+                className={`bento-tile bento-col-3${i === timeline.length - 1 ? " bento-tile--carbon" : ""}`}
+                data-studio-reveal
+                style={{ transitionDelay: `${i * 60}ms` }}
+              >
+                <p className="bento-mono">{year}</p>
+                <h3 style={{ fontSize: "1.25rem", lineHeight: 1.15 }}>{title}</h3>
+                <p className="bento-lead" style={{ fontSize: ".88rem" }}>{text}</p>
               </article>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="studio-principles">
+      {/* Principles: four tiles. */}
+      <section className="bento-section">
         <div className="studio-frame">
-          <header className="studio-section-head" data-studio-reveal>
-            <p className="studio-eyebrow studio-eyebrow--dark">ПРИНЦИПЫ</p>
-            <h2>По каким правилам<br />я <em>работаю?</em></h2>
-            <p>Четыре правила, по которым решаю, что внедрять, а что нет. Главное из них: если нельзя объяснить, что станет быстрее, дешевле или точнее, — внедрение не нужно.</p>
+          <header className="bento-head" data-studio-reveal>
+            <p className="bento-mono">Принципы</p>
+            <h2>По каким правилам я работаю?</h2>
+            <p>
+              Четыре правила, по которым решаю, что внедрять, а что нет. Главное из них:
+              если нельзя объяснить, что станет быстрее, дешевле или точнее, — внедрение
+              не нужно.
+            </p>
           </header>
-          <div className="studio-principle-grid">
-            {[
-              ["01", "Сначала эффект", "Если нельзя объяснить, что станет быстрее, дешевле или точнее, внедрение не нужно."],
-              ["02", "Прототип до масштаба", "Проверяем сценарий на реальных данных до большой разработки и долгого контракта."],
-              ["03", "Человек контролирует", "AI делает рутину и предлагает решения, но критические точки остаются прозрачными."],
-              ["04", "Всё остаётся у вас", "Доступы, документация и знания передаются команде. Никакой искусственной зависимости."],
-            ].map(([n, title, text]) => (
-              <article key={n} data-studio-reveal><span>{n}</span><h3>{title}</h3><p>{text}</p></article>
+          <div className="bento-grid">
+            {principles.map(([n, title, text], i) => (
+              <article
+                key={n}
+                className="bento-tile bento-col-3"
+                data-studio-reveal
+                style={{ transitionDelay: `${i * 60}ms` }}
+              >
+                <p className="bento-mono">Принцип {n}</p>
+                <h3 style={{ fontSize: "1.25rem", lineHeight: 1.15 }}>{title}</h3>
+                <p className="bento-lead" style={{ fontSize: ".88rem" }}>{text}</p>
+              </article>
             ))}
           </div>
         </div>
       </section>
+
       <FaqSection
         items={faq}
-        eyebrow="ВОПРОСЫ"
-        heading={<>Что спрашивают<br />обо <em>мне.</em></>}
+        eyebrow="Вопросы"
+        heading={<>Что спрашивают обо мне</>}
         lead="Кому подхожу, чем отличаюсь от агентства и как со мной устроена работа."
         schemaId="/about#faq"
       />

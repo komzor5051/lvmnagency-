@@ -1197,3 +1197,184 @@ body.studio-menu-open { overflow: hidden; }
   .bento-col-12 { grid-column: 1 / -1; }
   .bento-tile--tall { min-height: 22rem; }
 }
+
+/* =============================================================================
+   BENTO LAYER — phase 3: nav, footer, /about, blog landing, mobile sticky CTA.
+   NOTE: personal.css loads after this file, so overrides of existing .studio-*
+   selectors below use a double-class selector (.studio-x.bento-x) to win on
+   specificity, not on order.
+   ========================================================================== */
+
+/* bento: nav */
+.studio-nav.bento-nav {
+  border-color: var(--color-line);
+  border-radius: 18px;
+  background: rgba(255, 254, 249, .93);
+}
+.bento-nav .studio-mark { border-radius: 10px; }
+.bento-nav .studio-menu-toggle { border-radius: 12px; }
+.studio-nav-cta.bento-nav-cta {
+  border-radius: 999px;
+  background: var(--studio-lime);
+  color: var(--studio-carbon);
+  transition: transform 180ms ease;
+}
+.studio-nav-cta.bento-nav-cta:hover {
+  background: var(--studio-lime);
+  color: var(--studio-carbon);
+  transform: translateY(-1px);
+}
+.studio-nav-cta.bento-nav-cta:focus-visible {
+  outline: 3px solid var(--studio-carbon);
+  outline-offset: 2px;
+}
+.studio-nav-cta.bento-nav-cta span {
+  font-family: var(--font-mono-brand), "JetBrains Mono", monospace;
+}
+/* Mobile menu bottom CTA is a bento-btn in a wrapper (the wrapper keeps it
+   out of personal.css's `> div > a:not(.studio-button)` menu-row styles). */
+.bento-nav-mobile-cta {
+  margin-top: auto;
+  padding-top: 1.5rem;
+}
+.bento-nav-mobile-cta .bento-btn {
+  width: 100%;
+  justify-content: space-between;
+}
+
+/* bento: footer */
+.bento-footer {
+  position: relative;
+  z-index: 1;
+  padding: 2.25rem 0 calc(1.25rem + env(safe-area-inset-bottom));
+  border-top: 1px solid var(--color-line);
+  background: var(--studio-paper);
+  color: var(--color-ink);
+}
+.bento-footer-title {
+  max-width: 20ch;
+  margin: .55rem 0 0;
+  font-family: var(--font-heading), Onest, sans-serif;
+  font-size: clamp(1.7rem, 6vw, 2.6rem);
+  font-weight: 660;
+  letter-spacing: -.05em;
+  line-height: 1.02;
+  text-wrap: balance;
+}
+.bento-footer-cta { margin-top: auto; padding-top: 1.6rem; }
+.bento-footer-links {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: .3rem;
+  margin-top: .9rem;
+}
+.bento-footer-links a {
+  padding-block: .32rem;
+  border-bottom: 1px solid transparent;
+  color: var(--color-ink);
+  font-size: .9rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+.bento-footer-links a:hover { border-bottom-color: currentColor; }
+.bento-footer-links a:focus-visible {
+  outline: 3px solid var(--studio-carbon);
+  outline-offset: 2px;
+}
+.bento-footer-meta {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: .5rem 1.5rem;
+  margin-top: 14px;
+  padding-top: 1rem;
+  border-top: 1px solid var(--color-line);
+}
+
+/* bento: page heads + blog tiles (blog landing, /about) */
+.bento-head h1 {
+  max-width: 16ch;
+  margin: .55rem 0 0;
+  font-family: var(--font-heading), Onest, sans-serif;
+  font-size: clamp(2.2rem, 8vw, 3.4rem);
+  font-weight: 660;
+  letter-spacing: -.055em;
+  line-height: 1;
+  text-wrap: balance;
+}
+.bento-post-cover {
+  display: block;
+  margin: 0 0 1rem;
+}
+.bento-post-cover img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1200 / 630;
+  border-radius: 12px;
+  object-fit: cover;
+}
+.bento-post-title {
+  margin: .6rem 0 0;
+  font-family: var(--font-heading), Onest, sans-serif;
+  font-size: 1.2rem;
+  font-weight: 660;
+  letter-spacing: -.04em;
+  line-height: 1.18;
+  overflow-wrap: anywhere;
+  text-wrap: balance;
+}
+.bento-post-read {
+  margin-top: auto;
+  padding-top: 1.2rem;
+  font-family: var(--font-mono-brand), "JetBrains Mono", monospace;
+  font-size: .78rem;
+  font-weight: 700;
+}
+
+/* bento: sticky cta (mobile-only guide bar on the home page) */
+.bento-sticky-cta {
+  position: fixed;
+  z-index: 6;
+  right: max(.75rem, env(safe-area-inset-right));
+  bottom: calc(.75rem + env(safe-area-inset-bottom));
+  left: max(.75rem, env(safe-area-inset-left));
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(120%);
+  transition: transform 260ms var(--studio-ease), opacity 200ms ease;
+}
+.bento-sticky-cta.is-visible {
+  opacity: 1;
+  pointer-events: auto;
+  transform: none;
+}
+.bento-sticky-cta a {
+  display: flex;
+  min-height: 3.4rem;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: .7rem 1.15rem;
+  border: 1px solid var(--studio-carbon);
+  border-radius: 16px;
+  background: var(--studio-lime);
+  color: var(--studio-carbon);
+  font-size: .92rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+.bento-sticky-cta a b {
+  font-family: var(--font-mono-brand), "JetBrains Mono", monospace;
+  font-weight: 700;
+}
+.bento-sticky-cta a:focus-visible {
+  outline: 3px solid var(--studio-carbon);
+  outline-offset: 2px;
+}
+@media (min-width: 45rem) {
+  .bento-sticky-cta { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .bento-sticky-cta { transition: none; }
+}

@@ -1,5 +1,6 @@
-// Row on the /blog index sheet — mono publish date, Tektur title, small cover
-// thumbnail on the right (covers keep their cinematic style untouched).
+// Bento tile on the /blog index grid — optional cover on top, mono publish
+// date, Onest title, "Читать" pinned to the bottom. Covers keep their
+// cinematic style untouched.
 
 interface PostCardProps {
   slug: string;
@@ -19,14 +20,12 @@ export function PostCard({ slug, title, publishedAt, coverImage, index = 1 }: Po
   return (
     <a
       href={`/blog/${slug}`}
-      className="studio-post-row"
+      className="bento-tile bento-tile--link bento-col-4"
       data-studio-reveal
+      style={{ transitionDelay: `${((index - 1) % 3) * 60}ms` }}
     >
-      <span className="studio-post-num">{String(index).padStart(2, "0")}</span>
-      <span className="studio-mono">{date}</span>
-      <h2>{title}</h2>
       {coverImage && (
-        <span className="studio-post-thumb">
+        <span className="bento-post-cover">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={coverImage}
@@ -38,7 +37,9 @@ export function PostCard({ slug, title, publishedAt, coverImage, index = 1 }: Po
           />
         </span>
       )}
-      <b aria-hidden="true">→</b>
+      <p className="bento-mono">{date}</p>
+      <h2 className="bento-post-title">{title}</h2>
+      <p className="bento-post-read">Читать</p>
     </a>
   );
 }

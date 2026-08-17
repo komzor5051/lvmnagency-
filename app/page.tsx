@@ -5,6 +5,7 @@ import { getProduct } from "@/lib/products";
 import { FaqSection } from "@/components/FaqSection";
 import { ProductShowcase } from "@/components/bento/ProductShowcase";
 import { TrackedLink } from "@/components/bento/TrackedLink";
+import { StickyGuideCta } from "@/components/bento/StickyGuideCta";
 
 // Canonical lives on the page, not the root layout: a layout-level canonical
 // would leak "/" onto every page that doesn't set its own.
@@ -390,6 +391,8 @@ export default async function HomePage() {
           </div>
         </div>
       </section>
+
+      <StickyGuideCta />
     </main>
   );
 }
