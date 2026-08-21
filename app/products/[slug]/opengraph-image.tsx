@@ -16,6 +16,29 @@ function loadBg(name: string): string | null {
 export default async function Image({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const product = getProduct(slug);
+
+  // This product's banner already has the title baked into the artwork
+  // (custom illustration, not the shared white/lime template) — serve it
+  // as-is instead of overlaying more text on top of it.
+  if (slug === "codex-content-os") {
+    const custom = loadBg("og-codex-content-os.png");
+    if (custom) {
+      return new ImageResponse(
+        (
+          <div style={{ display: "flex", width: "100%", height: "100%" }}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={custom}
+              alt=""
+              style={{ width: "100%", height: "100%", objectFit: "cover" }}
+            />
+          </div>
+        ),
+        size
+      );
+    }
+  }
+
   const bg = loadBg("og-products-bg.png");
   const title = product?.title ?? "Продукты";
   const badge = product?.meta ?? "vladlyamin.ru";
