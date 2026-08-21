@@ -1,0 +1,3060 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <meta name="description" content="Практическое руководство по сборке AI-пайплайна на Codex или Claude Code: от папки с исходниками до готового Reel, публикации и квалифицированной заявки">
+  <title>Content OS: Codex или Claude Code</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&amp;family=Prata&amp;display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --paper: #f2ede4;
+      --paper-deep: #e7dfd1;
+      --ink: #20231f;
+      --muted: #68695f;
+      --line: #c8beaf;
+      --accent: #ae4935;
+      --accent-soft: #dfb8a6;
+      --forest-bg: #31463a;
+      --forest-ink: #31463a;
+      --quote-ink: #31463a;
+      --code: #1e241f;
+      --code-ink: #eef0e8;
+      --reading: 820px;
+      --outer: clamp(22px, 5vw, 86px);
+      --serif: "Prata", Georgia, serif;
+      --sans: "Manrope", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+
+    html {
+      scroll-behavior: smooth;
+      background: var(--paper);
+    }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--paper);
+      font-family: var(--sans);
+      font-size: clamp(16px, 1.15vw, 18px);
+      line-height: 1.78;
+      text-rendering: optimizeLegibility;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    ::selection { background: var(--accent-soft); color: var(--ink); }
+
+    a {
+      color: inherit;
+      text-decoration-color: var(--accent);
+      text-decoration-thickness: 1px;
+      text-underline-offset: 4px;
+    }
+
+    a:hover { color: var(--accent); }
+
+    a:focus-visible,
+    button:focus-visible,
+    [contenteditable="true"]:focus-visible {
+      outline: 3px solid var(--accent-soft);
+      outline-offset: 4px;
+    }
+
+    .reading-progress {
+      position: fixed;
+      z-index: 100;
+      inset: 0 auto auto 0;
+      width: 0;
+      height: 3px;
+      background: var(--accent);
+      transition: width 80ms linear;
+    }
+
+    .topbar {
+      position: absolute;
+      z-index: 90;
+      inset: 18px 22px auto 22px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      pointer-events: none;
+    }
+
+    .topbar > * { pointer-events: auto; }
+
+    .wordmark {
+      font-size: 11px;
+      line-height: 1;
+      font-weight: 700;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--muted);
+      mix-blend-mode: multiply;
+    }
+
+    .toolbar {
+      display: flex;
+      gap: 8px;
+    }
+
+    .tool-button {
+      min-height: 42px;
+      padding: 0 16px;
+      border: 1px solid color-mix(in srgb, var(--line), transparent 20%);
+      border-radius: 999px;
+      color: var(--ink);
+      background: color-mix(in srgb, var(--paper), transparent 8%);
+      backdrop-filter: blur(14px);
+      font: 600 12px/1 var(--sans);
+      letter-spacing: .03em;
+      cursor: pointer;
+      box-shadow: none;
+    }
+
+    .tool-button:hover { border-color: var(--accent); color: var(--accent); }
+    .tool-button[aria-pressed="true"] { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+
+    .cover {
+      min-height: 100svh;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 130px var(--outer) clamp(48px, 8vh, 94px);
+      border-bottom: 1px solid var(--line);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cover::before {
+      content: "36";
+      position: absolute;
+      top: -0.17em;
+      right: -.05em;
+      font: 400 clamp(250px, 46vw, 760px)/.84 var(--serif);
+      color: color-mix(in srgb, var(--paper-deep), transparent 8%);
+      letter-spacing: -.08em;
+      pointer-events: none;
+    }
+
+    .cover-inner {
+      position: relative;
+      width: min(1160px, 100%);
+      margin: 0 auto;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: clamp(28px, 5vh, 54px);
+      color: var(--accent);
+      font-size: 11px;
+      line-height: 1;
+      font-weight: 700;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+    }
+
+    .eyebrow::before { content: ""; width: 48px; height: 1px; background: currentColor; }
+
+    .document-title {
+      max-width: 1100px;
+      margin: 0;
+      font: 400 clamp(52px, 8.3vw, 132px)/.93 var(--serif);
+      letter-spacing: -.055em;
+      text-wrap: balance;
+    }
+
+    .document-title em {
+      color: var(--accent);
+      font-style: normal;
+    }
+
+    .lede {
+      max-width: 720px;
+      margin: clamp(30px, 5vh, 58px) 0 0 auto;
+      color: var(--forest-ink);
+      font-size: clamp(19px, 2vw, 28px);
+      line-height: 1.48;
+      letter-spacing: -.025em;
+    }
+
+    .cover-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px 34px;
+      margin-top: clamp(44px, 7vh, 84px);
+      padding-top: 22px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: .05em;
+      text-transform: uppercase;
+    }
+
+    .cover-meta span:last-child { margin-left: auto; }
+
+    .intro-band {
+      padding: clamp(54px, 9vw, 120px) var(--outer);
+      background: var(--forest-bg);
+      color: #f2eee6;
+    }
+
+    .intro-band-inner {
+      width: min(1040px, 100%);
+      margin: 0 auto;
+      display: flex;
+      gap: clamp(28px, 8vw, 110px);
+      align-items: flex-start;
+    }
+
+    .intro-index {
+      flex: 0 0 auto;
+      color: var(--accent-soft);
+      font: 400 clamp(66px, 10vw, 136px)/.8 var(--serif);
+      letter-spacing: -.06em;
+    }
+
+    .intro-copy {
+      max-width: 720px;
+      margin: 0;
+      font-size: clamp(22px, 3vw, 39px);
+      line-height: 1.3;
+      letter-spacing: -.035em;
+      text-wrap: balance;
+    }
+
+    .layout {
+      position: relative;
+      padding: 0 var(--outer) 120px;
+    }
+
+    .reading-column {
+      width: min(var(--reading), 100%);
+      margin: 0 auto;
+    }
+
+    article { counter-reset: major; }
+
+    section.level2 {
+      counter-increment: major;
+      position: relative;
+      padding: clamp(74px, 10vw, 126px) 0 clamp(28px, 5vw, 64px);
+      border-top: 1px solid var(--line);
+    }
+
+    section.level2:first-child { border-top: 0; }
+
+    section.level2 > h2 {
+      position: relative;
+      margin: 0 0 clamp(36px, 5vw, 58px);
+      font: 400 clamp(36px, 5vw, 64px)/1.08 var(--serif);
+      letter-spacing: -.045em;
+      text-wrap: balance;
+    }
+
+    section.level2 > h2::before {
+      content: counter(major, decimal-leading-zero);
+      display: block;
+      margin-bottom: 20px;
+      color: var(--accent);
+      font: 700 11px/1 var(--sans);
+      letter-spacing: .16em;
+    }
+
+    h3 {
+      margin: clamp(48px, 7vw, 72px) 0 20px;
+      color: var(--forest-ink);
+      font: 400 clamp(25px, 3.2vw, 36px)/1.24 var(--serif);
+      letter-spacing: -.03em;
+    }
+
+    h4 {
+      margin: 36px 0 12px;
+      font-size: 15px;
+      line-height: 1.4;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    p { margin: 0 0 1.35em; }
+    strong { font-weight: 700; color: color-mix(in srgb, var(--ink), black 12%); }
+
+    ul, ol {
+      margin: 0 0 1.6em;
+      padding-left: 1.35em;
+    }
+
+    li { margin: .55em 0; padding-left: .3em; }
+    li::marker { color: var(--accent); font-weight: 700; }
+
+    blockquote {
+      position: relative;
+      margin: clamp(46px, 7vw, 78px) calc(clamp(0px, 5vw, 82px) * -1);
+      padding: 10px 0 8px clamp(28px, 6vw, 74px);
+      border-left: 2px solid var(--accent);
+      color: var(--quote-ink);
+      font: 400 clamp(24px, 3.1vw, 39px)/1.44 var(--serif);
+      letter-spacing: -.03em;
+    }
+
+    blockquote::before {
+      content: "“";
+      position: absolute;
+      left: 14px;
+      top: -20px;
+      color: var(--accent-soft);
+      font: 400 76px/1 var(--serif);
+    }
+
+    blockquote p:last-child { margin-bottom: 0; }
+
+    .quickstart {
+      margin: clamp(54px, 9vw, 96px) 0 clamp(70px, 9vw, 110px);
+      padding: clamp(28px, 5vw, 48px);
+      background: var(--paper-deep);
+      border: 1px solid var(--line);
+      border-left: 3px solid var(--accent);
+    }
+
+    .quickstart-eyebrow {
+      display: block;
+      margin-bottom: 14px;
+      color: var(--accent);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+    }
+
+    .quickstart h2 {
+      margin: 0 0 18px;
+      font: 400 clamp(28px, 4vw, 42px)/1.12 var(--serif);
+      letter-spacing: -.03em;
+    }
+
+    .quickstart ol {
+      margin: 22px 0 0;
+      padding-left: 1.3em;
+    }
+
+    .quickstart li { margin: .7em 0; }
+
+    code {
+      padding: .13em .34em;
+      border-bottom: 1px solid var(--line);
+      font: 500 .9em/1.4 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      color: var(--forest-ink);
+      background: transparent;
+      overflow-wrap: anywhere;
+    }
+
+    pre {
+      width: min(1020px, calc(100vw - (var(--outer) * 2)));
+      margin: clamp(34px, 5vw, 56px) 50%;
+      transform: translateX(-50%);
+      padding: clamp(24px, 4vw, 42px);
+      overflow: auto;
+      border: 0;
+      border-radius: 0;
+      background: var(--code);
+      color: var(--code-ink);
+      font: 500 clamp(12px, 1.25vw, 15px)/1.72 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      tab-size: 2;
+      box-shadow: none;
+    }
+
+    pre code {
+      padding: 0;
+      border: 0;
+      color: inherit;
+      background: transparent;
+      overflow-wrap: normal;
+    }
+
+    .table-wrap {
+      width: min(1080px, calc(100vw - (var(--outer) * 2)));
+      margin: clamp(38px, 6vw, 66px) 50%;
+      transform: translateX(-50%);
+      overflow-x: auto;
+      border-top: 2px solid var(--ink);
+      border-bottom: 1px solid var(--ink);
+    }
+
+    table {
+      width: 100%;
+      min-width: 680px;
+      border-collapse: collapse;
+      font-size: clamp(13px, 1.25vw, 15px);
+      line-height: 1.55;
+    }
+
+    th, td {
+      padding: 18px 18px 18px 0;
+      border: 0;
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .13em;
+      text-transform: uppercase;
+    }
+
+    tr:last-child td { border-bottom: 0; }
+
+    .mermaid-shell {
+      width: min(940px, calc(100vw - (var(--outer) * 2)));
+      margin: clamp(50px, 8vw, 90px) 50%;
+      transform: translateX(-50%);
+      padding: clamp(30px, 5vw, 54px) clamp(8px, 2vw, 22px);
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      overflow: visible;
+    }
+
+    .mermaid-shell .mermaid {
+      display: flex;
+      justify-content: center;
+      width: 100%;
+    }
+
+    .mermaid-shell svg {
+      display: block;
+      width: 100% !important;
+      max-width: 760px !important;
+      height: auto !important;
+      margin: 0 auto;
+    }
+
+    .toc-drawer {
+      position: fixed;
+      z-index: 110;
+      inset: 0 0 0 auto;
+      width: min(470px, 92vw);
+      padding: 86px 34px 48px;
+      color: #f2eee6;
+      background: var(--forest-bg);
+      transform: translateX(102%);
+      transition: transform 320ms cubic-bezier(.2,.8,.2,1);
+      overflow-y: auto;
+      box-shadow: none;
+    }
+
+    .toc-drawer[data-open="true"] { transform: translateX(0); }
+
+    .toc-heading {
+      margin: 0 0 34px;
+      font: 400 36px/1.1 var(--serif);
+      letter-spacing: -.04em;
+    }
+
+    #TOC ul { list-style: none; padding: 0; margin: 0; }
+    #TOC li { margin: 0; padding: 0; }
+    #TOC > ul > li { border-top: 1px solid color-mix(in srgb, #fff, transparent 82%); }
+    #TOC a {
+      display: block;
+      padding: 13px 0;
+      color: color-mix(in srgb, #fff, transparent 20%);
+      font-size: 13px;
+      line-height: 1.45;
+      text-decoration: none;
+    }
+    #TOC a:hover, #TOC a[aria-current="true"] { color: var(--accent-soft); }
+    #TOC ul ul { display: none; }
+
+    .toc-close {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      color: #fff;
+      border-color: color-mix(in srgb, #fff, transparent 65%);
+      background: transparent;
+    }
+
+    .scrim {
+      position: fixed;
+      z-index: 105;
+      inset: 0;
+      background: rgb(14 18 15 / .45);
+      opacity: 0;
+      visibility: hidden;
+      transition: 220ms ease;
+      backdrop-filter: blur(3px);
+    }
+
+    .scrim[data-open="true"] { opacity: 1; visibility: visible; }
+
+    .document-footer {
+      display: flex;
+      justify-content: space-between;
+      gap: 30px;
+      padding: 38px var(--outer) 46px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    body.editing article h2,
+    body.editing article h3,
+    body.editing article p,
+    body.editing article li,
+    body.editing article blockquote {
+      cursor: text;
+      background: color-mix(in srgb, var(--accent-soft), transparent 84%);
+    }
+
+    @media (max-width: 760px) {
+      .topbar { inset: 12px 12px auto 14px; }
+      .wordmark { display: none; }
+      .toolbar { margin-left: auto; }
+      .tool-button { min-height: 44px; padding: 0 14px; }
+      .cover { padding-top: 105px; }
+      .cover::before { top: -.03em; right: -.08em; }
+      .document-title { font-size: clamp(42px, 13vw, 62px); letter-spacing: -.065em; }
+      .lede { margin-left: 0; }
+      .cover-meta { display: block; }
+      .cover-meta span { display: block; margin: 8px 0 !important; }
+      .intro-band-inner { display: block; }
+      .intro-index { margin-bottom: 32px; }
+      blockquote { margin-left: 0; margin-right: 0; padding-left: 28px; }
+      blockquote::before { display: none; }
+      pre, .table-wrap, .mermaid-shell { width: calc(100vw - 28px); }
+      .mermaid-shell { padding-inline: 0; }
+      .document-footer { display: block; }
+      .document-footer span { display: block; margin-top: 8px; }
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --paper: #191c19;
+        --paper-deep: #232824;
+        --ink: #ece8df;
+        --muted: #aaa99f;
+        --line: #3f453f;
+        --accent: #d8785f;
+        --accent-soft: #b97864;
+        --forest-bg: #2b4338;
+        --forest-ink: #c7d7cc;
+        --quote-ink: #f0e9dd;
+        --code: #101310;
+        --code-ink: #eef0e8;
+      }
+      .wordmark { mix-blend-mode: normal; }
+      .tool-button { background: rgb(25 28 25 / .82); }
+      strong { color: var(--ink); }
+    }
+
+    @media print {
+      :root { --paper: #fff; --ink: #111; --muted: #555; --line: #bbb; }
+      @page { size: A4; margin: 18mm 16mm 20mm; }
+      body { font-size: 10.5pt; line-height: 1.55; background: #fff; }
+      .topbar, .reading-progress, .toc-drawer, .scrim { display: none !important; }
+      .cover { min-height: 250mm; padding: 30mm 0 20mm; page-break-after: always; }
+      .cover::before {
+        color: #f0eee9;
+        font-size: 150mm;
+        top: -6mm;
+        right: -6mm;
+        letter-spacing: normal;
+      }
+      .intro-band { margin: 0 -16mm; padding: 20mm 16mm; background: #26382f !important; print-color-adjust: exact; }
+      .layout { padding: 0; }
+      section.level2 { page-break-before: auto; break-inside: auto; padding: 16mm 0 6mm; }
+      h2, h3, blockquote, pre, table { break-inside: avoid; }
+      pre, .table-wrap, .mermaid-shell { width: 100%; margin-left: 0; transform: none; }
+      pre { white-space: pre-wrap; word-break: break-word; }
+      a { color: inherit; text-decoration: none; }
+      a[href^="http"]::after { content: "  <" attr(href) ">"; font-size: 8pt; color: #666; }
+      .document-footer { padding: 12mm 0 0; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important; }
+    }
+  </style>
+<body>
+  <div class="reading-progress" aria-hidden="true"></div>
+
+  <header class="topbar" aria-label="Панель документа">
+    <div class="wordmark">LVMN · Content OS</div>
+    <div class="toolbar">
+      <a class="tool-button" href="content-os-starter.zip" download>Скачать код</a>
+      <a class="tool-button" href="codex_content_os_guide.pdf" download>Скачать PDF</a>
+      <button class="tool-button" id="tocToggle" type="button" aria-expanded="false">Оглавление</button>
+    </div>
+  </header>
+
+  <aside class="toc-drawer" id="tocDrawer" aria-label="Оглавление" data-open="false">
+    <button class="tool-button toc-close" id="tocClose" type="button">Закрыть</button>
+    <h2 class="toc-heading">Оглавление</h2>
+    <nav id="TOC" aria-label="Разделы документа">
+    <ul>
+    <li><a href="#quick-start" id="toc-quick-start">Быстрый старт — первый Reel за 15 минут</a></li>
+    <li><a href="#1-ваша-цель-и-итоговая-система"
+    id="toc-1-ваша-цель-и-итоговая-система">1. Ваша цель и итоговая система</a></li>
+    <li><a href="#2-исходная-точка-и-задачи"
+    id="toc-2-исходная-точка-и-задачи">2. Исходная точка и задачи</a></li>
+    <li><a href="#3-аккаунты-и-направления"
+    id="toc-3-аккаунты-и-направления">3. Аккаунты и направления</a></li>
+    <li><a href="#4-что-входит-в-первую-неделю-а-что-нет"
+    id="toc-4-что-входит-в-первую-неделю-а-что-нет">4. Результат первой недели</a></li>
+    <li><a href="#5-архитектура-системы"
+    id="toc-5-архитектура-системы">5. Архитектура системы</a></li>
+    <li><a href="#6-основа-уже-есть-что-можно-переиспользовать"
+    id="toc-6-основа-уже-есть-что-можно-переиспользовать">6. Технологическая основа</a></li>
+    <li><a href="#7-предлагаемая-структура-рабочего-пространства"
+    id="toc-7-предлагаемая-структура-рабочего-пространства">7. Структура вашего рабочего пространства</a></li>
+    <li><a href="#8-монтажный-конвейер-codex"
+    id="toc-8-монтажный-конвейер-codex">8. Монтажный конвейер
+    Codex</a></li>
+    <li><a href="#9-разговорные-ролики-и-аватар"
+    id="toc-9-разговорные-ролики-и-аватар">9. Разговорные ролики и
+    аватар</a></li>
+    <li><a href="#10-какие-skills-подключить"
+    id="toc-10-какие-skills-подключить">10. Какие skills
+    подключить</a></li>
+    <li><a href="#11-как-вы-будете-пользоваться-системой"
+    id="toc-11-как-вы-будете-пользоваться-системой">11. Как вы будете пользоваться системой</a></li>
+    <li><a href="#12-сервисы-и-роли" id="toc-12-сервисы-и-роли">12.
+    Сервисы и роли</a></li>
+    <li><a href="#13-chatgpt-desktop-и-codex-cli-два-интерфейса"
+    id="toc-13-chatgpt-desktop-и-codex-cli-два-интерфейса">13. ChatGPT
+    Desktop и Codex CLI: два интерфейса</a></li>
+    <li><a href="#14-chatplace-что-именно-настраивать"
+    id="toc-14-chatplace-что-именно-настраивать">14. ChatPlace: что
+    именно настраивать</a></li>
+    <li><a href="#15-автопубликация" id="toc-15-автопубликация">15.
+    Автопубликация</a></li>
+    <li><a href="#16-контентная-логика-по-направлениям"
+    id="toc-16-контентная-логика-по-направлениям">16. Контентная логика
+    по направлениям</a></li>
+    <li><a href="#17-ваш-семидневный-план-внедрения"
+    id="toc-17-ваш-семидневный-план-внедрения">17.
+    Ваш семидневный план внедрения</a></li>
+    <li><a href="#18-как-будет-устроено-сопровождение"
+    id="toc-18-как-будет-устроено-сопровождение">18. Как будет устроено сопровождение</a></li>
+    <li><a href="#19-критерии-готовности"
+    id="toc-19-критерии-готовности">19. Критерии готовности</a></li>
+    <li><a href="#20-метрики" id="toc-20-метрики">20. Метрики</a></li>
+    <li><a href="#21-безопасность-и-приватность"
+    id="toc-21-безопасность-и-приватность">21. Безопасность и
+    приватность</a></li>
+    <li><a href="#22-ответы-на-ваши-вопросы"
+    id="toc-22-ответы-на-ваши-вопросы">22. Ответы на ваши вопросы</a></li>
+    <li><a href="#23-что-нужно-согласовать-до-старта"
+    id="toc-23-что-нужно-согласовать-до-старта">23. Что нужно согласовать до старта</a></li>
+    <li><a href="#24-актуальные-официальные-источники"
+    id="toc-24-актуальные-официальные-источники">24. Актуальные
+    официальные источники</a></li>
+    <li><a href="#25-итоговая-модель-работы"
+    id="toc-25-итоговая-модель-работы">25. Итоговая модель работы</a></li>
+    <li><a href="#26-с-чего-начинается-работа"
+    id="toc-26-с-чего-начинается-работа">26. С чего начинается работа</a></li>
+    <li><a href="#27-технический-стартовый-пакет"
+    id="toc-27-технический-стартовый-пакет">27. Технический стартовый пакет</a></li>
+    <li><a href="#28-установка-codex"
+    id="toc-28-установка-codex">28. Установка Codex</a></li>
+    <li><a href="#29-установка-монтажных-зависимостей"
+    id="toc-29-установка-монтажных-зависимостей">29. Установка монтажных
+    зависимостей</a></li>
+    <li><a href="#30-готовый-каркас-agentsmd"
+    id="toc-30-готовый-каркас-agentsmd">30. Готовый каркас
+    <code>AGENTS.md</code></a></li>
+    <li><a href="#31-готовый-каркас-reel-skill"
+    id="toc-31-готовый-каркас-reel-skill">31. Готовый каркас
+    <code>$reel</code>-skill</a></li>
+    <li><a href="#32-остальные-skills-минимальные-спецификации"
+    id="toc-32-остальные-skills-минимальные-спецификации">32. Остальные
+    skills: минимальные спецификации</a></li>
+    <li><a href="#33-техническое-тз-на-развитие-стартового-pipeline"
+    id="toc-33-техническое-тз-на-развитие-стартового-pipeline">33.
+    Техническое ТЗ на развитие стартового
+    <code>reels</code>-pipeline</a></li>
+    <li><a href="#34-первая-тестовая-задача-для-нового-pipeline"
+    id="toc-34-первая-тестовая-задача-для-нового-pipeline">34. Первая
+    тестовая задача для нового pipeline</a></li>
+    <li><a href="#35-команды-по-дням"
+    id="toc-35-команды-по-дням">35. Практические команды по дням</a></li>
+    <li><a
+    href="#36-как-понять-что-внедрение-действительно-состоялось"
+    id="toc-36-как-понять-что-внедрение-действительно-состоялось">36. Итог семи рабочих дней</a></li>
+    </ul>
+    </nav>
+  </aside>
+  <div class="scrim" id="scrim" data-open="false"></div>
+
+  <header class="cover">
+    <div class="cover-inner">
+      <div class="eyebrow">Стратегия · Контент · Автоматизация</div>
+      <h1 class="document-title" data-pretext>Content OS для <em>Codex и Claude Code</em></h1>
+      <p class="lede" data-pretext>Пошаговое руководство: от папки с исходниками до готового Reel, публикации и квалифицированной заявки.</p>
+      <div class="cover-meta">
+        <span>v1.3 · Обновлено 21 августа 2026</span>
+        <span>36 разделов + рабочий стартовый код</span>
+        <span>Практическое руководство</span>
+      </div>
+    </div>
+  </header>
+
+  <section class="intro-band" aria-label="Главная идея">
+    <div class="intro-band-inner">
+      <div class="intro-index" aria-hidden="true">01</div>
+      <p class="intro-copy" data-pretext>Вам не придётся изучать пятнадцать сервисов. Вы соберёте один центр управления, где Codex анализирует материалы, предлагает идеи, монтирует и передаёт работу дальше.</p>
+    </div>
+  </section>
+
+  <main class="layout">
+    <article class="reading-column">
+      <section class="quickstart" id="quick-start" aria-label="Быстрый старт">
+      <span class="quickstart-eyebrow">Прежде чем читать дальше</span>
+      <h2>Первый Reel за 15 минут</h2>
+      <p>В комплекте с гайдом идёт <code>content-os-starter</code> — рабочий
+      код, а не только описание: пять фото и один аудиотрек, автоматически
+      нарезанные и склеенные в такт биту без единой ручной правки в
+      видеоредакторе. Прежде чем читать 36 разделов архитектуры, получите
+      такой же результат сами — это займёт 15 минут и не требует Codex:</p>
+      <ol type="1">
+      <li>Распакуйте <code>content-os-starter.zip</code>, откройте папку в
+      терминале и выполните <code>npm install</code>.</li>
+      <li>Замените 3–5 фото и музыкальный трек в
+      <code>examples/studio-clean-demo/photo</code> и
+      <code>examples/studio-clean-demo/music</code> на свои.</li>
+      <li>Выполните <code>npm run demo:studio-clean</code> — это по очереди
+      прогонит <code>ingest</code>, <code>analyze</code> (в том числе
+      реальное определение битов трека), автоматическую нарезку фото под
+      биты и <code>qa</code>. Если хотите видеть каждый шаг отдельно —
+      команды разложены в разделе 27.</li>
+      <li>Откройте <code>examples/studio-clean-demo/output/reel.mp4</code>.
+      Это именно то видео выше, только из ваших материалов.</li>
+      </ol>
+      <p>Если на этом шаге всё получилось — дальше идёт объяснение, как
+      это устроено и как расширить систему под ваш бренд и Codex. Если
+      что-то не запустилось — раздел 29 (установка зависимостей) и README
+      внутри архива покрывают типичные ошибки по шагам.</p>
+      </section>
+      <section id="1-ваша-цель-и-итоговая-система"
+      class="level2">
+      <h2>1. Ваша цель и итоговая система</h2>
+      <p>Вместо набора разрозненных нейросетей вы получите одну
+      понятную систему, в которой вы:</p>
+      <ol type="1">
+      <li>складываете фото, видео, музыку и короткие вводные в
+      папку;</li>
+      <li>запускаете Codex одной командой или пишете задачу обычным
+      языком;</li>
+      <li>Codex сам разбирает материалы, предлагает концепцию, хук
+      и структуру;</li>
+      <li>сам создаёт монтажный план;</li>
+      <li>сам монтирует Reel через FFmpeg/Remotion;</li>
+      <li>сам создаёт субтитры, текстовые вставки, переходы, B-roll и
+      варианты обложки;</li>
+      <li>адаптирует готовый материал под Instagram, Telegram, MAX и
+      ВК;</li>
+      <li>после подтверждения ставит публикации в очередь;</li>
+      <li>ведёте человека из Reel в Direct-воронку ChatPlace и получаете
+      уже квалифицированную заявку.</li>
+      </ol>
+      <p>Центр системы — <strong>Codex</strong>. Он придумывает,
+      принимает решения и управляет локальными инструментами. FFmpeg,
+      Remotion, Whisper, HeyGen, ChatPlace и PostMyPost — исполнительные
+      модули, которыми Codex управляет.</p>
+      <p>Как будет выглядеть работа:</p>
+      <blockquote>
+      <p>Вы настроите рабочее место, где добавляете материалы и
+      описываете задачу, а Codex сам превращает их в концепцию,
+      сценарий, монтаж, тексты и готовые файлы. На старте вы
+      подтверждаете идею и финальный ролик. Когда стиль стабилизируется,
+      часть подтверждений можно убрать.</p>
+      </blockquote>
+      <p>Важно: система не обещает «гарантированно вирусный Reel одной кнопкой».
+      Она помогает быстро создавать и тестировать сильные варианты, но
+      вирусность зависит от исходников, идеи, упаковки, публикации и
+      реакции аудитории.</p>
+      <p>И ещё важнее: это руководство — архитектура и пошаговый план
+      сборки, а не готовая кнопка «нажал и получил Reel». Разделы 28–33
+      дают установку, каркас <code>AGENTS.md</code>, спецификации skills и
+      техническое ТЗ на монтажный движок. Часть этого ТЗ уже реализована в
+      стартовом коде <code>content-os-starter</code>, который прилагается к
+      гайду (раздел 27) — он реально запускается и рендерит Reel из
+      тестовой папки. Но под ваши материалы, бренд и визуальный стиль его
+      придётся дорабатывать: это дни работы с Codex, а не пять минут чтения.
+      Гайд рассчитан на читателя, который готов работать в терминале, ставить
+      npm-зависимости и разбираться в ошибках рендера вместе с Codex — либо
+      на того, кто закажет доводку до готового состояния отдельно.</p>
+      </section>
+      <section id="2-исходная-точка-и-задачи" class="level2">
+      <h2>2. Исходная точка и задачи</h2>
+      <section id="текущая-ситуация" class="level3">
+      <h3>Текущая ситуация</h3>
+      <ul>
+      <li>Это руководство не привязано к одному AI-провайдеру: логика —
+      папка с исходниками, brand-контекст, edit_plan.json, skills —
+      написана сразу под два инструмента, <strong>OpenAI Codex</strong> и
+      <strong>Claude Code</strong>. Выбирайте любой из них или используйте
+      оба параллельно на разных задачах — все команды и файлы в гайде
+      даны для обоих. Единственная разница — на чём подписан ваш AI и
+      как называется конфиг-файл (<code>AGENTS.md</code> у Codex,
+      <code>CLAUDE.md</code> у Claude Code); сама архитектура одна.</li>
+      <li>Если вам ближе Codex: он идёт в комплекте с подпиской ChatGPT,
+      которая у многих читателей уже есть, — не нужно заводить отдельный
+      аккаунт. Если вам ближе Claude Code: по опыту практиков он часто
+      увереннее держит длинные многофайловые сессии редактирования кода —
+      это субъективное наблюдение сообщества, а не измеренный бенчмарк,
+      но для монтажного pipeline из раздела 8 это может быть заметно на
+      практике. Требует отдельного тарифа Claude (Pro, Max, Team,
+      Enterprise или Console) — бесплатный план claude.ai доступа к
+      Claude Code не даёт.</li>
+      <li>Если у вас уже есть ChatGPT, на старте проверьте свой тариф,
+      доступные лимиты Codex и вход под тем же аккаунтом. Если выбираете
+      Claude Code — проверьте, что у вас Pro/Max/Team/Enterprise или
+      настроен Console-биллинг.</li>
+      <li>Codex: основной интерфейс — режим Codex в приложении ChatGPT
+      Desktop, Codex CLI оставляем для диагностики и повторяемых команд.
+      Claude Code: аналогично — вкладка «Code» в приложении Claude Desktop
+      для работы без терминала, и CLI-команда <code>claude</code> для
+      диагностики и повторяемых команд. Подробнее — раздел 13.</li>
+      <li>Если ваш Instagram-профиль уже подключался к похожим сервисам
+      (Virale, ManyChat, ChatPlace и подобным), перед настройкой новой
+      воронки проверьте текущие подключения и доступы.</li>
+      <li>У большинства читателей значительная часть контента сейчас
+      собирается вручную, а задачи распределены между несколькими
+      сервисами — это нормальная стартовая точка.</li>
+      <li>Цель внедрения — получить повторяемый процесс, который можно
+      запускать самостоятельно без постоянного заказа монтажа на
+      стороне.</li>
+      <li>Дальше вы будете работать с системой в чате: короткие
+      команды, практика на своих материалах и сохранённые регламенты в
+      <code>AGENTS.md</code>.</li>
+      </ul>
+      </section>
+      <section id="ваши-основные-задачи" class="level3">
+      <h3>Ваши основные задачи</h3>
+      <p>Ниже — типичный набор задач, с которым к такой системе
+      приходят фотографы, мастера на заказ и небольшие бренды. Не все
+      пункты обязательно относятся к вам — ориентируйтесь на свои
+      приоритеты.</p>
+      <ol type="1">
+      <li>Продвинутый монтаж Reels из фото, видео и музыки.</li>
+      <li>Автоматический выбор сильных моментов, склейка под биты,
+      переходы, хуки, мемные вставки и субтитры.</li>
+      <li>Понимание разницы между обычным ChatGPT, режимом Codex и
+      отдельным API-биллингом.</li>
+      <li>Собственный цифровой аватар с единым фоном, одеждой и
+      стилем.</li>
+      <li>Разговорные ролики с суфлёром, субтитрами, примерами работ,
+      блоками «до/после» и ценами.</li>
+      <li>Автопубликация в Instagram, Telegram, MAX и ВК.</li>
+      <li>Аудит соцсетей, переупаковка, воронки и боты для заказов.</li>
+      <li>Контент-система для второго профиля с другой аудиторией:
+      портфолио, кейсы и профессиональное развитие для нужной вам
+      категории людей — заказчиков, партнёров, работодателей.</li>
+      </ol>
+      </section>
+      </section>
+      <section id="3-аккаунты-и-направления" class="level2">
+      <h2>3. Аккаунты и направления</h2>
+      <p>Дальше в этом руководстве мы используем один сквозной пример:
+      небольшая студия, которая превращает фото заказчика в готовое
+      изделие — например, портрет на холсте. Если вы продаёте что-то
+      другое, шаги остаются теми же — меняется только тип исходников и
+      готового продукта. Ниже — типичная карта аккаунтов для такого
+      бизнеса.</p>
+      <table>
+      <thead>
+      <tr>
+      <th>Направление</th>
+      <th>Площадка</th>
+      <th>Цель</th>
+      <th>Приоритет</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+      <td>Основной бренд</td>
+      <td>Instagram <code>@yourbrand</code></td>
+      <td>Заказы по фотографии</td>
+      <td>Главный коммерческий поток</td>
+      </tr>
+      <tr>
+      <td>Основной бренд</td>
+      <td>Telegram <code>@yourbrand_channel</code></td>
+      <td>Доверие, кейсы, процесс, новости и продажи</td>
+      <td>Подключить к переиспользованию контента</td>
+      </tr>
+      <tr>
+      <td>Основной бренд</td>
+      <td>MAX</td>
+      <td>Дублирование ключевого контента и заявки</td>
+      <td>Подключить к публикационному контуру</td>
+      </tr>
+      <tr>
+      <td>Основной бренд</td>
+      <td>ВК, сообщество/канал</td>
+      <td>Контент и заявки внутри экосистемы ВК</td>
+      <td>Проверить фактический тип ресурса и права</td>
+      </tr>
+      <tr>
+      <td>Второй профиль (пример: портфолио для другого человека или
+      ниши)</td>
+      <td>Instagram</td>
+      <td>Контракты, кастинги, показ работ — для профессии, где важно
+      портфолио</td>
+      <td>Второй поток после запуска основной системы</td>
+      </tr>
+      <tr>
+      <td>Архивный/коллекционный канал (опционально)</td>
+      <td>Telegram</td>
+      <td>Наследие, архив, продажа отдельных работ коллекционерам</td>
+      <td>Отдельный контент-пакет, не смешивать с основным</td>
+      </tr>
+      </tbody>
+      </table>
+      <p>Это может быть три-четыре разные аудитории. Нельзя вести все
+      аккаунты одним стилем и одним универсальным промптом.</p>
+      </section>
+      <section id="4-что-входит-в-первую-неделю-а-что-нет"
+      class="level2">
+      <h2>4. Результат первой недели</h2>
+      <section id="реалистичный-результат-семи-рабочих-дней"
+      class="level3">
+      <h3>Что будет готово за семь рабочих дней</h3>
+      <ul>
+      <li>Codex установлен и работает на вашем компьютере.</li>
+      <li>Создан отдельный локальный workspace для контента.</li>
+      <li>Созданы два бренд-контекста: <code>studio</code> и
+      <code>second</code>.</li>
+      <li>Система принимает папку с материалами и составляет индекс
+      исходников.</li>
+      <li>Работает транскрибация речи и извлечение кадров из видео.</li>
+      <li>Codex создаёт концепцию, три варианта хука и
+      <code>edit_plan.json</code>.</li>
+      <li>Работает минимум один шаблон монтажа для динамического Reel из
+      материалов.</li>
+      <li>Работает минимум один шаблон разговорного Reel с субтитрами и
+      вставками.</li>
+      <li>Получены 2–3 готовых ролика, на которых зафиксирован
+      визуальный стиль.</li>
+      <li>Создана пошаговая инструкция для самостоятельной работы.</li>
+      <li>Подготовлена и протестирована одна Instagram-воронка для
+      <code>@yourbrand</code>.</li>
+      <li>Настроен тестовый контур публикации минимум для Instagram,
+      Telegram, MAX и ВК либо зафиксированы конкретные ограничения
+      доступа.</li>
+      </ul>
+      </section>
+      <section id="не-обещать-как-полностью-завершённое-за-неделю"
+      class="level3">
+      <h3>Что станет следующим этапом развития</h3>
+      <ul>
+      <li>идеально монтирующую систему для любого типа исходников;</li>
+      <li>полностью автономного креативного директора без проверки
+      человеком;</li>
+      <li>десятки стилей монтажа;</li>
+      <li>стабильный цифровой аватар во всех ракурсах и одежде;</li>
+      <li>автопубликацию во все семь ресурсов без индивидуальной
+      настройки прав;</li>
+      <li>полноценную CRM, оплату, сложный Telegram/MAX-бот и сквозную
+      аналитику;</li>
+      <li>гарантированный рост охватов или продаж.</li>
+      </ul>
+      <p>Первая неделя даст рабочую первую версию и навык самостоятельного
+      использования. Дальше вы расширяете готовые шаблоны, а не
+      переписываете систему с нуля.</p>
+      </section>
+      </section>
+      <section id="5-архитектура-системы" class="level2">
+      <h2>5. Архитектура системы</h2>
+      <p>Система устроена как один последовательный маршрут. Вы задаёте
+      цель и добавляете материалы, а Codex управляет анализом,
+      монтажом, проверкой, публикацией и заявочной воронкой.</p>
+      <pre class="mermaid"><code>flowchart TB
+    A[&quot;01 · ВЫ ДОБАВЛЯЕТЕ МАТЕРИАЛЫ&lt;br/&gt;Фото · видео · музыка · цель&quot;]
+    B[&quot;02 · CODEX РАЗБИРАЕТ ИСХОДНИКИ&lt;br/&gt;FFmpeg · Whisper · ключевые кадры · ритм&quot;]
+    C[&quot;03 · CODEX ПРИДУМЫВАЕТ&lt;br/&gt;Концепция · хук · сценарий · CTA&quot;]
+    D[&quot;04 · СОЗДАЁТСЯ МОНТАЖНЫЙ ПЛАН&lt;br/&gt;concept.md + edit_plan.json&quot;]
+    E[&quot;05 · СОБИРАЕТСЯ РОЛИК&lt;br/&gt;Remotion + FFmpeg&quot;]
+    F[&quot;06 · АВТОМАТИЧЕСКАЯ ПРОВЕРКА&lt;br/&gt;Формат · звук · субтитры · safe zones&quot;]
+    G{&quot;07 · ВЫ УТВЕРЖДАЕТЕ ПРЕВЬЮ&quot;}
+    H[&quot;ПРАВКА ОБЫЧНЫМ ЯЗЫКОМ&lt;br/&gt;Codex обновляет план и пересобирает версию&quot;]
+    I[&quot;08 · ПОДГОТОВКА И ПУБЛИКАЦИЯ&lt;br/&gt;Instagram · Telegram · MAX · ВК&quot;]
+    J[&quot;09 · CHATPLACE ОБРАБАТЫВАЕТ ОТКЛИК&lt;br/&gt;Кодовое слово · вопросы · квалификация&quot;]
+    K[&quot;РЕЗУЛЬТАТ&lt;br/&gt;Контент опубликован · заявка приходит вам&quot;]
+
+    A --&gt; B --&gt; C --&gt; D --&gt; E --&gt; F --&gt; G
+    G --&gt;|Нужны правки| H
+    H --&gt; C
+    G --&gt;|Утверждено| I --&gt; J --&gt; K
+
+    classDef start fill:#f0e9dd,stroke:#ae4935,color:#20231f,stroke-width:2px;
+    classDef work fill:#e7dfd1,stroke:#8b806f,color:#20231f,stroke-width:1.5px;
+    classDef decision fill:#ae4935,stroke:#ae4935,color:#ffffff,stroke-width:2px;
+    classDef action fill:#31463a,stroke:#31463a,color:#ffffff,stroke-width:2px;
+    classDef result fill:#20231f,stroke:#d8785f,color:#ffffff,stroke-width:2px;
+    class A start;
+    class B,C,D,E,F work;
+    class G decision;
+    class H,I,J action;
+    class K result;
+    linkStyle default stroke:#d8785f,stroke-width:2px;</code></pre>
+      <section id="что-здесь-делает-codex" class="level3">
+      <h3>Что здесь делает Codex</h3>
+      <ul>
+      <li>читает брендовые инструкции и бизнес-цели;</li>
+      <li>просматривает изображения и contact sheets;</li>
+      <li>работает с транскриптами и таймкодами;</li>
+      <li>выбирает сильные фрагменты;</li>
+      <li>придумывает идею, хук, CTA и варианты подачи;</li>
+      <li>создаёт строгий монтажный план;</li>
+      <li>запускает локальные скрипты;</li>
+      <li>рендерит и проверяет результат;</li>
+      <li>вносит правки по обычной фразе пользователя;</li>
+      <li>готовит варианты под каждую соцсеть;</li>
+      <li>после разрешения обращается к API публикации и воронки.</li>
+      </ul>
+      </section>
+      <section id="что-codex-не-делает-магически" class="level3">
+      <h3>Что Codex не делает «магически»</h3>
+      <p>Codex не смотрит MP4 так же, как человек смотрит ролик на
+      таймлайне. Поэтому видео сначала превращается в машинно-читаемый
+      набор:</p>
+      <ul>
+      <li><code>ffprobe</code>-метаданные;</li>
+      <li>аудиодорожка;</li>
+      <li>транскрипт с таймкодами;</li>
+      <li>ключевые кадры;</li>
+      <li>контактный лист;</li>
+      <li>сцены и моменты смены кадра;</li>
+      <li>пики громкости и биты;</li>
+      <li>при необходимости — описание каждого фрагмента.</li>
+      </ul>
+      <p>После этого Codex принимает креативные решения и передаёт их
+      детерминированному монтажному движку.</p>
+      </section>
+      </section>
+      <section id="6-основа-уже-есть-что-можно-переиспользовать"
+      class="level2">
+      <h2>6. Технологическая основа</h2>
+      <p>В качестве основы используется уже работающий прототип
+      монтажного конвейера. Это позволяет начать с реальных роликов, а
+      не тратить первую неделю на создание технического ядра с нуля.</p>
+      <p>Он уже умеет:</p>
+      <ul>
+      <li>принимать markdown-бриф;</li>
+      <li>транскрибировать face-cam через Whisper;</li>
+      <li>кешировать транскрипты;</li>
+      <li>приводить мобильные видео к стабильному H.264/30 fps;</li>
+      <li>рендерить вертикальное видео 1080×1920 через Remotion;</li>
+      <li>делать karaoke-субтитры;</li>
+      <li>накладывать хук;</li>
+      <li>показывать face-cam полноэкранно или в split-layout со
+      скринкастом;</li>
+      <li>запускаться одной командой через локальный skill
+      <code>reel</code>.</li>
+      </ul>
+      <p>Перед внедрением прототип нужно очистить от старого брендинга и
+      дополнить под ваши задачи. В первой версии нужно добавить:</p>
+      <ul>
+      <li>работу с набором из десятков фото и видео;</li>
+      <li>автоматический отбор сцен;</li>
+      <li>анализ музыки и beat-sync;</li>
+      <li><code>edit_plan.json</code> с произвольным таймлайном;</li>
+      <li>несколько визуальных пресетов;</li>
+      <li>B-roll, фото «до/после», цен и карточек продукта;</li>
+      <li>брендовые профили для <code>studio</code> и
+      <code>second</code>;</li>
+      <li>генерацию трёх концепций;</li>
+      <li>проверку финального ролика по кадрам;</li>
+      <li>публикацию и аналитический feedback loop.</li>
+      </ul>
+      <p>Правильный путь: сделать отдельную чистую версию проекта, а не
+      менять настройки исходного прототипа глобально.</p>
+      <p>Часть этого списка не нужно строить с нуля. К гайду прилагается
+      <code>content-os-starter</code> — рабочий референс-каркас, который уже
+      умеет принимать job-папку, строить <code>manifest.json</code> через
+      <code>ffprobe</code>, вытаскивать ключевые кадры, рендерить
+      <code>edit_plan.json</code> в вертикальный mp4 через FFmpeg и
+      проверять результат по формату, длительности и звуку (раздел 27).
+      Рендер сделан на чистом FFmpeg, а не на Remotion, специально: так
+      старт работает на любой машине без headless-браузера и лишних
+      мегабайтов зависимостей; переход на Remotion — это апгрейд для более
+      сложной графики, а не обязательное условие для первого рабочего Reel.
+      Это честный v0, а не готовая production-система: транскрипция речи,
+      автоматический отбор сцен и визуальные пресеты в нём — заготовки,
+      которые вы или Codex достраиваете под свой стиль и объём материала.
+      Но для монтажа фото под музыку beat-sync в нём уже настоящий, а не
+      симуляция: реальный анализ трека по амплитудной огибающей находит
+      биты и темп, и автоматическая нарезка кадров под них запускается
+      одной командой (раздел «Первый Reel за 15 минут» выше). Так первую
+      неделю вы начинаете с рабочего ядра, а не с чистого листа.</p>
+      </section>
+      <section id="7-предлагаемая-структура-рабочего-пространства"
+      class="level2">
+      <h2>7. Структура вашего рабочего пространства</h2>
+      <pre class="text"><code>content-os/
+├── AGENTS.md
+├── .env.example
+├── .gitignore
+├── .agents/
+│   └── skills/
+│       ├── content-director/SKILL.md
+│       ├── reel/SKILL.md
+│       ├── talking-head/SKILL.md
+│       ├── repurpose/SKILL.md
+│       ├── publish/SKILL.md
+│       └── analytics/SKILL.md
+├── brands/
+│   ├── studio/
+│   │   ├── brand.md
+│   │   ├── offer.md
+│   │   ├── prices.md
+│   │   ├── faq.md
+│   │   ├── visual.json
+│   │   └── examples/
+│   ├── second/
+│   │   ├── positioning.md
+│   │   ├── portfolio-facts.md
+│   │   ├── visual.json
+│   │   └── examples/
+│   └── archive/
+├── inbox/
+│   └── 2026-08-example-job/
+│       ├── request.md
+│       ├── video/
+│       ├── photo/
+│       └── music/
+├── work/
+│   └── 2026-08-example-job/
+│       ├── manifest.json
+│       ├── transcript.json
+│       ├── frames/
+│       ├── contact-sheet.jpg
+│       ├── beats.json
+│       ├── concept.md
+│       └── edit_plan.json
+├── templates/
+│   ├── montage/
+│   ├── talking-head/
+│   └── portfolio/
+├── output/
+│   └── 2026-08-example-job/
+│       ├── reel-v1.mp4
+│       ├── reel-v2.mp4
+│       ├── cover.jpg
+│       ├── captions.srt
+│       └── platform-copy.md
+└── analytics/
+    └── content-results.csv</code></pre>
+      <section id="пример-requestmd" class="level3">
+      <h3>Пример <code>request.md</code></h3>
+      <div class="sourceCode" id="cb3"><pre
+      class="sourceCode md"><code class="sourceCode markdown"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu"># Задача</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>Аккаунт: studio</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>Цель: получить заявки на ваш продукт по фотографии</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>Формат: динамический Reel</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>Длительность: 25–35 секунд</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>Исходники: использовать всё из текущей папки</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>Музыка: <span class="in">`music/main-track.mp3`</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>Обязательные элементы:</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>показать исходную фотографию;</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>показать 2–3 этапа работы;</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>показать готовый результат крупно;</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>добавить цену «от ...» только если она подтверждена в <span class="in">`prices.md`</span>;</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>CTA: написать слово «ЗАКАЗ».</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>Нельзя:</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>придумывать сроки или цены;</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>обещать результат, не подтверждённый в brand-файлах;</span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>использовать чужие работы;</span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>публиковать без подтверждения.</span></code></pre></div>
+      </section>
+      </section>
+      <section id="8-монтажный-конвейер-codex" class="level2">
+      <h2>8. Монтажный конвейер Codex</h2>
+      <section id="шаг-1-приём-и-индексирование-исходников"
+      class="level3">
+      <h3>Шаг 1. Приём и индексирование исходников</h3>
+      <p>Codex:</p>
+      <ol type="1">
+      <li>проверяет структуру входной папки;</li>
+      <li>считает длительность, разрешение, fps, кодек и ориентацию
+      каждого файла;</li>
+      <li>определяет вертикальные и горизонтальные исходники;</li>
+      <li>отмечает дубли и битые файлы;</li>
+      <li>создаёт <code>manifest.json</code>;</li>
+      <li>при необходимости приводит копии к CFR 30 fps, не трогая
+      оригиналы.</li>
+      </ol>
+      </section>
+      <section id="шаг-2-разбор-содержания" class="level3">
+      <h3>Шаг 2. Разбор содержания</h3>
+      <ul>
+      <li>Whisper делает транскрипцию речи с таймкодами слов.</li>
+      <li>FFmpeg извлекает ключевые кадры и contact sheets.</li>
+      <li>Scene detection отмечает смены планов.</li>
+      <li>Codex описывает содержание кадров и выделяет лучшие
+      фрагменты.</li>
+      <li>Для фото фиксируются сюжет, качество, крупность, ориентация и
+      возможная роль: обложка, доказательство, процесс, «до/после»,
+      CTA.</li>
+      </ul>
+      </section>
+      <section id="шаг-3-анализ-музыки" class="level3">
+      <h3>Шаг 3. Анализ музыки</h3>
+      <ul>
+      <li>Из трека извлекаются BPM, биты, дропы, тихие и активные
+      секции.</li>
+      <li>Создаётся <code>beats.json</code> с точными таймкодами.</li>
+      <li>Codex выбирает ритм монтажа: не каждый бит обязан быть
+      склейкой.</li>
+      <li>Коммерческая версия использует оригинальную или royalty-free
+      музыку.</li>
+      <li>Если нужен трендовый трек Instagram, основной Reel
+      экспортируется без защищённой музыки, а трек добавляется внутри
+      Instagram вручную.</li>
+      </ul>
+      </section>
+      <section id="шаг-4-креативная-концепция" class="level3">
+      <h3>Шаг 4. Креативная концепция</h3>
+      <p>Codex выдаёт три варианта:</p>
+      <ol type="1">
+      <li>самый понятный и коммерческий;</li>
+      <li>более эмоциональный/историйный;</li>
+      <li>более динамичный/экспериментальный.</li>
+      </ol>
+      <p>Для каждого:</p>
+      <ul>
+      <li>хук первых 1–2 секунд;</li>
+      <li>обещание зрителю;</li>
+      <li>последовательность сцен;</li>
+      <li>текст на экране;</li>
+      <li>музыкальная логика;</li>
+      <li>CTA;</li>
+      <li>риск или ограничение исходников.</li>
+      </ul>
+      <p>На первой неделе вы подтверждаете один вариант. После
+      накопления статистики система может выбирать сама по правилам.</p>
+      </section>
+      <section id="шаг-5-edit_planjson" class="level3">
+      <h3>Шаг 5. <code>edit_plan.json</code></h3>
+      <p>Пример сокращённой структуры:</p>
+      <div class="sourceCode" id="cb4"><pre
+      class="sourceCode json"><code class="sourceCode json"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;format&quot;</span><span class="fu">:</span> <span class="fu">{</span><span class="dt">&quot;width&quot;</span><span class="fu">:</span> <span class="dv">1080</span><span class="fu">,</span> <span class="dt">&quot;height&quot;</span><span class="fu">:</span> <span class="dv">1920</span><span class="fu">,</span> <span class="dt">&quot;fps&quot;</span><span class="fu">:</span> <span class="dv">30</span><span class="fu">},</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;brand&quot;</span><span class="fu">:</span> <span class="st">&quot;studio&quot;</span><span class="fu">,</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;durationSec&quot;</span><span class="fu">:</span> <span class="fl">29.5</span><span class="fu">,</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;hook&quot;</span><span class="fu">:</span> <span class="st">&quot;Она прислала обычное фото. Вот что получилось.&quot;</span><span class="fu">,</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;music&quot;</span><span class="fu">:</span> <span class="fu">{</span><span class="dt">&quot;file&quot;</span><span class="fu">:</span> <span class="st">&quot;music/main-track.mp3&quot;</span><span class="fu">,</span> <span class="dt">&quot;startSec&quot;</span><span class="fu">:</span> <span class="fl">12.4</span><span class="fu">},</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;timeline&quot;</span><span class="fu">:</span> <span class="ot">[</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">{</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&quot;from&quot;</span><span class="fu">:</span> <span class="fl">0.0</span><span class="fu">,</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&quot;to&quot;</span><span class="fu">:</span> <span class="fl">1.8</span><span class="fu">,</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&quot;source&quot;</span><span class="fu">:</span> <span class="st">&quot;photo/source.jpg&quot;</span><span class="fu">,</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&quot;effect&quot;</span><span class="fu">:</span> <span class="st">&quot;slow-zoom&quot;</span><span class="fu">,</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&quot;text&quot;</span><span class="fu">:</span> <span class="st">&quot;Обычное фото → готовое изделие&quot;</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span><span class="ot">,</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">{</span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&quot;from&quot;</span><span class="fu">:</span> <span class="fl">1.8</span><span class="fu">,</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&quot;to&quot;</span><span class="fu">:</span> <span class="fl">4.2</span><span class="fu">,</span></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&quot;source&quot;</span><span class="fu">:</span> <span class="st">&quot;video/process-01.mp4&quot;</span><span class="fu">,</span></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&quot;sourceIn&quot;</span><span class="fu">:</span> <span class="fl">3.1</span><span class="fu">,</span></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&quot;transition&quot;</span><span class="fu">:</span> <span class="st">&quot;beat-cut&quot;</span></span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span></span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>  <span class="ot">]</span><span class="fu">,</span></span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;captions&quot;</span><span class="fu">:</span> <span class="fu">{</span><span class="dt">&quot;enabled&quot;</span><span class="fu">:</span> <span class="kw">true</span><span class="fu">,</span> <span class="dt">&quot;preset&quot;</span><span class="fu">:</span> <span class="st">&quot;studio-clean&quot;</span><span class="fu">},</span></span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;cta&quot;</span><span class="fu">:</span> <span class="fu">{</span><span class="dt">&quot;text&quot;</span><span class="fu">:</span> <span class="st">&quot;Напишите «ЗАКАЗ» — рассчитаем стоимость&quot;</span><span class="fu">,</span> <span class="dt">&quot;from&quot;</span><span class="fu">:</span> <span class="fl">25.5</span><span class="fu">}</span></span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+      <p>JSON нужен не для красоты. Он отделяет решения Codex от
+      рендера и позволяет менять один элемент без пересборки всей
+      логики.</p>
+      </section>
+      <section id="шаг-6-рендер" class="level3">
+      <h3>Шаг 6. Рендер</h3>
+      <ul>
+      <li>Remotion отвечает за композицию, типографику, анимацию,
+      карточки цены, «до/после», safe zones и повторяемый дизайн.</li>
+      <li>FFmpeg отвечает за перекодирование, нарезку, звук,
+      нормализацию, склейки и технический экспорт.</li>
+      <li>Для каждого бренда используются свои цвета, шрифты,
+      расположение субтитров и CTA.</li>
+      <li>Результат: H.264/AAC, 1080×1920, 30 fps, плюс обложка и
+      <code>.srt</code>.</li>
+      </ul>
+      </section>
+      <section id="шаг-7-автопроверка" class="level3">
+      <h3>Шаг 7. Автопроверка</h3>
+      <p>Перед показом вам Codex должен:</p>
+      <ul>
+      <li>проверить, что файл открывается и имеет правильный
+      формат;</li>
+      <li>проверить длительность, разрешение, fps и аудиодорожку;</li>
+      <li>сделать contact sheet финального ролика;</li>
+      <li>найти чёрные/пустые кадры;</li>
+      <li>проверить, что текст не выходит за safe zones;</li>
+      <li>сверить субтитры с транскриптом;</li>
+      <li>проверить, что цена и факты взяты из брендовых файлов;</li>
+      <li>убедиться, что CTA присутствует;</li>
+      <li>сохранить отчёт <code>qa.md</code>.</li>
+      </ul>
+      </section>
+      <section id="шаг-8-правки-обычным-языком" class="level3">
+      <h3>Шаг 8. Правки обычным языком</h3>
+      <p>Примеры ваших команд:</p>
+      <pre class="text"><code>Сделай первые три секунды быстрее, убери второй кадр процесса,
+замени музыку на более спокойную и подними субтитры выше.</code></pre>
+      <pre class="text"><code>Оставь монтаж, но сделай ещё два варианта хука и разные обложки.</code></pre>
+      <p>Codex обновляет <code>edit_plan.json</code>, пересобирает
+      только нужные части и показывает новую версию.</p>
+      </section>
+      </section>
+      <section id="9-разговорные-ролики-и-аватар" class="level2">
+      <h2>9. Разговорные ролики и аватар</h2>
+      <section id="живой-talking-head--сначала" class="level3">
+      <h3>Живой talking-head — сначала</h3>
+      <p>Первый стабильный формат:</p>
+      <ol type="1">
+      <li>Codex изучает тему и пишет короткий сценарий.</li>
+      <li>Создаёт версию для суфлёра: короткие строки, разговорный язык,
+      пометки пауз.</li>
+      <li>Вы записываете вертикальное видео.</li>
+      <li>Pipeline удаляет длинные паузы, делает субтитры, добавляет
+      примеры работ, цены и «до/после».</li>
+      <li>Codex создаёт 2–3 варианта хука из одной записи.</li>
+      </ol>
+      </section>
+      <section id="цифровой-двойник--после-утверждения-живого-формата"
+      class="level3">
+      <h3>Цифровой двойник — после утверждения живого формата</h3>
+      <p>Подходящие исполнительные сервисы:</p>
+      <ul>
+      <li>Captions AI Twin — цифровой двойник, смена фона/одежды,
+      генерация из сценария;</li>
+      <li>HeyGen Digital Twin — персональный аватар по обучающему видео,
+      хорошо подходит для повторяемых роликов и API-контура.</li>
+      </ul>
+      <p>Codex должен:</p>
+      <ol type="1">
+      <li>написать сценарий;</li>
+      <li>отправить его в API выбранного сервиса;</li>
+      <li>дождаться готового аватарного клипа;</li>
+      <li>скачать клип в <code>work/</code>;</li>
+      <li>пропустить его через общий Remotion-пайплайн;</li>
+      <li>добавить реальные примеры работ, цены, B-roll и субтитры;</li>
+      <li>показать preview до публикации.</li>
+      </ol>
+      <p>Нельзя строить весь контент только на аватаре. Для физического
+      продукта критично показывать реальные материалы, руки, фактуру,
+      процесс и живого автора.</p>
+      </section>
+      </section>
+      <section id="10-какие-skills-подключить" class="level2">
+      <h2>10. Какие skills подключить</h2>
+      <section id="skills-для-вашего-codex" class="level3">
+      <h3>Skills для вашего Codex</h3>
+      <table>
+      <thead>
+      <tr>
+      <th>Skill</th>
+      <th>Задача</th>
+      <th>Что получает на входе</th>
+      <th>Что отдаёт</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+      <td><code>content-director</code></td>
+      <td>Выбирает тему и подачу на основе бизнеса, исходников и
+      метрик</td>
+      <td>бренд, цель, папка исходников</td>
+      <td>3 концепции и приоритет</td>
+      </tr>
+      <tr>
+      <td><code>reel</code></td>
+      <td>Полный цикл динамического Reel</td>
+      <td><code>request.md</code> + media</td>
+      <td><code>edit_plan.json</code>, mp4, cover, QA</td>
+      </tr>
+      <tr>
+      <td><code>talking-head</code></td>
+      <td>Сценарий, суфлёр, субтитры и B-roll</td>
+      <td>тема или запись</td>
+      <td>script, teleprompter, mp4</td>
+      </tr>
+      <tr>
+      <td><code>repurpose</code></td>
+      <td>Делает платформенные версии</td>
+      <td>утверждённый master-контент</td>
+      <td>Instagram/TG/MAX/VK тексты и файлы</td>
+      </tr>
+      <tr>
+      <td><code>publish</code></td>
+      <td>Ставит утверждённое в очередь</td>
+      <td>package + дата</td>
+      <td>черновики/очередь PostMyPost</td>
+      </tr>
+      <tr>
+      <td><code>analytics</code></td>
+      <td>Замыкает feedback loop</td>
+      <td>метрики публикаций</td>
+      <td>разбор и новые правила</td>
+      </tr>
+      </tbody>
+      </table>
+      </section>
+      <section id="brand-skillsконтексты" class="level3">
+      <h3>Brand skills/контексты</h3>
+      <p>Нужны минимум два независимых пакета:</p>
+      <ul>
+      <li><code>studio-brand</code>: оффер, цены, сроки, FAQ,
+      доставка, визуальный стиль, допустимые обещания, CTA;</li>
+      <li><code>second-brand</code>: позиционирование для того, кто
+      принимает решение (заказчика, работодателя, агентства),
+      подтверждённые достижения, портфолио, языки, география и
+      контакты.</li>
+      </ul>
+      <p><code>archive-brand</code> создаётся отдельно, если у вас есть
+      такой третий поток и найдётся время на него.</p>
+      </section>
+      <section id="базовые-skills-для-адаптации"
+      class="level3">
+      <h3>Базовые skills для адаптации</h3>
+      <ul>
+      <li><code>reel</code> — рабочий прототип рендера, но его нужно
+      отвязать от исходного демо-бренда;</li>
+      <li><code>content-strategy</code> — логика рубрик, целей и
+      контентных опор;</li>
+      <li><code>social-content</code> — адаптация контента и
+      календарь;</li>
+      <li><code>chatplace</code> — создание и управление
+      Instagram-воронками;</li>
+      <li><code>postmypost</code> — публикация через API;</li>
+      <li><code>carousel-designer</code> — позже, для каруселей с
+      кейсами и «до/после».</li>
+      </ul>
+      <p>Перед установкой skills нужно очистить от старых путей,
+      брендинга и настроек других проектов. Все токены и API-ключи хранятся
+      в <code>.env</code>, а не внутри <code>SKILL.md</code>.</p>
+      <p><code>chatplace</code>, <code>postmypost</code> и монтажные
+      skills — это проектные workflows, а не встроенные функции Codex.
+      Skill описывает последовательность действий; реальную работу с
+      сервисом выполняют его API, MCP/plugin или локальный скрипт.</p>
+      </section>
+      <section id="как-skills-подключаются-в-codex"
+      class="level3">
+      <h3>Как skills подключаются в Codex</h3>
+      <p>Структура:</p>
+      <pre class="text"><code>.agents/skills/reel/SKILL.md
+.agents/skills/content-director/SKILL.md</code></pre>
+      <p>Codex автоматически видит skills по их описанию. Для
+      предсказуемой работы вызывайте их явно: <code>$reel</code>,
+      <code>$content-director</code> и т. д. В Codex CLI список можно
+      открыть через <code>/skills</code>.
+      <code>AGENTS.md</code> хранит постоянные правила проекта и
+      автоматически загружается в каждой сессии.</p>
+      </section>
+      </section>
+      <section id="11-как-вы-будете-пользоваться-системой"
+      class="level2">
+      <h2>11. Как вы будете пользоваться системой</h2>
+      <section id="самый-простой-ежедневный-сценарий" class="level3">
+      <h3>Самый простой ежедневный сценарий</h3>
+      <ol type="1">
+      <li>Создать новую папку в <code>inbox/</code>.</li>
+      <li>Скопировать туда фото, видео и музыку.</li>
+      <li>Заполнить короткий <code>request.md</code> или просто написать
+      Codex задачу.</li>
+      <li>Открыть папку проекта в режиме Codex приложения ChatGPT
+      Desktop либо запустить <code>codex</code> в корне проекта.</li>
+      <li>Запустить:</li>
+      </ol>
+      <pre class="text"><code>$reel собери коммерческий Reel для studio из новой папки.
+Сначала покажи три концепции, не публикуй без моего подтверждения.</code></pre>
+      <ol start="6" type="1">
+      <li>Выбрать концепцию.</li>
+      <li>Посмотреть готовый Reel.</li>
+      <li>Написать правки обычными словами.</li>
+      <li>После подтверждения запустить:</li>
+      </ol>
+      <pre class="text"><code>$repurpose подготовь версии для Instagram, Telegram, MAX и ВК.</code></pre>
+      <ol start="10" type="1">
+      <li>Затем:</li>
+      </ol>
+      <pre class="text"><code>$publish создай черновики на завтра, ничего не публикуй сразу.</code></pre>
+      </section>
+      <section id="режим-после-стабилизации" class="level3">
+      <h3>Режим после стабилизации</h3>
+      <p>Когда сделано 10–15 роликов и понятны рабочие паттерны:</p>
+      <ul>
+      <li>система сама выбирает стиль по типу исходников;</li>
+      <li>генерирует три хука;</li>
+      <li>рендерит три коротких варианта;</li>
+      <li>вы выбираете один;</li>
+      <li>публикационные черновики создаются автоматически;</li>
+      <li>аналитика возвращается в
+      <code>content-results.csv</code>;</li>
+      <li><code>analytics</code> обновляет рекомендации, но не
+      переписывает брендовые правила без подтверждения.</li>
+      </ul>
+      </section>
+      </section>
+      <section id="12-сервисы-и-роли" class="level2">
+      <h2>12. Сервисы и роли</h2>
+      <table>
+      <thead>
+      <tr>
+      <th>Инструмент</th>
+      <th>Роль</th>
+      <th>Решение на старте</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+      <td>ChatGPT с режимом Codex</td>
+      <td>Главный оператор: креатив, файлы, скрипты и QA</td>
+      <td>Обязательно; вход через ChatGPT, тариф проверяем по доступным лимитам</td>
+      </tr>
+      <tr>
+      <td>FFmpeg/ffprobe</td>
+      <td>Нарезка, конвертация, кадры, звук, экспорт</td>
+      <td>Обязательно, локально</td>
+      </tr>
+      <tr>
+      <td>Remotion</td>
+      <td>Программный дизайн и повторяемый рендер</td>
+      <td>Обязательно</td>
+      </tr>
+      <tr>
+      <td>Whisper через Groq или локально</td>
+      <td>Субтитры и таймкоды</td>
+      <td>Обязательно</td>
+      </tr>
+      <tr>
+      <td>Python beat analysis</td>
+      <td>BPM, биты, пики, секции</td>
+      <td>Обязательно для музыкального монтажа</td>
+      </tr>
+      <tr>
+      <td>HeyGen или Captions</td>
+      <td>Только генерация цифрового двойника</td>
+      <td>После живого talking-head MVP</td>
+      </tr>
+      <tr>
+      <td>ChatPlace</td>
+      <td>Instagram Direct, комментарии, кодовые слова и квалификация
+      лида</td>
+      <td>Подключить к вашему основному аккаунту</td>
+      </tr>
+      <tr>
+      <td>PostMyPost</td>
+      <td>Публикация и платформенные черновики</td>
+      <td>Тест 7 дней, затем решение по тарифу</td>
+      </tr>
+      <tr>
+      <td>CapCut/Captions editor</td>
+      <td>Ручной аварийный редактор</td>
+      <td>Не центр системы, только fallback</td>
+      </tr>
+      <tr>
+      <td>ChatGPT Chat/Work</td>
+      <td>Исследования, документы и быстрые обсуждения вне монтажной папки</td>
+      <td>Тот же аккаунт; основной production-контур остаётся в Codex</td>
+      </tr>
+      </tbody>
+      </table>
+      </section>
+      <section id="13-chatgpt-desktop-и-codex-cli-два-интерфейса"
+      class="level2">
+      <h2>13. ChatGPT Desktop и Codex CLI: два интерфейса</h2>
+      <p>Оба поддерживаемых инструмента гайда — Codex и Claude Code —
+      устроены одинаково: у каждого есть настольное приложение с чатом и
+      отдельный CLI для терминала, и оба читают одну и ту же папку
+      проекта и одни и те же skills (разница только в имени
+      конфиг-файла и пути к папке skills — см. разделы 30–32).</p>
+      <h3>Codex: ChatGPT Desktop + Codex CLI</h3>
+      <p>Codex можно использовать двумя способами, но папка проекта,
+      <code>AGENTS.md</code> и skills у них общие:</p>
+      <ul>
+      <li><strong>ChatGPT Desktop → Codex</strong> — основной понятный
+      интерфейс: открыть папку, написать задачу и видеть изменённые
+      файлы и результат.</li>
+      <li><strong>Codex CLI</strong> — терминальный интерфейс для
+      диагностики, автоматизации и повторяемых команд.</li>
+      <li>В июле 2026 отдельный Codex app вошёл в приложение ChatGPT
+      Desktop. Отдельного «Codex Desktop» искать не нужно.</li>
+      <li>Вход через ChatGPT использует лимиты выбранного тарифа.
+      Вход с API-ключом считается отдельно по тарифам OpenAI API.</li>
+      <li>Проверка установки: <code>codex --version</code>,
+      <code>codex login status</code>, <code>codex doctor</code>. Внутри
+      CLI используем <code>/status</code>, <code>/usage</code> и
+      <code>/skills</code>.</li>
+      </ul>
+      <p>Вашим интерфейсом станет не терминал как таковой, а 4–6
+      понятных команд, одна папка <code>inbox</code> и режим Codex в
+      ChatGPT Desktop.</p>
+      <h3>Claude Code: Claude Desktop (вкладка «Code») + CLI</h3>
+      <p>У Claude Code та же логика двух интерфейсов, что и у Codex:</p>
+      <ul>
+      <li><strong>Claude Desktop → вкладка «Code»</strong> — приложение
+      для macOS, Windows и Linux со встроенным Code-режимом: работаете с
+      той же папкой проекта без открытия терминала, аналог Codex-режима
+      в ChatGPT Desktop.</li>
+      <li><strong>Claude Code CLI</strong> — терминальный интерфейс,
+      команда <code>claude</code>. Запускается прямо из папки проекта;
+      при первом запуске откроется окно браузера для входа в аккаунт.</li>
+      <li>Нужен платный тариф — Pro, Max, Team, Enterprise или Console
+      (API-биллинг по факту использования). Бесплатный план claude.ai
+      доступа к Claude Code не даёт.</li>
+      <li>Проверка установки: <code>claude --version</code>, а для
+      полной диагностики (состояние установки, валидация настроек) —
+      <code>claude doctor</code>.</li>
+      </ul>
+      <p>Так же, как и с Codex, вашим повседневным интерфейсом станет не
+      голый терминал, а те же 4–6 понятных команд и одна папка
+      <code>inbox</code> — просто через Claude Code вместо Codex.</p>
+      </section>
+      <section id="14-chatplace-что-именно-настраивать" class="level2">
+      <h2>14. ChatPlace: что именно настраивать</h2>
+      <p>ChatPlace не нужен как монтажный сервис и не нужен для всех
+      каналов сразу. Его первая задача — превратить просмотры вашего
+      основного аккаунта в квалифицированные заявки.</p>
+      <section id="первая-воронка" class="level3">
+      <h3>Первая воронка</h3>
+      <pre class="text"><code>Reel → комментарий или Direct «ЗАКАЗ»
+→ первое сообщение с кнопкой
+→ короткое объяснение
+→ количество людей
+→ размер/формат
+→ фото
+→ срок
+→ город/доставка
+→ ориентир по бюджету
+→ контакт
+→ тег qualified
+→ уведомление вам
+→ ручное подтверждение цены и заказа</code></pre>
+      <p>Почему первое сообщение с кнопкой: Instagram разрешает боту
+      после комментария отправить только одно первое сообщение; нажатие
+      кнопки продолжает диалоговое окно.</p>
+      </section>
+      <section id="теги" class="level3">
+      <h3>Теги</h3>
+      <ul>
+      <li><code>source_reel_&lt;id&gt;</code>;</li>
+      <li><code>order_interest</code>;</li>
+      <li><code>photo_received</code>;</li>
+      <li><code>qualified</code>;</li>
+      <li><code>needs_human</code>;</li>
+      <li><code>quote_sent</code>;</li>
+      <li><code>ordered</code>.</li>
+      </ul>
+      </section>
+      <section id="что-не-делать-сразу" class="level3">
+      <h3>Что не делать сразу</h3>
+      <ul>
+      <li>не подключать все Instagram и Telegram-аккаунты;</li>
+      <li>не покупать AI Manager до появления проверенного FAQ и
+      устойчивой ручной продажи;</li>
+      <li>не пытаться автоматически называть финальную цену для
+      нестандартного заказа;</li>
+      <li>не оставлять воронку без ручного takeover;</li>
+      <li>не запускать без теста со второго аккаунта.</li>
+      </ul>
+      </section>
+      <section id="тарифная-логика-на-6-августа-2026-года"
+      class="level3">
+      <h3>Тарифная логика на 6 августа 2026 года</h3>
+      <ul>
+      <li>Free: 1 аккаунт/бот, до 200 активных контактов в месяц;</li>
+      <li>Pro: 2 000 ₽/месяц, 1 аккаунт, автоматизации без лимита
+      контактов;</li>
+      <li>дополнительный аккаунт при помесячной оплате: 2 000
+      ₽/месяц;</li>
+      <li>Creator: 4 500 ₽/месяц, включает Virale и AI-функции.</li>
+      </ul>
+      <p>На старте лучше запустить воронку для вашего основного
+      аккаунта на Free или Pro. Не оплачивайте Creator только потому,
+      что был пробный Virale. Решение принимайте после измерения
+      реального использования.</p>
+      </section>
+      </section>
+      <section id="15-автопубликация" class="level2">
+      <h2>15. Автопубликация</h2>
+      <p>Для публикационного контура логичнее использовать PostMyPost, а
+      не платить ChatPlace за каждый канал.</p>
+      <p>PostMyPost заявляет поддержку Instagram, Telegram, ВК и MAX;
+      для MAX канал подключается через <code>@PostmypostBot</code>,
+      которому выдаются права администратора. У сервиса есть семидневный
+      тестовый период.</p>
+      <section id="принцип" class="level3">
+      <h3>Принцип</h3>
+      <p>Создаётся один master-пакет, но не один одинаковый пост:</p>
+      <ul>
+      <li>Instagram: короткий Reel, сильный первый кадр, компактная
+      подпись, кодовое слово;</li>
+      <li>Telegram: больше контекста, процесс, цена/условия, ссылка или
+      контакт;</li>
+      <li>ВК: нативное видео, описание услуги, CTA внутри ВК;</li>
+      <li>MAX: короткий текст, визуал и прямой следующий шаг.</li>
+      </ul>
+      <p>Один и тот же mp4 можно использовать повторно, но подписи,
+      обложки и CTA должны адаптироваться.</p>
+      <p>На первом этапе Codex создаёт <strong>черновики</strong>,
+      а не публикует сам. Автопубликацию без подтверждения включаем
+      после 2–3 недель стабильной работы.</p>
+      </section>
+      </section>
+      <section id="16-контентная-логика-по-направлениям" class="level2">
+      <h2>16. Контентная логика по направлениям</h2>
+      <section id="основной-аккаунт" class="level3">
+      <h3>Основной аккаунт (пример: студия портретов на заказ)</h3>
+      <p>Контентные опоры:</p>
+      <ol type="1">
+      <li>«Фото → готовое изделие».</li>
+      <li>Процесс: обработка, цвет, печать, натяжка, упаковка.</li>
+      <li>Реакция получателя и подарок с эмоцией.</li>
+      <li>Разбор размера, материала, цены и срока.</li>
+      <li>Кейсы и отзывы.</li>
+      <li>Ошибки исходных фотографий и как выбрать хорошую.</li>
+      <li>Автор в кадре: история заказа и профессиональный взгляд.</li>
+      </ol>
+      <p>Главные CTA:</p>
+      <ul>
+      <li><code>ЗАКАЗ</code> — расчёт заказа;</li>
+      <li><code>РАЗМЕР</code> — подбор формата;</li>
+      <li><code>ПОДАРОК</code> — идеи под событие.</li>
+      </ul>
+      <p>Сначала достаточно одного кодового слова <code>ЗАКАЗ</code>,
+      чтобы не дробить аналитику.</p>
+      </section>
+      <section id="второй-профиль" class="level3">
+      <h3>Второй профиль (пример: портфолио)</h3>
+      <p>Контентные опоры:</p>
+      <ol type="1">
+      <li>Чистое портфолио и новые тесты.</li>
+      <li>Backstage съёмок и показов.</li>
+      <li>Движение, спорт, пластика, навыки.</li>
+      <li>Короткие представления и self-tape.</li>
+      <li>Подтверждённые достижения.</li>
+      <li>Доступность к проектам и контакты для букинга.</li>
+      </ol>
+      <p>Для этого аккаунта часто важнее профессиональная полезность
+      для того, кто принимает решение — заказчика, работодателя,
+      агентства, — чем мемы и массовые охваты.</p>
+      <p>Если человек в кадре — несовершеннолетний, рабочие
+      коммуникации ведите через родителя или опекуна; не публикуйте
+      документы, точный адрес, учебное заведение, маршруты и лишние
+      личные данные.</p>
+      </section>
+      <section id="архивный-и-коммерческий-каналы" class="level3">
+      <h3>Архивный и коммерческий каналы (опционально)</h3>
+      <p>Если у вас есть архивный/наследный аккаунт и отдельный канал
+      коммерческой продажи оригиналов — не смешивайте их:</p>
+      <ul>
+      <li>наследие: биография, контекст работ, архив, выставки;</li>
+      <li>галерея: конкретная работа, размер, техника, состояние,
+      провенанс, цена/запрос цены и контакт коллекционера.</li>
+      </ul>
+      </section>
+      </section>
+      <section id="17-ваш-семидневный-план-внедрения"
+      class="level2">
+      <h2>17. Ваш семидневный план внедрения</h2>
+      <p>Ниже — план на семь рабочих дней, который можно пройти
+      самостоятельно, в своём темпе: один день на один блок, или
+      быстрее, если у вас уже есть техническая база. Если вы предпочитаете
+      готовое сопровождение вместо самостоятельного прохождения, LVMN
+      предлагает платное внедрение под ключ по этой же структуре —
+      написать можно в Telegram <a href="https://t.me/lyaminvl">@lyaminvl</a>.</p>
+      <section id="до-старта" class="level3">
+      <h3>До старта</h3>
+      <p>Перед тем как начать, соберите:</p>
+      <ul>
+      <li>информацию об операционной системе вашего компьютера;</li>
+      <li>20–30 исходных фото/видео по одному реальному проекту;</li>
+      <li>один музыкальный трек, на который есть право
+      использования;</li>
+      <li>актуальный прайс, сроки, доставку и FAQ;</li>
+      <li>логотип, цвета, шрифты или 5 визуальных референсов;</li>
+      <li>5–10 Reels, стиль которых вам нравится;</li>
+      <li>скриншоты Instagram Insights за 90 дней;</li>
+      <li>порядок обработки заказа вручную;</li>
+      <li>доступы подключайте сами, на своём устройстве; пароли не
+      храните и не пересылайте в чатах/мессенджерах.</li>
+      </ul>
+      </section>
+      <section id="день-1--установка-и-рабочая-папка" class="level3">
+      <h3>День 1 — установка и рабочая папка</h3>
+      <ul>
+      <li>проверить ChatGPT-аккаунт, тариф и доступные лимиты Codex;</li>
+      <li>установить/проверить Codex;</li>
+      <li>проверить Node, FFmpeg и Python;</li>
+      <li>создать <code>content-os</code>;</li>
+      <li>настроить <code>.env</code> и <code>.gitignore</code>;</li>
+      <li>создать <code>AGENTS.md</code>;</li>
+      <li>показать <code>codex doctor</code>, <code>/status</code>,
+      <code>/usage</code> и <code>/skills</code>;</li>
+      <li>результат дня: Codex видит тестовую папку и создаёт
+      manifest.</li>
+      </ul>
+      </section>
+      <section id="день-2--бренд-и-разбор-исходников" class="level3">
+      <h3>День 2 — бренд и разбор исходников</h3>
+      <ul>
+      <li>заполнить <code>studio-brand</code>;</li>
+      <li>зафиксировать цены, сроки, запреты и CTA;</li>
+      <li>запустить транскрипцию, кадры и contact sheet;</li>
+      <li>результат дня: полный индекс исходников и три концепции
+      первого Reel.</li>
+      </ul>
+      </section>
+      <section id="день-3--первый-динамический-reel" class="level3">
+      <h3>День 3 — первый динамический Reel</h3>
+      <ul>
+      <li>утвердить концепцию;</li>
+      <li>создать <code>edit_plan.json</code>;</li>
+      <li>добавить beat-sync, hook, «до/после», процесс и CTA;</li>
+      <li>отрендерить 2–3 версии;</li>
+      <li>результат дня: первый готовый Reel и зафиксированный
+      визуальный preset.</li>
+      </ul>
+      </section>
+      <section id="день-4--talking-head" class="level3">
+      <h3>День 4 — talking-head</h3>
+      <ul>
+      <li>создать сценарий и суфлёр;</li>
+      <li>записать короткое видео;</li>
+      <li>автоматически убрать паузы, добавить субтитры и B-roll;</li>
+      <li>результат дня: второй рабочий формат.</li>
+      </ul>
+      </section>
+      <section id="день-5--контент-план-и-переиспользование"
+      class="level3">
+      <h3>День 5 — контент-план и переиспользование</h3>
+      <ul>
+      <li>создать рубрики на четыре недели;</li>
+      <li>собрать недельный пакет из существующих материалов;</li>
+      <li>адаптировать один master-пост под Instagram/TG/MAX/ВК;</li>
+      <li>подключить PostMyPost в тестовом режиме;</li>
+      <li>результат дня: публикационные черновики и понятный
+      календарь.</li>
+      </ul>
+      </section>
+      <section id="день-6--заявочная-воронка" class="level3">
+      <h3>День 6 — заявочная воронка</h3>
+      <ul>
+      <li>подключить основной аккаунт к ChatPlace;</li>
+      <li>создать воронку <code>ЗАКАЗ</code>;</li>
+      <li>настроить теги, поля и takeover;</li>
+      <li>проверить со второго аккаунта;</li>
+      <li>результат дня: тестовая квалифицированная заявка приходит
+      вам.</li>
+      </ul>
+      </section>
+      <section id="день-7--закрепление-и-передача" class="level3">
+      <h3>День 7 — закрепление и передача</h3>
+      <ul>
+      <li>повторить весь цикл самостоятельно;</li>
+      <li>разобрать ошибки;</li>
+      <li>подключить <code>second-brand</code> как второй
+      профиль;</li>
+      <li>собрать SOP и список команд;</li>
+      <li>определить следующий спринт: аватар, новые стили, аналитика,
+      автопубликация;</li>
+      <li>результат дня: вы самостоятельно запускаете новый Reel из
+      новой папки.</li>
+      </ul>
+      </section>
+      </section>
+      <section id="18-как-будет-устроено-сопровождение"
+      class="level2">
+      <h2>18. Как будет устроено сопровождение</h2>
+      <p>Вы можете пройти этот семидневный план полностью
+      самостоятельно, день за днём, или встроить его в работу с кем-то,
+      кто вам помогает технически. Логика одна и та же в обоих случаях.</p>
+      <p>Каждый рабочий день должен заканчиваться одним измеримым
+      результатом и одной небольшой практической задачей на ваших
+      материалах.</p>
+      <p>Формат каждого дня:</p>
+      <ol type="1">
+      <li>короткая формулировка «что делаем сегодня»;</li>
+      <li>инструкция или короткая запись экрана;</li>
+      <li>одна практическая задача на ваших материалах;</li>
+      <li>проверка результата;</li>
+      <li>текстовое резюме «что теперь работает»;</li>
+      <li>обновление SOP.</li>
+      </ol>
+      <p>Оптимально оставить два контрольных окна:</p>
+      <ul>
+      <li>подтверждение концепции;</li>
+      <li>подтверждение финального ролика/публикации.</li>
+      </ul>
+      <p>Остальные технические шаги Codex выполняет сам.</p>
+      </section>
+      <section id="19-критерии-готовности" class="level2">
+      <h2>19. Критерии готовности</h2>
+      <p>Система считается рабочей, если вы можете самостоятельно:</p>
+      <ul>
+      <li>положить новую пачку материалов в <code>inbox</code>;</li>
+      <li>вызвать <code>$reel</code>;</li>
+      <li>получить три концепции;</li>
+      <li>выбрать одну;</li>
+      <li>получить корректный mp4 и обложку;</li>
+      <li>попросить правку обычным языком;</li>
+      <li>получить платформенные версии текста;</li>
+      <li>создать публикационные черновики;</li>
+      <li>объяснить, откуда приходят заявки ChatPlace;</li>
+      <li>найти инструкцию и повторить процесс через неделю.</li>
+      </ul>
+      <p>Технические критерии первого Reel:</p>
+      <ul>
+      <li>1080×1920, H.264/AAC, 30 fps;</li>
+      <li>нет чёрных кадров и обрезанного текста;</li>
+      <li>субтитры читаемы и не перекрываются интерфейсом
+      Instagram;</li>
+      <li>факты, цена и срок подтверждены;</li>
+      <li>первые 1–2 секунды содержат понятный хук;</li>
+      <li>есть один CTA;</li>
+      <li>музыка легальна для выбранного контура публикации;</li>
+      <li>опубликованная версия сохранена вместе с исходным
+      <code>edit_plan.json</code>.</li>
+      </ul>
+      </section>
+      <section id="20-метрики" class="level2">
+      <h2>20. Метрики</h2>
+      <section id="контент" class="level3">
+      <h3>Контент</h3>
+      <ul>
+      <li>удержание первых 3 секунд;</li>
+      <li>среднее время просмотра;</li>
+      <li>доля досмотров;</li>
+      <li>сохранения и отправки;</li>
+      <li>переходы в профиль;</li>
+      <li>комментарии с кодовым словом.</li>
+      </ul>
+      </section>
+      <section id="воронка" class="level3">
+      <h3>Воронка</h3>
+      <ul>
+      <li>кодовое слово → первое сообщение;</li>
+      <li>первое сообщение → нажатие кнопки;</li>
+      <li>нажатие → заполненные данные;</li>
+      <li>заполненные данные → ручной диалог;</li>
+      <li>ручной диалог → расчёт;</li>
+      <li>расчёт → заказ/предоплата.</li>
+      </ul>
+      </section>
+      <section id="второй-профиль-метрики" class="level3">
+      <h3>Второй профиль</h3>
+      <ul>
+      <li>просмотры профиля;</li>
+      <li>сохранения портфолио;</li>
+      <li>входящие от агентств/партнёров/брендов;</li>
+      <li>запросы self-tape;</li>
+      <li>реальные букинги.</li>
+      </ul>
+      <p>После 10–15 публикаций skill <code>analytics</code> должен
+      выявлять не «лучшее время вообще», а паттерны конкретных тем,
+      хуков, длительности и CTA.</p>
+      </section>
+      </section>
+      <section id="21-безопасность-и-приватность" class="level2">
+      <h2>21. Безопасность и приватность</h2>
+      <ul>
+      <li>Все ключи хранятся в <code>.env</code>, который исключён из
+      git.</li>
+      <li>В <code>SKILL.md</code> не должно быть паролей, токенов, карт
+      и персональных идентификаторов.</li>
+      <li>Оригиналы исходников не перезаписываются.</li>
+      <li>Автопубликация и отправка сообщений включаются только после
+      тестов.</li>
+      <li>FFmpeg, Remotion и локальный Whisper обрабатывают медиа на
+      компьютере. Но промпты и выбранные для контекста файлы Codex
+      обрабатываются по правилам вашего ChatGPT-аккаунта или API-
+      организации.</li>
+      <li>При использовании облачного Whisper/Groq извлечённые данные
+      отправляются внешнему провайдеру; чувствительные материалы лучше
+      транскрибировать локально.</li>
+      <li>Для цифрового двойника используется только собственное
+      лицо/голос с явным согласием.</li>
+      <li>Не загружать паспорта, договоры с персональными данными,
+      адреса и детские документы в брендовый контекст.</li>
+      <li>Подписка ChatGPT и OpenAI API — разные способы оплаты.
+      Для обычной работы выбираем вход через ChatGPT; API-ключ
+      подключаем только осознанно для отдельной автоматизации.</li>
+      </ul>
+      </section>
+      <section id="22-ответы-на-ваши-вопросы" class="level2">
+      <h2>22. Ответы на ваши вопросы</h2>
+      <section id="может-ли-codex-сам-смонтировать-стильный-reel"
+      class="level3">
+      <h3>«Может ли Codex сам смонтировать стильный Reel?»</h3>
+      <p>Да, если Codex подключён к FFmpeg/Remotion и получает
+      транскрипт, кадры и данные музыки. Сам Codex принимает решения и
+      запускает монтаж, а финальный mp4 собирают локальные инструменты.</p>
+      </section>
+      <section id="чем-codex-отличается-от-обычного-chatgpt" class="level3">
+      <h3>«Чем Codex отличается от обычного ChatGPT?»</h3>
+      <p>Обычный ChatGPT удобен для обсуждения и отдельных текстов.
+      Codex работает внутри выбранной папки: читает <code>AGENTS.md</code>,
+      вызывает skills, запускает FFmpeg/Remotion, создаёт файлы и
+      проверяет фактический результат. Поэтому весь production-контур
+      фиксируем именно в Codex.</p>
+      </section>
+      <section id="может-ли-он-сам-выбрать-трек" class="level3">
+      <h3>«Может ли он сам выбрать трек?»</h3>
+      <p>Может предложить настроение и выбрать из локальной
+      лицензированной библиотеки. Трендовые Instagram-треки лучше
+      выбирать внутри Instagram и добавлять вручную из-за лицензий и
+      региональных ограничений.</p>
+      </section>
+      <section id="может-ли-он-сделать-хуки-мемные-вставки-и-субтитры"
+      class="level3">
+      <h3>«Может ли он сделать хуки, мемные вставки и субтитры?»</h3>
+      <p>Да. Хуки и подписи создаёт Codex; субтитры дают Whisper +
+      Remotion; мемы и B-roll берутся из собственной разрешённой
+      библиотеки или генерируются отдельным инструментом.</p>
+      </section>
+      <section id="можно-ли-сделать-аватара" class="level3">
+      <h3>«Можно ли сделать аватара?»</h3>
+      <p>Да. Codex пишет сценарий и управляет HeyGen/Captions,
+      затем монтирует получившийся аватарный клип вместе с реальными
+      материалами и подписями.</p>
+      </section>
+      <section id="можно-ли-автоматически-публиковать-везде"
+      class="level3">
+      <h3>«Можно ли автоматически публиковать везде?»</h3>
+      <p>Да, через PostMyPost и/или официальные API, но сначала
+      создаются черновики. Один и тот же текст без адаптации во все
+      соцсети не отправляем.</p>
+      </section>
+      <section id="нужен-ли-chatplace" class="level3">
+      <h3>«Нужен ли ChatPlace?»</h3>
+      <p>Да, для Instagram-воронки и заявок. Для монтажа и кросспостинга
+      он не нужен. Начните с одного основного аккаунта.</p>
+      </section>
+      </section>
+      <section id="23-что-нужно-согласовать-до-старта"
+      class="level2">
+      <h2>23. Что нужно согласовать до старта</h2>
+      <p>Прежде чем приступать к Дню 1, ответьте себе на эти вопросы —
+      это сэкономит время на первых днях внедрения.</p>
+      <ol type="1">
+      <li>Какая у вас операционная система?</li>
+      <li>Есть ли права администратора на компьютере для установки
+      FFmpeg/Node/Python?</li>
+      <li>Если у вас будет второй профиль с другим человеком в
+      кадре — он совершеннолетний?</li>
+      <li>Какой аккаунт сейчас подключён к ChatPlace (если уже
+      подключали) и какой тариф активен?</li>
+      <li>Есть ли ВК-сообщество, ВК-канал или оба ресурса, и кто
+      владелец?</li>
+      <li>Какие цены, сроки, города доставки и способы оплаты можно
+      публиковать?</li>
+      <li>Есть ли согласия клиентов на показ исходных фотографий и
+      готовых работ?</li>
+      <li>Какие треки можно использовать коммерчески?</li>
+      <li>Какие три Reels за последний квартал дали лучшие заявки, а не
+      просто просмотры? Если у вас пока нет опубликованных Reels —
+      пропустите этот пункт и вернитесь к нему после первых
+      публикаций.</li>
+      <li>Где сейчас хранится медиатека и сколько в ней данных?</li>
+      </ol>
+      </section>
+      <section id="24-актуальные-официальные-источники" class="level2">
+      <h2>24. Актуальные официальные источники</h2>
+      <ul>
+      <li><a
+      href="https://learn.chatgpt.com/docs/quickstart">Быстрый старт с ChatGPT Desktop и режимом Codex</a></li>
+      <li><a
+      href="https://learn.chatgpt.com/docs/pricing">Тарифы, лимиты и доступность Codex</a></li>
+      <li><a
+      href="https://learn.chatgpt.com/docs/auth">Вход через ChatGPT и отдельный вход с API-ключом</a></li>
+      <li><a
+      href="https://learn.chatgpt.com/docs/codex/cli">Установка и использование Codex CLI</a></li>
+      <li><a
+      href="https://learn.chatgpt.com/docs/agent-configuration/agents-md">Постоянные инструкции проекта в <code>AGENTS.md</code></a></li>
+      <li><a
+      href="https://learn.chatgpt.com/docs/build-skills">Skills в Codex и структура <code>.agents/skills/&lt;name&gt;/SKILL.md</code></a></li>
+      <li><a
+      href="https://learn.chatgpt.com/docs/import">Импорт локальной настройки из Claude Code в Codex</a></li>
+      <li><a
+      href="https://learn.chatgpt.com/docs/sandboxing">Разрешения и песочница Codex</a></li>
+      <li><a
+      href="https://www.capcut.com/help/auto-cut-in-capcut">CapCut Auto
+      Cut и beat-sync</a></li>
+      <li><a href="https://captions.ai/features/edit-with-ai">Captions
+      AI Edit</a></li>
+      <li><a href="https://captions.ai/features/create-ai-twin">Captions
+      AI Twin</a></li>
+      <li><a
+      href="https://help.heygen.com/en/articles/12089286-create-your-first-digital-twin-video-avatar-with-avatar-iv">HeyGen
+      Digital Twin</a></li>
+      <li><a
+      href="https://help.chatplace.io/en/articles/6763310-%D1%82%D0%B0%D1%80%D0%B8%D1%84%D0%BD%D1%8B%D0%B5-%D0%BF%D0%BB%D0%B0%D0%BD%D1%8B-%D0%B2-chatplace">ChatPlace:
+      актуальные тарифы на 24 июля 2026</a></li>
+      <li><a
+      href="https://help.chatplace.io/en/articles/12127531-comment-on-a-post">ChatPlace:
+      запуск автоматизации из комментария</a></li>
+      <li><a
+      href="https://postmypost.io/ru/resources/avtoposting-v-kanaly-max-podklyuchayte-bez-yurlitsa-i-vedite-kanal-sistemno">PostMyPost:
+      подключение канала MAX</a></li>
+      <li><a href="https://dev.max.ru/docs-api">MAX Bot API</a></li>
+      </ul>
+      </section>
+      <section id="25-итоговая-модель-работы"
+      class="level2">
+      <h2>25. Итоговая модель работы</h2>
+      <p>Вся система сводится к одному понятному принципу:</p>
+      <blockquote>
+      <p>Вам не нужно изучать пятнадцать сервисов. Соберите один рабочий
+      центр в Codex. Вы будете складывать материалы в папку и
+      ставить задачу обычным языком. Codex сам разберёт исходники,
+      предложит идеи, соберёт монтаж, подготовит тексты и публикации.
+      Внешние сервисы остаются только там, где без них нельзя:
+      ChatPlace — для заявок из Instagram, PostMyPost — для публикаций,
+      HeyGen/Captions — для цифрового двойника. За первую неделю вы
+      соберёте рабочий MVP на своих материалах и научитесь повторять
+      процесс самостоятельно.</p>
+      </blockquote>
+      </section>
+      <section id="26-с-чего-начинается-работа" class="level2">
+      <h2>26. С чего начинается работа</h2>
+      <p>Начинаем с единого рабочего процесса на Codex:</p>
+      <blockquote>
+      <p>Не распыляйтесь между разными нейросетями. Вместо этого
+      постройте единый рабочий процесс на Codex.</p>
+      <p>Вы будете складывать фото, видео и музыку в одну папку и
+      обычными словами писать, какой результат нужен. Codex будет
+      сам разбирать материалы, придумывать концепции и хуки, выбирать
+      сильные фрагменты, создавать монтажный план, собирать ролик,
+      добавлять субтитры и готовить версии публикаций для разных
+      соцсетей.</p>
+      <p>Отдельные сервисы подключаются только там, где они действительно
+      нужны: ChatPlace — для заявок из Instagram, PostMyPost — для
+      публикаций, HeyGen или Captions — для цифрового двойника. Основная
+      работа и управление остаются в Codex.</p>
+      <p>В первую неделю начните с основного аккаунта. Первая
+      измеримая цель — собрать на своих материалах рабочий Reel, который
+      вы сможете самостоятельно повторить тем же процессом. После
+      этого сделайте разговорный формат, подключите публикационные
+      черновики и воронку по кодовому слову «ЗАКАЗ».</p>
+      <p>Прежде чем начинать, соберите:</p>
+      <ol type="1">
+      <li>Какая у вас операционная система — Windows или macOS.</li>
+      <li>Одну папку с материалами по конкретному проекту: исходное
+      фото, процесс и готовая работа.</li>
+      <li>Актуальные цены, сроки, доставку и ответы на частые
+      вопросы.</li>
+      <li>Пять Reels, визуальный стиль которых вам нравится.</li>
+      <li>Скриншоты статистики Instagram за последние 90 дней.</li>
+      </ol>
+      <p>Пароли и платёжные данные никому пересылать не нужно. Все
+      сервисы вы подключаете самостоятельно на своём устройстве, следуя
+      точным шагам из этого руководства.</p>
+      </blockquote>
+      </section>
+      <section id="27-технический-стартовый-пакет" class="level2">
+      <h2>27. Технический стартовый пакет</h2>
+      <p>Прежде чем переходить к Дню 1 семидневного плана, полезно
+      собрать базовую версию проекта. Тогда сама работа с семью днями
+      начнётся сразу с ваших материалов, а не с ожидания, пока
+      техническое ядро создаётся с нуля. Это можно сделать самому, если
+      у вас есть базовые технические навыки, либо заказать как отдельную
+      платную услугу настройки у LVMN — Telegram <a
+      href="https://t.me/lyaminvl">@lyaminvl</a>.</p>
+      <p>Часть этого списка уже собрана за вас: <code>content-os-starter</code>
+      в комплекте с гайдом даёт рабочие команды <code>ingest</code>,
+      <code>analyze</code>, <code>render</code> и <code>qa</code>, реальное
+      определение битов музыки и автоматическую нарезку фото под них
+      (<code>--auto-cut-to-beats</code>, preset <code>studio-clean</code>),
+      schema для <code>edit_plan.json</code> и два примера job-папок —
+      распакуйте архив, выполните <code>npm install</code> и переходите к
+      пункту про брендовые профили ниже. Транскрипция речи и preset
+      <code>talking-head-clean</code> — это то, что осталось доделать под
+      ваш стиль; в архиве есть заготовки и README с описанием, что именно
+      нужно дописать.</p>
+      <section id="минимальный-технический-пакет" class="level3">
+      <h3>Минимальный технический пакет</h3>
+      <ul>
+      <li>чистый fork стартового <code>reels</code>-pipeline без
+      демо-названий и цветов;</li>
+      <li>команда <code>npm run ingest &lt;job-dir&gt;</code>;</li>
+      <li>команда <code>npm run analyze &lt;job-dir&gt;</code>;</li>
+      <li>команда <code>npm run render &lt;edit-plan&gt;</code>;</li>
+      <li>команда <code>npm run qa &lt;output-file&gt;</code>;</li>
+      <li>schema для <code>request.md</code>;</li>
+      <li>schema для <code>edit_plan.json</code>;</li>
+      <li>один preset <code>studio-clean</code>;</li>
+      <li>один preset <code>talking-head-clean</code>;</li>
+      <li>skill <code>$reel</code>;</li>
+      <li>базовый <code>AGENTS.md</code>;</li>
+      <li><code>.env.example</code> без секретов;</li>
+      <li><code>SETUP.md</code> для macOS и Windows;</li>
+      <li>тестовый набор обезличенных media-файлов;</li>
+      <li>проверка, что всё работает с путями, содержащими кириллицу и
+      пробелы.</li>
+      </ul>
+      </section>
+      <section id="что-настраивается-по-мере-прохождения-7-дней" class="level3">
+      <h3>Что настраивается по мере прохождения 7 дней</h3>
+      <ul>
+      <li>заполнение вашего бренд-контекста;</li>
+      <li>настройка цветов и шрифтов;</li>
+      <li>первый реальный <code>edit_plan.json</code>;</li>
+      <li>настройка ChatPlace;</li>
+      <li>подключение аккаунтов PostMyPost;</li>
+      <li>первый реальный talking-head;</li>
+      <li>освоение ежедневного использования.</li>
+      </ul>
+      </section>
+      </section>
+      <section id="28-установка-codex" class="level2">
+      <h2>28. Установка Codex</h2>
+      <p>Основной интерфейс для вас — приложение ChatGPT Desktop с
+      выбранным режимом <strong>Codex</strong>. CLI устанавливаем рядом:
+      он нужен для диагностики, импорта и воспроизводимых команд.</p>
+      <section id="chatgpt-desktop" class="level3">
+      <h3>ChatGPT Desktop</h3>
+      <ol type="1">
+      <li>Установить официальное приложение ChatGPT для macOS или Windows.</li>
+      <li>Войти под своим ChatGPT-аккаунтом.</li>
+      <li>В переключателе выбрать <strong>Codex</strong>.</li>
+      <li>Открыть папку <code>content-os</code>.</li>
+      </ol>
+      <p>Доступ к Codex есть на тарифах ChatGPT, включая Free; отличаются
+      доступные модели и лимиты. Для регулярного рендера проверьте реальный
+      расход на своём тарифе до покупки дополнительных кредитов.</p>
+      </section>
+      <section id="macos-и-linux-cli" class="level3">
+      <h3>macOS и Linux: Codex CLI</h3>
+      <pre class="text"><code>curl -fsSL https://chatgpt.com/codex/install.sh | sh
+codex --version
+codex login
+codex login status
+codex doctor</code></pre>
+      </section>
+      <section id="windows-powershell" class="level3">
+      <h3>Windows PowerShell: Codex CLI</h3>
+      <pre class="text"><code>irm https://chatgpt.com/codex/install.ps1 | iex
+codex --version
+codex login
+codex login status
+codex doctor</code></pre>
+      </section>
+      <section id="npm-альтернатива" class="level3">
+      <h3>Альтернатива через npm</h3>
+      <pre class="text"><code>npm install --global @openai/codex
+codex --version</code></pre>
+      <p>Этот вариант используем, если standalone installer недоступен,
+      а Node.js уже установлен.</p>
+      </section>
+      <section id="первый-вход" class="level3">
+      <h3>Первый вход и проверка</h3>
+      <pre class="text"><code>1. Выполнить codex login.
+2. Выбрать Sign in with ChatGPT.
+3. Завершить вход в открывшемся браузере.
+4. Выполнить codex login status.
+5. Открыть папку content-os и запустить codex.
+6. Внутри Codex CLI выполнить /status, /usage и /skills.
+7. Выполнить /init только если AGENTS.md ещё не создан.</code></pre>
+      <p><strong>Не выбирайте API key</strong> для обычной работы по
+      подписке. Вход с API-ключом включает отдельную оплату OpenAI API и
+      нужен в основном для CI или другой программной автоматизации.</p>
+      </section>
+      <section id="импорт-старой-настройки" class="level3">
+      <h3>Если на компьютере остались локальные настройки Claude</h3>
+      <p>Если вы раньше работали с Claude Code и хотите перенести
+      настройки, это не мешает начать работу с Codex заново. В
+      ChatGPT Desktop откройте <strong>Settings → Import</strong> и
+      выберите Claude Code. В CLI можно выполнить <code>/import</code> и
+      выбрать Claude Code. Codex перенесёт поддерживаемые инструкции в
+      <code>AGENTS.md</code>, skills, проекты и настройки, не удаляя
+      исходные файлы.</p>
+      <p>После импорта всё равно проверяем пути, разрешения, токены и
+      команды: старые Claude-настройки не должны автоматически получать
+      доступ к публикации или секретам.</p>
+      </section>
+      <section id="установка-claude-code" class="level3">
+      <h3>Установка Claude Code</h3>
+      <p>Если вы выбрали Claude Code вместо (или вместе с) Codex —
+      установка занимает те же пару минут. Основной интерфейс —
+      приложение <strong>Claude Desktop</strong> с вкладкой «Code»; CLI
+      устанавливаем рядом для диагностики и повторяемых команд, точно
+      как с Codex CLI выше.</p>
+      <h4>macOS, Linux, WSL: нативная установка</h4>
+      <pre class="text"><code>curl -fsSL https://claude.ai/install.sh | bash
+claude --version
+claude doctor</code></pre>
+      <h4>Windows PowerShell: нативная установка</h4>
+      <pre class="text"><code>irm https://claude.ai/install.ps1 | iex
+claude --version
+claude doctor</code></pre>
+      <h4>Альтернатива через npm (нужен Node.js 22+)</h4>
+      <pre class="text"><code>npm install -g @anthropic-ai/claude-code
+claude --version</code></pre>
+      <p>Есть и другие пакетные менеджеры, если вы уже ими пользуетесь:
+      <code>brew install --cask claude-code</code> на macOS или
+      <code>winget install Anthropic.ClaudeCode</code> на Windows.</p>
+      <h4>Первый вход и проверка</h4>
+      <pre class="text"><code>1. Открыть терминал в папке content-os.
+2. Выполнить claude.
+3. Завершить вход в открывшемся окне браузера.
+4. Выполнить claude --version и claude doctor для проверки установки.</code></pre>
+      <p>Claude Code требует платного тарифа — Pro, Max, Team, Enterprise
+      или Console (API-биллинг по факту использования). Бесплатный план
+      claude.ai доступа к Claude Code не даёт — это отдельная опция,
+      которую нужно включить или подключить.</p>
+      <p>Если вам не нужен терминал вообще — приложение
+      <strong>Claude Desktop</strong> (macOS, Windows, Linux) даёт тот же
+      Claude Code через вкладку «Code» прямо в интерфейсе, без единой
+      команды в CLI. Это прямой аналог связки ChatGPT Desktop + режим
+      Codex, описанной выше.</p>
+      </section>
+      </section>
+      <section id="29-установка-монтажных-зависимостей" class="level2">
+      <h2>29. Установка монтажных зависимостей</h2>
+      <p>Точные команды зависят от операционной системы. Проверяем не
+      факт установки, а фактическую работу каждой команды.</p>
+      <section id="проверка" class="level3">
+      <h3>Проверка</h3>
+      <div class="sourceCode" id="cb19"><pre
+      class="sourceCode bash"><code class="sourceCode bash"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="ex">ffmpeg</span> <span class="at">-version</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="ex">ffprobe</span> <span class="at">-version</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="ex">node</span> <span class="at">--version</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="ex">npm</span> <span class="at">--version</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> <span class="at">--version</span></span></code></pre></div>
+      </section>
+      <section id="macos-через-homebrew" class="level3">
+      <h3>macOS через Homebrew</h3>
+      <div class="sourceCode" id="cb20"><pre
+      class="sourceCode bash"><code class="sourceCode bash"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="ex">brew</span> install ffmpeg node python</span></code></pre></div>
+      </section>
+      <section id="windows-через-winget" class="level3">
+      <h3>Windows через WinGet</h3>
+      <div class="sourceCode" id="cb21"><pre
+      class="sourceCode powershell"><code class="sourceCode powershell"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>winget install Gyan<span class="op">.</span><span class="fu">FFmpeg</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>winget install OpenJS<span class="op">.</span><span class="fu">NodeJS</span><span class="op">.</span><span class="fu">LTS</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>winget install Python<span class="op">.</span><span class="fu">Python</span><span class="op">.</span><span class="dv">3.12</span></span></code></pre></div>
+      <p>После установки закрыть и заново открыть Terminal/PowerShell,
+      затем повторить проверку версий.</p>
+      </section>
+      <section id="node-зависимости-проекта" class="level3">
+      <h3>Node-зависимости вашего проекта</h3>
+      <div class="sourceCode" id="cb22"><pre
+      class="sourceCode bash"><code class="sourceCode bash"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="ex">npm</span> install remotion @remotion/cli @remotion/bundler react react-dom</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="ex">npm</span> install zod gray-matter sharp dotenv</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="ex">npm</span> install <span class="at">-D</span> typescript tsx @types/node @types/react</span></code></pre></div>
+      </section>
+      <section id="python-зависимости-для-музыки" class="level3">
+      <h3>Python-зависимости для музыки</h3>
+      <div class="sourceCode" id="cb23"><pre
+      class="sourceCode bash"><code class="sourceCode bash"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> <span class="at">-m</span> venv .venv</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="bu">source</span> .venv/bin/activate</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> <span class="at">-m</span> pip install librosa soundfile numpy</span></code></pre></div>
+      <p>На Windows PowerShell активация окружения:</p>
+      <div class="sourceCode" id="cb24"><pre
+      class="sourceCode powershell"><code class="sourceCode powershell"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="op">.</span><span class="fu">venv</span>\Scripts\Activate<span class="op">.</span><span class="fu">ps1</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>python <span class="op">-</span>m pip install librosa soundfile numpy</span></code></pre></div>
+      <p>Версии фиксируются в <code>package-lock.json</code> и
+      <code>requirements.txt</code>. Нельзя оставлять production-pipeline
+      на плавающих зависимостях без проверки.</p>
+      </section>
+      </section>
+      <section id="30-готовый-каркас-agentsmd" class="level2">
+      <h2>30. Готовый каркас <code>AGENTS.md</code></h2>
+      <p>Этот текст используется как основа в корне вашего
+      проекта. Codex читает его перед началом работы; здесь остаются
+      только постоянные правила, а конкретная задача хранится в
+      <code>request.md</code>:</p>
+      <div class="sourceCode" id="cb25"><pre
+      class="sourceCode md"><code class="sourceCode markdown"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu"># Content OS</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="fu">## Purpose</span></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>This workspace creates social content for your brands.</span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>Codex is the central operator. It analyzes source media, proposes concepts,</span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>creates edit plans, renders media through local tools, validates outputs, and</span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>prepares platform-specific publication drafts.</span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a><span class="fu">## Brands</span></span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`studio`</span>: photo-based custom product (example: portraits); primary goal is qualified orders.</span>
+<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`second`</span>: portfolio profile for a second audience; primary goal is bookings/inquiries.</span>
+<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Never combine brand facts, tone, pricing, CTAs, or analytics.</span>
+<span id="cb25-15"><a href="#cb25-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-16"><a href="#cb25-16" aria-hidden="true" tabindex="-1"></a><span class="fu">## Sources of truth</span></span>
+<span id="cb25-17"><a href="#cb25-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-18"><a href="#cb25-18" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Brand facts: <span class="in">`brands/&lt;brand&gt;/`</span>.</span>
+<span id="cb25-19"><a href="#cb25-19" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Prices: <span class="in">`brands/&lt;brand&gt;/prices.md`</span>.</span>
+<span id="cb25-20"><a href="#cb25-20" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Approved offers: <span class="in">`brands/&lt;brand&gt;/offer.md`</span>.</span>
+<span id="cb25-21"><a href="#cb25-21" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Media ownership and consent: <span class="in">`brands/&lt;brand&gt;/rights.md`</span>.</span>
+<span id="cb25-22"><a href="#cb25-22" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Previous results: <span class="in">`analytics/content-results.csv`</span>.</span>
+<span id="cb25-23"><a href="#cb25-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-24"><a href="#cb25-24" aria-hidden="true" tabindex="-1"></a>If a price, deadline, achievement, location, testimonial, or product fact is not</span>
+<span id="cb25-25"><a href="#cb25-25" aria-hidden="true" tabindex="-1"></a>present in a source-of-truth file, do not invent it. Mark it as missing.</span>
+<span id="cb25-26"><a href="#cb25-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-27"><a href="#cb25-27" aria-hidden="true" tabindex="-1"></a><span class="fu">## Workflow</span></span>
+<span id="cb25-28"><a href="#cb25-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-29"><a href="#cb25-29" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>Validate the job folder and <span class="in">`request.md`</span>.</span>
+<span id="cb25-30"><a href="#cb25-30" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>Preserve originals. Write generated files only to <span class="in">`work/`</span> and <span class="in">`output/`</span>.</span>
+<span id="cb25-31"><a href="#cb25-31" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>Create <span class="in">`manifest.json`</span>, transcript, frames, contact sheet, and beats.</span>
+<span id="cb25-32"><a href="#cb25-32" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>Propose three concepts unless the request explicitly says <span class="in">`mode: auto`</span>.</span>
+<span id="cb25-33"><a href="#cb25-33" aria-hidden="true" tabindex="-1"></a><span class="ss">5. </span>Wait for concept approval.</span>
+<span id="cb25-34"><a href="#cb25-34" aria-hidden="true" tabindex="-1"></a><span class="ss">6. </span>Create or update <span class="in">`edit_plan.json`</span>.</span>
+<span id="cb25-35"><a href="#cb25-35" aria-hidden="true" tabindex="-1"></a><span class="ss">7. </span>Render through the project scripts.</span>
+<span id="cb25-36"><a href="#cb25-36" aria-hidden="true" tabindex="-1"></a><span class="ss">8. </span>Run QA and save <span class="in">`qa.md`</span>.</span>
+<span id="cb25-37"><a href="#cb25-37" aria-hidden="true" tabindex="-1"></a><span class="ss">9. </span>Show the output path and summarize decisions.</span>
+<span id="cb25-38"><a href="#cb25-38" aria-hidden="true" tabindex="-1"></a><span class="ss">10. </span>Never publish without explicit approval.</span>
+<span id="cb25-39"><a href="#cb25-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-40"><a href="#cb25-40" aria-hidden="true" tabindex="-1"></a><span class="fu">## Output requirements</span></span>
+<span id="cb25-41"><a href="#cb25-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-42"><a href="#cb25-42" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Vertical Reel: 1080x1920, 30 fps, H.264 video, AAC audio.</span>
+<span id="cb25-43"><a href="#cb25-43" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Keep critical text inside platform safe zones.</span>
+<span id="cb25-44"><a href="#cb25-44" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Captions must be proofread against the transcript.</span>
+<span id="cb25-45"><a href="#cb25-45" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Every commercial Reel must have one clear CTA.</span>
+<span id="cb25-46"><a href="#cb25-46" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Create platform-specific copy; do not blindly duplicate one caption everywhere.</span>
+<span id="cb25-47"><a href="#cb25-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-48"><a href="#cb25-48" aria-hidden="true" tabindex="-1"></a><span class="fu">## Safety</span></span>
+<span id="cb25-49"><a href="#cb25-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-50"><a href="#cb25-50" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Never print or copy secrets from <span class="in">`.env`</span>.</span>
+<span id="cb25-51"><a href="#cb25-51" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Never put access tokens into <span class="in">`SKILL.md`</span>, reports, or chat responses.</span>
+<span id="cb25-52"><a href="#cb25-52" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Do not overwrite or delete original media.</span>
+<span id="cb25-53"><a href="#cb25-53" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Do not publish media without confirmed rights and consent.</span>
+<span id="cb25-54"><a href="#cb25-54" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>If a person featured in <span class="in">`second`</span> is a minor, do not expose school, address, routes, documents, or private contacts.</span>
+<span id="cb25-55"><a href="#cb25-55" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Human approval is required for prices, public claims, avatar generation, and publishing.</span>
+<span id="cb25-56"><a href="#cb25-56" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-57"><a href="#cb25-57" aria-hidden="true" tabindex="-1"></a><span class="fu">## Commands</span></span>
+<span id="cb25-58"><a href="#cb25-58" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-59"><a href="#cb25-59" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`npm run ingest -- &lt;job-dir&gt;`</span></span>
+<span id="cb25-60"><a href="#cb25-60" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`npm run analyze -- &lt;job-dir&gt;`</span></span>
+<span id="cb25-61"><a href="#cb25-61" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`npm run render -- &lt;edit-plan&gt;`</span></span>
+<span id="cb25-62"><a href="#cb25-62" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`npm run qa -- &lt;output-file&gt;`</span></span>
+<span id="cb25-63"><a href="#cb25-63" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`npm test`</span></span>
+<span id="cb25-64"><a href="#cb25-64" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`npm run typecheck`</span></span></code></pre></div>
+      <p>После заполнения брендов английскую техническую часть можно
+      оставить: важнее однозначность правил, чем язык файла. Публикуемые
+      тексты и ответы агента остаются на русском.</p>
+      <p><strong>Для Claude Code:</strong> этот же файл используется как
+      есть — без единой правки контента. Единственное отличие — имя:
+      сохраните его как <code>CLAUDE.md</code> в корне проекта (Claude
+      Code не читает <code>AGENTS.md</code> автоматически, хотя часть
+      новых agentic-инструментов на рынке действительно движется к
+      <code>AGENTS.md</code> как общему стандарту — на всякий случай
+      называйте файл именно <code>CLAUDE.md</code>). Если хотите вести
+      один файл сразу для обоих инструментов, можно держать
+      <code>CLAUDE.md</code> симлинком на <code>AGENTS.md</code>
+      (<code>ln -s AGENTS.md CLAUDE.md</code>) — оба инструмента просто
+      читают обычный Markdown-файл по имени, так что симлинк — рабочий
+      вариант, а не хак.</p>
+      </section>
+      <section id="31-готовый-каркас-reel-skill" class="level2">
+      <h2>31. Готовый каркас <code>$reel</code>-skill</h2>
+      <p>Путь для Codex: <code>.agents/skills/reel/SKILL.md</code>. В
+      Codex skill можно выбрать через <code>/skills</code> или явно
+      упомянуть как <code>$reel</code>.</p>
+      <div class="sourceCode" id="cb26"><pre
+      class="sourceCode md"><code class="sourceCode markdown"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="an">name:</span><span class="co"> reel</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="an">description:</span><span class="co"> Create a complete vertical Reel from a job folder: analyze media, propose concepts, build an edit plan, render, run QA, and prepare delivery files. Use for any request to create or revise a Reel.</span></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a><span class="fu"># Reel production workflow</span></span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a><span class="fu">## Input</span></span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>Accept either:</span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>a path to a job folder under <span class="in">`inbox/`</span>; or</span>
+<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>the newest unprocessed folder in <span class="in">`inbox/`</span> if the user explicitly says to use it.</span>
+<span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-15"><a href="#cb26-15" aria-hidden="true" tabindex="-1"></a>The job should contain <span class="in">`request.md`</span> and one or more of:</span>
+<span id="cb26-16"><a href="#cb26-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-17"><a href="#cb26-17" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`video/`</span></span>
+<span id="cb26-18"><a href="#cb26-18" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`photo/`</span></span>
+<span id="cb26-19"><a href="#cb26-19" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`music/`</span></span>
+<span id="cb26-20"><a href="#cb26-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-21"><a href="#cb26-21" aria-hidden="true" tabindex="-1"></a><span class="fu">## Rules</span></span>
+<span id="cb26-22"><a href="#cb26-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-23"><a href="#cb26-23" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Read <span class="in">`AGENTS.md`</span> and the selected brand folder first.</span>
+<span id="cb26-24"><a href="#cb26-24" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Never mix assets or facts from different brands.</span>
+<span id="cb26-25"><a href="#cb26-25" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Never edit originals in <span class="in">`inbox/`</span>.</span>
+<span id="cb26-26"><a href="#cb26-26" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Do not invent prices, deadlines, testimonials, achievements, or rights.</span>
+<span id="cb26-27"><a href="#cb26-27" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Do not publish anything.</span>
+<span id="cb26-28"><a href="#cb26-28" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Use local scripts for media operations. Do not simulate successful rendering.</span>
+<span id="cb26-29"><a href="#cb26-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-30"><a href="#cb26-30" aria-hidden="true" tabindex="-1"></a><span class="fu">## Phase 1: validate and ingest</span></span>
+<span id="cb26-31"><a href="#cb26-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-32"><a href="#cb26-32" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>Parse <span class="in">`request.md`</span>.</span>
+<span id="cb26-33"><a href="#cb26-33" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>Confirm the brand exists.</span>
+<span id="cb26-34"><a href="#cb26-34" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>Check that media files are readable.</span>
+<span id="cb26-35"><a href="#cb26-35" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>Run <span class="in">`npm run ingest -- &lt;job-dir&gt;`</span>.</span>
+<span id="cb26-36"><a href="#cb26-36" aria-hidden="true" tabindex="-1"></a><span class="ss">5. </span>Review <span class="in">`manifest.json`</span> and report blocking input problems.</span>
+<span id="cb26-37"><a href="#cb26-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-38"><a href="#cb26-38" aria-hidden="true" tabindex="-1"></a><span class="fu">## Phase 2: analyze</span></span>
+<span id="cb26-39"><a href="#cb26-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-40"><a href="#cb26-40" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>Run <span class="in">`npm run analyze -- &lt;job-dir&gt;`</span>.</span>
+<span id="cb26-41"><a href="#cb26-41" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>Read transcript, frames, contact sheet, scenes, and beats.</span>
+<span id="cb26-42"><a href="#cb26-42" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>Identify the strongest available proof, transformation, emotion, and CTA moment.</span>
+<span id="cb26-43"><a href="#cb26-43" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>Reject unusable or duplicate shots in the analysis; do not delete them.</span>
+<span id="cb26-44"><a href="#cb26-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-45"><a href="#cb26-45" aria-hidden="true" tabindex="-1"></a><span class="fu">## Phase 3: concepts</span></span>
+<span id="cb26-46"><a href="#cb26-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-47"><a href="#cb26-47" aria-hidden="true" tabindex="-1"></a>Create three materially different concepts:</span>
+<span id="cb26-48"><a href="#cb26-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-49"><a href="#cb26-49" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>commercial and clear;</span>
+<span id="cb26-50"><a href="#cb26-50" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>emotional/story-driven;</span>
+<span id="cb26-51"><a href="#cb26-51" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>dynamic/experimental.</span>
+<span id="cb26-52"><a href="#cb26-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-53"><a href="#cb26-53" aria-hidden="true" tabindex="-1"></a>For each include:</span>
+<span id="cb26-54"><a href="#cb26-54" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-55"><a href="#cb26-55" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>hook;</span>
+<span id="cb26-56"><a href="#cb26-56" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>viewer promise;</span>
+<span id="cb26-57"><a href="#cb26-57" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>scene order;</span>
+<span id="cb26-58"><a href="#cb26-58" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>text overlays;</span>
+<span id="cb26-59"><a href="#cb26-59" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>music logic;</span>
+<span id="cb26-60"><a href="#cb26-60" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>CTA;</span>
+<span id="cb26-61"><a href="#cb26-61" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>source limitations.</span>
+<span id="cb26-62"><a href="#cb26-62" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-63"><a href="#cb26-63" aria-hidden="true" tabindex="-1"></a>Save them to <span class="in">`work/&lt;job&gt;/concepts.md`</span> and ask the user to select one.</span>
+<span id="cb26-64"><a href="#cb26-64" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-65"><a href="#cb26-65" aria-hidden="true" tabindex="-1"></a><span class="fu">## Phase 4: plan and render</span></span>
+<span id="cb26-66"><a href="#cb26-66" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-67"><a href="#cb26-67" aria-hidden="true" tabindex="-1"></a>After approval:</span>
+<span id="cb26-68"><a href="#cb26-68" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-69"><a href="#cb26-69" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>Create a schema-valid <span class="in">`edit_plan.json`</span>.</span>
+<span id="cb26-70"><a href="#cb26-70" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>Run <span class="in">`npm run render -- &lt;edit-plan&gt;`</span>.</span>
+<span id="cb26-71"><a href="#cb26-71" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>If rendering fails, diagnose and fix the cause. Never claim success without an mp4.</span>
+<span id="cb26-72"><a href="#cb26-72" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>Run <span class="in">`npm run qa -- &lt;output-file&gt;`</span>.</span>
+<span id="cb26-73"><a href="#cb26-73" aria-hidden="true" tabindex="-1"></a><span class="ss">5. </span>Review the final contact sheet and QA report.</span>
+<span id="cb26-74"><a href="#cb26-74" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-75"><a href="#cb26-75" aria-hidden="true" tabindex="-1"></a><span class="fu">## Phase 5: delivery</span></span>
+<span id="cb26-76"><a href="#cb26-76" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-77"><a href="#cb26-77" aria-hidden="true" tabindex="-1"></a>Return:</span>
+<span id="cb26-78"><a href="#cb26-78" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-79"><a href="#cb26-79" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>final mp4 path;</span>
+<span id="cb26-80"><a href="#cb26-80" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>cover path;</span>
+<span id="cb26-81"><a href="#cb26-81" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>captions path;</span>
+<span id="cb26-82"><a href="#cb26-82" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`edit_plan.json`</span> path;</span>
+<span id="cb26-83"><a href="#cb26-83" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>QA result;</span>
+<span id="cb26-84"><a href="#cb26-84" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>short list of creative decisions;</span>
+<span id="cb26-85"><a href="#cb26-85" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>known limitations;</span>
+<span id="cb26-86"><a href="#cb26-86" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>suggested next action.</span>
+<span id="cb26-87"><a href="#cb26-87" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-88"><a href="#cb26-88" aria-hidden="true" tabindex="-1"></a>If QA fails, do not present the file as final.</span>
+<span id="cb26-89"><a href="#cb26-89" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-90"><a href="#cb26-90" aria-hidden="true" tabindex="-1"></a><span class="fu">## Revisions</span></span>
+<span id="cb26-91"><a href="#cb26-91" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-92"><a href="#cb26-92" aria-hidden="true" tabindex="-1"></a>Translate natural-language feedback into the smallest possible edit-plan change.</span>
+<span id="cb26-93"><a href="#cb26-93" aria-hidden="true" tabindex="-1"></a>Preserve the prior version and render a new numbered output.</span></code></pre></div>
+      <p>Этот skill должен быть коротким диспетчером. Сложная логика,
+      схемы и команды живут в коде и reference-файлах, а не в одном
+      гигантском промпте.</p>
+      <p><strong>Для Claude Code:</strong> тело skill выше (frontmatter
+      с <code>name</code>/<code>description</code>, Input/Rules/Phase
+      1–5/Revisions) переносится дословно, без единой правки. Меняется
+      только путь: сохраните тот же файл как
+      <code>.claude/skills/reel/SKILL.md</code>. Вызов тоже чуть
+      отличается — Codex вызывается явным упоминанием <code>$reel</code>,
+      Claude Code либо автоматически подхватывает skill по полю
+      <code>description</code>, когда запрос совпадает с ним по смыслу,
+      либо вы вызываете его явно командой <code>/reel</code> (для этого
+      достаточно завести файл-команду с тем же именем — механизм
+      описан в документации Claude Code по slash-командам).</p>
+      </section>
+      <section id="32-остальные-skills-минимальные-спецификации"
+      class="level2">
+      <h2>32. Остальные skills: минимальные спецификации</h2>
+      <p>Как и с <code>$reel</code> в разделе 31: для Claude Code все
+      skills ниже собираются по тому же принципу и с тем же телом
+      SKILL.md, только в папке <code>.claude/skills/&lt;name&gt;/</code>
+      вместо <code>.agents/skills/&lt;name&gt;/</code>. Повторять эту
+      оговорку под каждым skill не будем.</p>
+      <section id="content-director" class="level3">
+      <h3><code>$content-director</code></h3>
+      <p>Вход:</p>
+      <ul>
+      <li>выбранный бренд;</li>
+      <li>цель периода;</li>
+      <li>список доступных материалов;</li>
+      <li>результаты прошлых публикаций;</li>
+      <li>ограничения времени и бюджета.</li>
+      </ul>
+      <p>Результат:</p>
+      <ul>
+      <li>3–5 контентных опор;</li>
+      <li>приоритетные идеи на неделю;</li>
+      <li>связь каждой идеи с бизнес-целью;</li>
+      <li>какой исходник нужен;</li>
+      <li>формат;</li>
+      <li>CTA;</li>
+      <li>метрика успеха.</li>
+      </ul>
+      <p>Не должен генерировать месяцы контента без проверки наличия
+      материалов.</p>
+      </section>
+      <section id="talking-head" class="level3">
+      <h3><code>$talking-head</code></h3>
+      <p>Результат:</p>
+      <ul>
+      <li>три хука;</li>
+      <li>утверждённый сценарий;</li>
+      <li>версия для суфлёра;</li>
+      <li>shot list для B-roll;</li>
+      <li>правила записи;</li>
+      <li>монтажный план после появления записи;</li>
+      <li>готовый Reel и <code>.srt</code>.</li>
+      </ul>
+      </section>
+      <section id="repurpose" class="level3">
+      <h3><code>$repurpose</code></h3>
+      <p>Создаёт отдельные блоки:</p>
+      <ul>
+      <li><code>instagram.md</code>;</li>
+      <li><code>telegram.md</code>;</li>
+      <li><code>max.md</code>;</li>
+      <li><code>vk.md</code>;</li>
+      <li><code>metadata.json</code> с названием, CTA, ссылкой на
+      master-файл и датой.</li>
+      </ul>
+      </section>
+      <section id="publish" class="level3">
+      <h3><code>$publish</code></h3>
+      <ul>
+      <li>работает только с утверждённой папкой
+      <code>output/</code>;</li>
+      <li>проверяет наличие <code>approved: true</code>;</li>
+      <li>сначала создаёт черновики;</li>
+      <li>показывает аккаунты, даты и файлы;</li>
+      <li>публикует только после отдельного подтверждения;</li>
+      <li>сохраняет внешние publication IDs.</li>
+      </ul>
+      </section>
+      <section id="analytics" class="level3">
+      <h3><code>$analytics</code></h3>
+      <ul>
+      <li>принимает экспорт или вручную заполненные метрики;</li>
+      <li>не делает вывод по одному ролику;</li>
+      <li>сравнивает тему, хук, длительность, визуальный preset и
+      CTA;</li>
+      <li>отделяет просмотры от заявок;</li>
+      <li>записывает наблюдения, но не меняет брендовые факты.</li>
+      </ul>
+      </section>
+      </section>
+      <section id="33-техническое-тз-на-развитие-стартового-pipeline"
+      class="level2">
+      <h2>33. Техническое ТЗ на развитие стартового
+      <code>reels</code>-pipeline</h2>
+      <section id="блок-a-новый-входной-формат" class="level3">
+      <h3>Блок A. Новый входной формат</h3>
+      <p>Если базовый pipeline требует один <code>faceVideo</code> и
+      опциональный <code>screencastVideo</code>, нужно добавить
+      job-folder и manifest.</p>
+      <p>Новые сущности:</p>
+      <pre class="text"><code>JobRequest
+MediaAsset
+MediaAnalysis
+BeatMap
+Scene
+TimelineItem
+TextOverlay
+CaptionPreset
+RenderPreset
+QAReport</code></pre>
+      </section>
+      <section id="блок-b-ingest" class="level3">
+      <h3>Блок B. Ingest</h3>
+      <p>Добавить:</p>
+      <ul>
+      <li>рекурсивное обнаружение media;</li>
+      <li><code>ffprobe</code> JSON;</li>
+      <li>SHA-256 и поиск дублей;</li>
+      <li>ориентацию и rotation metadata;</li>
+      <li>duration/fps/codec/audio channels;</li>
+      <li>безопасное CFR-прокси;</li>
+      <li>сохранение связи original → proxy.</li>
+      </ul>
+      </section>
+      <section id="блок-c-visual-indexing" class="level3">
+      <h3>Блок C. Visual indexing</h3>
+      <p>Добавить:</p>
+      <ul>
+      <li>scene detection;</li>
+      <li>thumbnails на ключевых сценах;</li>
+      <li>contact sheets;</li>
+      <li>оценку технического качества;</li>
+      <li>сохранение точных source timecodes;</li>
+      <li>возможность Codex ссылаться на <code>assetId</code> и
+      <code>sourceIn/sourceOut</code>.</li>
+      </ul>
+      </section>
+      <section id="блок-d-audio" class="level3">
+      <h3>Блок D. Audio</h3>
+      <p>Добавить:</p>
+      <ul>
+      <li>извлечение речи;</li>
+      <li>Whisper word timestamps;</li>
+      <li>тишину и длинные паузы;</li>
+      <li>громкость/LUFS;</li>
+      <li>BPM и beat map;</li>
+      <li>музыкальные секции и downbeats;</li>
+      <li>нормализацию финального mix.</li>
+      </ul>
+      </section>
+      <section id="блок-e-timeline-engine" class="level3">
+      <h3>Блок E. Timeline engine</h3>
+      <p>Если ваш текущий рендер-компонент жёстко собирает
+      split/fullscreen, нужен универсальный renderer из
+      <code>edit_plan.json</code>:</p>
+      <ul>
+      <li>видео и фото items;</li>
+      <li>trim и speed;</li>
+      <li>crop/cover/contain;</li>
+      <li>Ken Burns для фото;</li>
+      <li>transitions;</li>
+      <li>overlays;</li>
+      <li>captions;</li>
+      <li>CTA cards;</li>
+      <li>price cards;</li>
+      <li>before/after split;</li>
+      <li>B-roll поверх talking-head;</li>
+      <li>background music + ducking;</li>
+      <li>SFX.</li>
+      </ul>
+      </section>
+      <section id="блок-f-brand-presets" class="level3">
+      <h3>Блок F. Brand presets</h3>
+      <p>Вынести из типов рендера в отдельный конфиг:</p>
+      <ul>
+      <li>цвета;</li>
+      <li>шрифты;</li>
+      <li>caption position;</li>
+      <li>hook typography;</li>
+      <li>transition set;</li>
+      <li>CTA style;</li>
+      <li>logo/watermark;</li>
+      <li>safe zones.</li>
+      </ul>
+      <p>Все параметры должны загружаться из
+      <code>brands/&lt;brand&gt;/visual.json</code>.</p>
+      </section>
+      <section id="блок-g-qa" class="level3">
+      <h3>Блок G. QA</h3>
+      <p>Автоматические проверки:</p>
+      <ul>
+      <li>schema validation;</li>
+      <li>missing files;</li>
+      <li>zero-duration timeline items;</li>
+      <li>timeline overlaps/gaps;</li>
+      <li>text overflow;</li>
+      <li>missing fonts;</li>
+      <li>black frames;</li>
+      <li>silent audio;</li>
+      <li>output metadata;</li>
+      <li>render smoke test первых/средних/последних кадров;</li>
+      <li>наличие CTA для коммерческого preset.</li>
+      </ul>
+      </section>
+      <section id="блок-h-versioning" class="level3">
+      <h3>Блок H. Versioning</h3>
+      <p>Каждая правка создаёт:</p>
+      <pre class="text"><code>edit_plan.v1.json
+reel.v1.mp4
+edit_plan.v2.json
+reel.v2.mp4</code></pre>
+      <p>Никаких безымянных <code>final-final-2.mp4</code>.</p>
+      </section>
+      </section>
+      <section id="34-первая-тестовая-задача-для-нового-pipeline"
+      class="level2">
+      <h2>34. Первая тестовая задача для нового pipeline</h2>
+      <p>Не начинать с хаотичной папки из сотен файлов. Первый
+      end-to-end тест:</p>
+      <section id="исходники" class="level3">
+      <h3>Исходники</h3>
+      <ul>
+      <li>одно исходное фото заказчика;</li>
+      <li>3–5 коротких видео процесса;</li>
+      <li>2–3 фото промежуточных этапов;</li>
+      <li>2 видео готовой работы;</li>
+      <li>один ваш вертикальный фрагмент или voice-over;</li>
+      <li>один разрешённый музыкальный трек;</li>
+      <li>подтверждённая цена/срок;</li>
+      <li>один CTA.</li>
+      </ul>
+      </section>
+      <section id="цель" class="level3">
+      <h3>Цель</h3>
+      <p>25–35-секундный Reel:</p>
+      <pre class="text"><code>Хук → исходное фото → процесс → детали → готовая работа
+→ цена/условие → «ЗАКАЗ»</code></pre>
+      </section>
+      <section id="варианты" class="level3">
+      <h3>Варианты</h3>
+      <ul>
+      <li><code>v1</code>: понятный коммерческий;</li>
+      <li><code>v2</code>: эмоциональный подарок;</li>
+      <li><code>v3</code>: быстрый beat-sync.</li>
+      </ul>
+      </section>
+      <section id="успешный-тест" class="level3">
+      <h3>Успешный тест</h3>
+      <ul>
+      <li>все три версии собираются из одного manifest;</li>
+      <li>замена хука не требует ручной переклейки;</li>
+      <li>цена берётся из брендового источника;</li>
+      <li>при замене трека beat map перестраивается;</li>
+      <li>вы можете попросить одну правку обычным языком;</li>
+      <li>новая версия сохраняется отдельно;</li>
+      <li>готовый Reel проходит QA.</li>
+      </ul>
+      </section>
+      </section>
+      <section id="35-команды-по-дням" class="level2">
+      <h2>35. Практические команды по дням</h2>
+      <p>Промпты ниже написаны от первого лица — вводите их как есть в
+      Codex CLI/ChatGPT Desktop или в Claude Code CLI/Claude Desktop,
+      кто у вас выбран. Один раз меняете «Codex» на «Claude Code» в
+      команде дня 1, дальше упоминания <code>$reel</code>,
+      <code>$talking-head</code> и остальных skills одинаково работают
+      в обоих инструментах (раздел 31–32).</p>
+      <section id="день-1" class="level3">
+      <h3>День 1</h3>
+      <pre class="text"><code>Проверь окружение этого проекта: Codex (или Claude Code — смотря
+чем вы пользуетесь), FFmpeg, ffprobe, Node, npm и Python. Ничего не
+устанавливай без моего подтверждения.
+Покажи таблицу: компонент, версия, статус, что нужно исправить.</code></pre>
+      </section>
+      <section id="день-2" class="level3">
+      <h3>День 2</h3>
+      <pre class="text"><code>Используй studio-brand. Проверь новую папку в inbox,
+создай manifest, транскрипт, ключевые кадры и contact sheet.
+После анализа покажи, какие исходники сильные, слабые и отсутствуют.</code></pre>
+      </section>
+      <section id="день-3" class="level3">
+      <h3>День 3</h3>
+      <pre class="text"><code>$reel создай три концепции для первой задачи studio.
+Цель — заявки на заказ. Не придумывай цены и не рендери,
+пока я не выберу концепцию.</code></pre>
+      </section>
+      <section id="день-4" class="level3">
+      <h3>День 4</h3>
+      <pre class="text"><code>$talking-head подготовь три сценария до 45 секунд по теме
+«как выбрать фото для заказа». После выбора сделай версию для суфлёра
+и список кадров, которые нужно доснять.</code></pre>
+      </section>
+      <section id="день-5" class="level3">
+      <h3>День 5</h3>
+      <pre class="text"><code>$repurpose возьми утверждённый Reel и подготовь отдельные версии
+для Instagram, Telegram, MAX и ВК. Сохрани их разными файлами.</code></pre>
+      </section>
+      <section id="день-6" class="level3">
+      <h3>День 6</h3>
+      <pre class="text"><code>Подготовь спецификацию ChatPlace-воронки по слову ЗАКАЗ:
+триггер, первое сообщение с кнопкой, вопросы, переменные, теги,
+ветку ручного подключения и тест-кейсы. Пока не активируй её.</code></pre>
+      </section>
+      <section id="день-7" class="level3">
+      <h3>День 7</h3>
+      <pre class="text"><code>Проведи полный rehearsal: новая папка → анализ → концепции → render
+→ QA → platform copy → publication drafts. Зафиксируй все места,
+где потребовалась помощь, и обнови пошаговую инструкцию.</code></pre>
+      </section>
+      </section>
+      <section
+      id="36-как-понять-что-внедрение-действительно-состоялось"
+      class="level2">
+      <h2>36. Итог семи рабочих дней</h2>
+      <p>Неделя считается завершённой не по количеству пройденных
+      шагов, а по работающему результату на ваших материалах.</p>
+      <p>Нужны четыре доказательства:</p>
+      <ol type="1">
+      <li><strong>Доказательство монтажа:</strong> готовый Reel,
+      созданный новым pipeline из ваших исходников.</li>
+      <li><strong>Доказательство повторяемости:</strong> второй Reel
+      собирается тем же skill без ручного переписывания кода.</li>
+      <li><strong>Доказательство самостоятельности:</strong> вы сами
+      запускаете команду, просите правку и находите результат.</li>
+      <li><strong>Доказательство бизнеса:</strong> тестовое кодовое
+      слово проходит воронку и создаёт заявку, которую можно обработать
+      человеком.</li>
+      </ol>
+      <p>Если нет хотя бы одного доказательства, его надо вынести в
+      незавершённый backlog, а не обозначать как «всё настроено».</p>
+      </section>
+    </article>
+  </main>
+
+  <footer class="document-footer">
+    <span>Content OS · Практическое руководство</span>
+    <span>LVMN · Влад Лямин · 2026</span>
+  </footer>
+
+  <script type="module">
+var x0=["BN","BN","BN","BN","BN","BN","BN","BN","BN","S","B","S","WS","B","BN","BN","BN","BN","BN","BN","BN","BN","BN","BN","BN","BN","BN","BN","B","B","B","S","WS","ON","ON","ET","ET","ET","ON","ON","ON","ON","ON","ON","CS","ON","CS","ON","EN","EN","EN","EN","EN","EN","EN","EN","EN","EN","ON","ON","ON","ON","ON","ON","ON","L","L","L","L","L","L","L","L","L","L","L","L","L","L","L","L","L","L","L","L","L","L","L","L","L","L","ON","ON","ON","ON","ON","ON","L","L","L","L","L","L","L","L","L","L","L","L","L","L","L","L","L","L","L","L","L","L","L","L","L","L","ON","ON","ON","ON","BN","BN","BN","BN","BN","BN","B","BN","BN","BN","BN","BN","BN","BN","BN","BN","BN","BN","BN","BN","BN","BN","BN","BN","BN","BN","BN","BN","BN","BN","BN","BN","BN","CS","ON","ET","ET","ET","ET","ON","ON","ON","ON","L","ON","ON","ON","ON","ON","ET","ET","EN","EN","ON","L","ON","ON","ON","EN","L","ON","ON","ON","ON","ON","L","L","L","L","L","L","L","L","L","L","L","L","L","L","L","L","L","L","L","L","L","L","L","ON","L","L","L","L","L","L","L","L","L","L","L","L","L","L","L","L","L","L","L","L","L","L","L","L","L","L","L","L","L","L","L","ON","L","L","L","L","L","L","L","L"],g0=["AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","CS","AL","ON","ON","NSM","NSM","NSM","NSM","NSM","NSM","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","NSM","NSM","NSM","NSM","NSM","NSM","NSM","NSM","NSM","NSM","NSM","NSM","NSM","NSM","AL","AL","AL","AL","AL","AL","AL","AN","AN","AN","AN","AN","AN","AN","AN","AN","AN","ET","AN","AN","AL","AL","AL","NSM","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","NSM","NSM","NSM","NSM","NSM","NSM","NSM","NSM","NSM","NSM","NSM","NSM","NSM","NSM","NSM","NSM","NSM","NSM","NSM","ON","NSM","NSM","NSM","NSM","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL"];function m0(O){if(O<=255)return x0[O];if(1424<=O&&O<=1524)return"R";if(1536<=O&&O<=1791)return g0[O&255];if(1792<=O&&O<=2220)return"AL";return"L"}function r0(O){let _=O.length;if(_===0)return null;let J=Array(_),Y=0;for(let V=0;V<_;V++){let $=m0(O.charCodeAt(V));if($==="R"||$==="AL"||$==="AN")Y++;J[V]=$}if(Y===0)return null;let X=_/Y<0.3?0:1,R=new Int8Array(_);for(let V=0;V<_;V++)R[V]=X;let Z=X&1?"R":"L",Q=Z,f=Q;for(let V=0;V<_;V++)if(J[V]==="NSM")J[V]=f;else f=J[V];f=Q;for(let V=0;V<_;V++){let $=J[V];if($==="EN")J[V]=f==="AL"?"AN":"EN";else if($==="R"||$==="L"||$==="AL")f=$}for(let V=0;V<_;V++)if(J[V]==="AL")J[V]="R";for(let V=1;V<_-1;V++){if(J[V]==="ES"&&J[V-1]==="EN"&&J[V+1]==="EN")J[V]="EN";if(J[V]==="CS"&&(J[V-1]==="EN"||J[V-1]==="AN")&&J[V+1]===J[V-1])J[V]=J[V-1]}for(let V=0;V<_;V++){if(J[V]!=="EN")continue;let $;for($=V-1;$>=0&&J[$]==="ET";$--)J[$]="EN";for($=V+1;$<_&&J[$]==="ET";$++)J[$]="EN"}for(let V=0;V<_;V++){let $=J[V];if($==="WS"||$==="ES"||$==="ET"||$==="CS")J[V]="ON"}f=Q;for(let V=0;V<_;V++){let $=J[V];if($==="EN")J[V]=f==="L"?"L":"EN";else if($==="R"||$==="L")f=$}for(let V=0;V<_;V++){if(J[V]!=="ON")continue;let $=V+1;while($<_&&J[$]==="ON")$++;let u=V>0?J[V-1]:Q,q=$<_?J[$]:Q,D=u!=="L"?"R":"L";if(D===(q!=="L"?"R":"L"))for(let K=V;K<$;K++)J[K]=D;V=$-1}for(let V=0;V<_;V++)if(J[V]==="ON")J[V]=Z;for(let V=0;V<_;V++){let $=J[V];if((R[V]&1)===0){if($==="R")R[V]++;else if($==="AN"||$==="EN")R[V]+=2}else if($==="L"||$==="AN"||$==="EN")R[V]++}return R}function u0(O,_){let J=r0(O);if(J===null)return null;let Y=new Int8Array(_.length);for(let X=0;X<_.length;X++)Y[X]=J[_[X]];return Y}var a0=/[ \t\n\r\f]+/g,s0=/[\t\n\r\f]| {2,}|^ | $/;function d0(O){let _=O??"normal";return _==="pre-wrap"?{mode:_,preserveOrdinarySpaces:!0,preserveHardBreaks:!0}:{mode:_,preserveOrdinarySpaces:!1,preserveHardBreaks:!1}}function i0(O){if(!s0.test(O))return O;let _=O.replace(a0," ");if(_.charCodeAt(0)===32)_=_.slice(1);if(_.length>0&&_.charCodeAt(_.length-1)===32)_=_.slice(0,-1);return _}function t0(O){if(!/[\r\f]/.test(O))return O.replace(/\r\n/g,`
+`);return O.replace(/\r\n/g,`
+`).replace(/[\r\f]/g,`
+`)}var d=null,V0;function n0(){if(d===null)d=new Intl.Segmenter(V0,{granularity:"word"});return d}function z0(){d=null}function j0(O){let _=O&&O.length>0?O:void 0;if(V0===_)return;V0=_,d=null}var e0=/\p{Script=Arabic}/u,O0=/\p{M}/u,b0=/\p{Nd}/u;function X0(O){return e0.test(O)}function p(O){for(let _ of O){let J=_.codePointAt(0);if(J>=19968&&J<=40959||J>=13312&&J<=19903||J>=131072&&J<=173791||J>=173824&&J<=177983||J>=177984&&J<=178207||J>=178208&&J<=183983||J>=183984&&J<=191471||J>=196608&&J<=201551||J>=63744&&J<=64255||J>=194560&&J<=195103||J>=12288&&J<=12351||J>=12352&&J<=12447||J>=12448&&J<=12543||J>=44032&&J<=55215||J>=65280&&J<=65519)return!0}return!1}var $0=new Set(["，","．","！","：","；","？","、","。","・","）","〕","〉","》","」","』","】","〗","〙","〛","ー","々","〻","ゝ","ゞ","ヽ","ヾ"]),i=new Set(['"',"(","[","{","“","‘","«","‹","（","〔","〈","《","「","『","【","〖","〘","〚"]),Q0=new Set(["'","’"]),r=new Set([".",",","!","?",":",";","،","؛","؟","।","॥","၊","။","၌","၍","၏",")","]","}","%",'"',"”","’","»","›","…"]),OO=new Set([":",".","،","؛"]),_O=new Set(["၏"]),JO=new Set(["”","’","»","›","」","』","】","》","〉","〕","）"]);function RO(O){if(q0(O))return!0;let _=!1;for(let J of O){if(r.has(J)){_=!0;continue}if(_&&O0.test(J))continue;return!1}return _}function VO(O){for(let _ of O)if(!$0.has(_)&&!r.has(_))return!1;return O.length>0}function XO(O){if(q0(O))return!0;for(let _ of O)if(!i.has(_)&&!Q0.has(_)&&!O0.test(_))return!1;return O.length>0}function q0(O){let _=!1;for(let J of O){if(J==="\\"||O0.test(J))continue;if(i.has(J)||r.has(J)||Q0.has(J)){_=!0;continue}return!1}return _}function YO(O){let _=Array.from(O),J=_.length;while(J>0){let Y=_[J-1];if(O0.test(Y)){J--;continue}if(i.has(Y)||Q0.has(Y)){J--;continue}break}if(J<=0||J===_.length)return null;return{head:_.slice(0,J).join(""),tail:_.slice(J).join("")}}function ZO(O,_){if(O.length===0)return!1;for(let J of O)if(J!==_)return!1;return!0}function $O(O){if(!X0(O)||O.length===0)return!1;return OO.has(O[O.length-1])}function QO(O){if(O.length===0)return!1;return _O.has(O[O.length-1])}function qO(O){if(O.length<2||O[0]!==" ")return null;let _=O.slice(1);if(/^\p{M}+$/u.test(_))return{space:" ",marks:_};return null}function D0(O){for(let _=O.length-1;_>=0;_--){let J=O[_];if(JO.has(J))return!0;if(!r.has(J))return!1}return!1}function DO(O,_){if(_.preserveOrdinarySpaces||_.preserveHardBreaks){if(O===" ")return"preserved-space";if(O==="\t")return"tab";if(_.preserveHardBreaks&&O===`
+`)return"hard-break"}if(O===" ")return"space";if(O===" "||O===" "||O==="⁠"||O==="\uFEFF")return"glue";if(O==="​")return"zero-width-break";if(O==="­")return"soft-hyphen";return"text"}function NO(O,_,J,Y){let X=[],R=null,Z="",Q=J,f=!1,V=0;for(let $ of O){let u=DO($,Y),q=u==="text"&&_;if(R!==null&&u===R&&q===f){Z+=$,V+=$.length;continue}if(R!==null)X.push({text:Z,isWordLike:f,kind:R,start:Q});R=u,Z=$,Q=J+V,f=q,V+=$.length}if(R!==null)X.push({text:Z,isWordLike:f,kind:R,start:Q});return X}function Y0(O){return O==="space"||O==="preserved-space"||O==="zero-width-break"||O==="hard-break"}var fO=/^[A-Za-z][A-Za-z0-9+.-]*:$/;function HO(O,_){let J=O.texts[_];if(J.startsWith("www."))return!0;return fO.test(J)&&_+1<O.len&&O.kinds[_+1]==="text"&&O.texts[_+1]==="//"}function UO(O){return O.includes("?")&&(O.includes("://")||O.startsWith("www."))}function MO(O){let _=O.texts.slice(),J=O.isWordLike.slice(),Y=O.kinds.slice(),X=O.starts.slice();for(let Z=0;Z<O.len;Z++){if(Y[Z]!=="text"||!HO(O,Z))continue;let Q=Z+1;while(Q<O.len&&!Y0(Y[Q])){_[Z]+=_[Q],J[Z]=!0;let f=_[Q].includes("?");if(Y[Q]="text",_[Q]="",Q++,f)break}}let R=0;for(let Z=0;Z<_.length;Z++){let Q=_[Z];if(Q.length===0)continue;if(R!==Z)_[R]=Q,J[R]=J[Z],Y[R]=Y[Z],X[R]=X[Z];R++}return _.length=R,J.length=R,Y.length=R,X.length=R,{len:R,texts:_,isWordLike:J,kinds:Y,starts:X}}function CO(O){let _=[],J=[],Y=[],X=[];for(let R=0;R<O.len;R++){let Z=O.texts[R];if(_.push(Z),J.push(O.isWordLike[R]),Y.push(O.kinds[R]),X.push(O.starts[R]),!UO(Z))continue;let Q=R+1;if(Q>=O.len||Y0(O.kinds[Q]))continue;let f="",V=O.starts[Q],$=Q;while($<O.len&&!Y0(O.kinds[$]))f+=O.texts[$],$++;if(f.length>0)_.push(f),J.push(!0),Y.push("text"),X.push(V),R=$-1}return{len:_.length,texts:_,isWordLike:J,kinds:Y,starts:X}}var FO=new Set([":","-","/","×",",",".","+","–","—"]),K0=/^[A-Za-z0-9_]+[,:;]*$/,vO=/[,:;]+$/;function E0(O){for(let _ of O)if(b0.test(_))return!0;return!1}function Z0(O){if(O.length===0)return!1;for(let _ of O){if(b0.test(_)||FO.has(_))continue;return!1}return!0}function uO(O){let _=[],J=[],Y=[],X=[];for(let R=0;R<O.len;R++){let Z=O.texts[R],Q=O.kinds[R];if(Q==="text"&&Z0(Z)&&E0(Z)){let f=Z,V=R+1;while(V<O.len&&O.kinds[V]==="text"&&Z0(O.texts[V]))f+=O.texts[V],V++;_.push(f),J.push(!0),Y.push("text"),X.push(O.starts[R]),R=V-1;continue}_.push(Z),J.push(O.isWordLike[R]),Y.push(Q),X.push(O.starts[R])}return{len:_.length,texts:_,isWordLike:J,kinds:Y,starts:X}}function KO(O){let _=[],J=[],Y=[],X=[];for(let R=0;R<O.len;R++){let Z=O.texts[R],Q=O.kinds[R],f=O.isWordLike[R];if(Q==="text"&&f&&K0.test(Z)){let V=Z,$=R+1;while(vO.test(V)&&$<O.len&&O.kinds[$]==="text"&&O.isWordLike[$]&&K0.test(O.texts[$]))V+=O.texts[$],$++;_.push(V),J.push(!0),Y.push("text"),X.push(O.starts[R]),R=$-1;continue}_.push(Z),J.push(f),Y.push(Q),X.push(O.starts[R])}return{len:_.length,texts:_,isWordLike:J,kinds:Y,starts:X}}function zO(O){let _=[],J=[],Y=[],X=[];for(let R=0;R<O.len;R++){let Z=O.texts[R];if(O.kinds[R]==="text"&&Z.includes("-")){let Q=Z.split("-"),f=Q.length>1;for(let V=0;V<Q.length;V++){let $=Q[V];if(!f)break;if($.length===0||!E0($)||!Z0($))f=!1}if(f){let V=0;for(let $=0;$<Q.length;$++){let u=Q[$],q=$<Q.length-1?`${u}-`:u;_.push(q),J.push(!0),Y.push("text"),X.push(O.starts[R]+V),V+=q.length}continue}}_.push(Z),J.push(O.isWordLike[R]),Y.push(O.kinds[R]),X.push(O.starts[R])}return{len:_.length,texts:_,isWordLike:J,kinds:Y,starts:X}}function jO(O){let _=[],J=[],Y=[],X=[],R=0;while(R<O.len){let Z=O.texts[R],Q=O.isWordLike[R],f=O.kinds[R],V=O.starts[R];if(f==="glue"){let $=Z,u=V;R++;while(R<O.len&&O.kinds[R]==="glue")$+=O.texts[R],R++;if(R<O.len&&O.kinds[R]==="text")Z=$+O.texts[R],Q=O.isWordLike[R],f="text",V=u,R++;else{_.push($),J.push(!1),Y.push("glue"),X.push(u);continue}}else R++;if(f==="text")while(R<O.len&&O.kinds[R]==="glue"){let $="";while(R<O.len&&O.kinds[R]==="glue")$+=O.texts[R],R++;if(R<O.len&&O.kinds[R]==="text"){Z+=$+O.texts[R],Q=Q||O.isWordLike[R],R++;continue}Z+=$}_.push(Z),J.push(Q),Y.push(f),X.push(V)}return{len:_.length,texts:_,isWordLike:J,kinds:Y,starts:X}}function bO(O){let _=O.texts.slice(),J=O.isWordLike.slice(),Y=O.kinds.slice(),X=O.starts.slice();for(let R=0;R<_.length-1;R++){if(Y[R]!=="text"||Y[R+1]!=="text")continue;if(!p(_[R])||!p(_[R+1]))continue;let Z=YO(_[R]);if(Z===null)continue;_[R]=Z.head,_[R+1]=Z.tail+_[R+1],X[R+1]=X[R]+Z.head.length}return{len:_.length,texts:_,isWordLike:J,kinds:Y,starts:X}}function EO(O,_,J){let Y=n0(),X=0,R=[],Z=[],Q=[],f=[];for(let q of Y.segment(O))for(let D of NO(q.segment,q.isWordLike??!1,q.index,J)){let b=D.kind==="text";if(_.carryCJKAfterClosingQuote&&b&&X>0&&Q[X-1]==="text"&&p(D.text)&&p(R[X-1])&&D0(R[X-1]))R[X-1]+=D.text,Z[X-1]=Z[X-1]||D.isWordLike;else if(b&&X>0&&Q[X-1]==="text"&&VO(D.text)&&p(R[X-1]))R[X-1]+=D.text,Z[X-1]=Z[X-1]||D.isWordLike;else if(b&&X>0&&Q[X-1]==="text"&&QO(R[X-1]))R[X-1]+=D.text,Z[X-1]=Z[X-1]||D.isWordLike;else if(b&&X>0&&Q[X-1]==="text"&&D.isWordLike&&X0(D.text)&&$O(R[X-1]))R[X-1]+=D.text,Z[X-1]=!0;else if(b&&!D.isWordLike&&X>0&&Q[X-1]==="text"&&D.text.length===1&&D.text!=="-"&&D.text!=="—"&&ZO(R[X-1],D.text))R[X-1]+=D.text;else if(b&&!D.isWordLike&&X>0&&Q[X-1]==="text"&&(RO(D.text)||D.text==="-"&&Z[X-1]))R[X-1]+=D.text;else R[X]=D.text,Z[X]=D.isWordLike,Q[X]=D.kind,f[X]=D.start,X++}for(let q=1;q<X;q++)if(Q[q]==="text"&&!Z[q]&&q0(R[q])&&Q[q-1]==="text")R[q-1]+=R[q],Z[q-1]=Z[q-1]||Z[q],R[q]="";for(let q=X-2;q>=0;q--)if(Q[q]==="text"&&!Z[q]&&XO(R[q])){let D=q+1;while(D<X&&R[D]==="")D++;if(D<X&&Q[D]==="text")R[D]=R[q]+R[D],f[D]=f[q],R[q]=""}let V=0;for(let q=0;q<X;q++){let D=R[q];if(D.length===0)continue;if(V!==q)R[V]=D,Z[V]=Z[q],Q[V]=Q[q],f[V]=f[q];V++}R.length=V,Z.length=V,Q.length=V,f.length=V;let $=jO({len:V,texts:R,isWordLike:Z,kinds:Q,starts:f}),u=bO(KO(zO(uO(CO(MO($))))));for(let q=0;q<u.len-1;q++){let D=qO(u.texts[q]);if(D===null)continue;if(u.kinds[q]!=="space"&&u.kinds[q]!=="preserved-space"||u.kinds[q+1]!=="text"||!X0(u.texts[q+1]))continue;u.texts[q]=D.space,u.isWordLike[q]=!1,u.kinds[q]=u.kinds[q]==="preserved-space"?"preserved-space":"space",u.texts[q+1]=D.marks+u.texts[q+1],u.starts[q+1]=u.starts[q]+D.space.length}return u}function GO(O,_){if(O.len===0)return[];if(!_.preserveHardBreaks)return[{startSegmentIndex:0,endSegmentIndex:O.len,consumedEndSegmentIndex:O.len}];let J=[],Y=0;for(let X=0;X<O.len;X++){if(O.kinds[X]!=="hard-break")continue;J.push({startSegmentIndex:Y,endSegmentIndex:X,consumedEndSegmentIndex:X+1}),Y=X+1}if(Y<O.len)J.push({startSegmentIndex:Y,endSegmentIndex:O.len,consumedEndSegmentIndex:O.len});return J}function N0(O,_,J="normal"){let Y=d0(J),X=Y.mode==="pre-wrap"?t0(O):i0(O);if(X.length===0)return{normalized:X,chunks:[],len:0,texts:[],isWordLike:[],kinds:[],starts:[]};let R=EO(X,_,Y);return{normalized:X,chunks:GO(R,Y),...R}}var a=null,f0=new Map,s=null,PO=/\p{Emoji_Presentation}/u,AO=/[\p{Emoji_Presentation}\p{Extended_Pictographic}\p{Regional_Indicator}\uFE0F\u20E3]/u,_0=null,H0=new Map;function U0(){if(a!==null)return a;if(typeof OffscreenCanvas<"u")return a=new OffscreenCanvas(1,1).getContext("2d"),a;if(typeof document<"u")return a=document.createElement("canvas").getContext("2d"),a;throw Error("Text measurement requires OffscreenCanvas or a DOM canvas context.")}function BO(O){let _=f0.get(O);if(!_)_=new Map,f0.set(O,_);return _}function x(O,_){let J=_.get(O);if(J===void 0)J={width:U0().measureText(O).width,containsCJK:p(O)},_.set(O,J);return J}function h(){if(s!==null)return s;if(typeof navigator>"u")return s={lineFitEpsilon:0.005,carryCJKAfterClosingQuote:!1,preferPrefixWidthsForBreakableRuns:!1,preferEarlySoftHyphenBreak:!1},s;let O=navigator.userAgent,J=navigator.vendor==="Apple Computer, Inc."&&O.includes("Safari/")&&!O.includes("Chrome/")&&!O.includes("Chromium/")&&!O.includes("CriOS/")&&!O.includes("FxiOS/")&&!O.includes("EdgiOS/"),Y=O.includes("Chrome/")||O.includes("Chromium/")||O.includes("CriOS/")||O.includes("Edg/");return s={lineFitEpsilon:J?0.015625:0.005,carryCJKAfterClosingQuote:Y,preferPrefixWidthsForBreakableRuns:J,preferEarlySoftHyphenBreak:J},s}function TO(O){let _=O.match(/(\d+(?:\.\d+)?)\s*px/);return _?parseFloat(_[1]):16}function M0(){if(_0===null)_0=new Intl.Segmenter(void 0,{granularity:"grapheme"});return _0}function wO(O){return PO.test(O)||O.includes("️")}function G0(O){return AO.test(O)}function yO(O,_){let J=H0.get(O);if(J!==void 0)return J;let Y=U0();Y.font=O;let X=Y.measureText("\uD83D\uDE00").width;if(J=0,X>_+0.5&&typeof document<"u"&&document.body!==null){let R=document.createElement("span");R.style.font=O,R.style.display="inline-block",R.style.visibility="hidden",R.style.position="absolute",R.textContent="\uD83D\uDE00",document.body.appendChild(R);let Z=R.getBoundingClientRect().width;if(document.body.removeChild(R),X-Z>0.5)J=X-Z}return H0.set(O,J),J}function LO(O){let _=0,J=M0();for(let Y of J.segment(O))if(wO(Y.segment))_++;return _}function WO(O,_){if(_.emojiCount===void 0)_.emojiCount=LO(O);return _.emojiCount}function g(O,_,J){if(J===0)return _.width;return _.width-WO(O,_)*J}function P0(O,_,J,Y){if(_.graphemeWidths!==void 0)return _.graphemeWidths;let X=[],R=M0();for(let Z of R.segment(O)){let Q=x(Z.segment,J);X.push(g(Z.segment,Q,Y))}return _.graphemeWidths=X.length>1?X:null,_.graphemeWidths}function A0(O,_,J,Y){if(_.graphemePrefixWidths!==void 0)return _.graphemePrefixWidths;let X=[],R=M0(),Z="";for(let Q of R.segment(O)){Z+=Q.segment;let f=x(Z,J);X.push(g(Z,f,Y))}return _.graphemePrefixWidths=X.length>1?X:null,_.graphemePrefixWidths}function B0(O,_){let J=U0();J.font=O;let Y=BO(O),X=TO(O),R=_?yO(O,X):0;return{cache:Y,fontSize:X,emojiCorrection:R}}function T0(){f0.clear(),H0.clear(),_0=null}function m(O){return O==="space"||O==="preserved-space"||O==="tab"||O==="zero-width-break"||O==="soft-hyphen"}function SO(O){return O==="space"}function w0(O,_){if(_<=0)return 0;let J=O%_;if(Math.abs(J)<=0.000001)return _;return _-J}function t(O,_,J,Y){if(!Y||_===null)return O[J];return _[J]-(J>0?_[J-1]:0)}function y0(O,_,J,Y,X,R){let Z=0,Q=_;while(Z<O.length){let f=R?_+O[Z]:Q+O[Z];if((Z+1<O.length?f+X:f)>J+Y)break;Q=f,Z++}return{fitCount:Z,fittedWidth:Q}}function L0(O,_){for(let J=0;J<O.chunks.length;J++){let Y=O.chunks[J];if(_<Y.consumedEndSegmentIndex)return J}return-1}function kO(O,_){let{segmentIndex:J,graphemeIndex:Y}=_;if(J>=O.widths.length)return null;if(Y>0)return _;let X=L0(O,J);if(X<0)return null;let R=O.chunks[X];if(R.startSegmentIndex===R.endSegmentIndex&&J===R.startSegmentIndex)return{segmentIndex:J,graphemeIndex:0};if(J<R.startSegmentIndex)J=R.startSegmentIndex;while(J<R.endSegmentIndex){let Z=O.kinds[J];if(Z!=="space"&&Z!=="zero-width-break"&&Z!=="soft-hyphen")return{segmentIndex:J,graphemeIndex:0};J++}if(R.consumedEndSegmentIndex>=O.widths.length)return null;return{segmentIndex:R.consumedEndSegmentIndex,graphemeIndex:0}}function W0(O,_){if(O.simpleLineWalkFastPath)return IO(O,_);return J0(O,_)}function IO(O,_){let{widths:J,kinds:Y,breakableWidths:X,breakablePrefixWidths:R}=O;if(J.length===0)return 0;let Z=h(),Q=Z.lineFitEpsilon,f=0,V=0,$=!1;function u(q){let D=J[q];if(D>_&&X[q]!==null){let b=X[q],K=R[q]??null;V=0;for(let j=0;j<b.length;j++){let B=t(b,K,j,Z.preferPrefixWidthsForBreakableRuns);if(V>0&&V+B>_+Q)f++,V=B;else{if(V===0)f++;V+=B}}}else V=D,f++;$=!0}for(let q=0;q<J.length;q++){let D=J[q],b=Y[q];if(!$){u(q);continue}let K=V+D;if(K>_+Q){if(SO(b))continue;V=0,$=!1,u(q);continue}V=K}if(!$)return f+1;return f}function cO(O,_,J){let{widths:Y,kinds:X,breakableWidths:R,breakablePrefixWidths:Z}=O;if(Y.length===0)return 0;let Q=h(),f=Q.lineFitEpsilon,V=0,$=0,u=!1,q=0,D=0,b=0,K=0,j=-1,B=0;function k(){j=-1,B=0}function y(H=b,z=K,W=$){V++,J?.({startSegmentIndex:q,startGraphemeIndex:D,endSegmentIndex:H,endGraphemeIndex:z,width:W}),$=0,u=!1,k()}function A(H,z){u=!0,q=H,D=0,b=H+1,K=0,$=z}function T(H,z,W){u=!0,q=H,D=z,b=H,K=z+1,$=W}function L(H,z){if(!u){A(H,z);return}$+=z,b=H+1,K=0}function C(H,z){if(!m(X[H]))return;j=H+1,B=$-z}function F(H){P(H,0)}function P(H,z){let W=R[H],c=Z[H]??null;for(let I=z;I<W.length;I++){let o=t(W,c,I,Q.preferPrefixWidthsForBreakableRuns);if(!u){T(H,I,o);continue}if($+o>_+f)y(),T(H,I,o);else $+=o,b=H,K=I+1}if(u&&b===H&&K===W.length)b=H+1,K=0}let E=0;while(E<Y.length){let H=Y[E],z=X[E];if(!u){if(H>_&&R[E]!==null)F(E);else A(E,H);C(E,H),E++;continue}if($+H>_+f){if(m(z)){L(E,H),y(E+1,0,$-H),E++;continue}if(j>=0){y(j,0,B);continue}if(H>_&&R[E]!==null){y(),F(E),E++;continue}y();continue}L(E,H),C(E,H),E++}if(u)y();return V}function J0(O,_,J){if(O.simpleLineWalkFastPath)return cO(O,_,J);let{widths:Y,lineEndFitAdvances:X,lineEndPaintAdvances:R,kinds:Z,breakableWidths:Q,breakablePrefixWidths:f,discretionaryHyphenWidth:V,tabStopAdvance:$,chunks:u}=O;if(Y.length===0||u.length===0)return 0;let q=h(),D=q.lineFitEpsilon,b=0,K=0,j=!1,B=0,k=0,y=0,A=0,T=-1,L=0,C=0,F=null;function P(){T=-1,L=0,C=0,F=null}function E(N=y,M=A,v=K){b++,J?.({startSegmentIndex:B,startGraphemeIndex:k,endSegmentIndex:N,endGraphemeIndex:M,width:v}),K=0,j=!1,P()}function H(N,M){j=!0,B=N,k=0,y=N+1,A=0,K=M}function z(N,M,v){j=!0,B=N,k=M,y=N,A=M+1,K=v}function W(N,M){if(!j){H(N,M);return}K+=M,y=N+1,A=0}function c(N,M){if(!m(Z[N]))return;let v=Z[N]==="tab"?0:X[N],w=Z[N]==="tab"?M:R[N];T=N+1,L=K-M+v,C=K-M+w,F=Z[N]}function I(N){o(N,0)}function o(N,M){let v=Q[N],w=f[N]??null;for(let G=M;G<v.length;G++){let l=t(v,w,G,q.preferPrefixWidthsForBreakableRuns);if(!j){z(N,G,l);continue}if(K+l>_+D)E(),z(N,G,l);else K+=l,y=N,A=G+1}if(j&&y===N&&A===v.length)y=N+1,A=0}function S(N){if(F!=="soft-hyphen")return!1;let M=Q[N];if(M===null)return!1;let v=q.preferPrefixWidthsForBreakableRuns?f[N]??M:M,w=v!==M,{fitCount:G,fittedWidth:l}=y0(v,K,_,D,V,w);if(G===0)return!1;if(K=l,y=N,A=G,P(),G===M.length)return y=N+1,A=0,!0;return E(N,G,l+V),o(N,G),!0}function U(N){b++,J?.({startSegmentIndex:N.startSegmentIndex,startGraphemeIndex:0,endSegmentIndex:N.consumedEndSegmentIndex,endGraphemeIndex:0,width:0}),P()}for(let N=0;N<u.length;N++){let M=u[N];if(M.startSegmentIndex===M.endSegmentIndex){U(M);continue}j=!1,K=0,B=M.startSegmentIndex,k=0,y=M.startSegmentIndex,A=0,P();let v=M.startSegmentIndex;while(v<M.endSegmentIndex){let w=Z[v],G=w==="tab"?w0(K,$):Y[v];if(w==="soft-hyphen"){if(j)y=v+1,A=0,T=v+1,L=K+V,C=K+V,F=w;v++;continue}if(!j){if(G>_&&Q[v]!==null)I(v);else H(v,G);c(v,G),v++;continue}if(K+G>_+D){let n=K+(w==="tab"?0:X[v]),e=K+(w==="tab"?G:R[v]);if(F==="soft-hyphen"&&q.preferEarlySoftHyphenBreak&&L<=_+D){E(T,0,C);continue}if(F==="soft-hyphen"&&S(v)){v++;continue}if(m(w)&&n<=_+D){W(v,G),E(v+1,0,e),v++;continue}if(T>=0&&L<=_+D){E(T,0,C);continue}if(G>_&&Q[v]!==null){E(),I(v),v++;continue}E();continue}W(v,G),c(v,G),v++}if(j){let w=T===M.consumedEndSegmentIndex?C:K;E(M.consumedEndSegmentIndex,0,w)}}return b}function S0(O,_,J){let Y=kO(O,_);if(Y===null)return null;if(O.simpleLineWalkFastPath)return oO(O,Y,J);let X=L0(O,Y.segmentIndex);if(X<0)return null;let R=O.chunks[X];if(R.startSegmentIndex===R.endSegmentIndex)return{startSegmentIndex:R.startSegmentIndex,startGraphemeIndex:0,endSegmentIndex:R.consumedEndSegmentIndex,endGraphemeIndex:0,width:0};let{widths:Z,lineEndFitAdvances:Q,lineEndPaintAdvances:f,kinds:V,breakableWidths:$,breakablePrefixWidths:u,discretionaryHyphenWidth:q,tabStopAdvance:D}=O,b=h(),K=b.lineFitEpsilon,j=0,B=!1,k=Y.segmentIndex,y=Y.graphemeIndex,A=k,T=y,L=-1,C=0,F=0,P=null;function E(){L=-1,C=0,F=0,P=null}function H(U=A,N=T,M=j){if(!B)return null;return{startSegmentIndex:k,startGraphemeIndex:y,endSegmentIndex:U,endGraphemeIndex:N,width:M}}function z(U,N){B=!0,A=U+1,T=0,j=N}function W(U,N,M){B=!0,A=U,T=N+1,j=M}function c(U,N){if(!B){z(U,N);return}j+=N,A=U+1,T=0}function I(U,N){if(!m(V[U]))return;let M=V[U]==="tab"?0:Q[U],v=V[U]==="tab"?N:f[U];L=U+1,C=j-N+M,F=j-N+v,P=V[U]}function o(U,N){let M=$[U],v=u[U]??null;for(let w=N;w<M.length;w++){let G=t(M,v,w,b.preferPrefixWidthsForBreakableRuns);if(!B){W(U,w,G);continue}if(j+G>J+K)return H();j+=G,A=U,T=w+1}if(B&&A===U&&T===M.length)A=U+1,T=0;return null}function S(U){if(P!=="soft-hyphen"||L<0)return null;let N=$[U]??null;if(N!==null){let M=b.preferPrefixWidthsForBreakableRuns?u[U]??N:N,v=M!==N,{fitCount:w,fittedWidth:G}=y0(M,j,J,K,q,v);if(w===N.length)return j=G,A=U+1,T=0,E(),null;if(w>0)return H(U,w,G+q)}if(C<=J+K)return H(L,0,F);return null}for(let U=Y.segmentIndex;U<R.endSegmentIndex;U++){let N=V[U],M=U===Y.segmentIndex?Y.graphemeIndex:0,v=N==="tab"?w0(j,D):Z[U];if(N==="soft-hyphen"&&M===0){if(B)A=U+1,T=0,L=U+1,C=j+q,F=j+q,P=N;continue}if(!B){if(M>0){let G=o(U,M);if(G!==null)return G}else if(v>J&&$[U]!==null){let G=o(U,0);if(G!==null)return G}else z(U,v);I(U,v);continue}if(j+v>J+K){let G=j+(N==="tab"?0:Q[U]),l=j+(N==="tab"?v:f[U]);if(P==="soft-hyphen"&&b.preferEarlySoftHyphenBreak&&C<=J+K)return H(L,0,F);let n=S(U);if(n!==null)return n;if(m(N)&&G<=J+K)return c(U,v),H(U+1,0,l);if(L>=0&&C<=J+K)return H(L,0,F);if(v>J&&$[U]!==null){let e=H();if(e!==null)return e;let v0=o(U,0);if(v0!==null)return v0}return H()}c(U,v),I(U,v)}if(L===R.consumedEndSegmentIndex&&T===0)return H(R.consumedEndSegmentIndex,0,F);return H(R.consumedEndSegmentIndex,0,j)}function oO(O,_,J){let{widths:Y,kinds:X,breakableWidths:R,breakablePrefixWidths:Z}=O,Q=h(),f=Q.lineFitEpsilon,V=0,$=!1,u=_.segmentIndex,q=_.graphemeIndex,D=u,b=q,K=-1,j=0;function B(C=D,F=b,P=V){if(!$)return null;return{startSegmentIndex:u,startGraphemeIndex:q,endSegmentIndex:C,endGraphemeIndex:F,width:P}}function k(C,F){$=!0,D=C+1,b=0,V=F}function y(C,F,P){$=!0,D=C,b=F+1,V=P}function A(C,F){if(!$){k(C,F);return}V+=F,D=C+1,b=0}function T(C,F){if(!m(X[C]))return;K=C+1,j=V-F}function L(C,F){let P=R[C],E=Z[C]??null;for(let H=F;H<P.length;H++){let z=t(P,E,H,Q.preferPrefixWidthsForBreakableRuns);if(!$){y(C,H,z);continue}if(V+z>J+f)return B();V+=z,D=C,b=H+1}if($&&D===C&&b===P.length)D=C+1,b=0;return null}for(let C=_.segmentIndex;C<Y.length;C++){let F=Y[C],P=X[C],E=C===_.segmentIndex?_.graphemeIndex:0;if(!$){if(E>0){let z=L(C,E);if(z!==null)return z}else if(F>J&&R[C]!==null){let z=L(C,0);if(z!==null)return z}else k(C,F);T(C,F);continue}if(V+F>J+f){if(m(P))return A(C,F),B(C+1,0,V-F);if(K>=0)return B(K,0,j);if(F>J&&R[C]!==null){let z=B();if(z!==null)return z;let W=L(C,0);if(W!==null)return W}return B()}A(C,F),T(C,F)}return B()}var R0=null,C0=new WeakMap;function I0(){if(R0===null)R0=new Intl.Segmenter(void 0,{granularity:"grapheme"});return R0}function lO(O){if(O)return{widths:[],lineEndFitAdvances:[],lineEndPaintAdvances:[],kinds:[],simpleLineWalkFastPath:!0,segLevels:null,breakableWidths:[],breakablePrefixWidths:[],discretionaryHyphenWidth:0,tabStopAdvance:0,chunks:[],segments:[]};return{widths:[],lineEndFitAdvances:[],lineEndPaintAdvances:[],kinds:[],simpleLineWalkFastPath:!0,segLevels:null,breakableWidths:[],breakablePrefixWidths:[],discretionaryHyphenWidth:0,tabStopAdvance:0,chunks:[]}}function c0(O,_,J){let Y=I0(),X=h(),{cache:R,emojiCorrection:Z}=B0(_,G0(O.normalized)),Q=g("-",x("-",R),Z),V=g(" ",x(" ",R),Z)*8;if(O.len===0)return lO(J);let $=[],u=[],q=[],D=[],b=O.chunks.length<=1,K=J?[]:null,j=[],B=[],k=J?[]:null,y=Array.from({length:O.len}),A=Array.from({length:O.len});function T(F,P,E,H,z,W,c,I){if(z!=="text"&&z!=="space"&&z!=="zero-width-break")b=!1;if($.push(P),u.push(E),q.push(H),D.push(z),K?.push(W),j.push(c),B.push(I),k!==null)k.push(F)}for(let F=0;F<O.len;F++){y[F]=$.length;let P=O.texts[F],E=O.isWordLike[F],H=O.kinds[F],z=O.starts[F];if(H==="soft-hyphen"){T(P,0,Q,Q,H,z,null,null),A[F]=$.length;continue}if(H==="hard-break"){T(P,0,0,0,H,z,null,null),A[F]=$.length;continue}if(H==="tab"){T(P,0,0,0,H,z,null,null),A[F]=$.length;continue}let W=x(P,R);if(H==="text"&&W.containsCJK){let S="",U=0;for(let N of Y.segment(P)){let M=N.segment;if(S.length===0){S=M,U=N.index;continue}if(i.has(S)||$0.has(M)||r.has(M)||X.carryCJKAfterClosingQuote&&p(M)&&D0(S)){S+=M;continue}let v=x(S,R),w=g(S,v,Z);T(S,w,w,w,"text",z+U,null,null),S=M,U=N.index}if(S.length>0){let N=x(S,R),M=g(S,N,Z);T(S,M,M,M,"text",z+U,null,null)}A[F]=$.length;continue}let c=g(P,W,Z),I=H==="space"||H==="preserved-space"||H==="zero-width-break"?0:c,o=H==="space"||H==="zero-width-break"?0:c;if(E&&P.length>1){let S=P0(P,W,R,Z),U=X.preferPrefixWidthsForBreakableRuns?A0(P,W,R,Z):null;T(P,c,I,o,H,z,S,U)}else T(P,c,I,o,H,z,null,null);A[F]=$.length}let L=hO(O.chunks,y,A),C=K===null?null:u0(O.normalized,K);if(k!==null)return{widths:$,lineEndFitAdvances:u,lineEndPaintAdvances:q,kinds:D,simpleLineWalkFastPath:b,segLevels:C,breakableWidths:j,breakablePrefixWidths:B,discretionaryHyphenWidth:Q,tabStopAdvance:V,chunks:L,segments:k};return{widths:$,lineEndFitAdvances:u,lineEndPaintAdvances:q,kinds:D,simpleLineWalkFastPath:b,segLevels:C,breakableWidths:j,breakablePrefixWidths:B,discretionaryHyphenWidth:Q,tabStopAdvance:V,chunks:L}}function hO(O,_,J){let Y=[];for(let X=0;X<O.length;X++){let R=O[X],Z=R.startSegmentIndex<_.length?_[R.startSegmentIndex]:J[J.length-1]??0,Q=R.endSegmentIndex<_.length?_[R.endSegmentIndex]:J[J.length-1]??0,f=R.consumedEndSegmentIndex<_.length?_[R.consumedEndSegmentIndex]:J[J.length-1]??0;Y.push({startSegmentIndex:Z,endSegmentIndex:Q,consumedEndSegmentIndex:f})}return Y}function o0(O,_,J,Y){let X=N0(O,h(),Y?.whiteSpace);return c0(X,_,J)}function V1(O,_,J){let Y=performance.now(),X=N0(O,h(),J?.whiteSpace),R=performance.now(),Z=c0(X,_,!1),Q=performance.now(),f=0;for(let V of Z.breakableWidths)if(V!==null)f++;return{analysisMs:R-Y,measureMs:Q-R,totalMs:Q-Y,analysisSegments:X.len,preparedSegments:Z.widths.length,breakableSegments:f}}function X1(O,_,J){return o0(O,_,!1,J)}function Y1(O,_,J){return o0(O,_,!0,J)}function F0(O){return O}function Z1(O,_,J){let Y=W0(F0(O),_);return{lineCount:Y,height:Y*J}}function k0(O,_,J){let Y=J.get(O);if(Y!==void 0)return Y;Y=[];let X=I0();for(let R of X.segment(_[O]))Y.push(R.segment);return J.set(O,Y),Y}function l0(O){let _=C0.get(O);if(_!==void 0)return _;return _=new Map,C0.set(O,_),_}function pO(O,_,J,Y){return Y>0&&O[Y-1]==="soft-hyphen"&&!(_===Y&&J>0)}function xO(O,_,J,Y,X,R,Z){let Q="",f=pO(_,Y,X,R);for(let V=Y;V<R;V++){if(_[V]==="soft-hyphen"||_[V]==="hard-break")continue;if(V===Y&&X>0)Q+=k0(V,O,J).slice(X).join("");else Q+=O[V]}if(Z>0){if(f)Q+="-";Q+=k0(R,O,J).slice(Y===R?X:0,Z).join("")}else if(f)Q+="-";return Q}function h0(O,_,J,Y,X,R,Z){return{text:xO(O.segments,O.kinds,_,Y,X,R,Z),width:J,start:{segmentIndex:Y,graphemeIndex:X},end:{segmentIndex:R,graphemeIndex:Z}}}function gO(O,_,J){return h0(O,_,J.width,J.startSegmentIndex,J.startGraphemeIndex,J.endSegmentIndex,J.endGraphemeIndex)}function p0(O){return{width:O.width,start:{segmentIndex:O.startSegmentIndex,graphemeIndex:O.startGraphemeIndex},end:{segmentIndex:O.endSegmentIndex,graphemeIndex:O.endGraphemeIndex}}}function mO(O,_,J){let Y=S0(O,_,J);if(Y===null)return null;return p0(Y)}function rO(O,_){return h0(O,l0(O),_.width,_.start.segmentIndex,_.start.graphemeIndex,_.end.segmentIndex,_.end.graphemeIndex)}function $1(O,_,J){if(O.widths.length===0)return 0;return J0(F0(O),_,(Y)=>{J(p0(Y))})}function Q1(O,_,J){let Y=mO(O,_,J);if(Y===null)return null;return rO(O,Y)}function q1(O,_,J){let Y=[];if(O.widths.length===0)return{lineCount:0,height:0,lines:Y};let X=l0(O),R=J0(F0(O),_,(Z)=>{Y.push(gO(O,X,Z))});return{lineCount:R,height:R*J,lines:Y}}function aO(){z0(),R0=null,C0=new WeakMap,T0()}function D1(O){j0(O),aO()}export{$1 as walkLineRanges,D1 as setLocale,V1 as profilePrepare,Y1 as prepareWithSegments,X1 as prepare,q1 as layoutWithLines,Q1 as layoutNextLine,Z1 as layout,aO as clearCache};
+
+    const pretextPrepare = X1;
+    const pretextLayout = Z1;
+    const prepared = new Map();
+
+    async function prepareEditorialText() {
+      await document.fonts.ready;
+      const nodes = document.querySelectorAll('[data-pretext], article h2, article h3, article blockquote p');
+      for (const node of nodes) {
+        node.dataset.pretext = '';
+        const style = getComputedStyle(node);
+        prepared.set(node, pretextPrepare(node.textContent || '', style.font));
+      }
+      relayoutEditorialText();
+    }
+
+    function relayoutEditorialText() {
+      for (const [node, handle] of prepared) {
+        const style = getComputedStyle(node);
+        const lineHeight = Number.parseFloat(style.lineHeight) || Number.parseFloat(style.fontSize) * 1.3;
+        const result = pretextLayout(handle, node.clientWidth, lineHeight);
+        node.style.minHeight = Math.ceil(result.height) + 'px';
+      }
+    }
+
+    const mutationObserver = new MutationObserver((records) => {
+      for (const record of records) {
+        const node = record.target.nodeType === Node.TEXT_NODE ? record.target.parentElement : record.target;
+        const target = node?.closest?.('[data-pretext]');
+        if (!target) continue;
+        const style = getComputedStyle(target);
+        prepared.set(target, pretextPrepare(target.textContent || '', style.font));
+      }
+      relayoutEditorialText();
+    });
+
+    const readingColumn = document.querySelector('.reading-column');
+    if (readingColumn) {
+      mutationObserver.observe(readingColumn, { characterData: true, childList: true, subtree: true });
+      new ResizeObserver(relayoutEditorialText).observe(readingColumn);
+    }
+
+    prepareEditorialText();
+
+    document.querySelectorAll('table').forEach((table) => {
+      if (table.parentElement?.classList.contains('table-wrap')) return;
+      const wrap = document.createElement('div');
+      wrap.className = 'table-wrap';
+      table.parentNode.insertBefore(wrap, table);
+      wrap.appendChild(table);
+    });
+
+    const progress = document.querySelector('.reading-progress');
+    function updateProgress() {
+      const max = document.documentElement.scrollHeight - innerHeight;
+      const ratio = max > 0 ? Math.min(1, scrollY / max) : 0;
+      progress.style.width = ratio * 100 + '%';
+    }
+    addEventListener('scroll', updateProgress, { passive: true });
+    addEventListener('resize', updateProgress);
+    updateProgress();
+
+    const drawer = document.getElementById('tocDrawer');
+    const scrim = document.getElementById('scrim');
+    const tocToggle = document.getElementById('tocToggle');
+    const tocClose = document.getElementById('tocClose');
+    function setToc(open) {
+      drawer.dataset.open = String(open);
+      scrim.dataset.open = String(open);
+      tocToggle.setAttribute('aria-expanded', String(open));
+      document.body.style.overflow = open ? 'hidden' : '';
+      if (open) tocClose.focus(); else tocToggle.focus();
+    }
+    tocToggle.addEventListener('click', () => setToc(true));
+    tocClose.addEventListener('click', () => setToc(false));
+    scrim.addEventListener('click', () => setToc(false));
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && drawer.dataset.open === 'true') setToc(false);
+    });
+    document.querySelectorAll('#TOC a').forEach((link) => link.addEventListener('click', () => setToc(false)));
+
+    const editToggle = document.getElementById('editToggle');
+    editToggle.addEventListener('click', () => {
+      const editing = !document.body.classList.contains('editing');
+      document.body.classList.toggle('editing', editing);
+      editToggle.setAttribute('aria-pressed', String(editing));
+      editToggle.textContent = editing ? 'Завершить правки' : 'Править текст';
+      document.querySelectorAll('article h2, article h3, article h4, article p, article li, article blockquote').forEach((node) => {
+        node.contentEditable = editing ? 'true' : 'false';
+      });
+    });
+
+    const tocLinks = [...document.querySelectorAll('#TOC a')];
+    const sections = [...document.querySelectorAll('section.level2[id]')];
+    const linkById = new Map(tocLinks.map((link) => [decodeURIComponent(link.hash.slice(1)), link]));
+    const sectionObserver = new IntersectionObserver((entries) => {
+      const visible = entries.filter((entry) => entry.isIntersecting).sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top)[0];
+      if (!visible) return;
+      tocLinks.forEach((link) => link.removeAttribute('aria-current'));
+      linkById.get(visible.target.id)?.setAttribute('aria-current', 'true');
+    }, { rootMargin: '-18% 0px -72% 0px', threshold: 0 });
+    sections.forEach((section) => sectionObserver.observe(section));
+
+    document.querySelectorAll('pre.mermaid, pre > code.language-mermaid').forEach((node) => {
+      const pre = node.matches('pre') ? node : node.parentElement;
+      const shell = document.createElement('div');
+      shell.className = 'mermaid-shell';
+      const diagram = document.createElement('div');
+      diagram.className = 'mermaid';
+      diagram.textContent = node.textContent;
+      shell.appendChild(diagram);
+      pre.replaceWith(shell);
+    });
+
+    if (document.querySelector('.mermaid')) {
+      import('https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs').then(({ default: mermaid }) => {
+        mermaid.initialize({
+          startOnLoad: false,
+          theme: 'base',
+          securityLevel: 'strict',
+          flowchart: {
+            curve: 'linear',
+            htmlLabels: true,
+            useMaxWidth: true,
+            nodeSpacing: 24,
+            rankSpacing: 34,
+            padding: 16
+          },
+          themeVariables: {
+            fontFamily: 'Manrope, sans-serif',
+            fontSize: '16px',
+            background: 'transparent',
+            primaryColor: '#e7dfd1',
+            primaryTextColor: '#20231f',
+            primaryBorderColor: '#ae4935',
+            lineColor: '#d8785f',
+            secondaryColor: '#dfb8a6',
+            tertiaryColor: '#f2ede4',
+            clusterBkg: 'transparent',
+            clusterBorder: 'transparent'
+          }
+        });
+        mermaid.run({ querySelector: '.mermaid' });
+      }).catch(() => {});
+    }
+  </script>
+</body>
+</html>
