@@ -346,6 +346,66 @@
 
     .quickstart li { margin: .7em 0; }
 
+    .updates-optin {
+      margin: 0 0 clamp(70px, 9vw, 110px);
+      padding: 22px clamp(28px, 5vw, 48px);
+      border: 1px solid var(--line);
+      border-top: 0;
+    }
+
+    .updates-optin-label {
+      margin: 0 0 14px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .updates-optin-form {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .updates-optin-form input {
+      flex: 1 1 220px;
+      min-height: 44px;
+      padding: 0 14px;
+      border: 1px solid var(--line);
+      background: var(--paper);
+      color: var(--ink);
+      font: 500 14px/1 var(--sans);
+    }
+
+    .updates-optin-form input:focus-visible {
+      outline: 3px solid var(--accent-soft);
+      outline-offset: 2px;
+    }
+
+    .updates-optin-form button {
+      min-height: 44px;
+      padding: 0 18px;
+      border: 1px solid var(--ink);
+      background: var(--ink);
+      color: var(--paper);
+      font: 600 13px/1 var(--sans);
+      cursor: pointer;
+    }
+
+    .updates-optin-form button:disabled { opacity: .6; cursor: default; }
+    .updates-optin-form button:hover:not(:disabled) { background: var(--accent); border-color: var(--accent); }
+
+    .updates-optin-status {
+      margin: 10px 0 0;
+      font-size: 13px;
+      line-height: 1.4;
+    }
+    .updates-optin-status[data-tone="error"] { color: var(--accent); }
+    .updates-optin-status[data-tone="ok"] { color: var(--forest-ink); font-weight: 600; }
+
+    @media (max-width: 760px) {
+      .updates-optin { padding: 20px; }
+    }
+
     code {
       padding: .13em .34em;
       border-bottom: 1px solid var(--line);
@@ -562,7 +622,7 @@
       :root { --paper: #fff; --ink: #111; --muted: #555; --line: #bbb; }
       @page { size: A4; margin: 18mm 16mm 20mm; }
       body { font-size: 10.5pt; line-height: 1.55; background: #fff; }
-      .topbar, .reading-progress, .toc-drawer, .scrim { display: none !important; }
+      .topbar, .reading-progress, .toc-drawer, .scrim, .updates-optin { display: none !important; }
       .cover { min-height: 250mm; padding: 30mm 0 20mm; page-break-after: always; }
       .cover::before {
         color: #f0eee9;
@@ -745,6 +805,16 @@
       это устроено и как расширить систему под ваш бренд и Codex. Если
       что-то не запустилось — раздел 29 (установка зависимостей) и README
       внутри архива покрывают типичные ошибки по шагам.</p>
+      </section>
+      <section class="updates-optin" id="updates-optin" aria-label="Подписка на обновления гайда">
+      <p class="updates-optin-label">Гайд обновляется — beat-sync, новые presets, поддержка новых версий Codex и Claude Code</p>
+      <form id="updatesForm" class="updates-optin-form" novalidate>
+        <input type="text" id="updatesTelegram" name="telegram" inputmode="text"
+        autocomplete="off" autocapitalize="off" spellcheck="false"
+        placeholder="@username" aria-label="Telegram-ник для уведомлений об обновлениях">
+        <button type="submit" id="updatesSubmit">Сообщить об апдейтах</button>
+      </form>
+      <p class="updates-optin-status" id="updatesStatus" role="status" aria-live="polite"></p>
       </section>
       <section id="1-ваша-цель-и-итоговая-система"
       class="level2">
@@ -2991,17 +3061,6 @@ var x0=["BN","BN","BN","BN","BN","BN","BN","BN","BN","S","B","S","WS","B","BN","
     });
     document.querySelectorAll('#TOC a').forEach((link) => link.addEventListener('click', () => setToc(false)));
 
-    const editToggle = document.getElementById('editToggle');
-    editToggle.addEventListener('click', () => {
-      const editing = !document.body.classList.contains('editing');
-      document.body.classList.toggle('editing', editing);
-      editToggle.setAttribute('aria-pressed', String(editing));
-      editToggle.textContent = editing ? 'Завершить правки' : 'Править текст';
-      document.querySelectorAll('article h2, article h3, article h4, article p, article li, article blockquote').forEach((node) => {
-        node.contentEditable = editing ? 'true' : 'false';
-      });
-    });
-
     const tocLinks = [...document.querySelectorAll('#TOC a')];
     const sections = [...document.querySelectorAll('section.level2[id]')];
     const linkById = new Map(tocLinks.map((link) => [decodeURIComponent(link.hash.slice(1)), link]));
@@ -3055,6 +3114,46 @@ var x0=["BN","BN","BN","BN","BN","BN","BN","BN","BN","S","B","S","WS","B","BN","
         mermaid.run({ querySelector: '.mermaid' });
       }).catch(() => {});
     }
+  </script>
+  <script>
+    (function () {
+      var form = document.getElementById('updatesForm');
+      if (!form) return;
+      var input = document.getElementById('updatesTelegram');
+      var button = document.getElementById('updatesSubmit');
+      var status = document.getElementById('updatesStatus');
+      var TELEGRAM_RE = /^[a-zA-Z][a-zA-Z0-9_]{4,31}$/;
+
+      function setStatus(text, tone) {
+        status.textContent = text;
+        if (tone) { status.setAttribute('data-tone', tone); } else { status.removeAttribute('data-tone'); }
+      }
+
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        var value = input.value.trim().replace(/^@+/, '');
+        if (!TELEGRAM_RE.test(value)) {
+          setStatus('Проверьте ник: латиница, цифры и подчёркивания, от 5 символов. Можно с @.', 'error');
+          return;
+        }
+        button.disabled = true;
+        setStatus('Секунду…');
+        fetch('/api/waitlist', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ telegram: value, source: 'guide-updates:codex-content-os' })
+        })
+          .then(function (res) { if (!res.ok) throw new Error('status ' + res.status); })
+          .then(function () {
+            setStatus('Готово — напишу, когда выйдет апдейт.', 'ok');
+            form.hidden = true;
+          })
+          .catch(function () {
+            setStatus('Не получилось отправить. Напишите в Telegram @lyaminvl — добавлю вручную.', 'error');
+            button.disabled = false;
+          });
+      });
+    })();
   </script>
 </body>
 </html>
