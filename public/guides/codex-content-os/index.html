@@ -318,7 +318,10 @@
     .hero-banner {
       display: block;
       width: 100%;
+      height: auto;
       max-width: var(--reading);
+      aspect-ratio: 1200 / 630;
+      object-fit: cover;
       margin: clamp(28px, 5vw, 48px) auto 0;
       border: 1px solid var(--line);
     }
@@ -634,9 +637,9 @@
       .cover { min-height: 250mm; padding: 30mm 0 20mm; page-break-after: always; }
       .cover::before {
         color: #f0eee9;
-        font-size: 150mm;
-        top: -6mm;
-        right: -6mm;
+        font-size: 130mm;
+        top: 10mm;
+        right: -4mm;
         letter-spacing: normal;
       }
       .intro-band { margin: 0 -16mm; padding: 20mm 16mm; background: #26382f !important; print-color-adjust: exact; }
