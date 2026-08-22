@@ -113,10 +113,13 @@ function metaLine(product: Product): string {
 
 export default async function ProductPage({
   params,
+  searchParams,
 }: {
   params: Promise<{ slug: string }>;
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
   const { slug } = await params;
+  const { locked } = await searchParams;
   const product = getProduct(slug);
   if (!product) notFound();
 
@@ -133,6 +136,15 @@ export default async function ProductPage({
               ← Все форматы
             </Link>
           </nav>
+          {locked && (
+            <div className="bento-tile bento-col-12" data-studio-reveal>
+              <p className="bento-mono">Материалы доступны только по ссылке из письма</p>
+              <p className="bento-lead">
+                Похоже, вы перешли по неполной ссылке. Оформите покупку — доступ придёт
+                на почту, либо напишите в Telegram, если уже оплатили.
+              </p>
+            </div>
+          )}
           <div className="bento-grid">
             <header className="bento-tile bento-col-8" data-studio-reveal>
               <p className="bento-mono">{metaLine(product)}</p>
