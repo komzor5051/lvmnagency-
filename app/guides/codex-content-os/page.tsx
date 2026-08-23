@@ -7,15 +7,15 @@ const siteUrl = SITE_URL;
 const guideBase = "/guides/codex-content-os";
 
 export const metadata: Metadata = {
-  title: "Content OS — читать, скачать, содержание",
+  title: "ContentOS — читать, скачать, содержание",
   description:
-    "Гайд «Content OS: конвейер Reels на Codex или Claude Code» — читать онлайн, скачать PDF или стартовый код, полное содержание по разделам.",
+    "Гайд «ContentOS: конвейер Reels на Codex или Claude Code» — читать онлайн, скачать PDF или стартовый код, полное содержание по разделам.",
   alternates: { canonical: `${siteUrl}${guideBase}` },
   robots: { index: false, follow: true },
   openGraph: {
-    title: "Content OS — читать, скачать, содержание",
+    title: "ContentOS — читать, скачать, содержание",
     description:
-      "Гайд «Content OS: конвейер Reels на Codex или Claude Code» — читать онлайн, скачать PDF или стартовый код, полное содержание по разделам.",
+      "Гайд «ContentOS: конвейер Reels на Codex или Claude Code» — читать онлайн, скачать PDF или стартовый код, полное содержание по разделам.",
     type: "website",
     url: `${siteUrl}${guideBase}`,
     locale: "ru_RU",
@@ -34,51 +34,55 @@ const contents: { group: string; sections: Section[] }[] = [
       { n: "04", title: "Результат первой недели" },
       { n: "05", title: "Архитектура системы" },
       { n: "06", title: "Технологическая основа" },
-      { n: "07", title: "Структура рабочего пространства" },
+      { n: "07", title: "Структура вашего рабочего пространства" },
+      { n: "08", title: "Источники материалов: Apple Notes и Apple Photos" },
     ],
   },
   {
     group: "Конвейер и инструменты",
     sections: [
-      { n: "08", title: "Монтажный конвейер" },
-      { n: "09", title: "Разговорные ролики и аватар" },
-      { n: "10", title: "Какие skills подключить" },
-      { n: "11", title: "Как вы будете пользоваться системой" },
-      { n: "12", title: "Сервисы и роли" },
-      { n: "13", title: "Codex и Claude Code: два интерфейса" },
-      { n: "14", title: "ChatPlace: что именно настраивать" },
-      { n: "15", title: "Автопубликация" },
-      { n: "16", title: "Контентная логика по направлениям" },
+      { n: "09", title: "Монтажный конвейер" },
+      { n: "10", title: "Разговорные ролики и аватар" },
+      { n: "11", title: "Какие skills подключить" },
+      { n: "12", title: "Как вы будете пользоваться системой" },
+      { n: "13", title: "Сервисы и роли" },
+      { n: "14", title: "ChatGPT Desktop и Codex CLI: два интерфейса" },
+      { n: "15", title: "ChatPlace: что именно настраивать" },
+      { n: "16", title: "ChatPlace в Codex и Claude Code: подключение MCP" },
+      { n: "17", title: "Автопубликация" },
+      { n: "18", title: "Контентная логика по направлениям" },
+      { n: "19", title: "Качественные посты" },
+      { n: "20", title: "Качественные карусели" },
     ],
   },
   {
-    group: "Внедрение и сопровождение",
+    group: "Внедрение и результат",
     sections: [
-      { n: "17", title: "Семидневный план внедрения" },
-      { n: "18", title: "Как будет устроено сопровождение" },
-      { n: "19", title: "Критерии готовности" },
-      { n: "20", title: "Метрики" },
-      { n: "21", title: "Безопасность и приватность" },
-      { n: "22", title: "Ответы на частые вопросы" },
-      { n: "23", title: "Что нужно согласовать до старта" },
-      { n: "24", title: "Актуальные официальные источники" },
-      { n: "25", title: "Итоговая модель работы" },
-      { n: "26", title: "С чего начинается работа" },
-      { n: "27", title: "Технический стартовый пакет" },
+      { n: "21", title: "Ваш семидневный план внедрения" },
+      { n: "22", title: "Как будет устроено сопровождение" },
+      { n: "23", title: "Критерии готовности" },
+      { n: "24", title: "Метрики" },
+      { n: "25", title: "Безопасность и приватность" },
+      { n: "26", title: "Ответы на ваши вопросы" },
+      { n: "27", title: "Что нужно согласовать до старта" },
+      { n: "28", title: "Актуальные официальные источники" },
+      { n: "29", title: "Итоговая модель работы" },
+      { n: "30", title: "С чего начинается работа" },
+      { n: "31", title: "Технический стартовый пакет" },
     ],
   },
   {
-    group: "Установка и техническая спецификация",
+    group: "Техническая часть",
     sections: [
-      { n: "28", title: "Установка Codex и Claude Code" },
-      { n: "29", title: "Установка монтажных зависимостей" },
-      { n: "30", title: "Готовый каркас AGENTS.md / CLAUDE.md" },
-      { n: "31", title: "Готовый каркас $reel-skill" },
-      { n: "32", title: "Остальные skills: минимальные спецификации" },
-      { n: "33", title: "Техническое ТЗ на развитие pipeline" },
-      { n: "34", title: "Первая тестовая задача" },
-      { n: "35", title: "Практические команды по дням" },
-      { n: "36", title: "Итог семи рабочих дней" },
+      { n: "32", title: "Установка агента: Codex или Claude Code" },
+      { n: "33", title: "Установка монтажных зависимостей" },
+      { n: "34", title: "Готовый каркас AGENTS.md" },
+      { n: "35", title: "Готовый каркас $reel-skill" },
+      { n: "36", title: "Остальные skills: минимальные спецификации" },
+      { n: "37", title: "Техническое ТЗ на развитие стартового reels-pipeline" },
+      { n: "38", title: "Первая тестовая задача для нового pipeline" },
+      { n: "39", title: "Практические команды по дням" },
+      { n: "40", title: "Итог семи рабочих дней" },
     ],
   },
 ];
@@ -93,13 +97,13 @@ const downloads = [
   {
     label: "Скачать PDF",
     meta: "Для офлайн-чтения и печати",
-    href: `${guideBase}/codex_content_os_guide.pdf`,
+    href: `${guideBase}/ContentOS.pdf`,
     cta: "Скачать PDF",
   },
   {
     label: "Стартовый код",
-    meta: "content-os-starter.zip — рабочий ingest/render/qa",
-    href: `${guideBase}/content-os-starter.zip`,
+    meta: "ContentOS-starter.zip — рабочий ingest/render/qa",
+    href: `${guideBase}/ContentOS-starter.zip`,
     cta: "Скачать код",
   },
 ];
@@ -116,7 +120,7 @@ export default function GuideNavigationPage() {
           </nav>
           <div className="bento-grid">
             <header className="bento-tile bento-col-12" data-studio-reveal>
-              <p className="bento-mono">Content OS · материалы гайда</p>
+              <p className="bento-mono">ContentOS · материалы гайда</p>
               <h1 className="bento-product-title">
                 Читайте, скачивайте, смотрите содержание
               </h1>
@@ -154,7 +158,7 @@ export default function GuideNavigationPage() {
       <section className="bento-section bento-section--last">
         <div className="studio-frame">
           <header className="bento-head" data-studio-reveal>
-            <p className="bento-mono">36 разделов</p>
+            <p className="bento-mono">40 разделов</p>
             <h2>Что где смотреть</h2>
           </header>
           <div className="bento-grid">

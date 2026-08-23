@@ -36,7 +36,7 @@ export async function POST(request: Request) {
   const sourceLabels: Record<string, string> = {
     "course-waitlist": "лист ожидания мини-курса по AI-автоматизации",
     "guide-updates:codex-content-os":
-      "апдейты гайда Content OS (Codex/Claude Code)",
+      "апдейты гайда ContentOS (Codex/Claude Code)",
   };
   const sourceLabel = sourceLabels[source] ?? source;
 
