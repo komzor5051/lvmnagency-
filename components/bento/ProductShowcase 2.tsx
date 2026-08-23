@@ -10,11 +10,9 @@ import { track } from "@/lib/analytics";
  * Bento product showcase — the product ladder as one grid, shared between the
  * home page (section="showcase") and /products (section="products_page").
  *
- * Ряды читаются как ступени, а не как список:
- *   1) два гайда по 6 колонок — два равных входа, выбор по задаче;
- *   2) консультация 4 + аудит 8 — услуги;
- *   3) внедрение 12 (carbon) — верх лестницы;
- *   4) лист ожидания курса 12.
+ * Tile size = funnel priority (spec, section 2):
+ *   guide 8 cols (with a typographic CSS cover) · consultation 4 · audit 6 ·
+ *   ai-os 6 (carbon) · course waitlist strip 12.
  *
  * All copy and prices come from lib/products.ts / app/products/content.ts —
  * nothing product-related is hardcoded here except the funnel bridges.
@@ -26,8 +24,7 @@ type ShowcaseSection = "showcase" | "products_page";
 
 // Funnel bridges: mono captions that point to the next ladder step.
 const bridges: Record<string, string> = {
-  guide: "шаг 1 из 4 · широкий вход",
-  "codex-content-os": "шаг 1 из 4 · узкая задача: контент",
+  guide: "шаг 1 из 4 · дальше — консультация",
   consultation: "шаг 2 из 4 · дальше — AI-аудит",
   audit: "шаг 3 из 4 · дальше — внедрение",
   "ai-os": "шаг 4 из 4 · работа со мной лично",
@@ -69,7 +66,6 @@ function ProductTile({
 
 export function ProductShowcase({ section }: { section: ShowcaseSection }) {
   const guide = getProduct("guide");
-  const contentOs = getProduct("codex-content-os");
   const consultation = getProduct("consultation");
   const audit = getProduct("audit");
   const aiOs = getProduct("ai-os");
@@ -79,7 +75,7 @@ export function ProductShowcase({ section }: { section: ShowcaseSection }) {
     <div className="bento-grid">
       {/* 1. Guide — the low-friction entry, biggest tile. */}
       {guide && (
-        <ProductTile product={guide} position={1} section={section} className="bento-col-6">
+        <ProductTile product={guide} position={1} section={section} className="bento-col-8">
           <div className="bento-cover" aria-hidden="true">
             <span className="bento-mono">{guide.meta}</span>
             <strong>{guide.title}</strong>
@@ -98,37 +94,11 @@ export function ProductShowcase({ section }: { section: ShowcaseSection }) {
         </ProductTile>
       )}
 
-      {/* 2. ContentOS — второй вход, узкий: только контент. */}
-      {contentOs && (
-        <ProductTile
-          product={contentOs}
-          position={2}
-          section={section}
-          className="bento-col-6"
-        >
-          <div className="bento-cover" aria-hidden="true">
-            <span className="bento-mono">{contentOs.meta}</span>
-            <strong>{contentOs.title}</strong>
-            <i />
-          </div>
-          <span className="bento-mono">Гайд</span>
-          <h3>{contentOs.title}</h3>
-          <ul className="bento-list">
-            {(productExtras["codex-content-os"]?.inside ?? []).slice(0, 4).map((item) => (
-              <li key={item}>{item}</li>
-            ))}
-          </ul>
-          <p className="bento-price">{contentOs.priceLabel}</p>
-          <span className="bento-btn">{ctaLabel(contentOs)}</span>
-          <p className="bento-mono bento-bridge">{bridges["codex-content-os"]}</p>
-        </ProductTile>
-      )}
-
-      {/* 3. Consultation. */}
+      {/* 2. Consultation. */}
       {consultation && (
         <ProductTile
           product={consultation}
-          position={3}
+          position={2}
           section={section}
           className="bento-col-4"
         >
@@ -141,9 +111,9 @@ export function ProductShowcase({ section }: { section: ShowcaseSection }) {
         </ProductTile>
       )}
 
-      {/* 4. Paid audit. */}
+      {/* 3. Paid audit. */}
       {audit && (
-        <ProductTile product={audit} position={4} section={section} className="bento-col-8">
+        <ProductTile product={audit} position={3} section={section} className="bento-col-6">
           <span className="bento-badge">Рекомендую</span>
           <span className="bento-mono" style={{ marginTop: ".9rem" }}>
             {audit.meta}
@@ -156,13 +126,13 @@ export function ProductShowcase({ section }: { section: ShowcaseSection }) {
         </ProductTile>
       )}
 
-      {/* 5. Implementation — carbon accent tile, вся ширина. */}
+      {/* 4. Implementation — carbon accent tile. */}
       {aiOs && (
         <ProductTile
           product={aiOs}
-          position={5}
+          position={4}
           section={section}
-          className="bento-col-12 bento-tile--carbon"
+          className="bento-col-6 bento-tile--carbon"
         >
           <span className="bento-mono">{aiOs.meta}</span>
           <h3>{aiOs.title}</h3>
@@ -173,12 +143,12 @@ export function ProductShowcase({ section }: { section: ShowcaseSection }) {
         </ProductTile>
       )}
 
-      {/* 6. Course waitlist — full-width strip with the existing form. */}
+      {/* 5. Course waitlist — full-width strip with the existing form. */}
       {course && (
         <div
           className="bento-tile bento-col-12 bento-waitlist"
           data-studio-reveal
-          style={{ transitionDelay: "300ms" }}
+          style={{ transitionDelay: "240ms" }}
         >
           <div>
             <span className="bento-mono">{course.meta}</span>
