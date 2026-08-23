@@ -63,6 +63,7 @@ export const products: Product[] = [
       kind: "lava",
       url: "https://app.lava.top/products/95eb7e70-41b7-48b7-8730-dcd991fc1f0b/a4309e6f-119a-47d9-ad3a-a82efc9ff94c?currency=RUB&domainId=2b8044d9-fd3c-47ce-ad84-1cb65c1e0fc8&domainName=vladlyamin.ru",
     },
+    cover: { src: "/claude-guide-cover.webp", width: 1440, height: 810 },
     cta: { buy: "Получить гайд", fallback: "Получить через Telegram" },
     nextStep: {
       slug: "consultation",
