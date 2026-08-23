@@ -161,20 +161,39 @@ export default async function ProductPage({
               <BuyAction product={product} />
               <small>Без скрытых условий. Детали формата — ниже.</small>
             </aside>
+            {product.cover && (
+              <img
+                className="bento-tile bento-col-12 bento-product-cover"
+                src={product.cover.src}
+                width={product.cover.width}
+                height={product.cover.height}
+                alt=""
+                data-studio-reveal
+                style={{
+                  transitionDelay: "120ms",
+                  aspectRatio: `${product.cover.width} / ${product.cover.height}`,
+                }}
+              />
+            )}
           </div>
         </div>
       </section>
 
-      {/* 2. Body: description + "для кого" / "что внутри" + FAQ + purchase. */}
+      {/* 2. Body. Порядок задан осознанно: сначала результат словами
+          человека, техника и подробности — ниже. */}
       <section className="bento-section bento-section--last">
         <div className="studio-frame">
           <div className="bento-grid">
-            <div className="bento-tile bento-col-8 bento-copy" data-studio-reveal>
-              <p className="bento-mono">Что это и что вы получите</p>
-              {product.description.map((paragraph) => (
-                <p key={paragraph}>{paragraph}</p>
-              ))}
-            </div>
+            {extra?.outcomes && extra.outcomes.length > 0 && (
+              <div className="bento-tile bento-col-8 bento-outcomes" data-studio-reveal>
+                <p className="bento-mono">Чему вы научитесь</p>
+                <ul className="bento-list">
+                  {extra.outcomes.map((item) => (
+                    <li key={item}>{item}</li>
+                  ))}
+                </ul>
+              </div>
+            )}
 
             {extra && (
               <div
@@ -211,6 +230,13 @@ export default async function ProductPage({
                 <Faq items={product.faq} />
               </div>
             )}
+
+            <div className="bento-tile bento-col-12 bento-copy" data-studio-reveal>
+              <p className="bento-mono">Подробно</p>
+              {product.description.map((paragraph) => (
+                <p key={paragraph}>{paragraph}</p>
+              ))}
+            </div>
 
             {/* Purchase block. Carbon accent, except the waitlist form (dark
                 inputs on dark ground). */}

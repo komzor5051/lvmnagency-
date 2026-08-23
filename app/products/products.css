@@ -61,3 +61,18 @@
   line-height: 1.5;
 }
 .bento-tile--carbon.bento-buy small { color: rgba(255, 254, 249, .6); }
+
+/* Баннер продукта под шапкой: тот же файл, что и в витрине. */
+.bento-product-cover {
+  display: block;
+  width: 100%;
+  padding: 0;
+  overflow: hidden;
+  object-fit: cover;
+}
+
+/* Блок результата — главный на странице, поэтому крупнее остальных списков. */
+.bento-outcomes .bento-list li {
+  font-size: 1.05rem;
+  line-height: 1.5;
+}
