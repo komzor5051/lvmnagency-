@@ -53,3 +53,7 @@ next-env.d.ts
 # local agent/test artifacts
 .claude/
 .playwright-mcp/
+
+# macOS-дубликаты вида "File 2.tsx" — появляются при копировании папок
+# и дважды случайно попадали в коммиты.
+* 2.*
