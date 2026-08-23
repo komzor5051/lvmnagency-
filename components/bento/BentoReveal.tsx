@@ -29,7 +29,10 @@ export default function BentoReveal() {
           }
         });
       },
-      { threshold: 0.1, rootMargin: "0px 0px -7% 0px" }
+      // Порог был 0.1 и нижний отступ отрицательный — блок начинал
+      // проявляться, уже заметно войдя в кадр. Теперь срабатывает чуть
+      // раньше появления, и к моменту взгляда анимация закончена.
+      { threshold: 0.01, rootMargin: "0px 0px 12% 0px" }
     );
 
     items.forEach((item) => observer.observe(item));

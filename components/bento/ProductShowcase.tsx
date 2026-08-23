@@ -83,7 +83,7 @@ function ProductTile({
       href={`/products/${product.id}`}
       className={`bento-tile bento-tile--link ${className}`}
       data-studio-reveal
-      style={{ transitionDelay: `${(position - 1) * 60}ms` }}
+      style={{ transitionDelay: `${(position - 1) * 40}ms` }}
       onClick={() =>
         track("product_tile_click", { product: product.id, position, section })
       }
@@ -196,7 +196,7 @@ export function ProductShowcase({ section }: { section: ShowcaseSection }) {
         <div
           className="bento-tile bento-col-12 bento-waitlist"
           data-studio-reveal
-          style={{ transitionDelay: "300ms" }}
+          style={{ transitionDelay: "200ms" }}
         >
           <div>
             <span className="bento-mono">{course.meta}</span>

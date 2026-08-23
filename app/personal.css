@@ -60,16 +60,9 @@ body.studio-menu-open { overflow: hidden; }
   margin-inline: auto;
 }
 
-[data-studio-reveal] {
-  opacity: 0;
-  transform: translateY(12px);
-  transition: opacity 560ms var(--studio-ease), transform 560ms var(--studio-ease);
-}
-
-[data-studio-reveal].is-visible {
-  opacity: 1;
-  transform: none;
-}
+/* Правило появления живёт в studio.css и только там.
+   Здесь была его копия с длительностью 560 мс: personal.css
+   импортируется последним и молча перекрывал изменения в studio.css. */
 
 .studio-mono,
 .studio-eyebrow {
