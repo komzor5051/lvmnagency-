@@ -33,6 +33,32 @@ const bridges: Record<string, string> = {
   "ai-os": "шаг 4 из 4 · работа со мной лично",
 };
 
+// Обложка плитки: готовый баннер, если он есть у продукта, иначе
+// типографская плашка из заголовка. Пропорция берётся из самого файла,
+// чтобы баннер не обрезался по краям.
+function TileCover({ product }: { product: Product }) {
+  if (product.cover) {
+    return (
+      <img
+        className="bento-cover bento-cover--image"
+        src={product.cover.src}
+        width={product.cover.width}
+        height={product.cover.height}
+        alt=""
+        loading="lazy"
+        style={{ aspectRatio: `${product.cover.width} / ${product.cover.height}` }}
+      />
+    );
+  }
+  return (
+    <div className="bento-cover" aria-hidden="true">
+      <span className="bento-mono">{product.meta}</span>
+      <strong>{product.title}</strong>
+      <i />
+    </div>
+  );
+}
+
 function ctaLabel(p: Product): string {
   if (p.cta) return p.cta.buy;
   if (p.buy.kind === "form") return "Оставить заявку";
@@ -80,11 +106,7 @@ export function ProductShowcase({ section }: { section: ShowcaseSection }) {
       {/* 1. Guide — the low-friction entry, biggest tile. */}
       {guide && (
         <ProductTile product={guide} position={1} section={section} className="bento-col-6">
-          <div className="bento-cover" aria-hidden="true">
-            <span className="bento-mono">{guide.meta}</span>
-            <strong>{guide.title}</strong>
-            <i />
-          </div>
+          <TileCover product={guide} />
           <span className="bento-mono">Гайд</span>
           <h3>{guide.title}</h3>
           <ul className="bento-list">
@@ -106,11 +128,7 @@ export function ProductShowcase({ section }: { section: ShowcaseSection }) {
           section={section}
           className="bento-col-6"
         >
-          <div className="bento-cover" aria-hidden="true">
-            <span className="bento-mono">{contentOs.meta}</span>
-            <strong>{contentOs.title}</strong>
-            <i />
-          </div>
+          <TileCover product={contentOs} />
           <span className="bento-mono">Гайд</span>
           <h3>{contentOs.title}</h3>
           <ul className="bento-list">

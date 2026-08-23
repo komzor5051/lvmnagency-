@@ -1378,3 +1378,16 @@ body.studio-menu-open { overflow: hidden; }
 @media (prefers-reduced-motion: reduce) {
   .bento-sticky-cta { transition: none; }
 }
+
+/* Готовый баннер вместо типографской плашки. Пропорция приходит инлайном
+   из размеров файла: обложки у продуктов разные, и фиксировать её в CSS
+   значит однажды обрезать чей-то баннер. */
+.bento-cover--image {
+  display: block;
+  width: 100%;
+  min-height: 0;
+  padding: 0;
+  gap: 0;
+  background: var(--studio-paper, #f2ede4);
+  object-fit: cover;
+}

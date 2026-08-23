@@ -29,6 +29,9 @@ export type Product = {
   priceLabel: string; // "10 000 ₽", "от 50 000 ₽", "скоро"
   meta: string; // "1:1 · 60 минут · онлайн"
   buy: ProductBuy;
+  // Готовый баннер вместо типографской плашки в витрине.
+  // Пусто — рисуется .bento-cover из заголовка продукта.
+  cover?: { src: string; width: number; height: number };
   faq?: ProductFaq[];
   // CTA labels: action + what you get, never bare "купи".
   cta?: { buy: string; fallback: string }; // buy = checkout configured; fallback = manual Telegram channel
@@ -111,6 +114,7 @@ export const products: Product[] = [
       kind: "lava",
       url: "https://app.lava.top/products/105b3294-d224-4322-bf0e-4cf828596aea?currency=RUB&domainId=2b8044d9-fd3c-47ce-ad84-1cb65c1e0fc8&domainName=vladlyamin.ru",
     },
+    cover: { src: "/contentos-cover.webp", width: 1440, height: 810 },
     cta: { buy: "Получить гайд", fallback: "Получить через Telegram" },
     nextStep: {
       slug: "consultation",
