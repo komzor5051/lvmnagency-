@@ -10,7 +10,7 @@ declare global {
   }
 }
 
-const YM_ID = 106695724;
+const YM_ID = 110064196;
 
 export function track(event: string, props?: Props) {
   if (typeof window === "undefined") return;
