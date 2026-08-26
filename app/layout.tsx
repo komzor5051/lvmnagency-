@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
 import { YandexMetrika } from "@/components/YandexMetrika";
 import { PostHogProvider } from "@/components/PostHogProvider";
+import { TrafficSource } from "@/components/TrafficSource";
 import LenisProvider from "@/components/motion/LenisProvider";
 import StudioNav from "@/components/studio/StudioNav";
 import StudioFooter from "@/components/studio/StudioFooter";
@@ -145,6 +146,7 @@ export default function RootLayout({
           <PostHogProvider>{children}</PostHogProvider>
           <StudioFooter />
           <YandexMetrika />
+          <TrafficSource />
           <script
             type="application/ld+json"
             dangerouslySetInnerHTML={{ __html: jsonLd(personSchema) }}
