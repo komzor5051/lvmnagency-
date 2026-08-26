@@ -61,6 +61,25 @@ const NON_HUMAN =
 const NOT_A_PAGE =
   /^\/(_next|api|favicon|apple-icon|og-|fonts?\/|.*\.(css|js|mjs|map|png|jpe?g|webp|avif|svg|ico|woff2?|ttf|xml|txt|json))/i;
 
+/**
+ * Пути, по которым ходят только сканеры уязвимостей. Часть из них приходит с
+ * подделанным UA известного AI-краулера — Bytespider и CCBot подделывают чаще
+ * всех. Без этой отсечки запросы к /@fs/etc/passwd попадают в отчёт как
+ * «ответная машина забрала страницу», и цифра GEO завышается.
+ */
+const PROBE = new RegExp(
+  [
+    // Служебные точки входа чужих стеков, которых на этом сайте нет вовсе.
+    "^/(@fs|fetch|proxy|debug|download|read|actuator|vendor|config|graphql",
+    "|redirect|wp-|wordpress|admin|phpmyadmin|server-status|cgi-bin|telescope",
+    "|_ignition|solr|druid|hudson|jenkins|owa|autodiscover|login|s3|aws)",
+    // Файлы с секретами — где угодно в пути.
+    "|(^|/)\\.(env|git|aws|ssh|svn)",
+    "|/(\\.env|env\\.js|credentials|secrets?)(\\.|$|/)",
+  ].join(""),
+  "i",
+);
+
 const LINE =
   /^(\S+) \S+ \S+ \[([^\]]+)\] "(\S+) ([^"]*?) [^"]*" (\d{3}) (\d+) "([^"]*)" "([^"]*)"/;
 
@@ -97,7 +116,10 @@ function matchLabel(ua: string, table: [RegExp, string][]): string | null {
   return null;
 }
 
+let QUIET = false;
+
 function table(rows: [string, ...(string | number)[]][], headers: string[]) {
+  if (QUIET) return;
   const all = [headers, ...rows.map((r) => r.map(String))];
   const widths = headers.map((_, i) =>
     Math.max(...all.map((r) => [...(r[i] ?? "")].length)),
@@ -131,6 +153,13 @@ function main() {
   const rawFlag = argv.indexOf("--raw");
   const daysFlag = argv.indexOf("--days");
   const days = daysFlag >= 0 ? Number(argv[daysFlag + 1]) : 14;
+  // При --json ни одна таблица не печатается: вывод должен быть разбираемым
+  // целиком, а не начинаться с человекочитаемой шапки.
+  const asJson = argv.includes("--json");
+  QUIET = asJson;
+  const say = (...args: unknown[]) => {
+    if (!asJson) console.log(...args);
+  };
 
   const raw = rawFlag >= 0 ? readFileSync(argv[rawFlag + 1], "utf-8") : fetchLogs();
   const all = parse(raw);
@@ -142,7 +171,7 @@ function main() {
   const hits = all.filter((h) => dayToDate(h.day) >= cutoff);
 
   const dayList = [...new Set(hits.map((h) => h.day))];
-  console.log(
+  say(
     `Окно: последние ${days} сут. Строк: ${hits.length} из ${all.length}. ` +
       `Суток с данными: ${dayList.length}.\n`,
   );
@@ -150,7 +179,13 @@ function main() {
   // --- 1. AI-краулеры: сколько раз ответные машины забирали контент ---
   const aiBots = new Map<string, { hits: number; pages: Set<string> }>();
   const searchBots = new Map<string, number>();
+  let spoofed = 0;
   for (const h of hits) {
+    // Сканер с подделанным UA — не краулер. Считаем отдельно.
+    if (PROBE.test(h.path)) {
+      if (matchLabel(h.ua, AI_CRAWLERS)) spoofed++;
+      continue;
+    }
     const ai = matchLabel(h.ua, AI_CRAWLERS);
     if (ai) {
       const e = aiBots.get(ai) ?? { hits: 0, pages: new Set<string>() };
@@ -163,9 +198,15 @@ function main() {
     if (se) searchBots.set(se, (searchBots.get(se) ?? 0) + 1);
   }
 
-  console.log("AI-КРАУЛЕРЫ (GEO — кто забирал контент в ответные машины)");
+  say("AI-КРАУЛЕРЫ (GEO — кто забирал контент в ответные машины)");
+  if (spoofed) {
+    say(
+      `  Отброшено ${spoofed} запросов с подделанным UA: они шли по путям ` +
+        `сканеров уязвимостей, а не за контентом.`,
+    );
+  }
   if (aiBots.size === 0) {
-    console.log("  Ни одного захода. Контент в ответные машины не попадал.\n");
+    say("  Ни одного захода. Контент в ответные машины не попадал.\n");
   } else {
     table(
       [...aiBots.entries()]
@@ -173,15 +214,15 @@ function main() {
         .map(([bot, e]) => [bot, e.hits, e.pages.size] as [string, number, number]),
       ["Краулер", "запросов", "страниц"],
     );
-    console.log();
+    say();
   }
 
-  console.log("ПОИСКОВЫЕ РОБОТЫ (SEO — обычная индексация)");
+  say("ПОИСКОВЫЕ РОБОТЫ (SEO — обычная индексация)");
   table(
     [...searchBots.entries()].sort((a, b) => b[1] - a[1]),
     ["Робот", "запросов"],
   );
-  console.log();
+  say();
 
   // --- 2. Люди по каналам ---
   // Настоящий браузер, открыв страницу, обязательно дотягивает бандлы из
@@ -236,7 +277,7 @@ function main() {
   };
 
   const totalReal = [...byChannel.values()].reduce((s, e) => s + e.browserIps.size, 0);
-  console.log("ЛЮДИ ПО КАНАЛАМ (входы на страницы, без ассетов и ботов)");
+  say("ЛЮДИ ПО КАНАЛАМ (входы на страницы, без ассетов и ботов)");
   table(
     [...byChannel.entries()]
       .sort((a, b) => b[1].browserIps.size - a[1].browserIps.size)
@@ -249,7 +290,7 @@ function main() {
       ]),
     ["Канал", "браузеры", "доля", "всего IP", "входов"],
   );
-  console.log();
+  say();
 
   // Посуточная динамика — отдельно люди и заходы ответных машин, чтобы было
   // видно, растёт ли цитирование и доходят ли из него клики.
@@ -260,6 +301,10 @@ function main() {
       aiBot: 0,
       seoBot: 0,
     };
+    if (PROBE.test(h.path)) {
+      daily.set(h.day, e);
+      continue;
+    }
     if (matchLabel(h.ua, AI_CRAWLERS)) e.aiBot++;
     else if (matchLabel(h.ua, SEARCH_CRAWLERS)) e.seoBot++;
     else if (browserIps.has(h.ip) && !NOT_A_PAGE.test(h.path)) e.humans.add(h.ip);
@@ -271,12 +316,12 @@ function main() {
   const aiPages = new Map<string, number>();
   for (const h of hits) {
     if (!matchLabel(h.ua, AI_CRAWLERS)) continue;
-    if (NOT_A_PAGE.test(h.path)) continue;
+    if (NOT_A_PAGE.test(h.path) || PROBE.test(h.path)) continue;
     const path = h.path.split("?")[0];
     aiPages.set(path, (aiPages.get(path) ?? 0) + 1);
   }
 
-  if (argv.includes("--json")) {
+  if (asJson) {
     const payload = {
       generatedFor: { days, from: dayList[dayList.length - 1], to: dayList[0] },
       lines: { parsed: hits.length, total: all.length },
@@ -296,6 +341,7 @@ function main() {
       searchCrawlers: [...searchBots.entries()]
         .sort((a, b) => b[1] - a[1])
         .map(([bot, hits]) => ({ bot, hits })),
+      spoofedAiHits: spoofed,
       aiTopPages: [...aiPages.entries()]
         .sort((a, b) => b[1] - a[1])
         .slice(0, 25)
@@ -313,12 +359,12 @@ function main() {
     return;
   }
 
-  console.log("ТОП ИСТОЧНИКОВ");
+  say("ТОП ИСТОЧНИКОВ");
   table(
     [...bySource.entries()].sort((a, b) => b[1] - a[1]).slice(0, 20),
     ["Источник", "входов"],
   );
-  console.log(
+  say(
     "\nПрямые заходы завышены: Telegram Desktop и приложение Instagram не шлют\n" +
       "реферер, поэтому их переходы попадают сюда. Лечится только UTM-метками\n" +
       "на собственных ссылках — см. docs/utm-links.md.",
