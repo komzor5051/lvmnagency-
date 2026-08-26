@@ -34,10 +34,7 @@ export default function StudioNav() {
         <nav className="studio-nav bento-nav" aria-label="Основная навигация">
           <Link className="studio-brand" href="/" aria-label="Влад Лямин — на главную" onClick={() => setOpen(false)}>
             <Mark />
-            <span>
-              Влад Лямин
-              <small>AI для работы и бизнеса</small>
-            </span>
+            <span>Влад Лямин</span>
           </Link>
 
           <div className="studio-nav-links">
