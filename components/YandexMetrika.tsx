@@ -3,8 +3,9 @@
 import { useEffect, Suspense } from "react";
 import { usePathname, useSearchParams } from "next/navigation";
 import Script from "next/script";
+import { YM_ID } from "@/lib/analytics";
 
-const COUNTER_ID = 110064196;
+const COUNTER_ID = YM_ID;
 
 // App Router does client-side navigation (no full reload), so Metrika's initial
 // hit covers only the first page. Send a manual hit on every route change so

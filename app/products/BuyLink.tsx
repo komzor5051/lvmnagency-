@@ -1,9 +1,11 @@
 "use client";
 
-import posthog from "posthog-js";
+import { track } from "@/lib/analytics";
 
 // Autocapture в PostHog уже пишет клики, но именованное событие надёжнее для
 // воронки: не зависит от вёрстки кнопки и не путается с другими ссылками.
+// track() шлёт его и в Метрику через reachGoal — PostHog на проде может
+// быть выключен (ключ не задан), Метрика работает всегда.
 export function BuyLink({
   url,
   label,
@@ -24,7 +26,7 @@ export function BuyLink({
       rel="noopener noreferrer"
       className={className}
       onClick={() => {
-        if (posthog.__loaded) posthog.capture("checkout_click", { product: productId, position });
+        track("checkout_click", { product: productId, position });
       }}
     >
       {label}
