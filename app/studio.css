@@ -552,7 +552,7 @@ body.studio-menu-open { overflow: hidden; }
 .studio-ownership .studio-button { background: var(--studio-carbon); color: var(--studio-white); }
 .studio-ownership .studio-button b { background: var(--studio-lime); color: var(--studio-carbon); }
 
-/* FAQ — shared by the home, about and products pages (components/FaqSection).
+/* FAQ (legacy .studio-faq rules; FaqSection removed 2026-09-02, kept until the bento cleanup).
    Bone ground like .studio-case/.studio-offers so it reads as a normal band. */
 .studio-faq { padding: 170px 0; background: var(--studio-bone); color: var(--studio-carbon); }
 .studio-faq-list { border-top: 1px solid rgba(10,11,10,.18); }

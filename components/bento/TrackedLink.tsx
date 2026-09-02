@@ -16,15 +16,22 @@ export function TrackedLink({
   eventProps,
   className,
   children,
+  "data-studio-reveal": dataStudioReveal,
 }: {
   href: string;
   event: string;
   eventProps?: EventProps;
   className?: string;
   children: React.ReactNode;
+  "data-studio-reveal"?: boolean;
 }) {
   return (
-    <Link href={href} className={className} onClick={() => track(event, eventProps)}>
+    <Link
+      href={href}
+      className={className}
+      onClick={() => track(event, eventProps)}
+      data-studio-reveal={dataStudioReveal}
+    >
       {children}
     </Link>
   );

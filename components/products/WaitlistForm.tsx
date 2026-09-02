@@ -79,12 +79,12 @@ export function WaitlistForm() {
       </div>
       {invalid && (
         <p className="rz-wait-error" role="alert">
-          Проверьте ник: латиница, цифры и подчёркивания, от 5 символов. Можно с @.
+          Проверь ник: латиница, цифры и подчёркивания, от 5 символов. Можно с @.
         </p>
       )}
       {state === "error" && (
         <p className="rz-wait-error" role="alert">
-          Не получилось отправить. Напишите в Telegram{" "}
+          Не получилось отправить. Напиши в Telegram{" "}
           <a href={TELEGRAM_URL} target="_blank" rel="noopener noreferrer" className="rz-link">
             @lyaminvl
           </a>

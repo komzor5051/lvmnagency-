@@ -156,7 +156,7 @@ export default function ProductsPage() {
         </div>
       </header>
 
-      <section style={{ paddingTop: "40px", borderTop: 0 }}>
+      <section className="rz-section rz-section--list">
         <div className="rz-wrap rz-spreads" id="list">
           {spreads.map((cfg, i) => {
             const product = getProduct(cfg.id)!;
@@ -167,6 +167,7 @@ export default function ProductsPage() {
                 className={`rz-spread${cfg.id === "course" ? " rz-spread--soon" : ""}`}
                 event="product_tile_click"
                 eventProps={{ product: cfg.id, position: i + 1, section: "products_page" }}
+                data-studio-reveal
               >
                 <span className="rz-mono">{cfg.type}</span>
                 {product.cover ? (

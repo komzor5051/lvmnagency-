@@ -40,7 +40,7 @@
 .rz-btn:hover { background: var(--rz-ink); color: #fff; }
 .rz-btn--solid { background: var(--rz-ink); color: #fff; }
 .rz-btn--solid:hover { background: var(--rz-lime); border-color: var(--rz-lime); color: var(--rz-ink); }
-.rz-btn:focus-visible { outline: 2px solid var(--rz-lime); outline-offset: 3px; }
+.rz-btn:focus-visible { outline: 2px solid var(--rz-ink); outline-offset: 3px; }
 
 /* ===== Шапка ===== */
 .rz-nav-shell {
@@ -102,7 +102,7 @@ body.rz-menu-open { overflow: hidden; }
 .rz-lead { font-size: 20px; color: var(--rz-mute); max-width: 560px; margin: 0; }
 .rz-link { color: var(--rz-ink); text-decoration: none; background-image: linear-gradient(var(--rz-ink), var(--rz-ink)); background-size: 100% 1px; background-repeat: no-repeat; background-position: 0 100%; transition: background-size .35s var(--rz-ease-in-out); }
 .rz-link:hover { background-size: 0 1px; }
-.rz-post:focus-visible, .rz-link:focus-visible { outline: 2px solid var(--rz-lime); outline-offset: 3px; }
+.rz-post:focus-visible, .rz-link:focus-visible { outline: 2px solid var(--rz-ink); outline-offset: 3px; }
 .rz-more { margin: 40px 0 0; }
 .rz-section { padding: 120px 0; border-top: 1px solid var(--rz-line); }
 .rz-sec-head { display: grid; grid-template-columns: 260px 1fr; gap: 40px; margin-bottom: 64px; align-items: baseline; }
@@ -149,7 +149,7 @@ body.rz-menu-open { overflow: hidden; }
 .rz-row-price { text-align: right; font-family: var(--rz-serif); font-size: 28px; font-weight: 500; font-variant-numeric: tabular-nums; }
 .rz-row-price small { display: block; font-family: var(--rz-mono); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--rz-mute); font-weight: 400; margin-top: 4px; }
 .rz-row--soon h3, .rz-row--soon .rz-row-price { color: var(--rz-mute); }
-.rz-row:focus-visible { outline: 2px solid var(--rz-lime); outline-offset: -2px; }
+.rz-row:focus-visible { outline: 2px solid var(--rz-ink); outline-offset: -2px; }
 
 /* ===== Обо мне ===== */
 .rz-about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
@@ -173,7 +173,7 @@ body.rz-menu-open { overflow: hidden; }
 .rz-cta-title { font-size: clamp(44px, 6vw, 84px); margin-bottom: 36px; }
 .rz-cta .rz-lead { margin: 0 auto 40px; }
 
-/* ===== Обо мне ===== */
+/* ===== Страница «Обо мне» ===== */
 .rz-about-hero { padding: 120px 0 100px; }
 .rz-about-hero-grid { display: grid; grid-template-columns: 1.2fr .8fr; gap: 80px; align-items: end; }
 .rz-facts { display: grid; grid-template-columns: repeat(4, 1fr); gap: 40px; }
@@ -221,7 +221,7 @@ body.rz-menu-open { overflow: hidden; }
 .rz-faq summary::-webkit-details-marker { display: none; }
 .rz-faq summary::after { content: "+"; font-family: var(--rz-mono); font-size: 22px; color: var(--rz-mute); transition: transform .3s var(--rz-ease); }
 .rz-faq details[open] summary::after { transform: rotate(45deg); }
-.rz-faq summary:focus-visible { outline: 2px solid var(--rz-lime); outline-offset: 3px; }
+.rz-faq summary:focus-visible { outline: 2px solid var(--rz-ink); outline-offset: 3px; }
 .rz-faq details p { margin: 0 0 24px; color: var(--rz-mute); max-width: 640px; }
 @media (max-width: 900px) { .rz-faq summary { font-size: 22px; } }
 
@@ -253,6 +253,7 @@ body.rz-menu-open { overflow: hidden; }
   .rz-hero .rz-h1 { animation: none; clip-path: none; }
   .rz-hero .rz-mark { animation: none; background-size: 100% .66em; }
   .rz-row, .rz-row::before, .rz-post-line::after, .rz-link { transition: none; }
+  .rz-faq summary::after, .rz-wait-btn { transition: none; }
 }
 
 /* ===== Продукты ===== */
@@ -264,6 +265,7 @@ body.rz-menu-open { overflow: hidden; }
 .rz-products-aside p:last-child { margin-bottom: 0; }
 .rz-products-aside b { font-weight: 500; color: var(--rz-ink); }
 
+.rz-section--list { padding-top: 40px; border-top: 0; }
 .rz-spreads { border-top: 1px solid var(--rz-line); }
 .rz-spread {
   position: relative; display: grid; grid-template-columns: 70px 1fr 1fr; gap: 40px;
@@ -273,7 +275,7 @@ body.rz-menu-open { overflow: hidden; }
 .rz-spread::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 6px; background: var(--rz-lime); transform: scaleY(0); transition: transform .45s var(--rz-ease); }
 .rz-spread:hover { padding-left: 24px; }
 .rz-spread:hover::before { transform: scaleY(1); }
-.rz-spread:focus-visible { outline: 2px solid var(--rz-lime); outline-offset: -2px; }
+.rz-spread:focus-visible { outline: 2px solid var(--rz-ink); outline-offset: -2px; }
 .rz-spread-cover { aspect-ratio: 16 / 9; object-fit: cover; border: 1px solid var(--rz-line); width: 100%; display: block; background: #eee; }
 .rz-spread-cover--typo { display: grid; place-items: center; font-family: var(--rz-serif); font-size: 44px; font-style: italic; color: var(--rz-mute); background: #f4f4f6; }
 .rz-spread h3 { font-family: var(--rz-serif); font-weight: 400; font-size: 38px; line-height: 1.05; margin: 0 0 12px; }
