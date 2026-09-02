@@ -238,7 +238,7 @@ export default function ProductsPage() {
             <p className="rz-mono" style={{ marginBottom: "18px" }}>Скоро</p>
             <h2 className="rz-h2">Мини-курс по личной AI-системе</h2>
             <p style={{ color: "var(--rz-mute)", margin: "18px 0 0" }}>
-              Оставь почту: узнаешь первым и получишь стартовую цену.
+              Оставь свой Telegram: узнаешь первым и получишь стартовую цену.
             </p>
           </div>
           <div data-studio-reveal>
