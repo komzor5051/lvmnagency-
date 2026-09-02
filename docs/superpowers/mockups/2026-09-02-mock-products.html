@@ -1,0 +1,101 @@
+<title>Продукты · Разворот</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Golos+Text:wght@400;500;600&family=JetBrains+Mono:wght@400&display=swap">
+<style>
+:root{--paper:#fff;--ink:#15161a;--mute:#6b6e78;--line:#e6e7ea;--lime:#c8f04c;--serif:"Cormorant Garamond",Georgia,serif;--sans:"Golos Text",Arial,sans-serif;--mono:"JetBrains Mono",Menlo,monospace;--e:cubic-bezier(.2,.8,.2,1);--eio:cubic-bezier(.7,0,.2,1)}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:17px;line-height:1.55;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1240px;margin:0 auto;padding:0 40px}
+.mono{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--mute)}
+.mark{background:linear-gradient(var(--lime),var(--lime)) no-repeat 0 .3em / 100% .66em;padding:0 .06em;-webkit-box-decoration-break:clone;box-decoration-break:clone}
+nav{position:sticky;top:0;background:rgba(255,255,255,.9);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);z-index:10}
+nav .wrap{display:flex;align-items:center;justify-content:space-between;height:72px}
+.brand{font-family:var(--serif);font-size:24px;font-style:italic}
+.links{display:flex;gap:8px;font-size:15px}.links a{position:relative;padding:6px 10px;z-index:0}
+.links a::before{content:"";position:absolute;inset:0;z-index:-1;background:var(--lime);transform:scaleY(0);transform-origin:bottom;transition:transform .3s var(--e)}.links a:hover::before{transform:scaleY(1)}
+.links a.on::before{transform:scaleY(1)}
+.btn{display:inline-flex;align-items:center;gap:12px;border:1px solid var(--ink);padding:13px 24px;font-size:15px;font-weight:500;transition:background .3s,color .3s,border-color .3s;background:#fff}
+.btn:hover{background:var(--ink);color:#fff}.btn.solid{background:var(--ink);color:#fff}.btn.solid:hover{background:var(--lime);border-color:var(--lime);color:var(--ink)}
+h1{font-family:var(--serif);font-weight:400;font-size:clamp(50px,6.4vw,92px);line-height:.98;letter-spacing:-.015em;margin:0 0 32px;text-wrap:balance}
+h2{font-family:var(--serif);font-weight:400;font-size:clamp(36px,4.2vw,58px);line-height:1.02;margin:0;letter-spacing:-.01em;text-wrap:balance}
+h3{font-family:var(--serif);font-weight:400;line-height:1.08;margin:0}
+.lead{font-size:20px;color:var(--mute);max-width:600px;margin:0}
+section{padding:110px 0;border-top:1px solid var(--line)}
+.head{display:grid;grid-template-columns:260px 1fr;gap:40px;margin-bottom:56px;align-items:baseline}.head p{margin:0;max-width:560px;color:var(--mute)}
+.link{background-image:linear-gradient(var(--ink),var(--ink));background-size:100% 1px;background-repeat:no-repeat;background-position:0 100%;transition:background-size .35s var(--eio)}.link:hover{background-size:0 1px}
+footer{border-top:1px solid var(--line);padding:36px 0;font-size:14px;color:var(--mute)}footer .wrap{display:flex;justify-content:space-between}
+.r{opacity:0;transform:translateY(22px);transition:opacity .9s var(--e),transform .9s var(--e)}.r.in{opacity:1;transform:none}
+@media(max-width:900px){.wrap{padding:0 22px}.links{display:none}.head{grid-template-columns:1fr;gap:16px}section{padding:76px 0}}
+.hero{padding:120px 0 90px}.hero .lead{margin-top:0}
+.hero .wrap{display:grid;grid-template-columns:1fr 360px;gap:80px;align-items:end}
+.hero-aside{border-left:1px solid var(--line);padding-left:32px;font-size:15px;color:var(--mute)}
+.hero-aside p{margin:0 0 14px}.hero-aside b{font-weight:500;color:var(--ink)}
+.spread{display:grid;grid-template-columns:70px 1fr 1fr;gap:40px;padding:56px 0;border-bottom:1px solid var(--line);align-items:center;position:relative;transition:padding-left .45s var(--e)}
+.spread::before{content:"";position:absolute;left:0;top:0;bottom:0;width:6px;background:var(--lime);transform:scaleY(0);transition:transform .45s var(--e)}
+.spread:hover{padding-left:24px}.spread:hover::before{transform:scaleY(1)}
+.spread .cover{aspect-ratio:16/9;background:#eee center/cover;border:1px solid var(--line)}
+.spread .cover.typo{display:grid;place-items:center;font-family:var(--serif);font-size:44px;font-style:italic;background:#f4f4f6}
+.spread h3{font-size:38px;margin-bottom:12px}
+.spread .tag{color:var(--mute);font-size:16px;margin:0 0 20px;max-width:520px}
+.spread .meta{display:flex;justify-content:space-between;align-items:baseline;border-top:1px solid var(--line);padding-top:16px;gap:20px}
+.spread .price{font-family:var(--serif);font-size:32px;font-weight:500}.spread .price small{display:block;font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--mute);font-weight:400;margin-top:4px}
+.spread.soon h3,.spread.soon .price{color:var(--mute)}
+.pick{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.pick div{padding:36px 32px 36px 0;border-right:1px solid var(--line)}.pick div:last-child{border-right:0;padding-right:0}.pick div+div{padding-left:32px}
+.pick h3{font-size:28px;margin:14px 0 10px}.pick p{margin:0 0 18px;color:var(--mute);font-size:15px}
+.faq details{border-bottom:1px solid var(--line)}
+.faq summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;gap:24px;padding:22px 0;font-family:var(--serif);font-size:26px;line-height:1.15}
+.faq summary::-webkit-details-marker{display:none}.faq summary::after{content:"+";font-family:var(--mono);font-size:22px;color:var(--mute);transition:transform .3s}.faq details[open] summary::after{transform:rotate(45deg)}
+.faq details p{margin:0 0 24px;color:var(--mute);max-width:640px}
+.wait{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center}
+.wait form{display:flex;gap:0;border:1px solid var(--ink)}.wait input{flex:1;border:0;padding:14px 16px;font:inherit;font-size:15px;outline:none}.wait button{border:0;background:var(--ink);color:#fff;padding:14px 22px;font:inherit;font-weight:500;cursor:pointer}.wait button:hover{background:var(--lime);color:var(--ink)}
+@media(max-width:900px){.hero .wrap,.wait{grid-template-columns:1fr;gap:32px}.hero-aside{border:0;padding:0}.spread{grid-template-columns:1fr;gap:20px}.pick{grid-template-columns:1fr}.pick div{border-right:0;border-bottom:1px solid var(--line);padding:28px 0}.pick div+div{padding-left:0}}
+</style>
+<nav><div class="wrap"><a class="brand" href="#">Влад Лямин</a><div class="links"><a class="on" href="#">Продукты</a><a href="#">Обо мне</a><a href="#">Блог</a><a href="#">Аудит</a></div><a class="btn solid" href="#">Начать с гайда</a></div></nav>
+
+<header class="hero"><div class="wrap">
+  <div>
+    <p class="mono" style="margin:0 0 26px">Продукты · 5 форматов</p>
+    <h1>Что можно взять <span class="mark">и почём</span></h1>
+    <p class="lead">Два гайда, час один на один, аудит и курс, который скоро выйдет. Форматы независимы: начать можно с любого и остановиться на нём же.</p>
+  </div>
+  <aside class="hero-aside">
+    <p><b>Не знаешь, с чего начать</b> — бери гайд за 990 ₽, это самый дешёвый способ проверить.</p>
+    <p><b>Есть конкретная задача</b> — час консультации, выходишь с планом.</p>
+    <p><b>Хочешь разбор всех процессов</b> — аудит, две недели.</p>
+  </aside>
+</div></header>
+
+<section style="padding-top:40px;border-top:0"><div class="wrap" id="list">
+  <a class="spread r" href="#"><span class="mono">Гайд</span><div class="cover" style="background-image:url(IMAGE)"></div><div><h3>Claude как рабочий инструмент</h3><p class="tag">Одиннадцать систем: контекст, база знаний, автоматизации, хуки, каскады моделей, скиллы, голос бренда. Два трека: базовый без терминала и продвинутый с готовым кодом.</p><div class="meta"><span class="price">990 ₽<small>PDF · 128 страниц + AI-версия · мгновенно</small></span><span class="btn solid">Получить гайд</span></div></div></a>
+  <a class="spread r" href="#"><span class="mono">Гайд</span><div class="cover" style="background-image:url(IMAGE)"></div><div><h3>ContentOS: контент-конвейер</h3><p class="tag">Отдаёшь папку с фото и видео, забираешь Reel, пост и карусель. Как собрать такой конвейер у себя на Codex или Claude Code, с рабочим кодом внутри.</p><div class="meta"><span class="price">2 490 ₽<small>PDF · 83 страницы + код · в Telegram</small></span><span class="btn solid">Получить гайд</span></div></div></a>
+  <a class="spread r" href="#"><span class="mono">1:1</span><div class="cover" style="background-image:url(IMAGE)"></div><div><h3>Консультация</h3><p class="tag">Час один на один: разбираем твою задачу, смотрим таблицы и переписки и выходим с планом, что настроить в Claude первым. Запись остаётся у тебя.</p><div class="meta"><span class="price">3 850 ₽<small>онлайн · анкета до встречи</small></span><span class="btn solid">Забронировать час</span></div></div></a>
+  <a class="spread r" href="#"><span class="mono">Аудит</span><div class="cover" style="background-image:url(IMAGE)"></div><div><h3>AI-аудит</h3><p class="tag">Две недели разбора твоих процессов и план с расчётом по каждому пункту: что настраивать, в каком порядке и где Claude не окупится.</p><div class="meta"><span class="price">15 000 ₽<small>отчёт с приоритетами</small></span><span class="btn">Обсудить в Telegram</span></div></div></a>
+  <a class="spread soon r" href="#"><span class="mono">Курс</span><div class="cover typo">скоро</div><div><h3>Мини-курс по личной AI-системе</h3><p class="tag">Соберёшь свою первую систему на Claude от идеи до работающего процесса. Подписчики листа ожидания узнают первыми и получат стартовую цену.</p><div class="meta"><span class="price" style="font-size:22px">скоро<small>лист ожидания</small></span><span class="btn">В лист ожидания</span></div></div></a>
+</div></section>
+
+<section><div class="wrap">
+  <div class="head r"><h2>Как выбрать</h2><p>Три ситуации и что брать в каждой.</p></div>
+  <div class="pick">
+    <div class="r"><span class="mono">Задача не сформулирована</span><h3>Гайд за 990 ₽</h3><p>Одиннадцать систем и план на сегодня, неделю и месяц. Если после него всё встало на место, дальше можно не идти.</p><a class="link" href="#">К гайду</a></div>
+    <div class="r"><span class="mono">Есть конкретная задача</span><h3>Консультация</h3><p>Час на твою задачу, а не на теорию. Выходишь со списком, что настроить первым и сколько это стоит.</p><a class="link" href="#">Забронировать</a></div>
+    <div class="r"><span class="mono">Нужен план по всем процессам</span><h3>AI-аудит</h3><p>Две недели и отчёт с расчётом по каждому пункту. С ним можно настраивать самому или со мной.</p><a class="link" href="#">Подробнее</a></div>
+  </div>
+</div></section>
+
+<section><div class="wrap">
+  <div class="head r"><h2>Вопросы</h2><p>Оплата, выдача и что будет, если формат не подойдёт.</p></div>
+  <div class="faq r">
+    <details><summary>Чем аудит за 15 000 ₽ отличается от бесплатного на сайте?</summary><p>Бесплатный: анкета из 7 вопросов, 5 минут и общая карта точек роста. Платный: две недели моей работы с твоими процессами и данными, на выходе план с расчётом по каждому пункту.</p></details>
+    <details><summary>Как проходит оплата?</summary><p>Гайды и консультация оплачиваются картой через lava.top. Гайд про Claude приходит сразу после оплаты, ContentOS выдаёт телеграм-бот. После оплаты консультации пишешь мне в Telegram, согласуем время. По аудиту условия обсуждаем до старта.</p></details>
+    <details><summary>Что если задача окажется не твоей?</summary><p>Скажу сразу и не возьму. Мне невыгодно браться за то, где эффект не считается: такие проекты не работают и не превращаются в кейс.</p></details>
+    <details><summary>Нужно отдельно платить за Claude?</summary><p>Да, подписка оформляется на тебя, так система остаётся твоей. Часть систем из гайда работает на бесплатном тарифе, для автоматизаций нужен платный. Оплату из России разбирает отдельное приложение в гайде.</p></details>
+  </div>
+</div></section>
+
+<section><div class="wrap wait">
+  <div class="r"><p class="mono" style="margin-bottom:18px">Скоро</p><h2>Мини-курс по личной AI-системе</h2><p style="color:var(--mute);margin:18px 0 0">Оставь почту: узнаешь первым и получишь стартовую цену.</p></div>
+  <form class="r" onsubmit="return false"><input type="email" placeholder="почта"><button>В лист ожидания</button></form>
+</div></section>
+<footer><div class="wrap"><span>Влад Лямин · vladlyamin.ru</span><span>Telegram · @lyaminvl</span></div></footer>
+<script>const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.12});document.querySelectorAll('.r').forEach((el,i)=>{el.style.transitionDelay=(i%3)*80+'ms';io.observe(el)});</script>

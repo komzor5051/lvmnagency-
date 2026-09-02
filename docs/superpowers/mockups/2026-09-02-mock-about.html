@@ -1,0 +1,131 @@
+<title>Обо мне · Разворот</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Golos+Text:wght@400;500;600&family=JetBrains+Mono:wght@400&display=swap">
+<style>
+:root{--paper:#fff;--ink:#15161a;--mute:#6b6e78;--line:#e6e7ea;--lime:#c8f04c;--serif:"Cormorant Garamond",Georgia,serif;--sans:"Golos Text",Arial,sans-serif;--mono:"JetBrains Mono",Menlo,monospace;--e:cubic-bezier(.2,.8,.2,1);--eio:cubic-bezier(.7,0,.2,1)}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:17px;line-height:1.55;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1240px;margin:0 auto;padding:0 40px}
+.mono{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--mute)}
+.mark{background:linear-gradient(var(--lime),var(--lime)) no-repeat 0 .3em / 100% .66em;padding:0 .06em;-webkit-box-decoration-break:clone;box-decoration-break:clone}
+nav{position:sticky;top:0;background:rgba(255,255,255,.9);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);z-index:10}
+nav .wrap{display:flex;align-items:center;justify-content:space-between;height:72px}
+.brand{font-family:var(--serif);font-size:24px;font-style:italic}
+.links{display:flex;gap:8px;font-size:15px}.links a{position:relative;padding:6px 10px;z-index:0}
+.links a::before{content:"";position:absolute;inset:0;z-index:-1;background:var(--lime);transform:scaleY(0);transform-origin:bottom;transition:transform .3s var(--e)}.links a:hover::before{transform:scaleY(1)}
+.links a.on::before{transform:scaleY(1)}
+.btn{display:inline-flex;align-items:center;gap:12px;border:1px solid var(--ink);padding:13px 24px;font-size:15px;font-weight:500;transition:background .3s,color .3s,border-color .3s;background:#fff}
+.btn:hover{background:var(--ink);color:#fff}.btn.solid{background:var(--ink);color:#fff}.btn.solid:hover{background:var(--lime);border-color:var(--lime);color:var(--ink)}
+h1{font-family:var(--serif);font-weight:400;font-size:clamp(50px,6.4vw,92px);line-height:.98;letter-spacing:-.015em;margin:0 0 32px;text-wrap:balance}
+h2{font-family:var(--serif);font-weight:400;font-size:clamp(36px,4.2vw,58px);line-height:1.02;margin:0;letter-spacing:-.01em;text-wrap:balance}
+h3{font-family:var(--serif);font-weight:400;line-height:1.08;margin:0}
+.lead{font-size:20px;color:var(--mute);max-width:600px;margin:0}
+section{padding:110px 0;border-top:1px solid var(--line)}
+.head{display:grid;grid-template-columns:260px 1fr;gap:40px;margin-bottom:56px;align-items:baseline}.head p{margin:0;max-width:560px;color:var(--mute)}
+.link{background-image:linear-gradient(var(--ink),var(--ink));background-size:100% 1px;background-repeat:no-repeat;background-position:0 100%;transition:background-size .35s var(--eio)}.link:hover{background-size:0 1px}
+footer{border-top:1px solid var(--line);padding:36px 0;font-size:14px;color:var(--mute)}footer .wrap{display:flex;justify-content:space-between}
+.r{opacity:0;transform:translateY(22px);transition:opacity .9s var(--e),transform .9s var(--e)}.r.in{opacity:1;transform:none}
+@media(max-width:900px){.wrap{padding:0 22px}.links{display:none}.head{grid-template-columns:1fr;gap:16px}section{padding:76px 0}}
+.hero{padding:120px 0 100px}
+.hero .wrap{display:grid;grid-template-columns:1.2fr .8fr;gap:80px;align-items:end}
+.hero .lead{margin-bottom:36px}
+.portrait{aspect-ratio:4/5;background:#eee url(IMAGE) center/cover;filter:grayscale(1) contrast(1.05)}
+.facts{display:grid;grid-template-columns:repeat(4,1fr);gap:40px}
+.facts strong{display:block;font-family:var(--serif);font-size:56px;font-weight:500;line-height:1;margin-bottom:8px}
+.facts p{margin:0;color:var(--mute);font-size:15px}
+.story{display:grid;grid-template-columns:1fr 1fr;gap:64px}
+.story p{margin:0 0 18px;color:var(--mute)}
+.story .thesis{font-family:var(--serif);font-style:italic;font-size:30px;line-height:1.25;color:var(--ink)}
+.tl{border-top:1px solid var(--line)}
+.tl .row{display:grid;grid-template-columns:140px 320px 1fr;gap:32px;padding:30px 0;border-bottom:1px solid var(--line);position:relative;transition:padding-left .45s var(--e)}
+.tl .row::before{content:"";position:absolute;left:0;top:0;bottom:0;width:6px;background:var(--lime);transform:scaleY(0);transition:transform .45s var(--e)}
+.tl .row:hover{padding-left:24px}.tl .row:hover::before{transform:scaleY(1)}
+.tl .row h3{font-size:30px}.tl .row p{margin:0;color:var(--mute);font-size:15px}
+.tl .year{font-family:var(--serif);font-size:30px;font-weight:500}
+.tl .row.now .year{background:linear-gradient(transparent 58%,var(--lime) 58%);display:inline-block;padding:0 .1em}
+.pr{display:grid;grid-template-columns:repeat(2,1fr);gap:0 64px}
+.pr article{padding:32px 0;border-bottom:1px solid var(--line)}
+.pr h3{font-size:30px;margin-bottom:10px}.pr p{margin:0;color:var(--mute);font-size:16px;max-width:460px}
+.stack{display:flex;flex-wrap:wrap;gap:10px}
+.stack span{font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;border:1px solid var(--ink);padding:8px 12px;transition:background .3s}.stack span:hover{background:var(--lime)}
+.faq details{border-bottom:1px solid var(--line)}
+.faq summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;gap:24px;padding:22px 0;font-family:var(--serif);font-size:26px;line-height:1.15}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";font-family:var(--mono);font-size:22px;color:var(--mute);transition:transform .3s}
+.faq details[open] summary::after{transform:rotate(45deg)}
+.faq details p{margin:0 0 24px;color:var(--mute);max-width:640px}
+.cta{text-align:center;padding:130px 0}.cta h2{font-size:clamp(40px,5.4vw,72px);margin-bottom:28px}.cta p{color:var(--mute);max-width:520px;margin:0 auto 36px}
+@media(max-width:900px){.hero .wrap,.story,.pr{grid-template-columns:1fr;gap:32px}.facts{grid-template-columns:1fr 1fr;gap:28px}.tl .row{grid-template-columns:1fr;gap:6px}}
+</style>
+<nav><div class="wrap"><a class="brand" href="#">Влад Лямин</a><div class="links"><a href="#">Продукты</a><a class="on" href="#">Обо мне</a><a href="#">Блог</a><a href="#">Аудит</a></div><a class="btn solid" href="#">Начать с гайда</a></div></nav>
+
+<header class="hero"><div class="wrap">
+  <div>
+    <p class="mono" style="margin:0 0 26px">Обо мне</p>
+    <h1>Четвёртый год работаю с Claude <span class="mark">каждый день</span></h1>
+    <p class="lead">Я Влад Лямин. Не внедряю AI в чужие команды. Показываю одному человеку, как собрать систему, которая закрывает задачи без команды.</p>
+    <div style="display:flex;gap:16px"><a class="btn solid" href="#">Смотреть продукты</a><a class="btn" href="#">Написать в Telegram</a></div>
+  </div>
+  <div class="portrait"></div>
+</div></header>
+
+<section><div class="wrap facts">
+  <div class="r"><strong>2022</strong><p>с этого года AI стал основной рабочей средой</p></div>
+  <div class="r"><strong>40+</strong><p>систем собрал руками на своих и чужих данных</p></div>
+  <div class="r"><strong>50+</strong><p>человек научил работать с Claude</p></div>
+  <div class="r"><strong>1</strong><p>человек в команде. Это я, других нет</p></div>
+</div></section>
+
+<section><div class="wrap">
+  <div class="head r"><h2>Как я к этому пришёл</h2></div>
+  <div class="story">
+    <div class="r">
+      <p class="thesis">Начинал с ботов и автоматизаций для чужого бизнеса. Через три года понял, что продаю не код, а способ думать.</p>
+      <p>В 2022 году собрал первого бота на Claude API и подключил его к Telegram. Потом были воронки, парсеры, поддержка на трёх языках, контент-фабрика из созвона в четыре артефакта.</p>
+    </div>
+    <div class="r">
+      <p>Каждый раз повторялось одно. Система работала, а человек рядом с ней не понимал, как её менять. Через месяц она стояла.</p>
+      <p>Поэтому сменил формат. Теперь не собираю системы за людей, а показываю, как собрать свою: гайды с готовым кодом, час один на один, аудит того, что уже есть. Всё, что советую, сначала проверяю на себе: этот сайт, блог и контент к нему собирает система, о которой я рассказываю.</p>
+    </div>
+  </div>
+</div></section>
+
+<section><div class="wrap">
+  <div class="head r"><h2>Траектория</h2><p>Как менялся фокус: от инструментов к личной системе.</p></div>
+  <div class="tl">
+    <div class="row r"><span class="year">2022</span><h3>Первые системы</h3><p>Бот на Claude API, контентные процессы, личные помощники. AI стал рабочей средой, а не игрушкой.</p></div>
+    <div class="row r"><span class="year">2023–24</span><h3>От промптов к процессам</h3><p>Разрозненные инструменты превратились в связки: база знаний, автоматизации по расписанию, голос бренда.</p></div>
+    <div class="row r"><span class="year">2025</span><h3>40+ систем, 50+ учеников</h3><p>Продажи, маркетинг, поддержка, контент. Стало видно, что держится без меня, а что нет.</p></div>
+    <div class="row now r"><span class="year">Сейчас</span><h3>Личная система на Claude</h3><p>Гайды, консультации и аудит для тех, кто хочет закрывать одному задачи, под которые обычно нанимают людей.</p></div>
+  </div>
+</div></section>
+
+<section><div class="wrap">
+  <div class="head r"><h2>По каким правилам работаю</h2></div>
+  <div class="pr">
+    <article class="r"><h3>Сначала замер, потом инструмент</h3><p>Пока не названа цифра, которую меняем, обсуждать нечего. Часы, заявки, рубли.</p></article>
+    <article class="r"><h3>Первый результат за день</h3><p>Рабочий сценарий на твоих данных за 1–3 дня, а не курс на три месяца.</p></article>
+    <article class="r"><h3>Всё остаётся у тебя</h3><p>Подписки, доступы и знания твои. Система должна работать, когда меня рядом нет.</p></article>
+    <article class="r"><h3>Проверяю на себе</h3><p>Не советую то, чем не пользуюсь сам. Каждый приём из гайдов стоит в моей ежедневной работе.</p></article>
+  </div>
+</div></section>
+
+<section><div class="wrap">
+  <div class="head r"><h2>Чем работаю</h2><p>Инструменты, которые стоят в моей системе прямо сейчас.</p></div>
+  <div class="stack r"><span>Claude</span><span>Claude Code</span><span>Codex</span><span>Supabase</span><span>Node.js</span><span>Telegram Bot API</span><span>Apify</span><span>Obsidian</span></div>
+</div></section>
+
+<section><div class="wrap">
+  <div class="head r"><h2>Вопросы</h2><p>Кому подхожу и как со мной устроена работа.</p></div>
+  <div class="faq r">
+    <details><summary>С кем ты работаешь?</summary><p>С фаундерами, соло-предпринимателями и экспертами, которые сами принимают решения и отвечают за деньги. Не с теми, кто «просто изучает AI».</p></details>
+    <details><summary>Ты агентство?</summary><p>Нет. Работаю один: пишу гайды, провожу консультации и аудит сам. Ты разговариваешь с тем же человеком, который это всё собрал.</p></details>
+    <details><summary>Ты разработчик?</summary><p>Пишу код, когда он нужен: Node.js, Supabase, Claude API. Но продаю не код, а понимание, как выстроить работу с Claude. Если задаче нужна отдельная разработка, скажу до старта.</p></details>
+    <details><summary>Можно задать вопрос, ничего не покупая?</summary><p>Да. Бесплатный аудит на сайте: 7 вопросов, 5 минут, карта точек, где Claude окупится. Если нужен разбор конкретной задачи, есть час один на один за 3 850 ₽.</p></details>
+    <details><summary>Работаешь с теми, кто не в России?</summary><p>Да, всё онлайн. Гайды и консультации на русском и английском, отдельное приложение в гайде разбирает доступ и оплату Claude из России.</p></details>
+  </div>
+</div></section>
+
+<section class="cta"><div class="wrap"><p class="mono r" style="margin-bottom:20px">Первый шаг</p><h2 class="r">Начни с гайда <span class="mark">за 990 ₽</span></h2><p class="r">Самый дешёвый способ проверить, встроится ли Claude в твою работу.</p><a class="btn solid r" href="#">Получить гайд</a></div></section>
+<footer><div class="wrap"><span>Влад Лямин · vladlyamin.ru</span><span>Telegram · @lyaminvl</span></div></footer>
+<script>const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.12});document.querySelectorAll('.r').forEach((el,i)=>{el.style.transitionDelay=(i%4)*70+'ms';io.observe(el)});</script>
