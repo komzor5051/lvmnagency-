@@ -7,10 +7,10 @@ export default function StudioFooter() {
         <div className="bento-grid">
           <div className="bento-tile bento-col-8 bento-tile--carbon">
             <p className="bento-mono">Контакт</p>
-            <p className="bento-footer-title">Есть процесс, который пора перестать делать руками?</p>
+            <p className="bento-footer-title">Собери личную систему работы на Claude</p>
             <div className="bento-footer-cta">
-              <Link className="bento-btn" href="/audit">
-                Разобрать процесс <span aria-hidden="true">→</span>
+              <Link className="bento-btn" href="/products/guide">
+                Начать с гайда <span aria-hidden="true">→</span>
               </Link>
             </div>
           </div>
@@ -20,6 +20,7 @@ export default function StudioFooter() {
               <Link href="/products">Продукты</Link>
               <Link href="/about">Обо мне</Link>
               <Link href="/blog">Блог</Link>
+              <Link href="/audit">Аудит</Link>
               <a href="https://telegram.me/lyaminvl" target="_blank" rel="noreferrer">
                 Telegram →
               </a>
@@ -27,7 +28,7 @@ export default function StudioFooter() {
           </div>
         </div>
         <div className="bento-footer-meta">
-          <span className="bento-mono">Влад Лямин / AI для бизнеса</span>
+          <span className="bento-mono">Влад Лямин / личная AI-система</span>
           <span className="bento-mono">© {new Date().getFullYear()}</span>
           <span className="bento-mono">Работаю лично</span>
         </div>
