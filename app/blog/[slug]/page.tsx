@@ -190,8 +190,8 @@ export default async function ArticlePage({ params }: Props) {
 
   return (
     <>
-      <article className="studio-article px-[6vw] pb-24 pt-[130px] max-md:px-4">
-        {/* Breadcrumbs — pt above clears the fixed DeskNav strip. */}
+      <article className="studio-article px-[6vw] pb-24 pt-[48px] max-md:px-4">
+        {/* Breadcrumbs — pt above is breathing room; the sticky nav reserves its own space in flow. */}
         <nav className="mono-label mx-auto mb-8 max-w-[1200px] px-12 text-ink-muted max-md:px-5">
           <Link
             href="/blog"
