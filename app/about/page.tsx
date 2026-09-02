@@ -2,19 +2,20 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { SITE_URL } from "@/lib/site";
 import { jsonLd } from "@/lib/json-ld";
-import { FaqSection } from "@/components/FaqSection";
+import { getProduct, TELEGRAM_URL } from "@/lib/products";
+import { RzFaq } from "@/components/rz/RzFaq";
 
 const siteUrl = SITE_URL;
 
 export const metadata: Metadata = {
-  title: "Обо мне: помогаю бизнесу освоить AI",
+  title: "Обо мне: личная система работы на Claude",
   description:
-    "С 2022 года помогаю предпринимателям и небольшим командам встраивать AI в ежедневную работу: 40+ внедрений, 50+ обученных. Работаю лично.",
+    "Влад Лямин. Четвёртый год работаю с Claude каждый день: гайды, консультации и аудит для тех, кто собирает личную систему работы вместо команды.",
   alternates: { canonical: `${siteUrl}/about` },
   openGraph: {
     title: "Обо мне — Влад Лямин",
     description:
-      "С 2022 года помогаю предпринимателям и небольшим командам освоить AI без технической перегрузки. 40+ внедрений и 50+ обученных.",
+      "Влад Лямин. Четвёртый год работаю с Claude каждый день: гайды, консультации и аудит для тех, кто собирает личную систему работы вместо команды.",
     type: "profile",
     url: `${siteUrl}/about`,
     locale: "ru_RU",
@@ -22,47 +23,83 @@ export const metadata: Metadata = {
   },
 };
 
-// Цифры сверены с главной и lib/products.ts; стек — из CLAUDE.md проекта.
-const faq = [
-  {
-    q: "С кем вы работаете?",
-    a: "С фаундерами, соло-предпринимателями и командами до 15 человек — теми, кто сам принимает решения и отвечает за деньги. Не беру проекты, где нужно согласовывать внедрение через три уровня менеджмента.",
-  },
-  {
-    q: "Чем вы отличаетесь от агентства?",
-    a: "Агентства нет — я работаю один. Вы разговариваете с тем же человеком, который разбирает процессы и собирает систему: без аккаунт-менеджеров, брифов через посредника и передачи джуниорам.",
-  },
-  {
-    q: "Вы разработчик?",
-    a: "Нет, я не позиционирую себя разработчиком. Моя сильная сторона — разобраться в рабочем процессе, подобрать понятные AI-инструменты и помочь встроить их в ежедневную работу. Если задаче нужна отдельная разработка, я обозначаю это до старта.",
-  },
-  {
-    q: "Сколько проектов ведёте одновременно?",
-    a: "Не больше двух одновременно. Это ограничение формата: в каждом проекте я лично на всех этапах.",
-  },
-  {
-    q: "Можно задать вопрос, не покупая внедрение?",
-    a: "Да. Бесплатный AI-аудит на сайте — 7 вопросов и карта точек роста без оплаты. Если нужен разбор конкретной задачи, есть часовая консультация за 3 850 ₽.",
-  },
-  {
-    q: "Работаете ли вы с зарубежными компаниями?",
-    a: "Да, вся работа идёт онлайн и не зависит от вашего часового пояса. Веду проекты на русском и английском.",
-  },
+const facts = [
+  { n: "2022", text: "с этого года AI стал основной рабочей средой" },
+  { n: "40+", text: "систем собрал руками на своих и чужих данных" },
+  { n: "50+", text: "человек научил работать с Claude" },
+  { n: "1", text: "человек в команде. Это я, других нет" },
 ];
 
 const timeline = [
-  ["2022", "Первые проекты с AI", "Контентные процессы, личные помощники и первые автоматизации — ещё до того, как AI стал обязательной темой в бизнесе."],
-  ["2023–24", "От инструментов к работе", "Фокус сместился с отдельных промптов на понятные процессы, качество результата и обучение команды."],
-  ["2025", "40+ внедрений", "Практика в разных задачах — от продаж и маркетинга до внутренних операций и продуктов."],
-  ["Сейчас", "AI в ежедневной работе", "Помогаю предпринимателям и небольшим командам встроить AI в привычный ритм без технической перегрузки."],
+  {
+    year: "2022",
+    title: "Первые системы",
+    text: "Бот на Claude API, контентные процессы, личные помощники. AI стал рабочей средой, а не игрушкой.",
+    now: false,
+  },
+  {
+    year: "2023–24",
+    title: "От промптов к процессам",
+    text: "Разрозненные инструменты превратились в связки: база знаний, автоматизации по расписанию, голос бренда.",
+    now: false,
+  },
+  {
+    year: "2025",
+    title: "40+ систем, 50+ учеников",
+    text: "Продажи, маркетинг, поддержка, контент. Стало видно, что держится без меня, а что нет.",
+    now: false,
+  },
+  {
+    year: "Сейчас",
+    title: "Личная система на Claude",
+    text: "Гайды, консультации и аудит для тех, кто хочет закрывать одному задачи, под которые обычно нанимают людей.",
+    now: true,
+  },
 ] as const;
 
 const principles = [
-  ["01", "Сначала эффект", "Если нельзя объяснить, что станет быстрее, дешевле или точнее, внедрение не нужно."],
-  ["02", "Прототип до масштаба", "Проверяем сценарий на реальных данных до большой разработки и долгого контракта."],
-  ["03", "Человек контролирует", "AI делает рутину и предлагает решения, но критические точки остаются прозрачными."],
-  ["04", "Всё остаётся у вас", "Доступы, документация и знания передаются команде. Никакой искусственной зависимости."],
-] as const;
+  {
+    title: "Сначала замер, потом инструмент",
+    text: "Пока не названа цифра, которую меняем, обсуждать нечего. Часы, заявки, рубли.",
+  },
+  {
+    title: "Первый результат за день",
+    text: "Рабочий сценарий на твоих данных за 1–3 дня, а не курс на три месяца.",
+  },
+  {
+    title: "Всё остаётся у тебя",
+    text: "Подписки, доступы и знания твои. Система должна работать, когда меня рядом нет.",
+  },
+  {
+    title: "Проверяю на себе",
+    text: "Не советую то, чем не пользуюсь сам. Каждый приём из гайдов стоит в моей ежедневной работе.",
+  },
+];
+
+const stack = ["Claude", "Claude Code", "Codex", "Supabase", "Node.js", "Telegram Bot API", "Apify", "Obsidian"];
+
+const faq = [
+  {
+    q: "С кем ты работаешь?",
+    a: "С фаундерами, соло-предпринимателями и экспертами, которые сами принимают решения и отвечают за деньги. Не с теми, кто «просто изучает AI».",
+  },
+  {
+    q: "Ты агентство?",
+    a: "Нет. Работаю один: пишу гайды, провожу консультации и аудит сам. Ты разговариваешь с тем же человеком, который это всё собрал.",
+  },
+  {
+    q: "Ты разработчик?",
+    a: "Пишу код, когда он нужен: Node.js, Supabase, Claude API. Но продаю не код, а понимание, как выстроить работу с Claude. Если задаче нужна отдельная разработка, скажу до старта.",
+  },
+  {
+    q: "Можно задать вопрос, ничего не покупая?",
+    a: "Да. Бесплатный аудит на сайте: 7 вопросов, 5 минут, карта точек, где Claude окупится. Если нужен разбор конкретной задачи, есть час один на один за 3 850 ₽.",
+  },
+  {
+    q: "Работаешь с теми, кто не в России?",
+    a: "Да, всё онлайн. Гайды и консультации на русском и английском, отдельное приложение в гайде разбирает доступ и оплату Claude из России.",
+  },
+];
 
 const aboutSchema = {
   "@context": "https://schema.org",
@@ -78,11 +115,13 @@ const aboutSchema = {
     height: 1100,
   },
   description:
-    "Помогаю предпринимателям и небольшим командам встраивать AI в ежедневную работу. 40+ внедрений, 50+ обученных с 2022 года.",
+    "Помогаю собрать личную систему работы на Claude: гайды, консультации, аудит. 50+ человек обучил, 40+ систем собрал с 2022 года.",
   knowsAbout: [
-    "AI-автоматизация бизнеса",
-    "Business Process Automation",
-    "Обучение команд работе с AI",
+    "Claude",
+    "Claude Code",
+    "Личная AI-система",
+    "Обучение работе с AI",
+    "AI-автоматизация для одного человека",
   ],
   sameAs: ["https://telegram.me/lyaminvl"],
   mainEntityOfPage: {
@@ -92,135 +131,166 @@ const aboutSchema = {
 };
 
 export default function AboutPage() {
+  const guide = getProduct("guide");
+
   return (
-    <main className="studio-main bento-page">
-      {/* Hero: copy tile + photo tile. */}
-      <section className="bento-section bento-section--hero">
-        <div className="studio-frame">
-          <div className="bento-grid">
-            <div className="bento-tile bento-col-8 bento-tile--tall" data-studio-reveal>
-              <p className="bento-mono">Обо мне / VL 2026</p>
-              <h1 className="bento-hero-title">Кто я и чем помогу</h1>
-              <p className="bento-lead">
-                Я Влад Лямин, AI-консультант и практик. С 2022 года помог провести 40+
-                внедрений и обучил 50+ человек: объясняю сложное простыми словами и
-                превращаю разрозненные AI-инструменты в понятную ежедневную работу.
+    <main className="rz">
+      {/* Hero */}
+      <header className="rz-about-hero">
+        <div className="rz-wrap rz-about-hero-grid">
+          <div>
+            <p className="rz-mono" style={{ margin: "0 0 26px" }}>Обо мне</p>
+            <h1 className="rz-h1">
+              Четвёртый год работаю с Claude <span className="rz-mark">каждый день</span>
+            </h1>
+            <p className="rz-lead" style={{ marginBottom: "36px" }}>
+              Я Влад Лямин. Не внедряю AI в чужие команды. Показываю одному человеку, как
+              собрать систему, которая закрывает задачи без команды.
+            </p>
+            <div style={{ display: "flex", gap: "16px" }}>
+              <Link href="/products" className="rz-btn rz-btn--solid">Смотреть продукты</Link>
+              <a href={TELEGRAM_URL} target="_blank" rel="noreferrer" className="rz-btn">
+                Написать в Telegram
+              </a>
+            </div>
+          </div>
+          <div className="rz-portrait">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/portrait-editorial.jpg" alt="Влад Лямин" width="1012" height="1350" />
+          </div>
+        </div>
+      </header>
+
+      {/* Факты */}
+      <section className="rz-section">
+        <div className="rz-wrap rz-facts">
+          {facts.map((f) => (
+            <div key={f.n} data-studio-reveal>
+              <strong>{f.n}</strong>
+              <p>{f.text}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* История */}
+      <section className="rz-section">
+        <div className="rz-wrap">
+          <div className="rz-sec-head" data-studio-reveal>
+            <h2 className="rz-h2">Как я к этому пришёл</h2>
+          </div>
+          <div className="rz-story">
+            <div data-studio-reveal>
+              <p className="rz-thesis">
+                Начинал с ботов и автоматизаций для чужого бизнеса. Через три года понял,
+                что продаю не код, а способ думать.
               </p>
-              <div style={{ marginTop: "auto", paddingTop: "1.8rem" }}>
-                <Link className="bento-btn" href="/audit">
-                  Разобрать мой бизнес <span aria-hidden="true">→</span>
-                </Link>
+              <p>
+                В 2022 году собрал первого бота на Claude API и подключил его к Telegram.
+                Потом были воронки, парсеры, поддержка на трёх языках, контент-фабрика из
+                созвона в четыре артефакта.
+              </p>
+            </div>
+            <div data-studio-reveal>
+              <p>
+                Каждый раз повторялось одно. Система работала, а человек рядом с ней не
+                понимал, как её менять. Через месяц она стояла.
+              </p>
+              <p>
+                Поэтому сменил формат. Теперь не собираю системы за людей, а показываю, как
+                собрать свою: гайды с готовым кодом, час один на один, аудит того, что уже
+                есть. Всё, что советую, сначала проверяю на себе: этот сайт, блог и контент
+                к нему собирает система, о которой я рассказываю.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Траектория */}
+      <section className="rz-section">
+        <div className="rz-wrap">
+          <div className="rz-sec-head" data-studio-reveal>
+            <h2 className="rz-h2">Траектория</h2>
+            <p>Как менялся фокус: от инструментов к личной системе.</p>
+          </div>
+          <div className="rz-tl">
+            {timeline.map((row) => (
+              <div
+                key={row.year}
+                className={`rz-tl-row${row.now ? " is-now" : ""}`}
+                data-studio-reveal
+              >
+                <span className="rz-tl-year">{row.year}</span>
+                <h3>{row.title}</h3>
+                <p>{row.text}</p>
               </div>
-            </div>
-            <div
-              className="bento-tile bento-col-4 bento-photo"
-              data-studio-reveal
-              style={{ transitionDelay: "60ms" }}
-            >
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/portrait.jpg" alt="Влад Лямин" width="1200" height="1600" />
-              <p className="bento-mono">AI-консультант · 40+ внедрений</p>
-            </div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* Story: two text tiles. */}
-      <section className="bento-section">
-        <div className="studio-frame">
-          <header className="bento-head" data-studio-reveal>
-            <p className="bento-mono">Контекст / не биография</p>
-            <h2>Чем это отличается от обычного внедрения?</h2>
-          </header>
-          <div className="bento-grid">
-            <div className="bento-tile bento-col-6" data-studio-reveal>
-              <p className="bento-lead" style={{ marginTop: 0 }}>
-                Я не продаю «нейросети» и не подключаю модный инструмент к тому, что и так
-                сломано. Начинаю с того, где бизнес теряет время и деньги, а модель выбираю
-                последней — когда уже понятно, какой процесс чиним.
-              </p>
-            </div>
-            <div
-              className="bento-tile bento-col-6"
-              data-studio-reveal
-              style={{ transitionDelay: "60ms" }}
-            >
-              <p className="bento-lead" style={{ marginTop: 0 }}>
-                В 2022 году AI стал моей основной рабочей средой: от личных помощников и
-                контентных сценариев до процессов, которые связывают информацию, решения и
-                действия команды. Мне важен спокойный практический результат: меньше рутины,
-                быстрее работа, понятнее ответственность.
-              </p>
-            </div>
+      {/* Принципы */}
+      <section className="rz-section">
+        <div className="rz-wrap">
+          <div className="rz-sec-head" data-studio-reveal>
+            <h2 className="rz-h2">По каким правилам работаю</h2>
           </div>
-        </div>
-      </section>
-
-      {/* Timeline: four tiles, the current stage in carbon. */}
-      <section className="bento-section">
-        <div className="studio-frame">
-          <header className="bento-head" data-studio-reveal>
-            <p className="bento-mono">Траектория</p>
-            <h2>Какой у меня опыт?</h2>
-            <p>
-              С 2022 года: 40+ внедрений, 50+ обученных, задачи от продаж и маркетинга до
-              внутренних операций. Ниже — как менялся мой фокус: от знакомства с
-              инструментами к реальной работе команд.
-            </p>
-          </header>
-          <div className="bento-grid">
-            {timeline.map(([year, title, text], i) => (
-              <article
-                key={year}
-                className={`bento-tile bento-col-3${i === timeline.length - 1 ? " bento-tile--carbon" : ""}`}
-                data-studio-reveal
-                style={{ transitionDelay: `${i * 60}ms` }}
-              >
-                <p className="bento-mono">{year}</p>
-                <h3 style={{ fontSize: "1.25rem", lineHeight: 1.15 }}>{title}</h3>
-                <p className="bento-lead" style={{ fontSize: ".88rem" }}>{text}</p>
+          <div className="rz-pr">
+            {principles.map((p) => (
+              <article key={p.title} data-studio-reveal>
+                <h3>{p.title}</h3>
+                <p>{p.text}</p>
               </article>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Principles: four tiles. */}
-      <section className="bento-section">
-        <div className="studio-frame">
-          <header className="bento-head" data-studio-reveal>
-            <p className="bento-mono">Принципы</p>
-            <h2>По каким правилам я работаю?</h2>
-            <p>
-              Четыре правила, по которым решаю, что внедрять, а что нет. Главное из них:
-              если нельзя объяснить, что станет быстрее, дешевле или точнее, — внедрение
-              не нужно.
-            </p>
-          </header>
-          <div className="bento-grid">
-            {principles.map(([n, title, text], i) => (
-              <article
-                key={n}
-                className="bento-tile bento-col-3"
-                data-studio-reveal
-                style={{ transitionDelay: `${i * 60}ms` }}
-              >
-                <p className="bento-mono">Принцип {n}</p>
-                <h3 style={{ fontSize: "1.25rem", lineHeight: 1.15 }}>{title}</h3>
-                <p className="bento-lead" style={{ fontSize: ".88rem" }}>{text}</p>
-              </article>
+      {/* Стек */}
+      <section className="rz-section">
+        <div className="rz-wrap">
+          <div className="rz-sec-head" data-studio-reveal>
+            <h2 className="rz-h2">Чем работаю</h2>
+            <p>Инструменты, которые стоят в моей системе прямо сейчас.</p>
+          </div>
+          <div className="rz-stack" data-studio-reveal>
+            {stack.map((s) => (
+              <span key={s}>{s}</span>
             ))}
           </div>
         </div>
       </section>
 
-      <FaqSection
-        items={faq}
-        eyebrow="Вопросы"
-        heading={<>Что спрашивают обо мне</>}
-        lead="Кому подхожу, чем отличаюсь от агентства и как со мной устроена работа."
-        schemaId="/about#faq"
-      />
+      {/* Вопросы */}
+      <section className="rz-section">
+        <div className="rz-wrap">
+          <div className="rz-sec-head" data-studio-reveal>
+            <h2 className="rz-h2">Вопросы</h2>
+            <p>Кому подхожу и как со мной устроена работа.</p>
+          </div>
+          <div data-studio-reveal>
+            <RzFaq items={faq} schemaId="/about#faq" />
+          </div>
+        </div>
+      </section>
+
+      {/* Финальный CTA */}
+      <section className="rz-section rz-cta">
+        <div className="rz-wrap">
+          <p className="rz-mono" data-studio-reveal>Первый шаг</p>
+          <h2 className="rz-h2 rz-cta-title" data-studio-reveal>
+            Начни с гайда <span className="rz-mark">за {guide?.priceLabel ?? "990 ₽"}</span>
+          </h2>
+          <p className="rz-lead" data-studio-reveal>
+            Самый дешёвый способ проверить, встроится ли Claude в твою работу.
+          </p>
+          <p data-studio-reveal>
+            <Link href="/products/guide" className="rz-btn rz-btn--solid">Получить гайд</Link>
+          </p>
+        </div>
+      </section>
+
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: jsonLd(aboutSchema) }}

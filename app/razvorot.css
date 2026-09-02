@@ -173,6 +173,47 @@ body.rz-menu-open { overflow: hidden; }
 .rz-cta-title { font-size: clamp(44px, 6vw, 84px); margin-bottom: 36px; }
 .rz-cta .rz-lead { margin: 0 auto 40px; }
 
+/* ===== Обо мне ===== */
+.rz-about-hero { padding: 120px 0 100px; }
+.rz-about-hero-grid { display: grid; grid-template-columns: 1.2fr .8fr; gap: 80px; align-items: end; }
+.rz-facts { display: grid; grid-template-columns: repeat(4, 1fr); gap: 40px; }
+.rz-facts strong { display: block; font-family: var(--rz-serif); font-size: 56px; font-weight: 500; line-height: 1; margin-bottom: 8px; }
+.rz-facts p { margin: 0; color: var(--rz-mute); font-size: 15px; }
+.rz-story { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; }
+.rz-story p:not(.rz-thesis) { margin: 0 0 18px; color: var(--rz-mute); }
+.rz-tl { border-top: 1px solid var(--rz-line); }
+.rz-tl-row { display: grid; grid-template-columns: 140px 320px 1fr; gap: 32px; padding: 30px 0; border-bottom: 1px solid var(--rz-line); position: relative; transition: padding-left .45s var(--rz-ease); }
+.rz-tl-row::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 6px; background: var(--rz-lime); transform: scaleY(0); transition: transform .45s var(--rz-ease); }
+.rz-tl-row:hover { padding-left: 24px; }
+.rz-tl-row:hover::before { transform: scaleY(1); }
+.rz-tl-row h3 { font-family: var(--rz-serif); font-weight: 400; font-size: 30px; line-height: 1.08; margin: 0; }
+.rz-tl-row p { margin: 0; color: var(--rz-mute); font-size: 15px; }
+.rz-tl-year { font-family: var(--rz-serif); font-size: 30px; font-weight: 500; }
+.rz-tl-row.is-now .rz-tl-year {
+  background-image: linear-gradient(var(--rz-lime), var(--rz-lime));
+  background-repeat: no-repeat;
+  background-size: 100% .66em;
+  background-position: 0 .3em;
+  padding: 0 .06em;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+.rz-pr { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0 64px; }
+.rz-pr article { padding: 32px 0; border-bottom: 1px solid var(--rz-line); }
+.rz-pr h3 { font-family: var(--rz-serif); font-weight: 400; font-size: 30px; line-height: 1.08; margin: 0 0 10px; }
+.rz-pr p { margin: 0; color: var(--rz-mute); font-size: 16px; max-width: 460px; }
+.rz-stack { display: flex; flex-wrap: wrap; gap: 10px; }
+.rz-stack span { font-family: var(--rz-mono); font-size: 12px; letter-spacing: .06em; text-transform: uppercase; border: 1px solid var(--rz-ink); padding: 8px 12px; transition: background .3s; }
+.rz-stack span:hover { background: var(--rz-lime); }
+@media (max-width: 900px) {
+  .rz-about-hero-grid, .rz-story, .rz-pr { grid-template-columns: 1fr; gap: 32px; }
+  .rz-facts { grid-template-columns: 1fr 1fr; gap: 28px; }
+  .rz-tl-row { grid-template-columns: 1fr; gap: 6px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .rz-tl-row, .rz-tl-row::before, .rz-stack span { transition: none; }
+}
+
 /* ===== Вопросы ===== */
 .rz-faq details { border-bottom: 1px solid var(--rz-line); }
 .rz-faq details:first-child { border-top: 1px solid var(--rz-line); }
