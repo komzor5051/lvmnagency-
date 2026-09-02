@@ -19,6 +19,15 @@ export type ProductFaq = { q: string; a: string };
 // on the product page. Clicks fire funnel_bridge_click {from, to}.
 export type ProductNextStep = { slug: string; label: string; text: string };
 
+// VSL-видео над описанием продукта. Хостинг любой — Kinescope, VK Video,
+// YouTube: embedUrl это src для iframe. poster лежит в /public.
+export type ProductVsl = {
+  embedUrl: string;
+  poster: string;
+  title: string;
+  ratio?: "16/9" | "9/16";
+};
+
 export type Product = {
   id: string;
   type: ProductType;
@@ -32,6 +41,7 @@ export type Product = {
   // Готовый баннер вместо типографской плашки в витрине.
   // Пусто — рисуется .bento-cover из заголовка продукта.
   cover?: { src: string; width: number; height: number };
+  vsl?: ProductVsl;
   faq?: ProductFaq[];
   // CTA labels: action + what you get, never bare "купи".
   cta?: { buy: string; fallback: string }; // buy = checkout configured; fallback = manual Telegram channel

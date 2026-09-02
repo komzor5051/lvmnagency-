@@ -6,6 +6,7 @@ import { BuyAction } from "../BuyAction";
 import { Faq } from "../Faq";
 import { productExtras } from "../content";
 import { TrackedLink } from "@/components/bento/TrackedLink";
+import { Vsl } from "@/components/products/Vsl";
 import { SITE_URL } from "@/lib/site";
 import { jsonLd } from "@/lib/json-ld";
 import "../products.css";
@@ -58,6 +59,17 @@ function productSchema(product: Product) {
           serviceType: typeLabels[product.type],
           areaServed: "Worldwide",
         }),
+    ...(product.vsl
+      ? {
+          video: {
+            "@type": "VideoObject",
+            name: product.vsl.title,
+            thumbnailUrl: `${siteUrl}${product.vsl.poster}`,
+            embedUrl: product.vsl.embedUrl,
+            uploadDate: "2026-09-02",
+          },
+        }
+      : {}),
     offers: offer,
   };
 }
@@ -161,19 +173,25 @@ export default async function ProductPage({
               <BuyAction product={product} />
               <small>Без скрытых условий. Детали формата — ниже.</small>
             </aside>
-            {product.cover && (
-              <img
-                className="bento-tile bento-col-12 bento-product-cover"
-                src={product.cover.src}
-                width={product.cover.width}
-                height={product.cover.height}
-                alt=""
-                data-studio-reveal
-                style={{
-                  transitionDelay: "120ms",
-                  aspectRatio: `${product.cover.width} / ${product.cover.height}`,
-                }}
-              />
+            {product.vsl ? (
+              <div className="bento-col-12" style={{ transitionDelay: "120ms" }}>
+                <Vsl product={product} />
+              </div>
+            ) : (
+              product.cover && (
+                <img
+                  className="bento-tile bento-col-12 bento-product-cover"
+                  src={product.cover.src}
+                  width={product.cover.width}
+                  height={product.cover.height}
+                  alt=""
+                  data-studio-reveal
+                  style={{
+                    transitionDelay: "120ms",
+                    aspectRatio: `${product.cover.width} / ${product.cover.height}`,
+                  }}
+                />
+              )
             )}
           </div>
         </div>
