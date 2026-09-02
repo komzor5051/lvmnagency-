@@ -3,10 +3,10 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getProduct, products, type Product } from "@/lib/products";
 import { BuyAction } from "../BuyAction";
-import { Faq } from "../Faq";
 import { productExtras } from "../content";
 import { TrackedLink } from "@/components/bento/TrackedLink";
 import { Vsl } from "@/components/products/Vsl";
+import { RzFaq } from "@/components/rz/RzFaq";
 import { SITE_URL } from "@/lib/site";
 import { jsonLd } from "@/lib/json-ld";
 import "../products.css";
@@ -136,161 +136,147 @@ export default async function ProductPage({
   if (!product) notFound();
 
   const extra = productExtras[product.id];
-  const isWaitlist = product.buy.kind === "waitlist";
 
   return (
-    <main className="studio-main bento-page">
-      {/* 1. Hero: product tile (meta, title, tagline) + buy tile (price, CTA). */}
-      <section className="bento-section bento-section--hero">
-        <div className="studio-frame">
-          <nav aria-label="Хлебные крошки" data-studio-reveal>
-            <Link href="/products" className="bento-crumb">
+    <main className="rz rz-product">
+      <section className="rz-product-hero">
+        <div className="rz-wrap">
+          <nav aria-label="Хлебные крошки" className="rz-crumb">
+            <Link href="/products" className="rz-link">
               ← Все форматы
             </Link>
           </nav>
           {locked && (
-            <div className="bento-tile bento-col-12" data-studio-reveal>
-              <p className="bento-mono">Материалы доступны только по ссылке из письма</p>
-              <p className="bento-lead">
-                Похоже, вы перешли по неполной ссылке. Оформите покупку — доступ придёт
-                на почту, либо напишите в Telegram, если уже оплатили.
-              </p>
-            </div>
+            <p className="rz-locked">
+              Похоже, ты перешёл по неполной ссылке. Оформи покупку — доступ придёт на
+              почту, либо напиши в Telegram, если уже оплатил.
+            </p>
           )}
-          <div className="bento-grid">
-            <header className="bento-tile bento-col-8" data-studio-reveal>
-              <p className="bento-mono">{metaLine(product)}</p>
-              <h1 className="bento-product-title">{product.title}</h1>
-              <p className="bento-lead">{product.tagline}</p>
+          <div className="rz-product-grid">
+            <header>
+              <p className="rz-mono">{metaLine(product)}</p>
+              <h1 className="rz-h1 rz-product-title">{product.title}</h1>
+              <p className="rz-lead">{product.tagline}</p>
             </header>
-            <aside
-              className="bento-tile bento-col-4 bento-buy"
-              data-studio-reveal
-              style={{ transitionDelay: "60ms" }}
-            >
-              <span className="bento-mono">Стоимость</span>
-              <p className="bento-price">{product.priceLabel}</p>
+            <aside className="rz-product-buy">
+              <span className="rz-mono">Стоимость</span>
+              <p className="rz-product-price">{product.priceLabel}</p>
               <BuyAction product={product} />
-              <small>Без скрытых условий. Детали формата — ниже.</small>
+              <small>Без скрытых условий. Детали формата ниже.</small>
             </aside>
-            {product.vsl ? (
-              <div className="bento-col-12" style={{ transitionDelay: "120ms" }}>
-                <Vsl product={product} />
-              </div>
-            ) : (
-              product.cover && (
-                <img
-                  className="bento-tile bento-col-12 bento-product-cover"
-                  src={product.cover.src}
-                  width={product.cover.width}
-                  height={product.cover.height}
-                  alt=""
-                  data-studio-reveal
-                  style={{
-                    transitionDelay: "120ms",
-                    aspectRatio: `${product.cover.width} / ${product.cover.height}`,
-                  }}
-                />
-              )
-            )}
           </div>
+          {product.vsl ? (
+            <Vsl product={product} />
+          ) : (
+            product.cover && (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                className="rz-product-cover"
+                src={product.cover.src}
+                width={product.cover.width}
+                height={product.cover.height}
+                alt=""
+              />
+            )
+          )}
         </div>
       </section>
 
-      {/* 2. Body. Порядок задан осознанно: сначала результат словами
-          человека, техника и подробности — ниже. */}
-      <section className="bento-section bento-section--last">
-        <div className="studio-frame">
-          <div className="bento-grid">
-            {extra?.outcomes && extra.outcomes.length > 0 && (
-              <div className="bento-tile bento-col-8 bento-outcomes" data-studio-reveal>
-                <p className="bento-mono">Чему вы научитесь</p>
-                <ul className="bento-list">
-                  {extra.outcomes.map((item) => (
-                    <li key={item}>{item}</li>
-                  ))}
-                </ul>
-              </div>
-            )}
-
-            {extra && (
-              <div
-                className="bento-tile bento-col-4"
-                data-studio-reveal
-                style={{ transitionDelay: "60ms" }}
-              >
-                <p className="bento-mono">Для кого</p>
-                <ul className="bento-list">
-                  {extra.forWhom.map((item) => (
-                    <li key={item}>{item}</li>
-                  ))}
-                </ul>
-              </div>
-            )}
-
-            {extra && (
-              <div className="bento-tile bento-col-6" data-studio-reveal>
-                <p className="bento-mono">Что внутри</p>
-                <ul className="bento-list">
-                  {extra.inside.map((item) => (
-                    <li key={item}>{item}</li>
-                  ))}
-                </ul>
-              </div>
-            )}
-
-            {product.faq && product.faq.length > 0 && (
-              <div
-                className={`bento-tile ${extra ? "bento-col-6" : "bento-col-12"}`}
-                data-studio-reveal
-                style={{ transitionDelay: "60ms" }}
-              >
-                <Faq items={product.faq} />
-              </div>
-            )}
-
-            <div className="bento-tile bento-col-12 bento-copy" data-studio-reveal>
-              <p className="bento-mono">Подробно</p>
-              {product.description.map((paragraph) => (
-                <p key={paragraph}>{paragraph}</p>
+      {extra?.outcomes?.length ? (
+        <section className="rz-section">
+          <div className="rz-wrap">
+            <div className="rz-sec-head" data-studio-reveal>
+              <h2 className="rz-h2">Чему научишься</h2>
+            </div>
+            <ul className="rz-list rz-list--cols" data-studio-reveal>
+              {extra.outcomes.map((t) => (
+                <li key={t}>{t}</li>
               ))}
-            </div>
+            </ul>
+          </div>
+        </section>
+      ) : null}
 
-            {/* Purchase block. Carbon accent, except the waitlist form (dark
-                inputs on dark ground). */}
-            <div
-              className={`bento-tile bento-col-12 bento-buy ${
-                isWaitlist ? "" : "bento-tile--carbon"
-              }`}
-              data-studio-reveal
-            >
-              <p className="bento-mono">{metaLine(product)}</p>
-              <h2 className="bento-product-title">{product.title}</h2>
-              <p className="bento-price">{product.priceLabel}</p>
-              <BuyAction product={product} />
+      {extra && (
+        <section className="rz-section">
+          <div className="rz-wrap rz-two">
+            <div data-studio-reveal>
+              <h2 className="rz-h2 rz-h2--sm">Для кого</h2>
+              <ul className="rz-list">
+                {extra.forWhom.map((t) => (
+                  <li key={t}>{t}</li>
+                ))}
+              </ul>
             </div>
+            <div data-studio-reveal>
+              <h2 className="rz-h2 rz-h2--sm">Что внутри</h2>
+              <ul className="rz-list">
+                {extra.inside.map((t) => (
+                  <li key={t}>{t}</li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </section>
+      )}
 
-            {/* Funnel bridge: "что дальше" — the next ladder step. */}
-            {product.nextStep && (
-              <TrackedLink
-                href={`/products/${product.nextStep.slug}`}
-                event="funnel_bridge_click"
-                eventProps={{ from: product.id, to: product.nextStep.slug }}
-                className="bento-tile bento-tile--link bento-col-12"
-              >
-                <p className="bento-mono bento-bridge" style={{ marginTop: 0 }}>
-                  Что дальше
-                </p>
-                <h3>{product.nextStep.label}</h3>
-                <p className="bento-lead">{product.nextStep.text}</p>
-                <span className="bento-text-link" style={{ marginTop: "1.1rem" }}>
-                  Смотреть
-                </span>
-              </TrackedLink>
-            )}
+      <section className="rz-section">
+        <div className="rz-wrap rz-two">
+          <div className="rz-sec-head" data-studio-reveal style={{ marginBottom: 0 }}>
+            <h2 className="rz-h2">Подробно</h2>
+          </div>
+          <div className="rz-copy" data-studio-reveal>
+            {product.description.map((p) => (
+              <p key={p}>{p}</p>
+            ))}
           </div>
         </div>
       </section>
+
+      {product.faq?.length ? (
+        <section className="rz-section">
+          <div className="rz-wrap">
+            <div className="rz-sec-head" data-studio-reveal>
+              <h2 className="rz-h2">Вопросы</h2>
+            </div>
+            <RzFaq items={product.faq} />
+          </div>
+        </section>
+      ) : null}
+
+      <section className="rz-section rz-product-final">
+        <div className="rz-wrap rz-two" data-studio-reveal>
+          <div>
+            <p className="rz-mono">{metaLine(product)}</p>
+            <h2 className="rz-h2">{product.title}</h2>
+          </div>
+          <div className="rz-product-buy">
+            <p className="rz-product-price">{product.priceLabel}</p>
+            <BuyAction product={product} />
+          </div>
+        </div>
+      </section>
+
+      {product.nextStep && (
+        <section className="rz-section">
+          <div className="rz-wrap">
+            <p className="rz-mono" data-studio-reveal>
+              Что дальше
+            </p>
+            <TrackedLink
+              href={`/products/${product.nextStep.slug}`}
+              event="funnel_bridge_click"
+              eventProps={{ from: product.id, to: product.nextStep.slug }}
+              className="rz-row rz-row--next"
+            >
+              <span className="rz-mono">Дальше</span>
+              <h3>{product.nextStep.label}</h3>
+              <span className="rz-row-desc">{product.nextStep.text}</span>
+              <span className="rz-row-price rz-row-arrow">→</span>
+            </TrackedLink>
+          </div>
+        </section>
+      )}
 
       <script
         type="application/ld+json"

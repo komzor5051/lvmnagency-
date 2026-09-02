@@ -304,3 +304,33 @@ body.rz-menu-open { overflow: hidden; }
 @media (prefers-reduced-motion: reduce) {
   .rz-spread, .rz-spread::before { transition: none; }
 }
+
+/* ===== Страница продукта ===== */
+.rz-product-hero { padding: 48px 0 80px; }
+.rz-crumb { margin-bottom: 40px; font-family: var(--rz-mono); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; }
+.rz-locked { margin: 0 0 32px; padding: 16px 20px; border: 1px solid var(--rz-ink); color: var(--rz-ink); max-width: 640px; }
+.rz-product-grid { display: grid; grid-template-columns: 1fr 340px; gap: 64px; align-items: end; margin-bottom: 56px; }
+.rz-product-title { font-size: clamp(44px, 5.6vw, 84px); margin-bottom: 28px; }
+.rz-product-buy { display: flex; flex-direction: column; gap: 14px; border-left: 1px solid var(--rz-line); padding-left: 32px; }
+.rz-product-buy small { color: var(--rz-mute); font-size: 13px; }
+.rz-product-price { font-family: var(--rz-serif); font-size: 44px; font-weight: 500; line-height: 1; margin: 0; font-variant-numeric: tabular-nums; }
+.rz-product-cover { display: block; width: 100%; height: auto; border: 1px solid var(--rz-line); }
+.rz-product .bento-vsl { border: 1px solid var(--rz-line); }
+.rz-h2--sm { font-size: clamp(30px, 3.4vw, 42px); margin-bottom: 24px; }
+.rz-two { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: start; }
+.rz-list { list-style: none; margin: 0; padding: 0; }
+.rz-list li { position: relative; padding: 14px 0 14px 28px; border-bottom: 1px solid var(--rz-line); color: var(--rz-ink); font-size: 17px; }
+.rz-list li::before { content: ""; position: absolute; left: 0; top: 24px; width: 12px; height: 6px; background: var(--rz-lime); }
+.rz-list--cols { columns: 2; column-gap: 64px; }
+.rz-list--cols li { break-inside: avoid; }
+.rz-copy p { margin: 0 0 20px; color: var(--rz-mute); font-size: 18px; max-width: 640px; }
+.rz-copy p:first-child { color: var(--rz-ink); font-family: var(--rz-serif); font-size: 26px; line-height: 1.3; }
+.rz-product-final .rz-product-buy { border-left: 0; padding-left: 0; align-items: flex-start; }
+.rz-row--next { grid-template-columns: 90px 1fr 1fr 80px; margin-top: 24px; border-top: 1px solid var(--rz-line); }
+.rz-row-arrow { font-family: var(--rz-serif); font-size: 36px; }
+@media (max-width: 900px) {
+  .rz-product-grid, .rz-two { grid-template-columns: 1fr; gap: 32px; }
+  .rz-product-buy { border-left: 0; padding-left: 0; }
+  .rz-list--cols { columns: 1; }
+  .rz-row--next { grid-template-columns: 1fr; }
+}
