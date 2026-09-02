@@ -170,6 +170,7 @@ export const products: Product[] = [
     price: 3850,
     priceLabel: "3 850 ₽",
     meta: "1:1 · 60 минут · онлайн",
+    cover: { src: "/consultation-cover.webp", width: 1440, height: 810 },
     buy: {
       kind: "lava",
       url: "https://app.lava.top/products/00229885-2a19-4b39-84e8-ce18c868c955/content",
@@ -221,6 +222,7 @@ export const products: Product[] = [
     price: 15000,
     priceLabel: "15 000 ₽",
     meta: "услуга · 2 недели",
+    cover: { src: "/audit-cover.webp", width: 1440, height: 810 },
     buy: { kind: "form", url: "/audit" },
     faq: [
       {

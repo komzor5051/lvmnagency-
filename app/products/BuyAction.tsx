@@ -1,7 +1,7 @@
 "use client";
 
-// Buy action for /products — bento restyle: lime bento-btn for the primary
-// checkout, ink-underline bento-text-link for the Telegram fallback.
+// Buy action for /products — «Разворот» restyle: solid rz-btn for the primary
+// checkout, ink-underline rz-link for the Telegram fallback.
 // Clicks that lead to lava.top fire checkout_redirect {product}.
 
 import Link from "next/link";
@@ -31,7 +31,7 @@ export function BuyAction({ product }: { product: Product }) {
           href={buy.url}
           target="_blank"
           rel="noopener noreferrer"
-          className="bento-btn"
+          className="rz-btn rz-btn--solid"
           onClick={() => track("checkout_redirect", { product: product.id })}
         >
           {product.cta?.buy ?? "Оформить"}
@@ -44,7 +44,7 @@ export function BuyAction({ product }: { product: Product }) {
         href={TELEGRAM_URL}
         target="_blank"
         rel="noopener noreferrer"
-        className="bento-text-link"
+        className="rz-link"
       >
         {product.cta?.fallback ?? "Написать в Telegram"}
       </a>
@@ -53,7 +53,7 @@ export function BuyAction({ product }: { product: Product }) {
 
   if (buy.kind === "form") {
     return (
-      <Link href={buy.url} className="bento-btn">
+      <Link href={buy.url} className="rz-btn rz-btn--solid">
         Оставить заявку
       </Link>
     );

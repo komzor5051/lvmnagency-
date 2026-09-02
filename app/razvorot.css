@@ -109,14 +109,22 @@ body.rz-menu-open { overflow: hidden; }
 .rz-sec-head p { margin: 0; max-width: 560px; color: var(--rz-mute); }
 
 /* лайм-маркер за словом; на hero он рисуется после шторки (5c) */
-.rz-mark { background-image: linear-gradient(var(--rz-lime), var(--rz-lime)); background-repeat: no-repeat; background-size: 100% 42%; background-position: 0 82%; padding: 0 .06em; }
+.rz-mark {
+  background-image: linear-gradient(var(--rz-lime), var(--rz-lime));
+  background-repeat: no-repeat;
+  background-size: 100% .66em;
+  background-position: 0 .3em;
+  padding: 0 .06em;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
 
 /* ===== Hero (5c) ===== */
 .rz-hero { padding: 140px 0 120px; }
 .rz-hero-grid { display: grid; grid-template-columns: 1fr 360px; gap: 80px; align-items: end; }
 .rz-hero-eyebrow { margin: 0 0 28px; opacity: 0; animation: rz-fade 1s .2s forwards; }
 .rz-hero .rz-h1 { clip-path: inset(0 100% 0 0); animation: rz-clip 1.1s .1s var(--rz-ease-in-out) forwards; }
-.rz-hero .rz-mark { background-size: 0 42%; animation: rz-mark 1s 1s var(--rz-ease-in-out) forwards; }
+.rz-hero .rz-mark { background-size: 0 .66em; animation: rz-mark 1s 1s var(--rz-ease-in-out) forwards; }
 .rz-hero-lead { margin-bottom: 44px; opacity: 0; animation: rz-fade 1s .9s forwards; }
 .rz-hero-acts { display: flex; gap: 18px; align-items: center; opacity: 0; animation: rz-fade 1s 1.1s forwards; }
 .rz-hero-aside { border-left: 1px solid var(--rz-line); padding-left: 36px; opacity: 0; animation: rz-fade 1s 1.3s forwards; }
@@ -124,7 +132,7 @@ body.rz-menu-open { overflow: hidden; }
 .rz-hero-aside strong { display: block; font-family: var(--rz-serif); font-size: 44px; font-weight: 500; line-height: 1; color: var(--rz-ink); margin-bottom: 6px; }
 @keyframes rz-fade { to { opacity: 1; } }
 @keyframes rz-clip { to { clip-path: inset(0 0 0 0); } }
-@keyframes rz-mark { to { background-size: 100% 42%; } }
+@keyframes rz-mark { to { background-size: 100% .66em; } }
 
 /* ===== Продукты (1a) ===== */
 .rz-index { border-top: 1px solid var(--rz-line); }
@@ -165,6 +173,28 @@ body.rz-menu-open { overflow: hidden; }
 .rz-cta-title { font-size: clamp(44px, 6vw, 84px); margin-bottom: 36px; }
 .rz-cta .rz-lead { margin: 0 auto 40px; }
 
+/* ===== Вопросы ===== */
+.rz-faq details { border-bottom: 1px solid var(--rz-line); }
+.rz-faq details:first-child { border-top: 1px solid var(--rz-line); }
+.rz-faq summary { list-style: none; cursor: pointer; display: flex; justify-content: space-between; gap: 24px; padding: 22px 0; font-family: var(--rz-serif); font-size: 26px; line-height: 1.15; color: var(--rz-ink); }
+.rz-faq summary::-webkit-details-marker { display: none; }
+.rz-faq summary::after { content: "+"; font-family: var(--rz-mono); font-size: 22px; color: var(--rz-mute); transition: transform .3s var(--rz-ease); }
+.rz-faq details[open] summary::after { transform: rotate(45deg); }
+.rz-faq summary:focus-visible { outline: 2px solid var(--rz-lime); outline-offset: 3px; }
+.rz-faq details p { margin: 0 0 24px; color: var(--rz-mute); max-width: 640px; }
+@media (max-width: 900px) { .rz-faq summary { font-size: 22px; } }
+
+/* ===== Лист ожидания ===== */
+.rz-wait { display: flex; flex-direction: column; gap: 8px; }
+.rz-wait-row { display: flex; border: 1px solid var(--rz-ink); }
+.rz-wait-input { flex: 1; min-width: 0; border: 0; padding: 14px 16px; font: inherit; font-size: 15px; background: var(--rz-paper); color: var(--rz-ink); outline: none; }
+.rz-wait-input.is-invalid { background: #fff3f0; }
+.rz-wait-btn { border: 0; background: var(--rz-ink); color: #fff; padding: 14px 22px; font: inherit; font-size: 15px; font-weight: 500; cursor: pointer; transition: background .3s, color .3s; }
+.rz-wait-btn:hover { background: var(--rz-lime); color: var(--rz-ink); }
+.rz-wait-btn:disabled { opacity: .6; cursor: default; }
+.rz-wait-error { margin: 0; font-size: 14px; color: #b3261e; }
+.rz-wait-ok { margin: 0; font-weight: 500; color: var(--rz-ink); }
+
 @media (max-width: 900px) {
   .rz-wrap { padding: 0 22px; }
   .rz-hero { padding: 80px 0 70px; }
@@ -180,6 +210,6 @@ body.rz-menu-open { overflow: hidden; }
 @media (prefers-reduced-motion: reduce) {
   .rz-hero-eyebrow, .rz-hero-lead, .rz-hero-acts, .rz-hero-aside { animation: none; opacity: 1; }
   .rz-hero .rz-h1 { animation: none; clip-path: none; }
-  .rz-hero .rz-mark { animation: none; background-size: 100% 42%; }
+  .rz-hero .rz-mark { animation: none; background-size: 100% .66em; }
   .rz-row, .rz-row::before, .rz-post-line::after, .rz-link { transition: none; }
 }

@@ -48,15 +48,15 @@ export function WaitlistForm() {
 
   if (state === "success") {
     return (
-      <p className="text-sm font-bold text-ink">
-        Вы в списке. Напишу, как только курс будет готов.
+      <p className="rz-wait-ok">
+        Ты в списке. Напишу, как только курс будет готов.
       </p>
     );
   }
 
   return (
-    <form onSubmit={handleSubmit} noValidate className="flex flex-col gap-2">
-      <div className="flex gap-2">
+    <form onSubmit={handleSubmit} noValidate className="rz-wait">
+      <div className="rz-wait-row">
         <input
           type="text"
           name="telegram"
@@ -71,30 +71,21 @@ export function WaitlistForm() {
             setUsername(e.target.value);
             if (invalid) setInvalid(false);
           }}
-          className="min-h-[44px] w-full min-w-0 border border-line bg-white px-3 py-2.5 text-sm text-ink placeholder:text-ink-muted/60 outline-none transition-colors focus:border-ink"
+          className={"rz-wait-input" + (invalid ? " is-invalid" : "")}
         />
-        <button
-          type="submit"
-          disabled={state === "loading"}
-          className="min-h-[44px] min-w-[6.5rem] shrink-0 cursor-pointer bg-ink px-5 py-2.5 text-sm font-bold text-paper transition-colors hover:bg-black disabled:cursor-default disabled:opacity-60"
-        >
+        <button type="submit" disabled={state === "loading"} className="rz-wait-btn">
           {state === "loading" ? "Секунду" : "Жду"}
         </button>
       </div>
       {invalid && (
-        <p className="text-xs text-accent" role="alert">
+        <p className="rz-wait-error" role="alert">
           Проверьте ник: латиница, цифры и подчёркивания, от 5 символов. Можно с @.
         </p>
       )}
       {state === "error" && (
-        <p className="text-xs text-ink-muted" role="alert">
+        <p className="rz-wait-error" role="alert">
           Не получилось отправить. Напишите в Telegram{" "}
-          <a
-            href={TELEGRAM_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="underline-accent font-bold text-ink"
-          >
+          <a href={TELEGRAM_URL} target="_blank" rel="noopener noreferrer" className="rz-link">
             @lyaminvl
           </a>
         </p>
