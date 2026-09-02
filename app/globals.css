@@ -171,9 +171,10 @@ body {
      --accent...) so retheming happens here without touching any selector or
      the page's step logic. Lime is a fill/highlight only (hover/selected
      states); ink text sits on top of it. Corners stay sharp; paper surfaces
-     carry desk shadows. The global DeskNav is the header — .audit-nav is gone.
-     Top padding clears the fixed nav strip. */
-  padding-top: 92px;
+     carry desk shadows. The global StudioNav («Разворот» header) is sticky
+     and sits in normal flow now, so this only needs breathing room, not a
+     clearance for a fixed header. */
+  padding-top: 32px;
   color: var(--color-ink);
   font-family: var(--font-body), sans-serif;
 

@@ -4,56 +4,44 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 
 const links = [
-  { href: "/#systems", label: "Как работаю" },
+  { href: "/#products", label: "Продукты" },
   { href: "/about", label: "Обо мне" },
   { href: "/blog", label: "Блог" },
-  { href: "/audit", label: "AI-аудит" },
+  { href: "/audit", label: "Аудит" },
 ];
-
-function Mark() {
-  return (
-    <span className="studio-mark" aria-hidden="true">
-      <i />
-      <i />
-      <i />
-    </span>
-  );
-}
 
 export default function StudioNav() {
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    document.body.classList.toggle("studio-menu-open", open);
-    return () => document.body.classList.remove("studio-menu-open");
+    document.body.classList.toggle("rz-menu-open", open);
+    return () => document.body.classList.remove("rz-menu-open");
   }, [open]);
+
+  const close = () => setOpen(false);
 
   return (
     <>
-      <header className="studio-nav-shell">
-        <nav className="studio-nav bento-nav" aria-label="Основная навигация">
-          <Link className="studio-brand" href="/" aria-label="Влад Лямин — на главную" onClick={() => setOpen(false)}>
-            <Mark />
-            <span>
-              Влад Лямин
-              <small>AI для работы и бизнеса</small>
-            </span>
+      <header className="rz-nav-shell">
+        <nav className="rz-nav" aria-label="Основная навигация">
+          <Link className="rz-brand" href="/" aria-label="Влад Лямин — на главную" onClick={close}>
+            Влад Лямин
           </Link>
 
-          <div className="studio-nav-links">
+          <div className="rz-nav-links">
             {links.map((link) => (
-              <Link key={link.href} href={link.href} onClick={() => setOpen(false)}>
+              <Link key={link.href} href={link.href} onClick={close}>
                 {link.label}
               </Link>
             ))}
           </div>
 
-          <Link className="studio-nav-cta bento-nav-cta" href="/products" onClick={() => setOpen(false)}>
-            Продукты <span aria-hidden="true">→</span>
+          <Link className="rz-btn rz-btn--solid rz-nav-cta" href="/products/guide" onClick={close}>
+            Начать с гайда
           </Link>
 
           <button
-            className={`studio-menu-toggle ${open ? "is-open" : ""}`}
+            className={`rz-menu-toggle ${open ? "is-open" : ""}`}
             type="button"
             aria-label={open ? "Закрыть меню" : "Открыть меню"}
             aria-expanded={open}
@@ -65,21 +53,15 @@ export default function StudioNav() {
         </nav>
       </header>
 
-      <div className={`studio-mobile-menu ${open ? "is-open" : ""}`} aria-hidden={!open}>
-        <div>
-          {links.map((link, index) => (
-            <Link key={link.href} href={link.href} onClick={() => setOpen(false)}>
-              <span>0{index + 1}</span>
-              {link.label}
-            </Link>
-          ))}
-          {/* Wrapper keeps the CTA out of the `> div > a` menu-row selector. */}
-          <div className="bento-nav-mobile-cta">
-            <Link className="bento-btn" href="/products" onClick={() => setOpen(false)}>
-              Продукты <span aria-hidden="true">→</span>
-            </Link>
-          </div>
-        </div>
+      <div className={`rz-menu ${open ? "is-open" : ""}`} aria-hidden={!open}>
+        {links.map((link) => (
+          <Link key={link.href} href={link.href} onClick={close}>
+            {link.label}
+          </Link>
+        ))}
+        <Link className="rz-btn rz-btn--solid" href="/products/guide" onClick={close}>
+          Начать с гайда
+        </Link>
       </div>
     </>
   );

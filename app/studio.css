@@ -875,9 +875,10 @@ body.studio-menu-open { overflow: hidden; }
   color: var(--color-ink);
 }
 
-/* Vertical rhythm between bento sections. --hero pads under the fixed nav. */
+/* Vertical rhythm between bento sections. The «Разворот» nav is sticky and
+   sits in normal flow now, so --hero no longer needs extra clearance under
+   a fixed header — it uses the same top padding as any other section. */
 .bento-section { padding: 2.25rem 0; }
-.bento-section--hero { padding-top: calc(6.6rem + env(safe-area-inset-top)); }
 .bento-section--last { padding-bottom: 4.5rem; }
 
 /* Section header: mono eyebrow + Onest heading. */
@@ -1189,7 +1190,6 @@ body.studio-menu-open { overflow: hidden; }
 /* Desktop: the real 12-column bento grid. */
 @media (min-width: 56.25rem) {
   .bento-section { padding: 3rem 0; }
-  .bento-section--hero { padding-top: calc(8.25rem + env(safe-area-inset-top)); }
   .bento-section--last { padding-bottom: 6rem; }
   .bento-grid { grid-template-columns: repeat(12, minmax(0, 1fr)); }
   .bento-col-3 { grid-column: span 3; }
