@@ -12,9 +12,8 @@ import { track } from "@/lib/analytics";
  *
  * Ряды читаются как ступени, а не как список:
  *   1) два гайда по 6 колонок — два равных входа, выбор по задаче;
- *   2) консультация 4 + аудит 8 — услуги;
- *   3) внедрение 12 (carbon) — верх лестницы;
- *   4) лист ожидания курса 12.
+ *   2) консультация 4 + аудит 8 — верх лестницы;
+ *   3) лист ожидания курса 12.
  *
  * All copy and prices come from lib/products.ts / app/products/content.ts —
  * nothing product-related is hardcoded here except the funnel bridges.

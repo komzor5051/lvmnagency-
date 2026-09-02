@@ -698,7 +698,7 @@ body.studio-menu-open { overflow: hidden; }
 /* Audit: same working funnel, now on-brand. */
 .audit-page {
   min-height: 100vh;
-  padding-top: 120px;
+  padding-top: 32px;
   background:
     radial-gradient(circle at 78% 12%, rgba(200,240,76,.09), transparent 28%),
     var(--studio-carbon) !important;

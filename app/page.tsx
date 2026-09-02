@@ -68,7 +68,7 @@ export default async function HomePage() {
         <div className="rz-wrap">
           <div className="rz-sec-head" data-studio-reveal>
             <h2 className="rz-h2">Продукты</h2>
-            <p>Четыре формата. Начать можно с любого, дальше идти необязательно.</p>
+            <p>Пять форматов. Начать можно с любого, дальше идти необязательно.</p>
           </div>
           <div className="rz-index">
             {showcase.map((item, i) => {

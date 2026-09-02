@@ -45,6 +45,7 @@ export default function StudioNav() {
             type="button"
             aria-label={open ? "Закрыть меню" : "Открыть меню"}
             aria-expanded={open}
+            aria-controls="rz-menu"
             onClick={() => setOpen((value) => !value)}
           >
             <span />
@@ -53,7 +54,7 @@ export default function StudioNav() {
         </nav>
       </header>
 
-      <div className={`rz-menu ${open ? "is-open" : ""}`} aria-hidden={!open}>
+      <div id="rz-menu" className={`rz-menu ${open ? "is-open" : ""}`} aria-hidden={!open}>
         {links.map((link) => (
           <Link key={link.href} href={link.href} onClick={close}>
             {link.label}

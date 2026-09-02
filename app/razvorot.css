@@ -3,18 +3,18 @@
 
 @font-face { font-family: "Cormorant Garamond"; font-weight: 400; font-style: normal; font-display: swap; unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116; src: url("/fonts/cormorant-400-cyrillic.woff2") format("woff2"); }
 @font-face { font-family: "Cormorant Garamond"; font-weight: 400; font-style: normal; font-display: swap; unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; src: url("/fonts/cormorant-400-latin.woff2") format("woff2"); }
-@font-face { font-family: "Cormorant Garamond"; font-weight: 500; font-style: normal; font-display: swap; unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116; src: url("/fonts/cormorant-500-cyrillic.woff2") format("woff2"); }
-@font-face { font-family: "Cormorant Garamond"; font-weight: 500; font-style: normal; font-display: swap; unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; src: url("/fonts/cormorant-500-latin.woff2") format("woff2"); }
+@font-face { font-family: "Cormorant Garamond"; font-weight: 500; font-style: normal; font-display: swap; unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116; src: url("/fonts/cormorant-400-cyrillic.woff2") format("woff2"); }
+@font-face { font-family: "Cormorant Garamond"; font-weight: 500; font-style: normal; font-display: swap; unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; src: url("/fonts/cormorant-400-latin.woff2") format("woff2"); }
 @font-face { font-family: "Cormorant Garamond"; font-weight: 400; font-style: italic; font-display: swap; unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116; src: url("/fonts/cormorant-400i-cyrillic.woff2") format("woff2"); }
 @font-face { font-family: "Cormorant Garamond"; font-weight: 400; font-style: italic; font-display: swap; unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; src: url("/fonts/cormorant-400i-latin.woff2") format("woff2"); }
-@font-face { font-family: "Cormorant Garamond"; font-weight: 500; font-style: italic; font-display: swap; unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116; src: url("/fonts/cormorant-500i-cyrillic.woff2") format("woff2"); }
-@font-face { font-family: "Cormorant Garamond"; font-weight: 500; font-style: italic; font-display: swap; unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; src: url("/fonts/cormorant-500i-latin.woff2") format("woff2"); }
+@font-face { font-family: "Cormorant Garamond"; font-weight: 500; font-style: italic; font-display: swap; unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116; src: url("/fonts/cormorant-400i-cyrillic.woff2") format("woff2"); }
+@font-face { font-family: "Cormorant Garamond"; font-weight: 500; font-style: italic; font-display: swap; unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; src: url("/fonts/cormorant-400i-latin.woff2") format("woff2"); }
 @font-face { font-family: "Golos Text"; font-weight: 400; font-display: swap; unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116; src: url("/fonts/golos-400-cyrillic.woff2") format("woff2"); }
 @font-face { font-family: "Golos Text"; font-weight: 400; font-display: swap; unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; src: url("/fonts/golos-400-latin.woff2") format("woff2"); }
-@font-face { font-family: "Golos Text"; font-weight: 500; font-display: swap; unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116; src: url("/fonts/golos-500-cyrillic.woff2") format("woff2"); }
-@font-face { font-family: "Golos Text"; font-weight: 500; font-display: swap; unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; src: url("/fonts/golos-500-latin.woff2") format("woff2"); }
-@font-face { font-family: "Golos Text"; font-weight: 600; font-display: swap; unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116; src: url("/fonts/golos-600-cyrillic.woff2") format("woff2"); }
-@font-face { font-family: "Golos Text"; font-weight: 600; font-display: swap; unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; src: url("/fonts/golos-600-latin.woff2") format("woff2"); }
+@font-face { font-family: "Golos Text"; font-weight: 500; font-display: swap; unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116; src: url("/fonts/golos-400-cyrillic.woff2") format("woff2"); }
+@font-face { font-family: "Golos Text"; font-weight: 500; font-display: swap; unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; src: url("/fonts/golos-400-latin.woff2") format("woff2"); }
+@font-face { font-family: "Golos Text"; font-weight: 600; font-display: swap; unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116; src: url("/fonts/golos-400-cyrillic.woff2") format("woff2"); }
+@font-face { font-family: "Golos Text"; font-weight: 600; font-display: swap; unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; src: url("/fonts/golos-400-latin.woff2") format("woff2"); }
 
 :root {
   --rz-paper: #ffffff;
@@ -67,8 +67,9 @@
 .rz-menu-toggle { display: none; }
 
 .rz-menu {
+  display: none;
   position: fixed; inset: 72px 0 0 0; z-index: 55; background: var(--rz-paper);
-  display: flex; flex-direction: column; gap: 4px; padding: 32px 22px;
+  flex-direction: column; gap: 4px; padding: 32px 22px;
   transform: translateY(-8px); opacity: 0; pointer-events: none; transition: opacity .3s, transform .3s var(--rz-ease);
 }
 .rz-menu.is-open { opacity: 1; transform: none; pointer-events: auto; }
@@ -79,7 +80,7 @@ body.rz-menu-open { overflow: hidden; }
 @media (max-width: 900px) {
   .rz-nav { padding: 0 22px; height: 64px; }
   .rz-nav-links, .rz-nav-cta { display: none; }
-  .rz-menu { top: 64px; }
+  .rz-menu { display: flex; top: 64px; }
   .rz-menu-toggle {
     display: grid; place-items: center; gap: 6px; width: 44px; height: 44px;
     border: 0; background: none; padding: 0; cursor: pointer;
@@ -101,6 +102,7 @@ body.rz-menu-open { overflow: hidden; }
 .rz-lead { font-size: 20px; color: var(--rz-mute); max-width: 560px; margin: 0; }
 .rz-link { color: var(--rz-ink); text-decoration: none; background-image: linear-gradient(var(--rz-ink), var(--rz-ink)); background-size: 100% 1px; background-repeat: no-repeat; background-position: 0 100%; transition: background-size .35s var(--rz-ease-in-out); }
 .rz-link:hover { background-size: 0 1px; }
+.rz-post:focus-visible, .rz-link:focus-visible { outline: 2px solid var(--rz-lime); outline-offset: 3px; }
 .rz-more { margin: 40px 0 0; }
 .rz-section { padding: 120px 0; border-top: 1px solid var(--rz-line); }
 .rz-sec-head { display: grid; grid-template-columns: 260px 1fr; gap: 40px; margin-bottom: 64px; align-items: baseline; }

@@ -89,3 +89,8 @@
 .bento-vsl-play strong { font-weight: 500; font-size: 1.05rem; line-height: 1.25; }
 .bento-vsl-poster:focus-visible { outline: 2px solid var(--color-lime); outline-offset: -2px; }
 @media (max-width: 760px) { .bento-vsl-play { left: 12px; bottom: 12px; right: 12px; max-width: none; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .bento-vsl-poster img { transition: none; }
+  .bento-vsl-poster:hover img { transform: none; }
+}
