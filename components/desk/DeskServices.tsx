@@ -7,7 +7,6 @@ const STACK: Array<{ id: string; dark?: boolean; note?: string }> = [
   { id: "guide", note: "для самостоятельных" },
   { id: "audit", dark: true },
   { id: "consultation" },
-  { id: "ai-os" },
 ];
 
 function buyHref(p: Product): string {

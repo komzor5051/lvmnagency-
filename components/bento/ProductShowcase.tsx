@@ -26,11 +26,10 @@ type ShowcaseSection = "showcase" | "products_page";
 
 // Funnel bridges: mono captions that point to the next ladder step.
 const bridges: Record<string, string> = {
-  guide: "шаг 1 из 4 · широкий вход",
-  "codex-content-os": "шаг 1 из 4 · узкая задача: контент",
-  consultation: "шаг 2 из 4 · дальше — AI-аудит",
-  audit: "шаг 3 из 4 · дальше — внедрение",
-  "ai-os": "шаг 4 из 4 · работа со мной лично",
+  guide: "шаг 1 из 3 · широкий вход",
+  "codex-content-os": "шаг 1 из 3 · узкая задача: контент",
+  consultation: "шаг 2 из 3 · дальше — AI-аудит",
+  audit: "шаг 3 из 3 · план на руках",
 };
 
 // Обложка плитки: готовый баннер, если он есть у продукта, иначе
@@ -98,7 +97,6 @@ export function ProductShowcase({ section }: { section: ShowcaseSection }) {
   const contentOs = getProduct("codex-content-os");
   const consultation = getProduct("consultation");
   const audit = getProduct("audit");
-  const aiOs = getProduct("ai-os");
   const course = getProduct("course");
 
   return (
@@ -174,24 +172,7 @@ export function ProductShowcase({ section }: { section: ShowcaseSection }) {
         </ProductTile>
       )}
 
-      {/* 5. Implementation — carbon accent tile, вся ширина. */}
-      {aiOs && (
-        <ProductTile
-          product={aiOs}
-          position={5}
-          section={section}
-          className="bento-col-12 bento-tile--carbon"
-        >
-          <span className="bento-mono">{aiOs.meta}</span>
-          <h3>{aiOs.title}</h3>
-          <p className="bento-lead">{aiOs.tagline}</p>
-          <p className="bento-price">{aiOs.priceLabel}</p>
-          <span className="bento-text-link">{ctaLabel(aiOs)}</span>
-          <p className="bento-mono bento-bridge">{bridges["ai-os"]}</p>
-        </ProductTile>
-      )}
-
-      {/* 6. Course waitlist — full-width strip with the existing form. */}
+      {/* 5. Course waitlist — full-width strip with the existing form. */}
       {course && (
         <div
           className="bento-tile bento-col-12 bento-waitlist"

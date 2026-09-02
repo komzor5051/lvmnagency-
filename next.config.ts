@@ -7,6 +7,7 @@ const nextConfig: NextConfig = {
   },
   async redirects() {
     return [
+      { source: "/products/ai-os", destination: "/products/audit", permanent: true },
       { source: "/ai-audit", destination: "/audit", permanent: true },
       { source: "/employees", destination: "/", permanent: true },
       {
