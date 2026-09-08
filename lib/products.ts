@@ -45,6 +45,11 @@ export type Product = {
   faq?: ProductFaq[];
   // CTA labels: action + what you get, never bare "купи".
   cta?: { buy: string; fallback: string }; // buy = checkout configured; fallback = manual Telegram channel
+  // Второй, необязательный путь рядом с оплатой: написать лично в Telegram.
+  // Нужен там, где до оплаты полезно поговорить (консультация, услуги):
+  // диалог даёт квалификацию и переводит разговор к внедрению.
+  // text — заготовка первого сообщения, чтобы человек не думал, с чего начать.
+  contact?: { label: string; note?: string; text?: string };
   nextStep?: ProductNextStep; // funnel bridge to the next ladder step
 };
 
@@ -176,6 +181,11 @@ export const products: Product[] = [
       url: "https://app.lava.top/products/00229885-2a19-4b39-84e8-ce18c868c955/content",
     },
     cta: { buy: "Забронировать час", fallback: "Забронировать в Telegram" },
+    contact: {
+      label: "Написать мне в Telegram",
+      note: "Если хотите сначала обсудить задачу — напишите, отвечаю сам.",
+      text: "Влад, привет. Хочу консультацию. Коротко о задаче:",
+    },
     nextStep: {
       slug: "audit",
       label: "Следующий шаг — AI-аудит",
