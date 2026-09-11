@@ -20,6 +20,7 @@ export default function HomeMotion() {
       const fine = hasFinePointer();
 
       // --- Hero -----------------------------------------------------------
+      const hero = q<HTMLElement>(".rz-hero")[0];
       const h1 = q<HTMLElement>(".rz-hero .rz-h1")[0];
       const eyebrow = q<HTMLElement>(".rz-hero-eyebrow")[0];
       const mark = q<HTMLElement>(".rz-hero .rz-mark")[0];
@@ -27,12 +28,11 @@ export default function HomeMotion() {
       const acts = q<HTMLElement>(".rz-hero-acts")[0];
       const facts = q<HTMLElement>(".rz-hero-aside p");
 
-      if (h1 && eyebrow && mark && lead && acts) {
+      if (hero && h1 && eyebrow && mark && lead && acts) {
         // h1 прячем синхронно: разрезка ждёт шрифтов, а вспышка целого заголовка
         // до разрезки видна глазом. Открываем его в onSplit, когда строки уже в масках.
         gsap.set([h1, eyebrow, lead, acts, ...facts], { autoAlpha: 0 });
-        gsap.set([lead, acts], { y: 16 });
-        gsap.set(mark, { backgroundSize: "0% .66em" });
+        gsap.set([lead, acts], { y: 24 });
 
         const countUp = (p: HTMLElement) => {
           const strong = p.querySelector("strong");
@@ -45,7 +45,7 @@ export default function HomeMotion() {
           const state = { v: target > 100 ? target - 24 : 0 };
           return gsap.to(state, {
             v: target,
-            duration: 1.2,
+            duration: 1.6,
             ease: EASE_OUT,
             onUpdate: () => { strong.textContent = `${Math.round(state.v)}${suffix}`; },
           });
@@ -53,18 +53,24 @@ export default function HomeMotion() {
 
         // Шрифты должны быть готовы до разрезки, иначе строки посчитаются по fallback.
         document.fonts.ready.then(() => {
-          SplitText.create(h1, {
-            type: "lines",
-            mask: "lines",
-            autoSplit: true,
-            onSplit: (self) => {
-              gsap.set(self.lines, { yPercent: 110 });
-              gsap.set(h1, { autoAlpha: 1 });
-              const tl = gsap.timeline({ defaults: { ease: EASE_OUT } });
-              return heroChoreography(tl, {
-                eyebrow, lines: self.lines, mark, lead, acts, facts, countUp,
-              });
+          const split = SplitText.create(h1, { type: "lines", mask: "lines", autoSplit: false });
+          // SplitText пересобирает разметку: span маркера внутри строки новый,
+          // старая ссылка указывает на выброшенный узел. Берём живой.
+          const liveMark = h1.querySelector<HTMLElement>(".rz-mark") ?? mark;
+          gsap.set(liveMark, { "--mark-w": "0%" });
+          gsap.set(split.lines, { yPercent: 110 });
+          gsap.set(h1, { autoAlpha: 1 });
+          const tl = gsap.timeline({
+            defaults: { ease: EASE_OUT },
+            // После сцены возвращаем исходную разметку: строки снова переносятся
+            // браузером, и при ресайзе ничего не ломается и не переигрывается.
+            onComplete: () => {
+              split.revert();
+              hero.classList.add("is-in"); // снимает CSS-скрытие html.js, см. razvorot.css
             },
+          });
+          heroChoreography(tl, {
+            eyebrow, lines: split.lines, mark: liveMark, lead, acts, facts, countUp,
           });
         });
       }
@@ -77,10 +83,10 @@ export default function HomeMotion() {
       if (index && rows.length) {
         gsap.from(rows, {
           autoAlpha: 0,
-          y: 24,
-          duration: 0.8,
+          y: 40,
+          duration: 1,
           ease: EASE_OUT,
-          stagger: 0.08,
+          stagger: 0.12,
           clearProps: "transform", // hover-сдвиг в CSS не должен спорить с GSAP
           scrollTrigger: { trigger: index, start: "top 82%", once: true },
         });
@@ -92,10 +98,10 @@ export default function HomeMotion() {
       if (about && portrait && fine) {
         gsap.fromTo(
           portrait,
-          { yPercent: -8, scale: 1.16 },
+          { yPercent: -12, scale: 1.24 },
           {
-            yPercent: 8,
-            scale: 1.16,
+            yPercent: 12,
+            scale: 1.24,
             ease: "none",
             scrollTrigger: { trigger: about, start: "top bottom", end: "bottom top", scrub: true },
           },
@@ -108,9 +114,9 @@ export default function HomeMotion() {
       if (cta && ctaMark) {
         gsap.fromTo(
           ctaMark,
-          { backgroundSize: "0% .66em" },
+          { "--mark-w": "0%" },
           {
-            backgroundSize: "100% .66em",
+            "--mark-w": "100%",
             duration: 0.9,
             ease: "power3.inOut",
             scrollTrigger: { trigger: cta, start: "top 70%", once: true },
@@ -121,8 +127,8 @@ export default function HomeMotion() {
       // --- Магнитные кнопки ---------------------------------------------------
       const cleanups: Array<() => void> = [];
       if (fine) {
-        const RADIUS = 80;
-        const PULL = 6;
+        const RADIUS = 110;
+        const PULL = 12;
         q<HTMLElement>(".rz-btn--solid").forEach((btn) => {
           const toX = gsap.quickTo(btn, "x", { duration: 0.4, ease: EASE_OUT });
           const toY = gsap.quickTo(btn, "y", { duration: 0.4, ease: EASE_OUT });

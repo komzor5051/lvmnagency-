@@ -110,9 +110,10 @@ body.rz-menu-open { overflow: hidden; }
 
 /* лайм-маркер за словом; на hero он рисуется после шторки (5c) */
 .rz-mark {
+  --mark-w: 100%; /* ширину штриха тянет GSAP, единицы в одной системе */
   background-image: linear-gradient(var(--rz-lime), var(--rz-lime));
   background-repeat: no-repeat;
-  background-size: 100% .66em;
+  background-size: var(--mark-w) .66em;
   background-position: 0 .3em;
   padding: 0 .06em;
   -webkit-box-decoration-break: clone;
@@ -128,7 +129,19 @@ body.rz-menu-open { overflow: hidden; }
 .rz-hero-aside { border-left: 1px solid var(--rz-line); padding-left: 36px; }
 .rz-hero-aside p { margin: 0 0 22px; font-size: 15px; color: var(--rz-mute); }
 .rz-hero-aside strong { display: block; font-family: var(--rz-serif); font-size: 44px; font-weight: 500; line-height: 1; color: var(--rz-ink); margin-bottom: 6px; }
-/* Вход hero живёт в components/motion/HomeMotion.tsx (GSAP). Статика видна сразу. */
+/* Вход hero живёт в components/motion/HomeMotion.tsx (GSAP).
+   Класс html.js ставит инлайн-скрипт в layout до первой отрисовки: без JS
+   и при reduced-motion статика видна сразу, с JS hero ждёт сцену.
+   Страховка: если сцена не стартовала за 4 с, всё проявляется само. */
+@media (prefers-reduced-motion: no-preference) {
+  html.js .rz-hero:not(.is-in) .rz-hero-eyebrow,
+  html.js .rz-hero:not(.is-in) .rz-h1,
+  html.js .rz-hero:not(.is-in) .rz-hero-lead,
+  html.js .rz-hero:not(.is-in) .rz-hero-acts,
+  html.js .rz-hero:not(.is-in) .rz-hero-aside { opacity: 0; animation: rz-safety 0s 4s forwards; }
+  html.js .rz-hero:not(.is-in) .rz-mark { --mark-w: 0%; }
+}
+@keyframes rz-safety { to { opacity: 1; } }
 
 /* ===== Продукты (1a) ===== */
 .rz-index { border-top: 1px solid var(--rz-line); }

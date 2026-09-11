@@ -146,6 +146,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ru" className="font-sans">
+      <head>
+        {/* До первой отрисовки: помечаем, что JS есть, чтобы hero не вспыхивал
+            статикой перед стартом сцены (см. razvorot.css, html.js). */}
+        <script dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.add('js')" }} />
+      </head>
       <body
         className={`${handFont.variable} antialiased`}
       >
