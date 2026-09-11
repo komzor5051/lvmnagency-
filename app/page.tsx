@@ -4,6 +4,7 @@ import { getPublishedPosts } from "@/lib/posts";
 import { getProduct } from "@/lib/products";
 import { TrackedLink } from "@/components/bento/TrackedLink";
 import { StickyGuideCta } from "@/components/bento/StickyGuideCta";
+import HomeMotion from "@/components/motion/HomeMotion";
 
 export const metadata: Metadata = {
   alternates: { canonical: "/" },
@@ -36,6 +37,7 @@ export default async function HomePage() {
 
   return (
     <main className="rz">
+      <HomeMotion />
       {/* 1. Hero — 5c: шторка слева направо, потом лайм-маркер под «личную». */}
       <header className="rz-hero" id="top">
         <div className="rz-wrap rz-hero-grid">
