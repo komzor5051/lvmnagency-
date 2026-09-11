@@ -49,9 +49,15 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
   },
+  // One source per format, declared explicitly: the auto-detected app/favicon.ico
+  // used to be an unrelated leftover icon and Next put it first, ahead of the
+  // real wordmark. Sizes here match the actual files.
   icons: {
-    icon: { url: "/favicon.png", type: "image/png" },
-    apple: { url: "/apple-icon.png" },
+    icon: [
+      { url: "/favicon.ico", sizes: "16x16 32x32 48x48 64x64", type: "image/x-icon" },
+      { url: "/favicon.png", sizes: "256x256", type: "image/png" },
+    ],
+    apple: { url: "/apple-icon.png", sizes: "180x180" },
   },
   alternates: {
     types: {
