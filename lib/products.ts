@@ -45,10 +45,22 @@ export type Product = {
   faq?: ProductFaq[];
   // CTA labels: action + what you get, never bare "купи".
   cta?: { buy: string; fallback: string }; // buy = checkout configured; fallback = manual Telegram channel
+  // Готовое сообщение для кнопки «Написать в Telegram» рядом с оплатой.
+  // Пусто — берётся telegramText() по умолчанию с названием продукта.
+  telegramText?: string;
   nextStep?: ProductNextStep; // funnel bridge to the next ladder step
 };
 
 export const TELEGRAM_URL = "https://telegram.me/lyaminvl";
+
+// Ссылка в личку с предзаготовленным сообщением: покупатель может написать
+// до оплаты, а не искать контакт после.
+export function telegramHref(product: Pick<Product, "title" | "telegramText">) {
+  const text =
+    product.telegramText ??
+    `Привет, Влад. Пишу с сайта, интересует «${product.title}». Вопрос: `;
+  return `${TELEGRAM_URL}?text=${encodeURIComponent(text)}`;
+}
 
 export const products: Product[] = [
   {
@@ -176,6 +188,8 @@ export const products: Product[] = [
       url: "https://app.lava.top/products/00229885-2a19-4b39-84e8-ce18c868c955/content",
     },
     cta: { buy: "Забронировать час", fallback: "Забронировать в Telegram" },
+    telegramText:
+      "Привет, Влад. Хочу записаться на консультацию. Коротко о задаче: ",
     nextStep: {
       slug: "audit",
       label: "Следующий шаг — AI-аудит",
