@@ -165,7 +165,7 @@ export default async function HomePage() {
         <div className="rz-wrap">
           <p className="rz-mono" data-studio-reveal>Первый шаг</p>
           <h2 className="rz-h2 rz-cta-title" data-studio-reveal>
-            Начни с гайда <span className="rz-mark">за {guide?.priceLabel ?? "990 ₽"}</span>
+            Начни с гайда <span className="rz-mark">за {guide?.priceLabel ?? "490 ₽"}</span>
           </h2>
           <p className="rz-lead" data-studio-reveal>
             Самый дешёвый способ проверить, встроится ли Claude в твою работу.
