@@ -1,0 +1,105 @@
+/* Личная программа: надстройка над «Разворотом» (app/razvorot.css).
+   Карточка маршрута и её 3D сохранены из первого макета. */
+
+.program-page .rz-crumb { margin-bottom: 32px; }
+.program-hero-grid { display: grid; grid-template-columns: 1.35fr 1fr; gap: 72px; align-items: center; margin-bottom: 64px; }
+.program-page .rz-product-title { margin-bottom: 28px; }
+.program-h1-line { display: block; }
+.program-h1-mark { background: linear-gradient(var(--rz-lime), var(--rz-lime)) no-repeat 0 0 / 100% 100%; padding: 0 .1em .02em; margin-left: -.1em; box-decoration-break: clone; }
+.program-hero-armed .program-h1-mark { background-size: 0% 100%; }
+.program-hero-armed.program-mark-in .program-h1-mark { background-size: 100% 100%; transition: background-size .7s var(--rz-ease); }
+.program-hero-armed [data-hero], .program-hero-armed [data-card-enter], .program-hero-armed .program-facts > div { opacity: 0; }
+.program-page .rz-lead { margin-bottom: 36px; }
+.program-caption { font-size: 14px; line-height: 1.6; color: var(--rz-mute); margin: 16px 0 0; }
+.program-eyebrow { margin: 0 0 22px; }
+
+/* Кнопки */
+.program-cta-row { display: flex; flex-wrap: wrap; gap: 12px; }
+.program-cta-row .rz-btn { flex: 1 1 220px; text-align: center; }
+.rz-product-buy .program-cta-row { width: 100%; }
+
+/* Карточка маршрута: 3D, блик, стопка листов */
+.program-card-wrap { perspective: 1200px; }
+.program-hero-note { --rx: 0deg; --ry: 0deg; --gx: 50%; --gy: 50%; --sheen: 0; position: relative; background: #f0f1ea; border: 1px solid #dddfd4; padding: 26px 30px 24px; color: #151613; transform: rotateX(var(--rx)) rotateY(var(--ry)); transform-style: preserve-3d; will-change: transform; }
+.program-hero-note::before { content: ""; position: absolute; inset: 0; border: 1px solid #d3d6ca; background: #e6e8df; transform: translate3d(18px, 18px, -40px); z-index: -1; }
+.program-hero-note::after { content: ""; position: absolute; inset: 0; pointer-events: none; opacity: var(--sheen); background: radial-gradient(circle at var(--gx) var(--gy), rgba(255,255,255,.55), rgba(200,240,76,.12) 35%, transparent 65%); transition: opacity .3s; transform: translateZ(1px); }
+.program-hero-note > * { transform-style: preserve-3d; }
+.program-note-top { display: flex; justify-content: space-between; gap: 12px; font-family: var(--rz-mono); font-size: 10px; text-transform: uppercase; letter-spacing: .08em; color: #666960; border-bottom: 1px solid #d6d9ce; padding-bottom: 20px; }
+.program-note-title { font-size: 32px; line-height: 1.2; letter-spacing: -.03em; margin: 24px 0; font-weight: 500; transform: translateZ(34px); }
+.program-note-flow { list-style: none; padding: 0; margin: 0 0 26px; transform: translateZ(18px); }
+.program-note-flow li { display: flex; gap: 17px; padding-block: 15px; border-top: 1px solid #d6d9ce; font-size: 15px; line-height: 1.4; }
+.program-note-flow li > span { font-family: var(--rz-mono); font-size: 11px; padding-top: 4px; color: #666960; }
+.program-note-flow small { display: block; color: #666960; margin-top: 5px; font-size: 11px; line-height: 1.5; }
+.program-note-bottom { display: flex; justify-content: space-between; gap: 14px; align-items: center; border-top: 1px solid #d6d9ce; padding-top: 22px; transform: translateZ(44px); }
+.program-note-bottom strong { font-size: 30px; font-weight: 500; letter-spacing: -.04em; white-space: nowrap; line-height: 1; }
+.program-note-bottom > span { font-size: 11px; color: #666960; line-height: 1.5; }
+.program-hero-note.is-idle { animation: program-card-idle 7s ease-in-out infinite; }
+@keyframes program-card-idle { 0%, 100% { transform: rotateX(2deg) rotateY(-4deg); } 50% { transform: rotateX(-2deg) rotateY(4deg); } }
+
+/* Заголовки секций длиннее, чем в каталоге: колонка шире */
+.program-page .rz-sec-head { grid-template-columns: 1.15fr 1fr; gap: 64px; }
+
+/* Факты под hero */
+.program-facts { border-top: 1px solid var(--rz-line); padding-top: 32px; }
+.program-facts strong { font-size: 44px; }
+
+/* Примеры задач */
+.program-examples { grid-template-columns: repeat(4, 1fr); }
+.program-examples h3 { font-size: 26px; margin-bottom: 4px; }
+.program-arrow { display: block; font-size: 22px; color: var(--rz-mute); padding: 6px 0 10px; }
+.program-examples p { margin: 0; color: var(--rz-ink); font-size: 16px; }
+.program-page .rz-sec-head + .program-examples + .program-caption { margin-top: 20px; }
+
+/* Видео */
+.program-video-grid { display: grid; grid-template-columns: 1.15fr 1fr; gap: 64px; align-items: center; }
+.program-video-placeholder { aspect-ratio: 16 / 10; background: var(--rz-ink); color: #fff; padding: 34px; display: flex; flex-direction: column; justify-content: space-between; }
+.program-video-placeholder .rz-mono, .program-video-placeholder .program-caption { color: #b9bdb0; }
+.program-video-placeholder > p { font-family: var(--rz-serif); font-size: 40px; line-height: 1.1; margin: 0; }
+.program-copy-plain { margin-top: 20px; }
+.program-copy-plain p:first-child { color: var(--rz-mute); font-family: var(--rz-sans); font-size: 18px; line-height: 1.55; }
+
+/* Маршрут */
+.program-timeline { list-style: none; margin: 0; padding: 0; }
+.program-timeline .rz-tl-row { grid-template-columns: 90px 360px 1fr; }
+
+/* Портрет и цитата */
+.program-portrait { max-width: 560px; }
+.program-portrait img { width: 100%; height: 100%; object-fit: cover; display: block; filter: grayscale(1) contrast(1.05); }
+.program-cite { font-family: var(--rz-mono); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--rz-mute); margin: 0 0 8px; }
+
+/* Раскрытие по скроллу */
+.program-motion [data-reveal] { opacity: 0; transform: translateY(26px); transition: opacity .85s var(--rz-ease) var(--d, 0ms), transform .85s var(--rz-ease) var(--d, 0ms); }
+.program-motion [data-reveal].in { opacity: 1; transform: none; }
+.program-motion .program-timeline [data-reveal] { transform: translateX(-18px); }
+.program-motion .rz-list li[data-reveal] { transform: translateX(-12px); }
+.program-motion .program-video-placeholder[data-reveal] { transform: scale(.96); }
+.program-motion .program-portrait[data-reveal] img { transform: scale(1.06); transition: transform 1.4s var(--rz-ease); }
+.program-motion .program-portrait[data-reveal].in img { transform: none; }
+.program-page .rz-faq details p { animation: program-faq-open .4s var(--rz-ease); }
+@keyframes program-faq-open { from { opacity: 0; transform: translateY(-6px); } }
+
+@media (max-width: 900px) {
+  .program-hero-grid { grid-template-columns: 1fr; gap: 40px; margin-bottom: 40px; }
+  .program-hero-note { padding: 22px; }
+  .program-note-title { font-size: 28px; }
+  .program-facts strong { font-size: 36px; }
+  .program-examples { grid-template-columns: 1fr 1fr; }
+  .program-examples > div { border-right: 0; border-bottom: 1px solid var(--rz-line); padding: 24px 0; }
+  .program-examples > div + div { padding-left: 0; }
+  .program-examples > div:nth-last-child(-n+2) { border-bottom: 0; }
+  .program-video-grid { grid-template-columns: 1fr; gap: 32px; }
+  .program-video-placeholder { padding: 24px; }
+  .program-video-placeholder > p { font-size: 30px; }
+  .program-timeline .rz-tl-row { grid-template-columns: 1fr; }
+  .program-cta-row .rz-btn { flex-basis: 100%; }
+}
+@media (max-width: 560px) {
+  .program-examples { grid-template-columns: 1fr; }
+  .program-examples > div:nth-last-child(-n+2) { border-bottom: 1px solid var(--rz-line); }
+  .program-examples > div:last-child { border-bottom: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .program-motion [data-reveal], .program-hero-armed [data-hero], .program-hero-armed [data-card-enter], .program-hero-armed .program-facts > div { opacity: 1; transform: none; transition: none; }
+  .program-hero-note, .program-hero-note.is-idle { animation: none; transform: none; }
+  .program-hero-armed .program-h1-mark { background-size: 100% 100%; transition: none; }
+}

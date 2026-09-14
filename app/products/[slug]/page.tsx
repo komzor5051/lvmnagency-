@@ -89,7 +89,8 @@ function faqSchema(product: Product) {
 }
 
 export function generateStaticParams() {
-  return products.map((p) => ({ slug: p.id }));
+  // personal-program рендерит своя папка app/products/personal-program.
+  return products.filter((p) => p.id !== "personal-program").map((p) => ({ slug: p.id }));
 }
 
 export async function generateMetadata({

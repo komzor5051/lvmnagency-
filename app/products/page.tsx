@@ -4,7 +4,6 @@ import { getProduct } from "@/lib/products";
 import { SITE_URL } from "@/lib/site";
 import { jsonLd } from "@/lib/json-ld";
 import { RzFaq } from "@/components/rz/RzFaq";
-import { WaitlistForm } from "@/components/products/WaitlistForm";
 import { TrackedLink } from "@/components/bento/TrackedLink";
 
 const siteUrl = SITE_URL;
@@ -16,7 +15,7 @@ const products = [
   getProduct("codex-content-os")!,
   getProduct("consultation")!,
   getProduct("audit")!,
-  getProduct("course")!,
+  getProduct("personal-program")!,
 ];
 
 const catalogSchema = {
@@ -41,14 +40,14 @@ const catalogSchema = {
 };
 
 export const metadata: Metadata = {
-  title: "Продукты: гайды, консультации и AI-аудит",
+  title: "Продукты: гайды, консультация, AI-аудит и личная программа",
   description:
-    "Пять форматов: два гайда, консультация 1:1, AI-аудит процессов и мини-курс. Начать можно с любого и остановиться на нём же.",
+    "Пять форматов: два гайда, консультация 1:1, AI-аудит процессов и личная программа по Claude и Codex на 6 недель. Начать можно с любого и остановиться на нём же.",
   alternates: { canonical: `${siteUrl}/products` },
   openGraph: {
     title: "Продукты — Влад Лямин",
     description:
-      "Два гайда, консультация 1:1, AI-аудит процессов и мини-курс по личной AI-системе.",
+      "Два гайда, консультация 1:1, AI-аудит процессов и личная программа на 6 недель.",
     type: "website",
     url: `${siteUrl}/products`,
     locale: "ru_RU",
@@ -80,7 +79,13 @@ const spreads = [
     cta: "Обсудить в Telegram",
     solid: false,
   },
-  { id: "course", type: "Курс", href: "#waitlist", cta: "В лист ожидания", solid: false },
+  {
+    id: "personal-program",
+    type: "Личная работа",
+    href: "/products/personal-program",
+    cta: "Подробнее",
+    solid: true,
+  },
 ] as const;
 
 const pick = [
@@ -134,10 +139,10 @@ export default function ProductsPage() {
           <div>
             <p className="rz-mono" style={{ margin: "0 0 26px" }}>Продукты · 5 форматов</p>
             <h1 className="rz-h1">
-              Что можно взять <span className="rz-mark">и почём</span>
+              Мои <span className="rz-mark">продукты</span>
             </h1>
             <p className="rz-lead">
-              Два гайда, час один на один, аудит и курс, который скоро выйдет. Форматы
+              Два гайда, час один на один, аудит и личная программа на 6 недель. Форматы
               независимы: начать можно с любого и остановиться на нём же.
             </p>
           </div>
@@ -152,6 +157,9 @@ export default function ProductsPage() {
             <p>
               <b>Хочешь разбор всех процессов</b> — аудит, две недели.
             </p>
+            <p>
+              <b>Хочешь научиться делать сам</b> — личная программа, 6 недель.
+            </p>
           </aside>
         </div>
       </header>
@@ -164,7 +172,7 @@ export default function ProductsPage() {
               <TrackedLink
                 key={cfg.id}
                 href={cfg.href}
-                className={`rz-spread${cfg.id === "course" ? " rz-spread--soon" : ""}`}
+                className="rz-spread"
                 event="product_tile_click"
                 eventProps={{ product: cfg.id, position: i + 1, section: "products_page" }}
                 data-studio-reveal
@@ -233,20 +241,6 @@ export default function ProductsPage() {
         </div>
       </section>
 
-      <section className="rz-section" id="waitlist">
-        <div className="rz-wrap rz-wait-block">
-          <div data-studio-reveal>
-            <p className="rz-mono" style={{ marginBottom: "18px" }}>Скоро</p>
-            <h2 className="rz-h2">Мини-курс по личной AI-системе</h2>
-            <p style={{ color: "var(--rz-mute)", margin: "18px 0 0" }}>
-              Оставь свой Telegram: узнаешь первым и получишь стартовую цену.
-            </p>
-          </div>
-          <div data-studio-reveal>
-            <WaitlistForm />
-          </div>
-        </div>
-      </section>
 
       <script
         type="application/ld+json"
