@@ -6,6 +6,7 @@ import { BuyAction } from "../BuyAction";
 import { productExtras } from "../content";
 import { TrackedLink } from "@/components/bento/TrackedLink";
 import { Vsl } from "@/components/products/Vsl";
+import { SystemMap } from "@/components/products/SystemMap";
 import { RzFaq } from "@/components/rz/RzFaq";
 import { SITE_URL } from "@/lib/site";
 import { jsonLd } from "@/lib/json-ld";
@@ -196,6 +197,20 @@ export default async function ProductPage({
           </div>
         </section>
       ) : null}
+
+      {extra?.map && (
+        <section className="rz-section">
+          <div className="rz-wrap">
+            <div className="rz-sec-head" data-studio-reveal>
+              <h2 className="rz-h2">Карта системы</h2>
+              <p>{extra.map.caption}</p>
+            </div>
+            <div data-studio-reveal>
+              <SystemMap map={extra.map} />
+            </div>
+          </div>
+        </section>
+      )}
 
       {extra && (
         <section className="rz-section">
