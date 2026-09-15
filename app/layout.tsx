@@ -64,6 +64,10 @@ export const metadata: Metadata = {
       "application/rss+xml": "/blog/feed.xml",
     },
   },
+  // Google Search Console ownership check.
+  verification: {
+    google: "8D2vWuof3LXT1wZQFFEzapNasasonF4v_rWisS73ACY",
+  },
 };
 
 export const viewport: Viewport = {
