@@ -6,7 +6,7 @@ import { getProduct } from "@/lib/products";
 import { track } from "@/lib/analytics";
 
 /**
- * Mobile-only sticky bottom bar for the home page: "Гайд — 490 ₽ → /products/guide".
+ * Mobile-only sticky bottom bar for the home page: "Гайд — 590 ₽ → /products/guide".
  * Appears once the product showcase (#products) has scrolled up out of the
  * viewport, hides again when the user scrolls back to it. Desktop (>=45rem)
  * never shows it (CSS), reduced motion drops the slide-in transition (CSS).
