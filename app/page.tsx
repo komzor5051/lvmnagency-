@@ -38,13 +38,13 @@ export default async function HomePage() {
   return (
     <main className="rz">
       <HomeMotion />
-      {/* 1. Hero — 5c: шторка слева направо, потом лайм-маркер под «личную». */}
+      {/* 1. Hero — 5c: шторка слева направо, потом лайм-маркер под «нейросетями». */}
       <header className="rz-hero" id="top">
         <div className="rz-wrap rz-hero-grid">
           <div>
-            <p className="rz-mono rz-hero-eyebrow">Личная AI-система · обучение · консультации</p>
+            <p className="rz-mono rz-hero-eyebrow">Обучение · консультации · гайды по Claude</p>
             <h1 className="rz-h1">
-              Помогаю собрать <span className="rz-mark">личную</span> систему работы на&nbsp;Claude
+              Учу экспертов и&nbsp;предпринимателей работать с&nbsp;<span className="rz-mark">нейросетями</span>
             </h1>
             <p className="rz-lead rz-hero-lead">
               Гайды, консультации и аудит для тех, кто хочет закрывать одному задачи,

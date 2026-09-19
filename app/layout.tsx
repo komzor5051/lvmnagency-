@@ -27,11 +27,11 @@ export const metadata: Metadata = {
   title: {
     // Kept under ~60 chars so Google shows it whole; the long-form pitch lives
     // in the description below.
-    default: "Влад Лямин — личная система работы на Claude",
+    default: "Влад Лямин — обучение работе с нейросетями и Claude",
     template: "%s — Влад Лямин",
   },
   description:
-    "Гайды, консультации и аудит для тех, кто хочет собрать личную систему работы на Claude и закрывать одному задачи, под которые обычно нанимают команду.",
+    "Учу экспертов и предпринимателей работать с нейросетями: гайды по Claude, консультации один на один и аудит. 50+ человек уже обучил.",
   metadataBase: new URL(siteUrl),
   openGraph: {
     type: "website",
@@ -42,7 +42,7 @@ export const metadata: Metadata = {
         url: "/og-studio.png",
         width: 1536,
         height: 1024,
-        alt: "Влад Лямин — личная система работы на Claude",
+        alt: "Влад Лямин — обучение работе с нейросетями и Claude",
       },
     ],
   },
@@ -86,7 +86,7 @@ const personSchema = {
   url: siteUrl,
   image: `${siteUrl}/portrait.jpg`,
   description:
-    "Помогаю собрать личную систему работы на Claude: гайды, консультации, аудит. 50+ человек обучил, 40+ систем собрал с 2022 года.",
+    "Учу экспертов и предпринимателей работать с нейросетями и Claude: гайды, консультации, аудит. 50+ человек обучил, 40+ систем собрал с 2022 года.",
   jobTitle: "AI-консультант, автор гайдов по Claude",
   knowsAbout: [
     "Claude",
