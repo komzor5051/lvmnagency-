@@ -283,9 +283,11 @@ export const products: Product[] = [
     price: 10000,
     priceLabel: "10 000 ₽/мес",
     meta: "1:1 · 2 встречи в месяц · чат с ответом за сутки",
-    // TODO(Влад): создать чекаут на lava.top и вставить url. Пустая строка —
-    // кнопка ведёт в Telegram, пока чекаут не создан.
-    buy: { kind: "lava", url: "" },
+    // domainName=vladlyamin.ru привязывает оплату к этому домену, как у гайдов.
+    buy: {
+      kind: "lava",
+      url: "https://app.lava.top/products/894d4165-201a-4e08-9272-dc226fc42e5b?currency=RUB&domainId=2b8044d9-fd3c-47ce-ad84-1cb65c1e0fc8&domainName=vladlyamin.ru",
+    },
     cta: { buy: "Оплатить месяц", fallback: "Написать в Telegram" },
     telegramText:
       "Привет, Влад. Хочу на сопровождение. Что сейчас не двигается: ",
