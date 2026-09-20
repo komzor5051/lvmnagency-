@@ -283,6 +283,7 @@ export const products: Product[] = [
     price: 10000,
     priceLabel: "10 000 ₽/мес",
     meta: "1:1 · 2 встречи в месяц · чат с ответом за сутки",
+    cover: { src: "/support-cover.webp", width: 1440, height: 810 },
     // domainName=vladlyamin.ru привязывает оплату к этому домену, как у гайдов.
     buy: {
       kind: "lava",

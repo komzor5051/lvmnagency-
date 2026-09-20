@@ -77,7 +77,7 @@ const spreads = [
     id: "support",
     type: "1:1",
     href: "/products/support",
-    cta: "Написать в Telegram",
+    cta: "Подробнее",
     solid: true,
   },
   {
@@ -176,37 +176,37 @@ export default function ProductsPage() {
       </header>
 
       <section className="rz-section rz-section--list">
-        <div className="rz-wrap rz-spreads" id="list">
+        <div className="rz-wrap rz-grid" id="list">
           {spreads.map((cfg, i) => {
             const product = getProduct(cfg.id)!;
             return (
               <TrackedLink
                 key={cfg.id}
                 href={cfg.href}
-                className="rz-spread"
+                className={`rz-card${product.price === null ? " rz-card--soon" : ""}`}
                 event="product_tile_click"
                 eventProps={{ product: cfg.id, position: i + 1, section: "products_page" }}
                 data-studio-reveal
               >
-                <span className="rz-mono">{cfg.type}</span>
                 {product.cover ? (
                   // eslint-disable-next-line @next/next/no-img-element
                   <img
-                    className="rz-spread-cover"
+                    className="rz-card-cover"
                     src={product.cover.src}
                     alt={product.title}
                     width={product.cover.width}
                     height={product.cover.height}
-                    loading={i === 0 ? undefined : "lazy"}
+                    loading={i < 2 ? undefined : "lazy"}
                   />
                 ) : (
-                  <div className="rz-spread-cover rz-spread-cover--typo">скоро</div>
+                  <div className="rz-card-cover rz-card-cover--typo">скоро</div>
                 )}
-                <div>
+                <div className="rz-card-body">
+                  <span className="rz-mono">{cfg.type}</span>
                   <h3>{product.title}</h3>
-                  <p className="rz-spread-tag">{product.tagline}</p>
-                  <div className="rz-spread-meta">
-                    <span className="rz-spread-price">
+                  <p className="rz-card-tag">{product.tagline}</p>
+                  <div className="rz-card-meta">
+                    <span className="rz-card-price">
                       {product.priceLabel}
                       <small>{product.meta}</small>
                     </span>

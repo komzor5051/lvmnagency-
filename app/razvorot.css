@@ -291,6 +291,37 @@ body.rz-menu-open { overflow: hidden; }
 .rz-spread-price small { display: block; font-family: var(--rz-mono); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--rz-mute); font-weight: 400; margin-top: 4px; }
 .rz-spread--soon h3, .rz-spread--soon .rz-spread-price { color: var(--rz-mute); }
 
+/* Сетка каталога: продукты блоками, а не одним вертикальным списком.
+   Линии рисуют сами карточки, поэтому зазора между ними нет — сетка читается
+   как таблица, без теней и скруглений. */
+.rz-grid {
+  display: grid; grid-template-columns: repeat(2, 1fr);
+  border-top: 1px solid var(--rz-line); border-left: 1px solid var(--rz-line);
+}
+.rz-card {
+  position: relative; display: flex; flex-direction: column; gap: 18px;
+  padding: 28px; border-right: 1px solid var(--rz-line); border-bottom: 1px solid var(--rz-line);
+  color: var(--rz-ink); text-decoration: none; background: transparent;
+  transition: background .35s var(--rz-ease);
+}
+.rz-card::before {
+  content: ""; position: absolute; left: 0; right: 0; top: 0; height: 4px;
+  background: var(--rz-lime); transform: scaleX(0); transform-origin: left;
+  transition: transform .45s var(--rz-ease);
+}
+.rz-card:hover { background: #fafafa; }
+.rz-card:hover::before { transform: scaleX(1); }
+.rz-card:focus-visible { outline: 2px solid var(--rz-ink); outline-offset: -2px; }
+.rz-card-cover { aspect-ratio: 16 / 9; object-fit: cover; width: 100%; display: block; background: #eee; border: 1px solid var(--rz-line); }
+.rz-card-cover--typo { display: grid; place-items: center; font-family: var(--rz-serif); font-size: 36px; font-style: italic; color: var(--rz-mute); background: #f4f4f6; }
+.rz-card-body { display: flex; flex-direction: column; gap: 10px; flex: 1; }
+.rz-card h3 { font-family: var(--rz-serif); font-weight: 400; font-size: 30px; line-height: 1.05; margin: 0; }
+.rz-card-tag { color: var(--rz-mute); font-size: 15px; line-height: 1.5; margin: 0; }
+.rz-card-meta { display: flex; justify-content: space-between; align-items: flex-end; gap: 16px; border-top: 1px solid var(--rz-line); padding-top: 16px; margin-top: auto; }
+.rz-card-price { font-family: var(--rz-serif); font-size: 26px; font-weight: 500; line-height: 1.1; }
+.rz-card-price small { display: block; font-family: var(--rz-mono); font-size: 10px; letter-spacing: .08em; text-transform: uppercase; color: var(--rz-mute); font-weight: 400; margin-top: 6px; }
+.rz-card--soon h3, .rz-card--soon .rz-card-price { color: var(--rz-mute); }
+
 .rz-pick { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; border-top: 1px solid var(--rz-line); border-bottom: 1px solid var(--rz-line); }
 .rz-pick > div { padding: 36px 32px 36px 0; border-right: 1px solid var(--rz-line); }
 .rz-pick > div:last-child { border-right: 0; padding-right: 0; }
@@ -304,6 +335,9 @@ body.rz-menu-open { overflow: hidden; }
   .rz-products-hero .rz-wrap, .rz-wait-block { grid-template-columns: 1fr; gap: 32px; }
   .rz-products-aside { border: 0; padding: 0; }
   .rz-spread { grid-template-columns: 1fr; gap: 20px; }
+  .rz-grid { grid-template-columns: 1fr; }
+  .rz-card { padding: 24px 0; border-right: 0; border-left: 0; }
+  .rz-grid { border-left: 0; }
   .rz-pick { grid-template-columns: 1fr; }
   .rz-pick > div { border-right: 0; border-bottom: 1px solid var(--rz-line); padding: 28px 0; }
   .rz-pick > div:last-child { border-bottom: 0; }
@@ -311,6 +345,7 @@ body.rz-menu-open { overflow: hidden; }
 }
 @media (prefers-reduced-motion: reduce) {
   .rz-spread, .rz-spread::before { transition: none; }
+  .rz-card, .rz-card::before { transition: none; }
 }
 
 /* ===== Страница продукта ===== */
