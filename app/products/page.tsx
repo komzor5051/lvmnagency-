@@ -14,6 +14,7 @@ const products = [
   getProduct("guide")!,
   getProduct("codex-content-os")!,
   getProduct("consultation")!,
+  getProduct("support")!,
   getProduct("audit")!,
   getProduct("personal-program")!,
 ];
@@ -40,14 +41,14 @@ const catalogSchema = {
 };
 
 export const metadata: Metadata = {
-  title: "Продукты: гайды, консультация, AI-аудит и личная программа",
+  title: "Продукты: гайды, консультация, сопровождение, AI-аудит и личная программа",
   description:
-    "Пять форматов: два гайда, консультация 1:1, AI-аудит процессов и личная программа по Claude и Codex на 6 недель. Начать можно с любого и остановиться на нём же.",
+    "Шесть форматов: два гайда, консультация 1:1, помесячное сопровождение, AI-аудит процессов и личная программа по Claude и Codex на 6 недель. Начать можно с любого и остановиться на нём же.",
   alternates: { canonical: `${siteUrl}/products` },
   openGraph: {
     title: "Продукты — Влад Лямин",
     description:
-      "Два гайда, консультация 1:1, AI-аудит процессов и личная программа на 6 недель.",
+      "Два гайда, консультация 1:1, сопровождение по 10 000 ₽ в месяц, AI-аудит процессов и личная программа на 6 недель.",
     type: "website",
     url: `${siteUrl}/products`,
     locale: "ru_RU",
@@ -70,6 +71,13 @@ const spreads = [
     type: "1:1",
     href: "/products/consultation",
     cta: "Забронировать час",
+    solid: true,
+  },
+  {
+    id: "support",
+    type: "1:1",
+    href: "/products/support",
+    cta: "Написать в Telegram",
     solid: true,
   },
   {

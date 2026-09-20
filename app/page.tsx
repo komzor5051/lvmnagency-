@@ -17,6 +17,7 @@ const showcase: { id: string; kind: string; note: string }[] = [
   { id: "guide", kind: "Гайд", note: "PDF · мгновенно" },
   { id: "codex-content-os", kind: "Гайд", note: "PDF + код" },
   { id: "consultation", kind: "1:1", note: "60 минут · онлайн" },
+  { id: "support", kind: "1:1", note: "2 встречи в месяц" },
   { id: "audit", kind: "Аудит", note: "2 недели" },
   { id: "course", kind: "Курс", note: "лист ожидания" },
 ];
