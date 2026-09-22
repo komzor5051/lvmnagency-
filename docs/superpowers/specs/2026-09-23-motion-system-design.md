@@ -83,8 +83,9 @@ Hero главной остаётся в `HomeMotion.tsx` + `heroChoreography.ts`
 1. Десктоп, `pointer: fine`, без reduced-motion — всё: `pin`, `parallax`, `draw` со скрабом,
    магнитные кнопки, наклон обложек за курсором.
 2. Тач (`pointer: coarse`) — входы (`lines`, `reveal`, `stagger`, `mark`, `count`).
-   `pin`, `parallax`, `draw` превращаются в простой `reveal`. Магнит заменён на
-   `:active { transform: scale(.97) }` в CSS.
+   `pin` превращается в `stagger` (строки каталога входят каскадом), `parallax` и `draw`
+   не двигаются (картинка и линия стоят на месте, их обёртки входят обычным `reveal`).
+   Магнита на таче нет.
 3. `prefers-reduced-motion: reduce` — `MotionLayer` ничего не скрывает и не запускает,
    CSS-страховка снимается медиазапросом.
 
@@ -109,7 +110,7 @@ Hero главной остаётся в `HomeMotion.tsx` + `heroChoreography.ts`
 |---|---|---|
 | `/` | `app/page.tsx`, `HomeMotion.tsx` | hero без изменений; блок продуктов на десктопе — `pin` сцена `products-index`: `.rz-index` закреплён, скролл по очереди делает строку `.rz-row` активной (лаймовая полоса `::before` `scaleY 1`, как hover, остальные строки `opacity .45`); после последней строки пин отпускается. Картинок-превью в строках нет, сцена их не добавляет |
 | `/products` | `app/products/page.tsx` | блоки каталога `stagger` по диагонали (задержка = строка + колонка); обложки наклоняются за курсором (десктоп, ≤ 6°) |
-| `/products/[slug]` | `app/products/[slug]/page.tsx` | обложка `parallax`; «Чему научишься» — `stagger` + номера `count`; цена в `.rz-product-final` — `count` |
+| `/products/[slug]` | `app/products/[slug]/page.tsx` | обложка `parallax`; «Чему научишься» — `stagger` (номеров у пунктов нет, новых не добавляем); цена в `.rz-product-final` — `count`; цена в hero не анимируется, чтобы была видна сразу |
 | `/about` | `app/about/page.tsx` | таймлайн: вертикальная линия `draw` со скрабом, годы `count` |
 | `/products/personal-program` | `ProgramMotion.tsx` | перенос с animejs на GSAP один в один: вход hero, 3D-наклон карточки, магнит |
 | `/audit` | `app/audit/page.tsx` | шторка между шагами на GSAP (clip-path, 0,5 с, `EASE_IN_OUT`); полоса прогресса шагов `scaleX` |
@@ -123,7 +124,8 @@ Hero главной остаётся в `HomeMotion.tsx` + `heroChoreography.ts`
 - `[data-studio-reveal]` в разметке заменить на `data-m="reveal"`; CSS `.is-visible`
   для него удалить из `app/studio.css`.
 - Правило скрытия `.js-desk` в `app/globals.css` (около строки 1012) удалить.
-- `app/studio.css`: `studio-ping` и `studio-ticker` — под `@media (prefers-reduced-motion: no-preference)`.
+- `app/studio.css`: `studio-ping` и `studio-ticker` — мёртвые правила (классы `studio-status`,
+  `studio-ticker` нигде не используются), удалить.
 - `app/razvorot.css`: hover `.rz-row` и `.rz-tl-row` анимирует `padding-left` (свойство раскладки).
   Перевести на `transform: translateX()` содержимого.
 - `package.json`: удалить `animejs`, `split-type`, `ogl`.
