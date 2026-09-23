@@ -157,7 +157,7 @@ export default async function ProductPage({
           <div className="rz-product-grid">
             <header>
               <p className="rz-mono">{metaLine(product)}</p>
-              <h1 className="rz-h1 rz-product-title" data-m="lines" data-m-hero>{product.title}</h1>
+              <h1 className="rz-h1 rz-product-title">{product.title}</h1>
               <p className="rz-lead">{product.tagline}</p>
             </header>
             <aside className="rz-product-buy">
