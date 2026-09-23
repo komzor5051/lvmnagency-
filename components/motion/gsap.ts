@@ -5,13 +5,13 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { SplitText } from "gsap/SplitText";
 import { useGSAP } from "@gsap/react";
+import { EASE } from "./tokens";
 
 gsap.registerPlugin(ScrollTrigger, SplitText, useGSAP);
 
-// Кастомные кривые совпадают с --rz-ease и --rz-ease-in-out из razvorot.css,
-// чтобы hover на CSS и вход на GSAP двигались одинаково.
-export const EASE_OUT = "power3.out";
-export const EASE_IN_OUT = "power4.inOut";
+// Кривые живут в tokens.ts. Эти имена оставлены для HomeMotion и heroChoreography.
+export const EASE_OUT = EASE.out;
+export const EASE_IN_OUT = EASE.inOut;
 
 export function prefersReducedMotion(): boolean {
   return typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
