@@ -31,12 +31,14 @@ test("effectiveKind: на таче тяжёлые сцены упрощаютс�
 test("parseCount: простое число, суффикс, группировка разрядов", () => {
   assert.deepEqual(parseCount("590 ₽"), { prefix: "", value: 590, suffix: " ₽", sep: null });
   assert.deepEqual(parseCount("50+"), { prefix: "", value: 50, suffix: "+", sep: null });
-  assert.deepEqual(parseCount("10 000 ₽/мес"), { prefix: "", value: 10000, suffix: " ₽/мес", sep: " " });
-  assert.deepEqual(parseCount("25 000 ₽"), { prefix: "", value: 25000, suffix: " ₽", sep: " " });
-  assert.deepEqual(parseCount("от 3 850 ₽"), { prefix: "от ", value: 3850, suffix: " ₽", sep: " " });
+  assert.deepEqual(parseCount("10\u00a0000 ₽/мес"), { prefix: "", value: 10000, suffix: " ₽/мес", sep: "\u00a0" });
+  assert.deepEqual(parseCount("25\u00a0000 ₽"), { prefix: "", value: 25000, suffix: " ₽", sep: "\u00a0" });
+  assert.deepEqual(parseCount("от 3\u00a0850 ₽"), { prefix: "от ", value: 3850, suffix: " ₽", sep: "\u00a0" });
   assert.deepEqual(parseCount("2023–24"), { prefix: "", value: 2023, suffix: "–24", sep: null });
   assert.equal(parseCount("Сейчас"), null);
   assert.equal(parseCount(""), null);
+  assert.deepEqual(parseCount("10 000 ₽"), { prefix: "", value: 10000, suffix: " ₽", sep: " " });
+  assert.deepEqual(parseCount("1 000"), { prefix: "", value: 1000, suffix: "", sep: " " });
 });
 
 test("countFrom: годы бегут от близкого значения, остальное от нуля", () => {
@@ -46,14 +48,14 @@ test("countFrom: годы бегут от близкого значения, о�
 });
 
 test("formatCount восстанавливает исходный вид", () => {
-  const p = parseCount("10 000 ₽/мес")!;
-  assert.equal(formatCount(10000, p), "10 000 ₽/мес");
-  assert.equal(formatCount(999.6, p), "1 000 ₽/мес");
+  const p = parseCount("10\u00a0000 ₽/мес")!;
+  assert.equal(formatCount(10000, p), "10\u00a0000 ₽/мес");
+  assert.equal(formatCount(999.6, p), "1\u00a0000 ₽/мес");
   assert.equal(formatCount(0, p), "0 ₽/мес");
   const y = parseCount("2022")!;
   assert.equal(formatCount(2022, y), "2022");
-  const nb = parseCount("25 000 ₽")!;
-  assert.equal(formatCount(25000, nb), "25 000 ₽");
+  const nb = parseCount("25\u00a0000 ₽")!;
+  assert.equal(formatCount(25000, nb), "25\u00a0000 ₽");
 });
 
 test("gridDelay: диагональ по строке и колонке", () => {

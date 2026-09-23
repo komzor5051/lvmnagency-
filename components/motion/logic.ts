@@ -31,14 +31,14 @@ export function effectiveKind(kind: MotionKind, tier: Tier): MotionKind | null {
 export type CountParts = { prefix: string; value: number; suffix: string; sep: string | null };
 
 // Разделитель разрядов: пробел, неразрывный или узкий неразрывный.
-const COUNT_RE = /^([^\d]*?)(\d{1,3}(?:[   ]\d{3})+|\d+)([\s\S]*)$/;
+const COUNT_RE = /^([^\d]*?)(\d{1,3}(?:[\u0020\u00a0\u202f]\d{3})+|\d+)([\s\S]*)$/;
 
 export function parseCount(text: string): CountParts | null {
   const m = text.match(COUNT_RE);
   if (!m) return null;
   const raw = m[2];
-  const digits = raw.replace(/[   ]/g, "");
-  const sep = digits.length === raw.length ? null : raw.charAt(raw.search(/[   ]/));
+  const digits = raw.replace(/[\u0020\u00a0\u202f]/g, "");
+  const sep = digits.length === raw.length ? null : raw.charAt(raw.search(/[\u0020\u00a0\u202f]/));
   return { prefix: m[1], value: Number(digits), suffix: m[3], sep };
 }
 
