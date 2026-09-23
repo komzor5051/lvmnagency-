@@ -779,28 +779,6 @@ body {
 .ghost { color: transparent; -webkit-text-stroke: 1px rgba(17, 17, 17, 0.3); }
 [data-theme='dark'] .ghost { -webkit-text-stroke-color: rgba(247, 246, 242, 0.35); }
 
-/* hand-drawn svg accents: fully encircles the word, loose hand-drawn loop */
-.hw-wrap { position: relative; display: inline-block; isolation: isolate; }
-/*
- * !important is required here: split-type's `split()` (lib/split.js, used by
- * SplitLines.tsx) walks every descendant of the split element and force-sets
- * `style.display = 'inline-block'` + `style.position = 'relative'` (inline
- * styles) on any nested element that has children — including this decorative
- * <svg>, since it wraps a <path>. Inline styles beat any class selector on
- * specificity, so without !important the SVG falls out of absolute
- * positioning into normal flow, and its 116%/130% sizing then resolves against
- * the wrong box, ballooning into a giant shape below the heading. See
- * components/motion/HandDrawn.tsx.
- */
-/*
- * Sizing: the circled words are lowercase (no ascenders/descenders), so the
- * top of their own line box is empty — the loop fits inside 2%..98% of the
- * box and never crosses into the neighbouring lines (line-height is 0.98).
- */
-.hw-wrap > svg { position: absolute !important; left: -8% !important; top: 0 !important; width: 116% !important; height: 110% !important; overflow: visible; pointer-events: none; z-index: -1; }
-.hw-wrap > svg path { fill: none; stroke: var(--color-lime-dark); stroke-width: 3; stroke-linecap: round; }
-[data-theme='dark'] .hw-wrap > svg path { stroke: var(--color-lime); }
-
 /* Hero system map: the moving dash is the only motion in the illustration.
    It turns the portrait into a diagram of the work instead of a decorative
    tech effect. The component adds .system-map--still for reduced motion. */
@@ -1006,14 +984,8 @@ body {
 .desk-btn--lime { background: var(--color-lime); color: #111; }
 .desk-btn--lime:hover { background: #111; color: #fff; }
 
-/* Hand-drawn SVG strokes (drawn in by anime.js). */
+/* Hand-drawn SVG strokes. */
 .desk-stroke { stroke: #111; stroke-width: 2; fill: none; }
-
-/* Scroll-reveal initial state; DeskFx animates to visible. Without JS (or with
-   reduced motion) elements stay visible. */
-@media (prefers-reduced-motion: no-preference) {
-  .js-desk [data-rv] { opacity: 0; }
-}
 
 /* Sticky service stack. */
 .desk-stack-card { position: sticky; }

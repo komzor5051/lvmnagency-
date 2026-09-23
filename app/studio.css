@@ -136,21 +136,6 @@ body.studio-menu-open { overflow: hidden; }
   box-shadow: 0 0 0 .25rem rgba(200,240,76,.12);
 }
 
-.studio-status::after {
-  position: absolute;
-  inset: -.4rem;
-  border: 1px solid rgba(200,240,76,.34);
-  border-radius: 50%;
-  content: "";
-  animation: studio-ping 2.4s var(--studio-ease) infinite;
-}
-
-@keyframes studio-ping {
-  0%, 30% { opacity: 0; transform: scale(.65); }
-  55% { opacity: .9; }
-  100% { opacity: 0; transform: scale(1.45); }
-}
-
 .studio-button {
   display: inline-flex;
   min-height: 3.85rem;
@@ -442,26 +427,6 @@ body.studio-menu-open { overflow: hidden; }
 .studio-flow > span { color: var(--studio-lime); font-size: .68rem; }
 .studio-map-log { display: grid; margin-top: .85rem; padding-top: .75rem; border-top: 1px solid rgba(255,255,255,.08); grid-template-columns: auto 1fr auto; gap: .3rem .8rem; color: rgba(255,255,255,.42); font-family: var(--font-mono-brand), monospace; font-size: .6rem; }
 .studio-map-log b { color: var(--studio-lime); font-weight: 500; }
-
-.studio-ticker {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  overflow: hidden;
-  border-block: 1px solid rgba(255,255,255,.08);
-  background: var(--studio-lime);
-  color: var(--studio-carbon);
-}
-.studio-ticker div {
-  width: max-content;
-  padding: .72rem 0;
-  font-family: var(--font-mono-brand), monospace;
-  font-size: .68rem;
-  font-weight: 700;
-  letter-spacing: .14em;
-  animation: studio-ticker 28s linear infinite;
-}
-@keyframes studio-ticker { to { transform: translateX(-50%); } }
 
 /* Home content */
 .studio-metrics { padding: 0; background: var(--studio-bone); color: var(--studio-carbon); }
@@ -763,7 +728,6 @@ body.studio-menu-open { overflow: hidden; }
   .studio-portrait img, .studio-portrait-wash { border-radius: 22px; }
   .studio-portrait-caption { display: none; }
   .studio-system-map { top: 265px; left: 0; width: min(85vw,380px); }
-  .studio-ticker div { font-size: .58rem; }
 
   .studio-metrics-grid { grid-template-columns: 1fr 1fr; }
   .studio-metrics-grid > div { min-height: 145px; padding: 1.5rem; border-bottom: 1px solid rgba(10,11,10,.13); }

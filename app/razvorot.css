@@ -204,8 +204,7 @@ body.rz-menu-open { overflow: hidden; }
 .rz-facts p { margin: 0; color: var(--rz-mute); font-size: 15px; }
 .rz-story { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; }
 .rz-story p:not(.rz-thesis) { margin: 0 0 18px; color: var(--rz-mute); }
-.rz-tl { border-top: 1px solid var(--rz-line); }
-.rz-tl { position: relative; }
+.rz-tl { border-top: 1px solid var(--rz-line); position: relative; }
 /* Линия таймлайна рисуется скроллом (data-m="draw"); без мыши стоит целиком. */
 .rz-tl-line { position: absolute; left: 0; top: 0; bottom: 0; width: 2px; background: var(--rz-ink); transform-origin: top; pointer-events: none; z-index: 1; }
 .rz-tl-row { display: grid; grid-template-columns: 140px 320px 1fr; gap: 32px; padding: 30px 0; border-bottom: 1px solid var(--rz-line); position: relative; }
