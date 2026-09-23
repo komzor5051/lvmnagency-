@@ -363,7 +363,7 @@ body.rz-menu-open { overflow: hidden; }
   .rz-pick > div + div { padding-left: 0; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .rz-spread, .rz-spread::before { transition: none; }
+  .rz-spread, .rz-spread::before, .rz-spread > * { transition: none; }
   .rz-card, .rz-card::before { transition: none; }
 }
 
