@@ -1,9 +1,8 @@
 "use client";
 
 import { useEffect, useRef, type ReactNode } from "react";
-import { animate, createTimeline, stagger } from "animejs";
-
-const EASE = "cubicBezier(.2,.7,.2,1)";
+import { gsap } from "@/components/motion/gsap";
+import { EASE } from "@/components/motion/tokens";
 
 function motionAllowed() {
   return !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -23,14 +22,19 @@ export function ProgramMotion() {
     const card = page.querySelector<HTMLElement>("[data-card-enter]");
     const quickMount = performance.now() < 1500 || performance.getEntriesByType("navigation").length === 0;
 
+    let tl: gsap.core.Timeline | null = null;
     if (quickMount) {
       page.classList.add("program-hero-armed");
-      const tl = createTimeline({ defaults: { ease: EASE, duration: 950 } });
-      tl.add(hero, { opacity: [0, 1], translateY: [28, 0], delay: stagger(85) }, 0);
+      tl = gsap.timeline({ defaults: { ease: EASE.out, duration: 0.95 } });
+      tl.fromTo(hero, { autoAlpha: 0, y: 28 }, { autoAlpha: 1, y: 0, stagger: 0.085 }, 0);
       if (card) {
-        tl.add(card, { opacity: [0, 1], translateY: [46, 0], rotateY: [-18, 0], rotateX: [9, 0], duration: 1300, ease: "outExpo" }, 220);
+        tl.fromTo(card,
+          { autoAlpha: 0, y: 46, rotationY: -18, rotationX: 9 },
+          { autoAlpha: 1, y: 0, rotationY: 0, rotationX: 0, duration: 1.3, ease: "expo.out" },
+          0.22);
       }
-      tl.add(page.querySelectorAll(".program-facts > div"), { opacity: [0, 1], translateY: [18, 0], delay: stagger(70), duration: 700 }, 500);
+      tl.fromTo(page.querySelectorAll(".program-facts > div"),
+        { autoAlpha: 0, y: 18 }, { autoAlpha: 1, y: 0, stagger: 0.07, duration: 0.7 }, 0.5);
       window.setTimeout(() => page.classList.add("program-mark-in"), 650);
     } else {
       page.classList.add("program-mark-in");
@@ -54,7 +58,7 @@ export function ProgramMotion() {
     }, { threshold: 0.12, rootMargin: "0px 0px -8% 0px" });
     items.forEach((el) => io.observe(el));
 
-    return () => io.disconnect();
+    return () => { io.disconnect(); tl?.kill(); };
   }, []);
   return null;
 }
@@ -120,9 +124,9 @@ export function useMagnet<T extends HTMLElement>() {
       const rect = el.getBoundingClientRect();
       const dx = event.clientX - (rect.left + rect.width / 2);
       const dy = event.clientY - (rect.top + rect.height / 2);
-      animate(el, { translateX: dx * 0.18, translateY: dy * 0.28, duration: 350, ease: "outQuad" });
+      gsap.to(el, { x: dx * 0.18, y: dy * 0.28, duration: 0.35, ease: "power1.out", overwrite: "auto" });
     };
-    const leave = () => animate(el, { translateX: 0, translateY: 0, duration: 650, ease: "outElastic(1, .6)" });
+    const leave = () => gsap.to(el, { x: 0, y: 0, duration: 0.65, ease: "elastic.out(1, 0.6)", overwrite: "auto" });
     el.addEventListener("pointermove", move, { passive: true });
     el.addEventListener("pointerleave", leave);
     return () => { el.removeEventListener("pointermove", move); el.removeEventListener("pointerleave", leave); };

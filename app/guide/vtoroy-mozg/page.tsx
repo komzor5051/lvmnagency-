@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import DeskFooter from "@/components/desk/DeskFooter";
-import { Reveal } from "@/components/motion/Reveal";
 
 // Unlisted lead-magnet page: reachable only via the direct URL handed out by
 // the ChatPlace "ГАЙД" Instagram automation after a subscription check. Not
@@ -178,27 +177,27 @@ export default function SecondBrainGuidePage() {
       <main>
         {/* Hero */}
         <section className="mx-auto max-w-3xl px-5 pb-12 pt-24 md:px-10 md:pt-28">
-          <Reveal>
-            <p data-reveal className="font-mono text-xs uppercase tracking-[0.18em] text-accent">
+          <div data-m="stagger">
+            <p data-m-item className="font-mono text-xs uppercase tracking-[0.18em] text-accent">
               Гайд из 11 шагов
             </p>
             <h1
-              data-reveal
+              data-m-item
               className="font-heading mt-6 text-[32px] font-black leading-[1.05] tracking-[-0.03em] text-ink sm:text-[40px] lg:text-[48px]"
             >
               Второй мозг: наведите Claude на хранилище Obsidian и больше не объясняйте себя заново
             </h1>
-            <p data-reveal className="mt-6 max-w-xl text-[17px] leading-[1.55] text-ink-muted">
+            <p data-m-item className="mt-6 max-w-xl text-[17px] leading-[1.55] text-ink-muted">
               Один вечер настройки — и хранилище, которое раскладывает себя в 7 утра, и модель, что
               с первой секунды знает вашу работу.
             </p>
-          </Reveal>
+          </div>
         </section>
 
         {/* Intro */}
         <section className="border-t border-line">
-          <Reveal className="mx-auto max-w-3xl px-5 py-12 md:px-10 md:py-16">
-            <div data-reveal className="space-y-5 text-[16px] leading-relaxed text-ink">
+          <div data-m="stagger" className="mx-auto max-w-3xl px-5 py-12 md:px-10 md:py-16">
+            <div data-m-item className="space-y-5 text-[16px] leading-relaxed text-ink">
               <p>
                 30-летний фрилансер-разработчик из Лиссабона держал свои лучшие мысли сразу в 5
                 местах. Приложение для заметок, 30 вкладок в браузере, доска в Notion, которую он
@@ -218,16 +217,16 @@ export default function SecondBrainGuidePage() {
                 зная вашу работу.
               </p>
             </div>
-          </Reveal>
+          </div>
         </section>
 
         {/* Steps */}
         <section className="border-t border-line bg-white">
           <div className="mx-auto max-w-3xl px-5 py-12 md:px-10 md:py-16">
             {steps.map((step, i) => (
-              <Reveal key={i}>
+              <div data-m="stagger" key={i}>
                 <div
-                  data-reveal
+                  data-m-item
                   className={`grid gap-6 py-8 md:grid-cols-[88px_1fr] ${
                     i > 0 ? "border-t border-line" : ""
                   }`}
@@ -253,18 +252,18 @@ export default function SecondBrainGuidePage() {
                     {step.code && <CodeBlock text={step.code.text} wrap={step.code.wrap} />}
                   </div>
                 </div>
-              </Reveal>
+              </div>
             ))}
           </div>
         </section>
 
         {/* Outro */}
         <section className="border-t border-line">
-          <Reveal className="mx-auto max-w-3xl px-5 py-12 md:px-10 md:py-16">
-            <h2 data-reveal className="font-heading text-2xl font-extrabold tracking-[-0.02em] text-ink md:text-3xl">
+          <div data-m="stagger" className="mx-auto max-w-3xl px-5 py-12 md:px-10 md:py-16">
+            <h2 data-m-item className="font-heading text-2xl font-extrabold tracking-[-0.02em] text-ink md:text-3xl">
               Что у вас в итоге
             </h2>
-            <div data-reveal className="mt-6 space-y-5 text-[16px] leading-relaxed text-ink">
+            <div data-m-item className="mt-6 space-y-5 text-[16px] leading-relaxed text-ink">
               <p>
                 До этого Claude забывает вас в ту же секунду, как вы закрываете вкладку. Весь
                 контекст держите вы — и большую часть его теряете.
@@ -278,7 +277,7 @@ export default function SecondBrainGuidePage() {
               </p>
               <p className="lime-mark inline font-bold">Та же подписка. Совершенно другая машина.</p>
             </div>
-          </Reveal>
+          </div>
         </section>
       </main>
       <DeskFooter />

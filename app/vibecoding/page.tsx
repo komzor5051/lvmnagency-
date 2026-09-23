@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import DeskFooter from "@/components/desk/DeskFooter";
-import { Reveal } from "@/components/motion/Reveal";
 import { WaitlistForm } from "@/components/products/WaitlistForm";
 
 export const metadata: Metadata = {
@@ -157,16 +156,16 @@ export default function VibecodingPage() {
             </Link>
           </nav>
 
-          <Reveal className="pt-12 md:pt-16">
+          <div data-m="stagger" className="pt-12 md:pt-16">
             <p
-              data-reveal
+              data-m-item
               className="font-mono text-xs uppercase tracking-[0.18em] text-accent"
             >
               8-недельный онлайн-поток · от идеи до запуска
             </p>
 
             <h1
-              data-reveal
+              data-m-item
               className="font-heading mt-6 max-w-4xl text-balance text-[40px] font-black leading-[1.04] tracking-[-0.04em] text-ink sm:text-[52px] lg:text-[64px]"
             >
               Доведи свой продукт до{" "}
@@ -188,7 +187,7 @@ export default function VibecodingPage() {
             </h1>
 
             <p
-              data-reveal
+              data-m-item
               className="mt-7 max-w-2xl text-[17px] leading-[1.55] text-ink-muted md:text-[18px]"
             >
               Не туториал и не конструктор сайтов. За 8 недель ты с нуля
@@ -197,7 +196,7 @@ export default function VibecodingPage() {
               помощником-разработчиком и понимая каждое решение.
             </p>
 
-            <div data-reveal className="mt-9 max-w-md">
+            <div data-m-item className="mt-9 max-w-md">
               <p className="mb-2 text-sm font-bold text-ink">
                 Записаться в лист ожидания первого потока
               </p>
@@ -206,13 +205,13 @@ export default function VibecodingPage() {
                 ↳ участники потока узнают о старте первыми и получат стартовую цену
               </p>
             </div>
-          </Reveal>
+          </div>
         </section>
 
         {/* For whom / not for whom */}
         <section className="border-t border-line">
-          <Reveal className="mx-auto grid max-w-7xl gap-px bg-line px-0 md:grid-cols-2">
-            <div data-reveal className="bg-paper px-5 py-12 md:px-10">
+          <div data-m="stagger" className="mx-auto grid max-w-7xl gap-px bg-line px-0 md:grid-cols-2">
+            <div data-m-item className="bg-paper px-5 py-12 md:px-10">
               <p className="font-mono text-xs uppercase tracking-[0.18em] text-accent">
                 Для кого
               </p>
@@ -232,7 +231,7 @@ export default function VibecodingPage() {
                 ))}
               </ul>
             </div>
-            <div data-reveal className="bg-paper px-5 py-12 md:px-10">
+            <div data-m-item className="bg-paper px-5 py-12 md:px-10">
               <p className="font-mono text-xs uppercase tracking-[0.18em] text-ink-muted">
                 Не для кого
               </p>
@@ -252,21 +251,21 @@ export default function VibecodingPage() {
                 ))}
               </ul>
             </div>
-          </Reveal>
+          </div>
         </section>
 
         {/* Principles */}
         <section className="border-t border-line">
           <div className="mx-auto max-w-7xl px-5 py-16 md:px-10 md:py-24">
-            <Reveal>
+            <div data-m="stagger">
               <p
-                data-reveal
+                data-m-item
                 className="font-mono text-xs uppercase tracking-[0.18em] text-accent"
               >
                 Что отличает профессионала
               </p>
               <h2
-                data-reveal
+                data-m-item
                 className="font-heading mt-5 max-w-2xl text-3xl font-extrabold leading-[1.05] tracking-[-0.03em] text-ink md:text-4xl"
               >
                 Три принципа, на которых стоит весь курс
@@ -274,7 +273,7 @@ export default function VibecodingPage() {
 
               <div className="mt-12 grid gap-px bg-line md:grid-cols-3">
                 {principles.map((p) => (
-                  <div key={p.n} data-reveal className="bg-paper p-8">
+                  <div key={p.n} data-m-item className="bg-paper p-8">
                     <p className="font-mono text-sm text-accent">{p.n}</p>
                     <h3 className="font-heading mt-4 text-xl font-bold tracking-[-0.02em] text-ink">
                       {p.title}
@@ -285,28 +284,28 @@ export default function VibecodingPage() {
                   </div>
                 ))}
               </div>
-            </Reveal>
+            </div>
           </div>
         </section>
 
         {/* Program */}
         <section className="border-t border-line bg-white">
           <div className="mx-auto max-w-7xl px-5 py-16 md:px-10 md:py-24">
-            <Reveal>
+            <div data-m="stagger">
               <p
-                data-reveal
+                data-m-item
                 className="font-mono text-xs uppercase tracking-[0.18em] text-accent"
               >
                 Программа · 8 недель
               </p>
               <h2
-                data-reveal
+                data-m-item
                 className="font-heading mt-5 max-w-3xl text-3xl font-extrabold leading-[1.05] tracking-[-0.03em] text-ink md:text-4xl"
               >
                 Первые 4 недели — общий продукт. Дальше — твой проект до запуска
               </h2>
               <p
-                data-reveal
+                data-m-item
                 className="mt-5 max-w-2xl text-[16px] leading-relaxed text-ink-muted"
               >
                 Сначала ведём всех по одному продукту — простой CRM, которая сама
@@ -319,7 +318,7 @@ export default function VibecodingPage() {
                 {weeks.map((week) => (
                   <div
                     key={week.w}
-                    data-reveal
+                    data-m-item
                     className="grid gap-2 border-b border-line py-7 md:grid-cols-[160px_1fr_220px] md:gap-8"
                   >
                     <p className="font-mono text-xs uppercase tracking-[0.12em] text-ink-muted">
@@ -341,22 +340,22 @@ export default function VibecodingPage() {
                   </div>
                 ))}
               </div>
-            </Reveal>
+            </div>
           </div>
         </section>
 
         {/* Pricing */}
         <section className="border-t border-line">
           <div className="mx-auto max-w-7xl px-5 py-16 md:px-10 md:py-24">
-            <Reveal>
+            <div data-m="stagger">
               <p
-                data-reveal
+                data-m-item
                 className="font-mono text-xs uppercase tracking-[0.18em] text-accent"
               >
                 Тарифы
               </p>
               <h2
-                data-reveal
+                data-m-item
                 className="font-heading mt-5 max-w-2xl text-3xl font-extrabold leading-[1.05] tracking-[-0.03em] text-ink md:text-4xl"
               >
                 Разница только в глубине сопровождения
@@ -366,7 +365,7 @@ export default function VibecodingPage() {
                 {tiers.map((tier) => (
                   <div
                     key={tier.name}
-                    data-reveal
+                    data-m-item
                     className={
                       tier.featured
                         ? "relative bg-paper p-8 ring-2 ring-inset ring-ink"
@@ -400,23 +399,23 @@ export default function VibecodingPage() {
               </div>
 
               <p
-                data-reveal
+                data-m-item
                 className="mt-8 max-w-2xl text-[15px] leading-relaxed text-ink-muted"
               >
                 На тарифы 25 000 и 40 000 ₽ доступна рассрочка на два платежа.
                 Гарантия: довёл продукт до запуска или возврат — дедлайны и
                 проверка не дадут отвалиться молча.
               </p>
-            </Reveal>
+            </div>
           </div>
         </section>
 
         {/* FAQ */}
         <section className="border-t border-line bg-white">
           <div className="mx-auto max-w-7xl px-5 py-16 md:px-10 md:py-24">
-            <Reveal>
+            <div data-m="stagger">
               <h2
-                data-reveal
+                data-m-item
                 className="font-heading text-3xl font-extrabold leading-[1.05] tracking-[-0.03em] text-ink md:text-4xl"
               >
                 Частые вопросы
@@ -425,7 +424,7 @@ export default function VibecodingPage() {
                 {faq.map((item) => (
                   <div
                     key={item.q}
-                    data-reveal
+                    data-m-item
                     className="grid gap-2 border-b border-line py-7 md:grid-cols-[1fr_1.4fr] md:gap-12"
                   >
                     <h3 className="font-heading text-lg font-bold tracking-[-0.02em] text-ink">
@@ -437,30 +436,30 @@ export default function VibecodingPage() {
                   </div>
                 ))}
               </div>
-            </Reveal>
+            </div>
           </div>
         </section>
 
         {/* Final CTA */}
         <section className="border-t border-line">
           <div className="mx-auto max-w-7xl px-5 py-20 md:px-10 md:py-28">
-            <Reveal>
+            <div data-m="stagger">
               <h2
-                data-reveal
+                data-m-item
                 className="font-heading max-w-3xl text-balance text-4xl font-black leading-[1.04] tracking-[-0.04em] text-ink md:text-5xl"
               >
                 Первый поток ограничен. Оставь ник — напишу о старте лично
               </h2>
-              <div data-reveal className="mt-9 max-w-md">
+              <div data-m-item className="mt-9 max-w-md">
                 <WaitlistForm />
               </div>
               <p
-                data-reveal
+                data-m-item
                 className="desk-script mt-4 font-hand text-[22px] font-semibold text-ink-muted"
               >
                 ↳ без спама — одно сообщение, когда откроются места
               </p>
-            </Reveal>
+            </div>
           </div>
         </section>
       </main>

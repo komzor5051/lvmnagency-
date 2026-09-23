@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { animate } from "animejs";
+import { gsap } from "@/components/motion/gsap";
+import { EASE } from "@/components/motion/tokens";
 import { useReducedMotion } from "@/components/motion/useReducedMotion";
 
 /* ------------------------------------------------------------------ */
@@ -94,17 +95,14 @@ export default function AuditPage() {
   const reduced = useReducedMotion();
   const stageRef = useRef<HTMLDivElement>(null);
 
-  // Step transition: anime.js vertical curtain (clip-path) on step change.
-  // Reduced motion -> instant swap (no animation).
+  // Смена шага: вертикальная шторка clip-path. Reduced motion — мгновенная смена.
   useEffect(() => {
     const el = stageRef.current;
     if (!el || reduced) return;
-    animate(el, {
-      clipPath: ["inset(0 0 100% 0)", "inset(0 0 0% 0)"],
-      opacity: [0, 1],
-      duration: 500,
-      ease: "outQuart",
-    });
+    const tween = gsap.fromTo(el,
+      { clipPath: "inset(0 0 100% 0)", autoAlpha: 0 },
+      { clipPath: "inset(0 0 0% 0)", autoAlpha: 1, duration: 0.5, ease: EASE.inOut });
+    return () => { tween.kill(); };
   }, [step, reduced]);
 
   // Form state
@@ -351,7 +349,7 @@ export default function AuditPage() {
         >
           <div
             className="audit-progress-fill"
-            style={{ width: `${progress}%` }}
+            style={{ transform: `scaleX(${progress / 100})` }}
           />
         </div>
 

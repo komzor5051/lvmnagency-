@@ -18,7 +18,7 @@ function MagnetLink({
 }) {
   const ref = useMagnet<HTMLAnchorElement>();
   return (
-    <a ref={ref} className={className} href={href} target="_blank" rel="noopener noreferrer" onClick={onClick}>
+    <a ref={ref} className={className} href={href} target="_blank" rel="noopener noreferrer" onClick={onClick} data-magnet="own">
       {children}
     </a>
   );
