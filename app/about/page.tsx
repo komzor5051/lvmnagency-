@@ -140,7 +140,7 @@ export default function AboutPage() {
         <div className="rz-wrap rz-about-hero-grid">
           <div>
             <p className="rz-mono" style={{ margin: "0 0 26px" }}>Обо мне</p>
-            <h1 className="rz-h1">
+            <h1 className="rz-h1" data-m="lines" data-m-hero>
               Четвёртый год работаю с Claude <span className="rz-mark">каждый день</span>
             </h1>
             <p className="rz-lead" style={{ marginBottom: "36px" }}>
@@ -163,10 +163,10 @@ export default function AboutPage() {
 
       {/* Факты */}
       <section className="rz-section">
-        <div className="rz-wrap rz-facts">
+        <div className="rz-wrap rz-facts" data-m="stagger">
           {facts.map((f) => (
-            <div key={f.n} data-m="reveal">
-              <strong>{f.n}</strong>
+            <div key={f.n}>
+              <strong data-m="count">{f.n}</strong>
               <p>{f.text}</p>
             </div>
           ))}
@@ -176,8 +176,8 @@ export default function AboutPage() {
       {/* История */}
       <section className="rz-section">
         <div className="rz-wrap">
-          <div className="rz-sec-head" data-m="reveal">
-            <h2 className="rz-h2">Как я к этому пришёл</h2>
+          <div className="rz-sec-head">
+            <h2 className="rz-h2" data-m="lines">Как я к этому пришёл</h2>
           </div>
           <div className="rz-story">
             <div data-m="reveal">
@@ -210,18 +210,19 @@ export default function AboutPage() {
       {/* Траектория */}
       <section className="rz-section">
         <div className="rz-wrap">
-          <div className="rz-sec-head" data-m="reveal">
-            <h2 className="rz-h2">Траектория</h2>
-            <p>Как менялся фокус: от инструментов к личной системе.</p>
+          <div className="rz-sec-head">
+            <h2 className="rz-h2" data-m="lines">Траектория</h2>
+            <p data-m="reveal" data-m-delay="0.15">Как менялся фокус: от инструментов к личной системе.</p>
           </div>
           <div className="rz-tl">
+            <span className="rz-tl-line" data-m="draw" aria-hidden="true" />
             {timeline.map((row) => (
               <div
                 key={row.year}
                 className={`rz-tl-row${row.now ? " is-now" : ""}`}
                 data-m="reveal"
               >
-                <span className="rz-tl-year">{row.year}</span>
+                <span className="rz-tl-year" data-m="count">{row.year}</span>
                 <h3>{row.title}</h3>
                 <p>{row.text}</p>
               </div>
@@ -233,12 +234,12 @@ export default function AboutPage() {
       {/* Принципы */}
       <section className="rz-section">
         <div className="rz-wrap">
-          <div className="rz-sec-head" data-m="reveal">
-            <h2 className="rz-h2">По каким правилам работаю</h2>
+          <div className="rz-sec-head">
+            <h2 className="rz-h2" data-m="lines">По каким правилам работаю</h2>
           </div>
-          <div className="rz-pr">
+          <div className="rz-pr" data-m="stagger">
             {principles.map((p) => (
-              <article key={p.title} data-m="reveal">
+              <article key={p.title}>
                 <h3>{p.title}</h3>
                 <p>{p.text}</p>
               </article>
@@ -250,9 +251,9 @@ export default function AboutPage() {
       {/* Стек */}
       <section className="rz-section">
         <div className="rz-wrap">
-          <div className="rz-sec-head" data-m="reveal">
-            <h2 className="rz-h2">Чем работаю</h2>
-            <p>Инструменты, которые стоят в моей системе прямо сейчас.</p>
+          <div className="rz-sec-head">
+            <h2 className="rz-h2" data-m="lines">Чем работаю</h2>
+            <p data-m="reveal" data-m-delay="0.15">Инструменты, которые стоят в моей системе прямо сейчас.</p>
           </div>
           <div className="rz-stack" data-m="reveal">
             {stack.map((s) => (
@@ -265,9 +266,9 @@ export default function AboutPage() {
       {/* Вопросы */}
       <section className="rz-section">
         <div className="rz-wrap">
-          <div className="rz-sec-head" data-m="reveal">
-            <h2 className="rz-h2">Вопросы</h2>
-            <p>Кому подхожу и как со мной устроена работа.</p>
+          <div className="rz-sec-head">
+            <h2 className="rz-h2" data-m="lines">Вопросы</h2>
+            <p data-m="reveal" data-m-delay="0.15">Кому подхожу и как со мной устроена работа.</p>
           </div>
           <div data-m="reveal">
             <RzFaq items={faq} schemaId="/about#faq" />
@@ -279,7 +280,7 @@ export default function AboutPage() {
       <section className="rz-section rz-cta">
         <div className="rz-wrap">
           <p className="rz-mono" data-m="reveal">Первый шаг</p>
-          <h2 className="rz-h2 rz-cta-title" data-m="reveal">
+          <h2 className="rz-h2 rz-cta-title" data-m="lines">
             Начни с гайда <span className="rz-mark">за {guide?.priceLabel ?? "590 ₽"}</span>
           </h2>
           <p className="rz-lead" data-m="reveal">

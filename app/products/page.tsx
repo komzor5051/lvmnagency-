@@ -146,7 +146,7 @@ export default function ProductsPage() {
         <div className="rz-wrap">
           <div>
             <p className="rz-mono" style={{ margin: "0 0 26px" }}>Продукты · 6 форматов</p>
-            <h1 className="rz-h1">
+            <h1 className="rz-h1" data-m="lines" data-m-hero>
               Мои <span className="rz-mark">продукты</span>
             </h1>
             <p className="rz-lead">
@@ -176,7 +176,7 @@ export default function ProductsPage() {
       </header>
 
       <section className="rz-section rz-section--list">
-        <div className="rz-wrap rz-grid" id="list">
+        <div className="rz-wrap rz-grid" id="list" data-m="stagger">
           {spreads.map((cfg, i) => {
             const product = getProduct(cfg.id)!;
             return (
@@ -186,7 +186,7 @@ export default function ProductsPage() {
                 className={`rz-card${product.price === null ? " rz-card--soon" : ""}`}
                 event="product_tile_click"
                 eventProps={{ product: cfg.id, position: i + 1, section: "products_page" }}
-                data-m="reveal"
+                data-m-tilt=""
               >
                 {product.cover ? (
                   // eslint-disable-next-line @next/next/no-img-element
@@ -197,9 +197,10 @@ export default function ProductsPage() {
                     width={product.cover.width}
                     height={product.cover.height}
                     loading={i < 2 ? undefined : "lazy"}
+                    data-m-tilt-target=""
                   />
                 ) : (
-                  <div className="rz-card-cover rz-card-cover--typo">скоро</div>
+                  <div className="rz-card-cover rz-card-cover--typo" data-m-tilt-target="">скоро</div>
                 )}
                 <div className="rz-card-body">
                   <span className="rz-mono">{cfg.type}</span>
@@ -221,13 +222,13 @@ export default function ProductsPage() {
 
       <section className="rz-section">
         <div className="rz-wrap">
-          <div className="rz-sec-head" data-m="reveal">
-            <h2 className="rz-h2">Как выбрать</h2>
-            <p>Три ситуации и что брать в каждой.</p>
+          <div className="rz-sec-head">
+            <h2 className="rz-h2" data-m="lines">Как выбрать</h2>
+            <p data-m="reveal" data-m-delay="0.15">Три ситуации и что брать в каждой.</p>
           </div>
-          <div className="rz-pick">
+          <div className="rz-pick" data-m="stagger">
             {pick.map((item) => (
-              <div key={item.tag} data-m="reveal">
+              <div key={item.tag}>
                 <span className="rz-mono">{item.tag}</span>
                 <h3>{item.title}</h3>
                 <p>{item.text}</p>
@@ -242,9 +243,9 @@ export default function ProductsPage() {
 
       <section className="rz-section">
         <div className="rz-wrap">
-          <div className="rz-sec-head" data-m="reveal">
-            <h2 className="rz-h2">Вопросы</h2>
-            <p>Оплата, выдача и что будет, если формат не подойдёт.</p>
+          <div className="rz-sec-head">
+            <h2 className="rz-h2" data-m="lines">Вопросы</h2>
+            <p data-m="reveal" data-m-delay="0.15">Оплата, выдача и что будет, если формат не подойдёт.</p>
           </div>
           <div data-m="reveal">
             <RzFaq items={faq} schemaId="/products#faq" />

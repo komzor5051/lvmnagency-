@@ -157,7 +157,7 @@ export default async function ProductPage({
           <div className="rz-product-grid">
             <header>
               <p className="rz-mono">{metaLine(product)}</p>
-              <h1 className="rz-h1 rz-product-title">{product.title}</h1>
+              <h1 className="rz-h1 rz-product-title" data-m="lines" data-m-hero>{product.title}</h1>
               <p className="rz-lead">{product.tagline}</p>
             </header>
             <aside className="rz-product-buy">
@@ -171,14 +171,18 @@ export default async function ProductPage({
             <Vsl product={product} />
           ) : (
             product.cover && (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img
-                className="rz-product-cover"
-                src={product.cover.src}
-                width={product.cover.width}
-                height={product.cover.height}
-                alt=""
-              />
+              <div className="rz-product-cover-wrap">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  className="rz-product-cover"
+                  src={product.cover.src}
+                  width={product.cover.width}
+                  height={product.cover.height}
+                  alt=""
+                  data-m="parallax"
+                  data-m-depth="6"
+                />
+              </div>
             )
           )}
         </div>
@@ -187,10 +191,10 @@ export default async function ProductPage({
       {extra?.outcomes?.length ? (
         <section className="rz-section">
           <div className="rz-wrap">
-            <div className="rz-sec-head" data-m="reveal">
-              <h2 className="rz-h2">Чему научишься</h2>
+            <div className="rz-sec-head">
+              <h2 className="rz-h2" data-m="lines">Чему научишься</h2>
             </div>
-            <ul className="rz-list rz-list--cols" data-m="reveal">
+            <ul className="rz-list rz-list--cols" data-m="stagger">
               {extra.outcomes.map((t) => (
                 <li key={t}>{t}</li>
               ))}
@@ -202,9 +206,9 @@ export default async function ProductPage({
       {extra?.map && (
         <section className="rz-section">
           <div className="rz-wrap">
-            <div className="rz-sec-head" data-m="reveal">
-              <h2 className="rz-h2">Карта системы</h2>
-              <p>{extra.map.caption}</p>
+            <div className="rz-sec-head">
+              <h2 className="rz-h2" data-m="lines">Карта системы</h2>
+              <p data-m="reveal" data-m-delay="0.15">{extra.map.caption}</p>
             </div>
             <div data-m="reveal">
               <SystemMap map={extra.map} />
@@ -216,17 +220,17 @@ export default async function ProductPage({
       {extra && (
         <section className="rz-section">
           <div className="rz-wrap rz-two">
-            <div data-m="reveal">
-              <h2 className="rz-h2 rz-h2--sm">Для кого</h2>
-              <ul className="rz-list">
+            <div>
+              <h2 className="rz-h2 rz-h2--sm" data-m="lines">Для кого</h2>
+              <ul className="rz-list" data-m="stagger">
                 {extra.forWhom.map((t) => (
                   <li key={t}>{t}</li>
                 ))}
               </ul>
             </div>
-            <div data-m="reveal">
-              <h2 className="rz-h2 rz-h2--sm">Что внутри</h2>
-              <ul className="rz-list">
+            <div>
+              <h2 className="rz-h2 rz-h2--sm" data-m="lines">Что внутри</h2>
+              <ul className="rz-list" data-m="stagger">
                 {extra.inside.map((t) => (
                   <li key={t}>{t}</li>
                 ))}
@@ -238,8 +242,8 @@ export default async function ProductPage({
 
       <section className="rz-section">
         <div className="rz-wrap rz-two">
-          <div className="rz-sec-head" data-m="reveal" style={{ marginBottom: 0 }}>
-            <h2 className="rz-h2">Подробно</h2>
+          <div className="rz-sec-head" style={{ marginBottom: 0 }}>
+            <h2 className="rz-h2" data-m="lines">Подробно</h2>
           </div>
           <div className="rz-copy" data-m="reveal">
             {product.description.map((p) => (
@@ -252,8 +256,8 @@ export default async function ProductPage({
       {product.faq?.length ? (
         <section className="rz-section">
           <div className="rz-wrap">
-            <div className="rz-sec-head" data-m="reveal">
-              <h2 className="rz-h2">Вопросы</h2>
+            <div className="rz-sec-head">
+              <h2 className="rz-h2" data-m="lines">Вопросы</h2>
             </div>
             <RzFaq items={product.faq} />
           </div>
@@ -267,7 +271,7 @@ export default async function ProductPage({
             <h2 className="rz-h2">{product.title}</h2>
           </div>
           <div className="rz-product-buy">
-            <p className="rz-product-price">{product.priceLabel}</p>
+            <p className="rz-product-price" data-m="count">{product.priceLabel}</p>
             <BuyAction product={product} />
           </div>
         </div>

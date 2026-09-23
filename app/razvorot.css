@@ -205,9 +205,13 @@ body.rz-menu-open { overflow: hidden; }
 .rz-story { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; }
 .rz-story p:not(.rz-thesis) { margin: 0 0 18px; color: var(--rz-mute); }
 .rz-tl { border-top: 1px solid var(--rz-line); }
-.rz-tl-row { display: grid; grid-template-columns: 140px 320px 1fr; gap: 32px; padding: 30px 0; border-bottom: 1px solid var(--rz-line); position: relative; transition: padding-left .45s var(--rz-ease); }
+.rz-tl { position: relative; }
+/* Линия таймлайна рисуется скроллом (data-m="draw"); без мыши стоит целиком. */
+.rz-tl-line { position: absolute; left: 0; top: 0; bottom: 0; width: 2px; background: var(--rz-ink); transform-origin: top; pointer-events: none; z-index: 1; }
+.rz-tl-row { display: grid; grid-template-columns: 140px 320px 1fr; gap: 32px; padding: 30px 0; border-bottom: 1px solid var(--rz-line); position: relative; }
+.rz-tl-row > * { transition: transform .45s var(--rz-ease); }
+.rz-tl-row:hover > * { transform: translateX(24px); }
 .rz-tl-row::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 6px; background: var(--rz-lime); transform: scaleY(0); transition: transform .45s var(--rz-ease); }
-.rz-tl-row:hover { padding-left: 24px; }
 .rz-tl-row:hover::before { transform: scaleY(1); }
 .rz-tl-row h3 { font-family: var(--rz-serif); font-weight: 400; font-size: 30px; line-height: 1.08; margin: 0; }
 .rz-tl-row p { margin: 0; color: var(--rz-mute); font-size: 15px; }
@@ -234,7 +238,7 @@ body.rz-menu-open { overflow: hidden; }
   .rz-tl-row { grid-template-columns: 1fr; gap: 6px; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .rz-tl-row, .rz-tl-row::before, .rz-stack span { transition: none; }
+  .rz-tl-row, .rz-tl-row::before, .rz-tl-row > *, .rz-stack span { transition: none; }
 }
 
 /* ===== Вопросы ===== */
@@ -290,10 +294,11 @@ body.rz-menu-open { overflow: hidden; }
 .rz-spread {
   position: relative; display: grid; grid-template-columns: 70px 1fr 1fr; gap: 40px;
   padding: 56px 0; border-bottom: 1px solid var(--rz-line); align-items: center;
-  color: var(--rz-ink); text-decoration: none; transition: padding-left .45s var(--rz-ease);
+  color: var(--rz-ink); text-decoration: none;
 }
 .rz-spread::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 6px; background: var(--rz-lime); transform: scaleY(0); transition: transform .45s var(--rz-ease); }
-.rz-spread:hover { padding-left: 24px; }
+.rz-spread > * { transition: transform .45s var(--rz-ease); }
+.rz-spread:hover > * { transform: translateX(24px); }
 .rz-spread:hover::before { transform: scaleY(1); }
 .rz-spread:focus-visible { outline: 2px solid var(--rz-ink); outline-offset: -2px; }
 .rz-spread-cover { aspect-ratio: 16 / 9; object-fit: cover; border: 1px solid var(--rz-line); width: 100%; display: block; background: #eee; }
@@ -372,6 +377,9 @@ body.rz-menu-open { overflow: hidden; }
 .rz-product-buy small { color: var(--rz-mute); font-size: 13px; }
 .rz-product-price { font-family: var(--rz-serif); font-size: 44px; font-weight: 500; line-height: 1; margin: 0; font-variant-numeric: tabular-nums; }
 .rz-product-cover { display: block; width: 100%; height: auto; border: 1px solid var(--rz-line); }
+/* Обложка двигается параллаксом внутри рамки, края прячет масштаб. */
+.rz-product-cover-wrap { overflow: hidden; border: 1px solid var(--rz-line); }
+.rz-product-cover-wrap .rz-product-cover { border: 0; }
 .rz-product .bento-vsl { border: 1px solid var(--rz-line); }
 /* Карта системы: майндкарта из HTML-узлов и SVG-связей (components/products/SystemMap.tsx) */
 .mm { --mm-layout: wide; position: relative; display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); gap: 0 44px; align-items: center; }
