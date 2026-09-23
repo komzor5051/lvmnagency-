@@ -10,7 +10,7 @@ interface PostCardProps {
   index?: number;
 }
 
-export function PostCard({ slug, title, publishedAt, coverImage, index = 1 }: PostCardProps) {
+export function PostCard({ slug, title, publishedAt, coverImage }: PostCardProps) {
   const date = new Date(publishedAt).toLocaleDateString("ru-RU", {
     year: "numeric",
     month: "long",
@@ -22,7 +22,6 @@ export function PostCard({ slug, title, publishedAt, coverImage, index = 1 }: Po
       href={`/blog/${slug}`}
       className="bento-tile bento-tile--link bento-col-4"
       data-m="reveal"
-      style={{ transitionDelay: `${((index - 1) % 3) * 60}ms` }}
     >
       {coverImage && (
         <span className="bento-post-cover">

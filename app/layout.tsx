@@ -149,7 +149,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ru" className="font-sans">
+    // suppressHydrationWarning: класс js добавляет инлайн-скрипт до гидратации,
+    // React иначе ругается на несовпадение атрибутов html при сравнении с сервером.
+    <html lang="ru" className="font-sans" suppressHydrationWarning>
       <head>
         {/* До первой отрисовки: помечаем, что JS есть, чтобы hero не вспыхивал
             статикой перед стартом сцены (см. razvorot.css, html.js). */}

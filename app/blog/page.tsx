@@ -31,7 +31,7 @@ export default async function BlogPage() {
     <main className="studio-main bento-page">
       <section className="bento-section bento-section--hero bento-section--last">
         <div className="studio-frame">
-          <header className="bento-head" data-m="reveal">
+          <header className="bento-head">
             <p className="bento-mono">Лабораторные заметки / {posts.length}</p>
             <h1>Пишу о том, что работает</h1>
             <p>

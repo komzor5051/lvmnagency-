@@ -19,7 +19,7 @@ export function Vsl({ product }: { product: Product }) {
     : `${vsl.embedUrl}?autoplay=1`;
 
   return (
-    <div className="bento-vsl" style={{ aspectRatio: ratio }} data-m="reveal">
+    <div className="bento-vsl" style={{ aspectRatio: ratio }}>
       {playing ? (
         <iframe
           src={src}

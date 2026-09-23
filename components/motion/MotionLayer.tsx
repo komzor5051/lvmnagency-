@@ -42,6 +42,8 @@ export default function MotionLayer() {
       }
       if (tier === "full") cleanups.push(bindMagnets(), bindTilts());
       ScrollTrigger.refresh();
+      // Шрифты меняют высоту заголовков: без пересчёта пин каталога стартует не с того места.
+      document.fonts.ready.then(ctx.safe(() => ScrollTrigger.refresh()));
       return () => cleanups.forEach((fn) => fn());
     },
     { dependencies: [pathname], revertOnUpdate: true },

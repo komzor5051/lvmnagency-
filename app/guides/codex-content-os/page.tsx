@@ -113,13 +113,13 @@ export default function GuideNavigationPage() {
     <main className="studio-main bento-page">
       <section className="bento-section bento-section--hero">
         <div className="studio-frame">
-          <nav aria-label="Хлебные крошки" data-m="reveal">
+          <nav aria-label="Хлебные крошки">
             <Link href="/products/codex-content-os" className="bento-crumb">
               ← О продукте
             </Link>
           </nav>
           <div className="bento-grid">
-            <header className="bento-tile bento-col-12" data-m="reveal">
+            <header className="bento-tile bento-col-12">
               <p className="bento-mono">ContentOS · материалы гайда</p>
               <h1 className="bento-product-title">
                 Читайте, скачивайте, смотрите содержание
@@ -136,13 +136,12 @@ export default function GuideNavigationPage() {
       <section className="bento-section">
         <div className="studio-frame">
           <div className="bento-grid">
-            {downloads.map((d, i) => (
+            {downloads.map((d) => (
               <a
                 key={d.label}
                 href={d.href}
                 className="bento-tile bento-col-4 bento-tile--link"
                 data-m="reveal"
-                style={{ transitionDelay: `${i * 60}ms` }}
               >
                 <p className="bento-mono">{d.meta}</p>
                 <h3>{d.label}</h3>
@@ -162,12 +161,11 @@ export default function GuideNavigationPage() {
             <h2>Что где смотреть</h2>
           </header>
           <div className="bento-grid">
-            {contents.map((block, i) => (
+            {contents.map((block) => (
               <div
                 key={block.group}
                 className="bento-tile bento-col-6"
                 data-m="reveal"
-                style={{ transitionDelay: `${i * 60}ms` }}
               >
                 <p className="bento-mono">{block.group}</p>
                 <ul className="bento-list">

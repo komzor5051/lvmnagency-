@@ -152,7 +152,7 @@ body.rz-menu-open { overflow: hidden; }
 /* Заголовки первого экрана с data-m-hero ждут MotionLayer, как hero главной.
    Страховка та же: через 4 с проявятся сами. */
 @media (prefers-reduced-motion: no-preference) {
-  html.js [data-m][data-m-hero]:not(.is-in) { opacity: 0; animation: rz-safety 0s 4s forwards; }
+  html.js [data-m="lines"][data-m-hero]:not(.is-in) { opacity: 0; animation: rz-safety 0s 4s forwards; }
   html.js [data-m-hero]:not(.is-in) .rz-mark { --mark-w: 0%; }
 }
 
@@ -379,6 +379,11 @@ body.rz-menu-open { overflow: hidden; }
 /* Обложка двигается параллаксом внутри рамки, края прячет масштаб. */
 .rz-product-cover-wrap { overflow: hidden; border: 1px solid var(--rz-line); }
 .rz-product-cover-wrap .rz-product-cover { border: 0; }
+
+/* Стартовое положение параллакса до гидратации, иначе обложка дёргается при старте GSAP. */
+@media (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  html.js .rz-product-cover-wrap [data-m="parallax"] { transform: translateY(-6%) scale(1.12); }
+}
 .rz-product .bento-vsl { border: 1px solid var(--rz-line); }
 /* Карта системы: майндкарта из HTML-узлов и SVG-связей (components/products/SystemMap.tsx) */
 .mm { --mm-layout: wide; position: relative; display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); gap: 0 44px; align-items: center; }
