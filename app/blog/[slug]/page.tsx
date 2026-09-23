@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { TableOfContents } from "@/components/table-of-contents";
 import { CopyableCode } from "@/components/copyable-code";
+import ReadingProgress from "@/components/motion/ReadingProgress";
 import { SITE_URL } from "@/lib/site";
 import { jsonLd } from "@/lib/json-ld";
 
@@ -190,6 +191,7 @@ export default async function ArticlePage({ params }: Props) {
 
   return (
     <>
+      <ReadingProgress target=".studio-article" />
       <article className="studio-article px-[6vw] pb-24 pt-[48px] max-md:px-4">
         {/* Breadcrumbs — pt above is breathing room; the sticky nav reserves its own space in flow. */}
         <nav className="mono-label mx-auto mb-8 max-w-[1200px] px-12 text-ink-muted max-md:px-5">

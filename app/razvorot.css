@@ -434,3 +434,9 @@ body.rz-menu-open { overflow: hidden; }
   .rz-list--cols { columns: 1; }
   .rz-row--next { grid-template-columns: 1fr; }
 }
+
+/* ===== Прогресс чтения статьи ===== */
+.rz-read-progress {
+  position: fixed; top: 0; left: 0; right: 0; height: 2px; z-index: 70;
+  background: var(--rz-lime); transform: scaleX(0); transform-origin: left; pointer-events: none;
+}
