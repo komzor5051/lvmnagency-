@@ -16,21 +16,25 @@ export function TrackedLink({
   eventProps,
   className,
   children,
-  "data-studio-reveal": dataStudioReveal,
+  "data-m": dataM,
+  "data-m-tilt": dataMTilt,
 }: {
   href: string;
   event: string;
   eventProps?: EventProps;
   className?: string;
   children: React.ReactNode;
-  "data-studio-reveal"?: boolean;
+  // Атрибуты MotionLayer (components/motion): вход блока и наклон обложки.
+  "data-m"?: string;
+  "data-m-tilt"?: string;
 }) {
   return (
     <Link
       href={href}
       className={className}
       onClick={() => track(event, eventProps)}
-      data-studio-reveal={dataStudioReveal}
+      data-m={dataM}
+      data-m-tilt={dataMTilt}
     >
       {children}
     </Link>

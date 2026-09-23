@@ -108,21 +108,6 @@ body.studio-menu-open { overflow: hidden; }
   margin-inline: auto;
 }
 
-/* Scroll reveal: fade + 12px lift, applied once by components/bento/BentoReveal.
-   Stagger is set per-tile via an inline transition-delay. */
-[data-studio-reveal] {
-  opacity: 0;
-  transform: translateY(8px);
-  /* Было 560 мс: вместе с задержкой на дальних плитках контент проявлялся
-     до 860 мс и страница успевала прочитаться как пустая. */
-  transition: opacity 300ms var(--studio-ease), transform 300ms var(--studio-ease);
-}
-
-[data-studio-reveal].is-visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
 .studio-mono,
 .studio-eyebrow {
   font-family: var(--font-mono-brand), "JetBrains Mono", monospace;
@@ -850,7 +835,6 @@ body.studio-menu-open { overflow: hidden; }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
-  [data-studio-reveal] { opacity: 1; transform: none; }
 }
 
 /* =============================================================================

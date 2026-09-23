@@ -6,7 +6,7 @@ import { TrafficSource } from "@/components/TrafficSource";
 import LenisProvider from "@/components/motion/LenisProvider";
 import StudioNav from "@/components/studio/StudioNav";
 import StudioFooter from "@/components/studio/StudioFooter";
-import BentoReveal from "@/components/bento/BentoReveal";
+import MotionLayer from "@/components/motion/MotionLayer";
 import { SITE_URL } from "@/lib/site";
 import "./globals.css";
 import "./studio.css";
@@ -159,9 +159,9 @@ export default function RootLayout({
         className={`${handFont.variable} antialiased`}
       >
         <LenisProvider>
-          <BentoReveal />
           <StudioNav />
           <PostHogProvider>{children}</PostHogProvider>
+          <MotionLayer />
           <StudioFooter />
           <YandexMetrika />
           <TrafficSource />

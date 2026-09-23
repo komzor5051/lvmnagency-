@@ -165,7 +165,7 @@ export default function AboutPage() {
       <section className="rz-section">
         <div className="rz-wrap rz-facts">
           {facts.map((f) => (
-            <div key={f.n} data-studio-reveal>
+            <div key={f.n} data-m="reveal">
               <strong>{f.n}</strong>
               <p>{f.text}</p>
             </div>
@@ -176,11 +176,11 @@ export default function AboutPage() {
       {/* История */}
       <section className="rz-section">
         <div className="rz-wrap">
-          <div className="rz-sec-head" data-studio-reveal>
+          <div className="rz-sec-head" data-m="reveal">
             <h2 className="rz-h2">Как я к этому пришёл</h2>
           </div>
           <div className="rz-story">
-            <div data-studio-reveal>
+            <div data-m="reveal">
               <p className="rz-thesis">
                 Начинал с ботов и автоматизаций для чужого бизнеса. Через три года понял,
                 что продаю не код, а способ думать.
@@ -191,7 +191,7 @@ export default function AboutPage() {
                 созвона в четыре артефакта.
               </p>
             </div>
-            <div data-studio-reveal>
+            <div data-m="reveal">
               <p>
                 Каждый раз повторялось одно. Система работала, а человек рядом с ней не
                 понимал, как её менять. Через месяц она стояла.
@@ -210,7 +210,7 @@ export default function AboutPage() {
       {/* Траектория */}
       <section className="rz-section">
         <div className="rz-wrap">
-          <div className="rz-sec-head" data-studio-reveal>
+          <div className="rz-sec-head" data-m="reveal">
             <h2 className="rz-h2">Траектория</h2>
             <p>Как менялся фокус: от инструментов к личной системе.</p>
           </div>
@@ -219,7 +219,7 @@ export default function AboutPage() {
               <div
                 key={row.year}
                 className={`rz-tl-row${row.now ? " is-now" : ""}`}
-                data-studio-reveal
+                data-m="reveal"
               >
                 <span className="rz-tl-year">{row.year}</span>
                 <h3>{row.title}</h3>
@@ -233,12 +233,12 @@ export default function AboutPage() {
       {/* Принципы */}
       <section className="rz-section">
         <div className="rz-wrap">
-          <div className="rz-sec-head" data-studio-reveal>
+          <div className="rz-sec-head" data-m="reveal">
             <h2 className="rz-h2">По каким правилам работаю</h2>
           </div>
           <div className="rz-pr">
             {principles.map((p) => (
-              <article key={p.title} data-studio-reveal>
+              <article key={p.title} data-m="reveal">
                 <h3>{p.title}</h3>
                 <p>{p.text}</p>
               </article>
@@ -250,11 +250,11 @@ export default function AboutPage() {
       {/* Стек */}
       <section className="rz-section">
         <div className="rz-wrap">
-          <div className="rz-sec-head" data-studio-reveal>
+          <div className="rz-sec-head" data-m="reveal">
             <h2 className="rz-h2">Чем работаю</h2>
             <p>Инструменты, которые стоят в моей системе прямо сейчас.</p>
           </div>
-          <div className="rz-stack" data-studio-reveal>
+          <div className="rz-stack" data-m="reveal">
             {stack.map((s) => (
               <span key={s}>{s}</span>
             ))}
@@ -265,11 +265,11 @@ export default function AboutPage() {
       {/* Вопросы */}
       <section className="rz-section">
         <div className="rz-wrap">
-          <div className="rz-sec-head" data-studio-reveal>
+          <div className="rz-sec-head" data-m="reveal">
             <h2 className="rz-h2">Вопросы</h2>
             <p>Кому подхожу и как со мной устроена работа.</p>
           </div>
-          <div data-studio-reveal>
+          <div data-m="reveal">
             <RzFaq items={faq} schemaId="/about#faq" />
           </div>
         </div>
@@ -278,14 +278,14 @@ export default function AboutPage() {
       {/* Финальный CTA */}
       <section className="rz-section rz-cta">
         <div className="rz-wrap">
-          <p className="rz-mono" data-studio-reveal>Первый шаг</p>
-          <h2 className="rz-h2 rz-cta-title" data-studio-reveal>
+          <p className="rz-mono" data-m="reveal">Первый шаг</p>
+          <h2 className="rz-h2 rz-cta-title" data-m="reveal">
             Начни с гайда <span className="rz-mark">за {guide?.priceLabel ?? "590 ₽"}</span>
           </h2>
-          <p className="rz-lead" data-studio-reveal>
+          <p className="rz-lead" data-m="reveal">
             Самый дешёвый способ проверить, встроится ли Claude в твою работу.
           </p>
-          <p data-studio-reveal>
+          <p data-m="reveal">
             <Link href="/products/guide" className="rz-btn rz-btn--solid">Получить гайд</Link>
           </p>
         </div>

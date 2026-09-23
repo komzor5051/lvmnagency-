@@ -1659,6 +1659,4 @@ body.studio-menu-open { overflow: hidden; }
     animation-duration: .01ms !important;
     animation-iteration-count: 1 !important;
   }
-
-  [data-studio-reveal] { opacity: 1; transform: none; }
 }

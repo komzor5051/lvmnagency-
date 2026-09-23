@@ -187,10 +187,10 @@ export default async function ProductPage({
       {extra?.outcomes?.length ? (
         <section className="rz-section">
           <div className="rz-wrap">
-            <div className="rz-sec-head" data-studio-reveal>
+            <div className="rz-sec-head" data-m="reveal">
               <h2 className="rz-h2">Чему научишься</h2>
             </div>
-            <ul className="rz-list rz-list--cols" data-studio-reveal>
+            <ul className="rz-list rz-list--cols" data-m="reveal">
               {extra.outcomes.map((t) => (
                 <li key={t}>{t}</li>
               ))}
@@ -202,11 +202,11 @@ export default async function ProductPage({
       {extra?.map && (
         <section className="rz-section">
           <div className="rz-wrap">
-            <div className="rz-sec-head" data-studio-reveal>
+            <div className="rz-sec-head" data-m="reveal">
               <h2 className="rz-h2">Карта системы</h2>
               <p>{extra.map.caption}</p>
             </div>
-            <div data-studio-reveal>
+            <div data-m="reveal">
               <SystemMap map={extra.map} />
             </div>
           </div>
@@ -216,7 +216,7 @@ export default async function ProductPage({
       {extra && (
         <section className="rz-section">
           <div className="rz-wrap rz-two">
-            <div data-studio-reveal>
+            <div data-m="reveal">
               <h2 className="rz-h2 rz-h2--sm">Для кого</h2>
               <ul className="rz-list">
                 {extra.forWhom.map((t) => (
@@ -224,7 +224,7 @@ export default async function ProductPage({
                 ))}
               </ul>
             </div>
-            <div data-studio-reveal>
+            <div data-m="reveal">
               <h2 className="rz-h2 rz-h2--sm">Что внутри</h2>
               <ul className="rz-list">
                 {extra.inside.map((t) => (
@@ -238,10 +238,10 @@ export default async function ProductPage({
 
       <section className="rz-section">
         <div className="rz-wrap rz-two">
-          <div className="rz-sec-head" data-studio-reveal style={{ marginBottom: 0 }}>
+          <div className="rz-sec-head" data-m="reveal" style={{ marginBottom: 0 }}>
             <h2 className="rz-h2">Подробно</h2>
           </div>
-          <div className="rz-copy" data-studio-reveal>
+          <div className="rz-copy" data-m="reveal">
             {product.description.map((p) => (
               <p key={p}>{p}</p>
             ))}
@@ -252,7 +252,7 @@ export default async function ProductPage({
       {product.faq?.length ? (
         <section className="rz-section">
           <div className="rz-wrap">
-            <div className="rz-sec-head" data-studio-reveal>
+            <div className="rz-sec-head" data-m="reveal">
               <h2 className="rz-h2">Вопросы</h2>
             </div>
             <RzFaq items={product.faq} />
@@ -261,7 +261,7 @@ export default async function ProductPage({
       ) : null}
 
       <section className="rz-section rz-product-final">
-        <div className="rz-wrap rz-two" data-studio-reveal>
+        <div className="rz-wrap rz-two" data-m="reveal">
           <div>
             <p className="rz-mono">{metaLine(product)}</p>
             <h2 className="rz-h2">{product.title}</h2>
@@ -276,7 +276,7 @@ export default async function ProductPage({
       {product.nextStep && (
         <section className="rz-section">
           <div className="rz-wrap">
-            <p className="rz-mono" data-studio-reveal>
+            <p className="rz-mono" data-m="reveal">
               Что дальше
             </p>
             <TrackedLink

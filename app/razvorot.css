@@ -27,6 +27,8 @@
   --rz-mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
   --rz-ease: cubic-bezier(.2, .8, .2, 1);
   --rz-ease-in-out: cubic-bezier(.7, 0, .2, 1);
+  --rz-dur-fast: .35s;
+  --rz-dur-base: .7s;
 }
 
 /* ===== Кнопки (2a: перекраска в лайм) ===== */
@@ -142,6 +144,13 @@ body.rz-menu-open { overflow: hidden; }
   html.js .rz-hero:not(.is-in) .rz-mark { --mark-w: 0%; }
 }
 @keyframes rz-safety { to { opacity: 1; } }
+
+/* Заголовки первого экрана с data-m-hero ждут MotionLayer, как hero главной.
+   Страховка та же: через 4 с проявятся сами. */
+@media (prefers-reduced-motion: no-preference) {
+  html.js [data-m][data-m-hero]:not(.is-in) { opacity: 0; animation: rz-safety 0s 4s forwards; }
+  html.js [data-m-hero]:not(.is-in) .rz-mark { --mark-w: 0%; }
+}
 
 /* ===== Продукты (1a) ===== */
 .rz-index { border-top: 1px solid var(--rz-line); }

@@ -186,7 +186,7 @@ export default function ProductsPage() {
                 className={`rz-card${product.price === null ? " rz-card--soon" : ""}`}
                 event="product_tile_click"
                 eventProps={{ product: cfg.id, position: i + 1, section: "products_page" }}
-                data-studio-reveal
+                data-m="reveal"
               >
                 {product.cover ? (
                   // eslint-disable-next-line @next/next/no-img-element
@@ -221,13 +221,13 @@ export default function ProductsPage() {
 
       <section className="rz-section">
         <div className="rz-wrap">
-          <div className="rz-sec-head" data-studio-reveal>
+          <div className="rz-sec-head" data-m="reveal">
             <h2 className="rz-h2">Как выбрать</h2>
             <p>Три ситуации и что брать в каждой.</p>
           </div>
           <div className="rz-pick">
             {pick.map((item) => (
-              <div key={item.tag} data-studio-reveal>
+              <div key={item.tag} data-m="reveal">
                 <span className="rz-mono">{item.tag}</span>
                 <h3>{item.title}</h3>
                 <p>{item.text}</p>
@@ -242,11 +242,11 @@ export default function ProductsPage() {
 
       <section className="rz-section">
         <div className="rz-wrap">
-          <div className="rz-sec-head" data-studio-reveal>
+          <div className="rz-sec-head" data-m="reveal">
             <h2 className="rz-h2">Вопросы</h2>
             <p>Оплата, выдача и что будет, если формат не подойдёт.</p>
           </div>
-          <div data-studio-reveal>
+          <div data-m="reveal">
             <RzFaq items={faq} schemaId="/products#faq" />
           </div>
         </div>

@@ -21,7 +21,7 @@ export function PostCard({ slug, title, publishedAt, coverImage, index = 1 }: Po
     <a
       href={`/blog/${slug}`}
       className="bento-tile bento-tile--link bento-col-4"
-      data-studio-reveal
+      data-m="reveal"
       style={{ transitionDelay: `${((index - 1) % 3) * 60}ms` }}
     >
       {coverImage && (

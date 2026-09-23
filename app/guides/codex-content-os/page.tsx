@@ -113,13 +113,13 @@ export default function GuideNavigationPage() {
     <main className="studio-main bento-page">
       <section className="bento-section bento-section--hero">
         <div className="studio-frame">
-          <nav aria-label="Хлебные крошки" data-studio-reveal>
+          <nav aria-label="Хлебные крошки" data-m="reveal">
             <Link href="/products/codex-content-os" className="bento-crumb">
               ← О продукте
             </Link>
           </nav>
           <div className="bento-grid">
-            <header className="bento-tile bento-col-12" data-studio-reveal>
+            <header className="bento-tile bento-col-12" data-m="reveal">
               <p className="bento-mono">ContentOS · материалы гайда</p>
               <h1 className="bento-product-title">
                 Читайте, скачивайте, смотрите содержание
@@ -141,7 +141,7 @@ export default function GuideNavigationPage() {
                 key={d.label}
                 href={d.href}
                 className="bento-tile bento-col-4 bento-tile--link"
-                data-studio-reveal
+                data-m="reveal"
                 style={{ transitionDelay: `${i * 60}ms` }}
               >
                 <p className="bento-mono">{d.meta}</p>
@@ -157,7 +157,7 @@ export default function GuideNavigationPage() {
 
       <section className="bento-section bento-section--last">
         <div className="studio-frame">
-          <header className="bento-head" data-studio-reveal>
+          <header className="bento-head" data-m="reveal">
             <p className="bento-mono">40 разделов</p>
             <h2>Что где смотреть</h2>
           </header>
@@ -166,7 +166,7 @@ export default function GuideNavigationPage() {
               <div
                 key={block.group}
                 className="bento-tile bento-col-6"
-                data-studio-reveal
+                data-m="reveal"
                 style={{ transitionDelay: `${i * 60}ms` }}
               >
                 <p className="bento-mono">{block.group}</p>
@@ -180,7 +180,7 @@ export default function GuideNavigationPage() {
               </div>
             ))}
 
-            <div className="bento-tile bento-col-12 bento-tile--carbon" data-studio-reveal>
+            <div className="bento-tile bento-col-12 bento-tile--carbon" data-m="reveal">
               <p className="bento-mono">Обновления</p>
               <h3>Гайд обновляется</h3>
               <p className="bento-lead">

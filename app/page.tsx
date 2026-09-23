@@ -69,7 +69,7 @@ export default async function HomePage() {
       {/* 2. Продукты — оглавление. 1a: сдвиг вправо + лайм-полоса слева. */}
       <section className="rz-section" id="products">
         <div className="rz-wrap">
-          <div className="rz-sec-head" data-studio-reveal>
+          <div className="rz-sec-head" data-m="reveal">
             <h2 className="rz-h2">Продукты</h2>
             <p>Пять форматов. Начать можно с любого, дальше идти необязательно.</p>
           </div>
@@ -97,7 +97,7 @@ export default async function HomePage() {
               );
             })}
           </div>
-          <p className="rz-more" data-studio-reveal>
+          <p className="rz-more" data-m="reveal">
             <Link href="/products" className="rz-link">Все форматы подробно</Link>
           </p>
         </div>
@@ -106,23 +106,23 @@ export default async function HomePage() {
       {/* 3. Обо мне */}
       <section className="rz-section rz-about" id="about">
         <div className="rz-wrap rz-about-grid">
-          <div className="rz-portrait" data-studio-reveal>
+          <div className="rz-portrait" data-m="reveal">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src="/portrait-editorial.jpg" alt="Влад Лямин" width="1012" height="1350" loading="lazy" />
           </div>
           <div>
-            <p className="rz-mono" data-studio-reveal>Обо мне</p>
-            <h2 className="rz-h2" data-studio-reveal>Четвёртый год работаю с Claude каждый день</h2>
-            <p className="rz-thesis" data-studio-reveal>
+            <p className="rz-mono" data-m="reveal">Обо мне</p>
+            <h2 className="rz-h2" data-m="reveal">Четвёртый год работаю с Claude каждый день</h2>
+            <p className="rz-thesis" data-m="reveal">
               Не внедряю AI в чужие команды. Показываю одному человеку, как собрать
               систему, которая работает без команды.
             </p>
-            <p className="rz-lead" data-studio-reveal>
+            <p className="rz-lead" data-m="reveal">
               Пишу гайды, провожу консультации и аудиты. Всё, что советую, сначала
               проверяю на себе: этот сайт, блог и контент к нему собирает система,
               о которой я рассказываю.
             </p>
-            <p data-studio-reveal>
+            <p data-m="reveal">
               <Link href="/about" className="rz-btn">Подробнее обо мне</Link>
             </p>
           </div>
@@ -133,7 +133,7 @@ export default async function HomePage() {
       {posts.length > 0 && (
         <section className="rz-section" id="blog">
           <div className="rz-wrap">
-            <div className="rz-sec-head" data-studio-reveal>
+            <div className="rz-sec-head" data-m="reveal">
               <h2 className="rz-h2">Блог</h2>
               <p>Заметки о Claude и Claude Code. Что сработало, что нет и сколько стоило.</p>
             </div>
@@ -143,7 +143,7 @@ export default async function HomePage() {
                   href={`/blog/${post.slug}`}
                   key={post.slug}
                   className="rz-post"
-                  data-studio-reveal
+                  data-m="reveal"
                   style={{ transitionDelay: `${i * 80}ms` }}
                 >
                   <span className="rz-mono">
@@ -154,7 +154,7 @@ export default async function HomePage() {
                 </Link>
               ))}
             </div>
-            <p className="rz-more" data-studio-reveal>
+            <p className="rz-more" data-m="reveal">
               <Link href="/blog" className="rz-link">Все статьи</Link>
             </p>
           </div>
@@ -164,15 +164,15 @@ export default async function HomePage() {
       {/* 5. Финальный CTA */}
       <section className="rz-section rz-cta">
         <div className="rz-wrap">
-          <p className="rz-mono" data-studio-reveal>Первый шаг</p>
-          <h2 className="rz-h2 rz-cta-title" data-studio-reveal>
+          <p className="rz-mono" data-m="reveal">Первый шаг</p>
+          <h2 className="rz-h2 rz-cta-title" data-m="reveal">
             Начни с гайда <span className="rz-mark">за {guide?.priceLabel ?? "590 ₽"}</span>
           </h2>
-          <p className="rz-lead" data-studio-reveal>
+          <p className="rz-lead" data-m="reveal">
             Самый дешёвый способ проверить, встроится ли Claude в твою работу.
             Файл приходит сразу после оплаты.
           </p>
-          <p data-studio-reveal>
+          <p data-m="reveal">
             <TrackedLink
               href="/products/guide"
               event="product_tile_click"
