@@ -69,11 +69,11 @@ export default async function HomePage() {
       {/* 2. Продукты — оглавление. 1a: сдвиг вправо + лайм-полоса слева. */}
       <section className="rz-section" id="products">
         <div className="rz-wrap">
-          <div className="rz-sec-head" data-m="reveal">
-            <h2 className="rz-h2">Продукты</h2>
-            <p>Пять форматов. Начать можно с любого, дальше идти необязательно.</p>
+          <div className="rz-sec-head">
+            <h2 className="rz-h2" data-m="lines">Продукты</h2>
+            <p data-m="reveal" data-m-delay="0.15">Пять форматов. Начать можно с любого, дальше идти необязательно.</p>
           </div>
-          <div className="rz-index">
+          <div className="rz-index" data-m="pin" data-m-scene="products-index">
             {showcase.map((item, i) => {
               const p = getProduct(item.id);
               if (!p) return null;
@@ -108,11 +108,11 @@ export default async function HomePage() {
         <div className="rz-wrap rz-about-grid">
           <div className="rz-portrait" data-m="reveal">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/portrait-editorial.jpg" alt="Влад Лямин" width="1012" height="1350" loading="lazy" />
+            <img src="/portrait-editorial.jpg" alt="Влад Лямин" width="1012" height="1350" loading="lazy" data-m="parallax" />
           </div>
           <div>
             <p className="rz-mono" data-m="reveal">Обо мне</p>
-            <h2 className="rz-h2" data-m="reveal">Четвёртый год работаю с Claude каждый день</h2>
+            <h2 className="rz-h2" data-m="lines">Четвёртый год работаю с Claude каждый день</h2>
             <p className="rz-thesis" data-m="reveal">
               Не внедряю AI в чужие команды. Показываю одному человеку, как собрать
               систему, которая работает без команды.
@@ -133,18 +133,16 @@ export default async function HomePage() {
       {posts.length > 0 && (
         <section className="rz-section" id="blog">
           <div className="rz-wrap">
-            <div className="rz-sec-head" data-m="reveal">
-              <h2 className="rz-h2">Блог</h2>
-              <p>Заметки о Claude и Claude Code. Что сработало, что нет и сколько стоило.</p>
+            <div className="rz-sec-head">
+              <h2 className="rz-h2" data-m="lines">Блог</h2>
+              <p data-m="reveal" data-m-delay="0.15">Заметки о Claude и Claude Code. Что сработало, что нет и сколько стоило.</p>
             </div>
-            <div className="rz-posts">
-              {posts.map((post, i) => (
+            <div className="rz-posts" data-m="stagger">
+              {posts.map((post) => (
                 <Link
                   href={`/blog/${post.slug}`}
                   key={post.slug}
                   className="rz-post"
-                  data-m="reveal"
-                  style={{ transitionDelay: `${i * 80}ms` }}
                 >
                   <span className="rz-mono">
                     {formatDate(post.published_at)} · {(post.tags ?? [])[0] ?? "Claude"}
@@ -165,7 +163,7 @@ export default async function HomePage() {
       <section className="rz-section rz-cta">
         <div className="rz-wrap">
           <p className="rz-mono" data-m="reveal">Первый шаг</p>
-          <h2 className="rz-h2 rz-cta-title" data-m="reveal">
+          <h2 className="rz-h2 rz-cta-title" data-m="lines">
             Начни с гайда <span className="rz-mark">за {guide?.priceLabel ?? "590 ₽"}</span>
           </h2>
           <p className="rz-lead" data-m="reveal">

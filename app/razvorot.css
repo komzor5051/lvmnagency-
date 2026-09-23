@@ -157,10 +157,11 @@ body.rz-menu-open { overflow: hidden; }
 .rz-row {
   position: relative; display: grid; grid-template-columns: 70px 1fr 1fr 160px; gap: 32px; align-items: center;
   padding: 34px 0; border-bottom: 1px solid var(--rz-line); color: var(--rz-ink); text-decoration: none;
-  transition: padding-left .45s var(--rz-ease);
 }
-.rz-row::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 6px; background: var(--rz-lime); transform: scaleY(0); transition: transform .45s var(--rz-ease); }
-.rz-row:hover { padding-left: 24px; }
+/* Полоса читает --row-bar: её тянет пин-сцена каталога (scenes/productsIndex.ts). */
+.rz-row::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 6px; background: var(--rz-lime); transform: scaleY(var(--row-bar, 0)); transition: transform .45s var(--rz-ease); }
+.rz-row > * { transition: transform .45s var(--rz-ease); }
+.rz-row:hover > :not(.rz-row-price) { transform: translateX(24px); }
 .rz-row:hover::before { transform: scaleY(1); }
 .rz-row h3 { font-family: var(--rz-serif); font-size: 34px; font-weight: 400; line-height: 1.05; margin: 0; }
 .rz-row-desc { color: var(--rz-mute); font-size: 15px; max-width: 420px; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
@@ -267,7 +268,7 @@ body.rz-menu-open { overflow: hidden; }
   .rz-cta { padding: 100px 0; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .rz-row, .rz-row::before, .rz-post-line::after, .rz-link { transition: none; }
+  .rz-row, .rz-row::before, .rz-row > *, .rz-post-line::after, .rz-link { transition: none; }
   .rz-faq summary::after, .rz-wait-btn { transition: none; }
 }
 

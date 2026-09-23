@@ -111,6 +111,7 @@ function pin(el: HTMLElement): void {
   const scene = scenes[el.dataset.mScene ?? ""];
   if (!scene) {
     console.warn(`[motion] неизвестная сцена "${el.dataset.mScene}"`);
+    markIn(el);
     return;
   }
   scene(el);

@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef } from "react";
-import { gsap, ScrollTrigger, SplitText, useGSAP, EASE_OUT, prefersReducedMotion, hasFinePointer } from "./gsap";
+import { gsap, ScrollTrigger, SplitText, useGSAP, EASE_OUT, prefersReducedMotion } from "./gsap";
 import { heroChoreography } from "./heroChoreography";
 
 // Motion-слой главной. Разметка остаётся серверной и полностью видимой в HTML:
@@ -17,7 +17,6 @@ export default function HomeMotion() {
       const root = scope.current?.parentElement;
       if (!root) return;
       const q = gsap.utils.selector(root);
-      const fine = hasFinePointer();
 
       // --- Hero -----------------------------------------------------------
       const hero = q<HTMLElement>(".rz-hero")[0];
@@ -75,84 +74,8 @@ export default function HomeMotion() {
         });
       }
 
-      // --- Продукты: строки входят каскадом ----------------------------------
-      // Триггеры передаём элементами: строковые селекторы внутри useGSAP
-      // ищутся в scope, а scope здесь пустой якорь.
-      const index = q<HTMLElement>(".rz-index")[0];
-      const rows = q<HTMLElement>(".rz-row");
-      if (index && rows.length) {
-        gsap.from(rows, {
-          autoAlpha: 0,
-          y: 40,
-          duration: 1,
-          ease: EASE_OUT,
-          stagger: 0.12,
-          clearProps: "transform", // hover-сдвиг в CSS не должен спорить с GSAP
-          scrollTrigger: { trigger: index, start: "top 82%", once: true },
-        });
-      }
-
-      // --- Обо мне: портрет с параллаксом ----------------------------------
-      const about = q<HTMLElement>(".rz-about")[0];
-      const portrait = q<HTMLElement>(".rz-portrait img")[0];
-      if (about && portrait && fine) {
-        gsap.fromTo(
-          portrait,
-          { yPercent: -12, scale: 1.24 },
-          {
-            yPercent: 12,
-            scale: 1.24,
-            ease: "none",
-            scrollTrigger: { trigger: about, start: "top bottom", end: "bottom top", scrub: true },
-          },
-        );
-      }
-
-      // --- Финальный CTA: маркер рисуется при входе в кадр --------------------
-      const cta = q<HTMLElement>(".rz-cta")[0];
-      const ctaMark = q<HTMLElement>(".rz-cta .rz-mark")[0];
-      if (cta && ctaMark) {
-        gsap.fromTo(
-          ctaMark,
-          { "--mark-w": "0%" },
-          {
-            "--mark-w": "100%",
-            duration: 0.9,
-            ease: "power3.inOut",
-            scrollTrigger: { trigger: cta, start: "top 70%", once: true },
-          },
-        );
-      }
-
-      // --- Магнитные кнопки ---------------------------------------------------
-      const cleanups: Array<() => void> = [];
-      if (fine) {
-        const RADIUS = 110;
-        const PULL = 12;
-        q<HTMLElement>(".rz-btn--solid").forEach((btn) => {
-          const toX = gsap.quickTo(btn, "x", { duration: 0.4, ease: EASE_OUT });
-          const toY = gsap.quickTo(btn, "y", { duration: 0.4, ease: EASE_OUT });
-          const onMove = (e: PointerEvent) => {
-            const r = btn.getBoundingClientRect();
-            const dx = e.clientX - (r.left + r.width / 2);
-            const dy = e.clientY - (r.top + r.height / 2);
-            const d = Math.hypot(dx, dy);
-            if (d > RADIUS + r.width / 2) { toX(0); toY(0); return; }
-            toX((dx / (RADIUS + r.width / 2)) * PULL);
-            toY((dy / (RADIUS + r.height / 2)) * PULL);
-          };
-          const onLeave = () => { toX(0); toY(0); };
-          window.addEventListener("pointermove", onMove, { passive: true });
-          btn.addEventListener("pointerleave", onLeave);
-          cleanups.push(() => {
-            window.removeEventListener("pointermove", onMove);
-            btn.removeEventListener("pointerleave", onLeave);
-          });
-        });
-      }
-
+      // Каталог, портрет, финальный CTA и магнит кнопок живут в MotionLayer (data-m).
       ScrollTrigger.refresh();
-      return () => cleanups.forEach((fn) => fn());
     },
     { scope },
   );
