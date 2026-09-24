@@ -3,7 +3,9 @@ import Link from "next/link";
 import { SITE_URL } from "@/lib/site";
 import { jsonLd } from "@/lib/json-ld";
 import { getProduct, TELEGRAM_URL } from "@/lib/products";
-import { RzFaq } from "@/components/rz/RzFaq";
+import { Crosshair } from "@/components/kalka/Interactive";
+import { Rulers } from "@/components/kalka/Rulers";
+import { AboutFaq } from "@/components/about-kalka/AboutFaq";
 
 const siteUrl = SITE_URL;
 
@@ -76,8 +78,6 @@ const principles = [
   },
 ];
 
-const stack = ["Claude", "Claude Code", "Codex", "Supabase", "Node.js", "Telegram Bot API", "Apify", "Obsidian"];
-
 const faq = [
   {
     q: "С кем ты работаешь?",
@@ -134,168 +134,196 @@ export default function AboutPage() {
   const guide = getProduct("guide");
 
   return (
-    <main className="rz">
-      {/* Hero */}
-      <header className="rz-about-hero">
-        <div className="rz-wrap rz-about-hero-grid">
-          <div>
-            <p className="rz-mono" style={{ margin: "0 0 26px" }}>Обо мне</p>
-            <h1 className="rz-h1" data-m="lines" data-m-hero>
-              Четвёртый год работаю с Claude <span className="rz-mark">каждый день</span>
-            </h1>
-            <p className="rz-lead" style={{ marginBottom: "36px" }}>
-              Я Влад Лямин. Не внедряю AI в чужие команды. Показываю одному человеку, как
-              собрать систему, которая закрывает задачи без команды.
-            </p>
-            <div style={{ display: "flex", gap: "16px" }}>
-              <Link href="/products" className="rz-btn rz-btn--solid">Смотреть продукты</Link>
-              <a href={TELEGRAM_URL} target="_blank" rel="noreferrer" className="rz-btn">
-                Написать в Telegram
-              </a>
-            </div>
-          </div>
-          <div className="rz-portrait">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/portrait-editorial.jpg" alt="Влад Лямин" width="1012" height="1350" />
-          </div>
-        </div>
-      </header>
-
-      {/* Факты */}
-      <section className="rz-section">
-        <div className="rz-wrap rz-facts" data-m="stagger">
-          {facts.map((f) => (
-            <div key={f.n}>
-              <strong data-m="count">{f.n}</strong>
-              <p>{f.text}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* История */}
-      <section className="rz-section">
-        <div className="rz-wrap">
-          <div className="rz-sec-head">
-            <h2 className="rz-h2" data-m="lines">Как я к этому пришёл</h2>
-          </div>
-          <div className="rz-story">
-            <div data-m="reveal">
-              <p className="rz-thesis">
-                Начинал с ботов и автоматизаций для чужого бизнеса. Через три года понял,
-                что продаю не код, а способ думать.
-              </p>
-              <p>
-                В 2022 году собрал первого бота на Claude API и подключил его к Telegram.
-                Потом были воронки, парсеры, поддержка на трёх языках, контент-фабрика из
-                созвона в четыре артефакта.
-              </p>
-            </div>
-            <div data-m="reveal">
-              <p>
-                Каждый раз повторялось одно. Система работала, а человек рядом с ней не
-                понимал, как её менять. Через месяц она стояла.
-              </p>
-              <p>
-                Поэтому сменил формат. Теперь не собираю системы за людей, а показываю, как
-                собрать свою: гайды с готовым кодом, час один на один, аудит того, что уже
-                есть. Всё, что советую, сначала проверяю на себе: этот сайт, блог и контент
-                к нему собирает система, о которой я рассказываю.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Траектория */}
-      <section className="rz-section">
-        <div className="rz-wrap">
-          <div className="rz-sec-head">
-            <h2 className="rz-h2" data-m="lines">Траектория</h2>
-            <p data-m="reveal" data-m-delay="0.15">Как менялся фокус: от инструментов к личной системе.</p>
-          </div>
-          <div className="rz-tl">
-            <span className="rz-tl-line" data-m="draw" aria-hidden="true" />
-            {timeline.map((row) => (
-              <div
-                key={row.year}
-                className={`rz-tl-row${row.now ? " is-now" : ""}`}
-                data-m="reveal"
+    <div className="k-page">
+      <Crosshair />
+      <main>
+        {/* Hero — лист с линейками */}
+        <section className="relative min-h-[min(88vh,820px)] overflow-hidden border-b border-[#15161a]">
+          <Rulers />
+          <div className="relative z-[2] mx-auto grid max-w-7xl gap-12 px-5 pb-16 pl-10 pt-24 md:grid-cols-[1.2fr_0.8fr] md:items-center md:px-14 md:pt-28">
+            <div>
+              <p className="k-mono inline-block bg-white pr-2">Обо мне</p>
+              <h1
+                data-m="lines"
+                data-m-hero
+                className="font-heading mt-6 max-w-[16ch] text-balance text-[40px] font-extrabold leading-[1.03] tracking-[-0.04em] sm:text-[52px] lg:text-[68px]"
               >
-                <span className="rz-tl-year" data-m="count">{row.year}</span>
-                <h3>{row.title}</h3>
-                <p>{row.text}</p>
+                Четвёртый год работаю с Claude <span className="rz-mark">каждый день</span>
+              </h1>
+              <div data-m="reveal" data-m-delay="0.5" className="mt-8 max-w-lg bg-white/85 py-1">
+                <p className="text-[17px] leading-[1.6] text-[#6b6e78] md:text-[18px]">
+                  Я Влад Лямин. Не внедряю AI в чужие команды. Показываю одному человеку, как
+                  собрать систему, которая закрывает задачи без команды.
+                </p>
               </div>
-            ))}
+              <div className="mt-10 flex flex-wrap gap-4">
+                <Link href="/products" className="k-btn k-btn--solid">Смотреть продукты</Link>
+                <a href={TELEGRAM_URL} target="_blank" rel="noreferrer" className="k-btn">
+                  Написать в Telegram
+                </a>
+              </div>
+            </div>
+            <div className="k-sheet mx-auto w-full max-w-[320px] p-2 md:max-w-none">
+              <span className="k-sheet-index">портрет</span>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/portrait-editorial.jpg" alt="Влад Лямин" width="1012" height="1350" className="block h-auto w-full" />
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* Принципы */}
-      <section className="rz-section">
-        <div className="rz-wrap">
-          <div className="rz-sec-head">
-            <h2 className="rz-h2" data-m="lines">По каким правилам работаю</h2>
+        {/* Факты */}
+        <section className="border-b border-[#15161a]">
+          <div className="mx-auto max-w-7xl px-5 py-16 md:px-14 md:py-20">
+            <div data-m="stagger" className="grid grid-cols-1 border border-[#15161a] bg-white sm:grid-cols-4">
+              {facts.map((f, i) => (
+                <div
+                  key={f.n}
+                  data-m-item
+                  className={`p-7 md:p-9 ${
+                    i > 0 ? "border-t border-[#15161a] sm:border-l sm:border-t-0" : ""
+                  }`}
+                >
+                  <p data-m="count" className="font-heading text-5xl font-extrabold tracking-[-0.04em] md:text-6xl">
+                    {f.n}
+                  </p>
+                  <p className="mt-3 max-w-[18rem] text-[15px] leading-relaxed text-[#6b6e78]">{f.text}</p>
+                </div>
+              ))}
+            </div>
           </div>
-          <div className="rz-pr" data-m="stagger">
-            {principles.map((p) => (
-              <article key={p.title}>
-                <h3>{p.title}</h3>
-                <p>{p.text}</p>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
+        </section>
 
-      {/* Стек */}
-      <section className="rz-section">
-        <div className="rz-wrap">
-          <div className="rz-sec-head">
-            <h2 className="rz-h2" data-m="lines">Чем работаю</h2>
-            <p data-m="reveal" data-m-delay="0.15">Инструменты, которые стоят в моей системе прямо сейчас.</p>
+        {/* История — негатив кальки */}
+        <section
+          className="relative text-white"
+          style={{
+            backgroundColor: "#15161a",
+            backgroundImage:
+              "linear-gradient(rgba(255,255,255,.08) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.08) 1px, transparent 1px)",
+            backgroundSize: "200px 200px",
+          }}
+        >
+          <div className="mx-auto max-w-7xl px-5 py-20 md:px-14 md:py-28">
+            <p className="font-mono text-[11px] uppercase tracking-[0.12em] text-white/50">Как я к этому пришёл</p>
+            <div className="mt-8 grid gap-10 md:grid-cols-2 md:gap-16">
+              <div data-m="reveal">
+                <p className="font-heading text-2xl font-bold leading-snug tracking-[-0.02em] md:text-3xl">
+                  Начинал с ботов и автоматизаций для чужого бизнеса. Через три года понял,
+                  что продаю не код, а способ думать.
+                </p>
+                <p className="mt-6 max-w-md text-[16px] leading-relaxed text-white/65">
+                  В 2022 году собрал первого бота на Claude API и подключил его к Telegram.
+                  Потом были воронки, парсеры, поддержка на трёх языках, контент-фабрика из
+                  созвона в четыре артефакта.
+                </p>
+              </div>
+              <div data-m="reveal">
+                <p className="max-w-md text-[16px] leading-relaxed text-white/65">
+                  Каждый раз повторялось одно. Система работала, а человек рядом с ней не
+                  понимал, как её менять. Через месяц она стояла.
+                </p>
+                <p className="mt-6 max-w-md text-[16px] leading-relaxed text-white/65">
+                  Поэтому сменил формат. Теперь не собираю системы за людей, а показываю, как
+                  собрать свою: гайды с готовым кодом, час один на один, аудит того, что уже
+                  есть. Всё, что советую, сначала проверяю на себе: этот сайт, блог и контент
+                  к нему собирает система, о которой я рассказываю.
+                </p>
+              </div>
+            </div>
           </div>
-          <div className="rz-stack" data-m="reveal">
-            {stack.map((s) => (
-              <span key={s}>{s}</span>
-            ))}
-          </div>
-        </div>
-      </section>
+        </section>
 
-      {/* Вопросы */}
-      <section className="rz-section">
-        <div className="rz-wrap">
-          <div className="rz-sec-head">
-            <h2 className="rz-h2" data-m="lines">Вопросы</h2>
-            <p data-m="reveal" data-m-delay="0.15">Кому подхожу и как со мной устроена работа.</p>
-          </div>
-          <div data-m="reveal">
-            <RzFaq items={faq} schemaId="/about#faq" />
-          </div>
-        </div>
-      </section>
+        {/* Траектория */}
+        <section className="border-b border-[#15161a]">
+          <div className="mx-auto max-w-7xl px-5 py-20 md:px-14 md:py-28">
+            <p className="k-mono inline-block bg-white pr-2">Траектория</p>
+            <h2 data-m="lines" className="font-heading mt-5 max-w-3xl text-balance text-3xl font-extrabold leading-[1.05] tracking-[-0.03em] md:text-5xl">
+              Как менялся фокус: от инструментов к личной системе
+            </h2>
 
-      {/* Финальный CTA */}
-      <section className="rz-section rz-cta">
-        <div className="rz-wrap">
-          <p className="rz-mono" data-m="reveal">Первый шаг</p>
-          <h2 className="rz-h2 rz-cta-title" data-m="lines">
-            Начни с гайда <span className="rz-mark">за {guide?.priceLabel ?? "590 ₽"}</span>
-          </h2>
-          <p className="rz-lead" data-m="reveal">
-            Самый дешёвый способ проверить, встроится ли Claude в твою работу.
-          </p>
-          <p data-m="reveal">
-            <Link href="/products/guide" className="rz-btn rz-btn--solid">Получить гайд</Link>
-          </p>
-        </div>
-      </section>
+            <div className="k-rows mt-14">
+              {timeline.map((row) => (
+                <div
+                  key={row.year}
+                  data-m="reveal"
+                  className={`k-row grid-cols-[1fr] gap-3 sm:grid-cols-[140px_1fr] sm:gap-8 ${
+                    row.now ? "bg-[#f6f7f2]" : ""
+                  }`}
+                >
+                  <span data-m="count" className="k-mono flex items-start gap-2 !text-[#15161a]">
+                    {row.now && <span className="mt-[3px] block h-2 w-2 shrink-0 bg-[#c8f04c] ring-1 ring-[#15161a]" aria-hidden="true" />}
+                    {row.year}
+                  </span>
+                  <div>
+                    <h3 className="font-heading text-lg font-bold tracking-[-0.02em] md:text-xl">{row.title}</h3>
+                    <p className="mt-2 max-w-xl text-[15px] leading-relaxed text-[#6b6e78]">{row.text}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Принципы */}
+        <section className="border-b border-[#15161a]">
+          <div className="mx-auto max-w-7xl px-5 py-20 md:px-14 md:py-28">
+            <p className="k-mono inline-block bg-white pr-2">По каким правилам работаю</p>
+            <div data-m="stagger" className="mt-10 grid gap-6 md:grid-cols-2 md:gap-8">
+              {principles.map((p, i) => (
+                <article key={p.title} data-m-item className="k-sheet p-7 pt-9 md:p-10">
+                  <span className="k-sheet-index">{String(i + 1).padStart(2, "0")}</span>
+                  <h3 className="font-heading text-2xl font-bold tracking-[-0.02em]">{p.title}</h3>
+                  <p className="mt-3 max-w-md text-[16px] leading-relaxed text-[#6b6e78]">{p.text}</p>
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Вопросы */}
+        <section className="border-b border-[#15161a]">
+          <div className="mx-auto max-w-7xl px-5 py-20 md:px-14 md:py-28">
+            <div className="grid gap-10 lg:grid-cols-[1fr_1.5fr] lg:gap-16">
+              <div>
+                <p className="k-mono inline-block bg-white pr-2">Вопросы</p>
+                <h2
+                  data-m="lines"
+                  className="font-heading mt-5 max-w-3xl text-balance text-3xl font-extrabold leading-[1.05] tracking-[-0.03em] md:text-5xl"
+                >
+                  Кому подхожу и как со мной устроена работа
+                </h2>
+              </div>
+              <div data-m="stagger">
+                <AboutFaq items={faq} schemaId="/about#faq" />
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Финальный CTA */}
+        <section>
+          <div className="mx-auto max-w-7xl px-5 py-24 md:px-14 md:py-32">
+            <p className="k-mono inline-block bg-white pr-2" data-m="reveal">Первый шаг</p>
+            <h2
+              data-m="lines"
+              className="font-heading mt-6 max-w-3xl text-balance text-4xl font-extrabold leading-[1.04] tracking-[-0.04em] md:text-6xl"
+            >
+              Начни с гайда <span className="rz-mark">за {guide?.priceLabel ?? "590 ₽"}</span>
+            </h2>
+            <p data-m="reveal" className="mt-6 max-w-xl bg-white/85 text-[17px] leading-[1.6] text-[#6b6e78]">
+              Самый дешёвый способ проверить, встроится ли Claude в твою работу.
+            </p>
+            <div data-m="reveal" className="mt-10">
+              <Link href="/products/guide" className="k-btn k-btn--solid">Получить гайд</Link>
+            </div>
+          </div>
+        </section>
+      </main>
 
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: jsonLd(aboutSchema) }}
       />
-    </main>
+    </div>
   );
 }

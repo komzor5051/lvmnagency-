@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import { ScrollTrigger, useGSAP, prefersReducedMotion } from "@/components/motion/gsap";
 import { navShouldHide } from "@/components/motion/logic";
 import { NAV_HIDE_AFTER } from "@/components/motion/tokens";
+import "./nav.css";
 
 const links = [
   { href: "/#products", label: "Продукты" },
@@ -45,13 +46,13 @@ export default function StudioNav() {
 
   return (
     <>
-      <header className="rz-nav-shell" ref={shell}>
-        <nav className="rz-nav" aria-label="Основная навигация">
-          <Link className="rz-brand" href="/" aria-label="Влад Лямин — на главную" onClick={close}>
+      <header className="kn-shell" ref={shell}>
+        <nav className="kn-bar" aria-label="Основная навигация">
+          <Link className="kn-brand" href="/" aria-label="Влад Лямин — на главную" onClick={close}>
             Влад Лямин
           </Link>
 
-          <div className="rz-nav-links">
+          <div className="kn-links">
             {links.map((link) => (
               <Link key={link.href} href={link.href} onClick={close}>
                 {link.label}
@@ -59,12 +60,12 @@ export default function StudioNav() {
             ))}
           </div>
 
-          <Link className="rz-btn rz-btn--solid rz-nav-cta" href="/products/guide" onClick={close}>
+          <Link className="k-btn k-btn--solid kn-cta" href="/products/guide" onClick={close}>
             Начать с гайда
           </Link>
 
           <button
-            className={`rz-menu-toggle ${open ? "is-open" : ""}`}
+            className={`kn-toggle ${open ? "is-open" : ""}`}
             type="button"
             aria-label={open ? "Закрыть меню" : "Открыть меню"}
             aria-expanded={open}
@@ -77,13 +78,13 @@ export default function StudioNav() {
         </nav>
       </header>
 
-      <div id="rz-menu" className={`rz-menu ${open ? "is-open" : ""}`} aria-hidden={!open}>
+      <div id="rz-menu" className={`kn-menu ${open ? "is-open" : ""}`} aria-hidden={!open}>
         {links.map((link) => (
           <Link key={link.href} href={link.href} onClick={close}>
             {link.label}
           </Link>
         ))}
-        <Link className="rz-btn rz-btn--solid" href="/products/guide" onClick={close}>
+        <Link className="k-btn k-btn--solid" href="/products/guide" onClick={close}>
           Начать с гайда
         </Link>
       </div>

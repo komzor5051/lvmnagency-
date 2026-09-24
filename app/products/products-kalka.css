@@ -1,0 +1,160 @@
+/* ==========================================================================
+   Калька для /products, /products/[slug] и /products/personal-program.
+   Общий набор — app/kalka.css + components/kalka/*. Здесь только то, чего
+   не хватает в общем наборе: сетка каталога, карточки-листы с ценой,
+   калька-обвязка для VSL / карты системы / формы листа ожидания.
+   ========================================================================== */
+
+/* ===== Каталог: листы с обложкой, ценой и кнопкой ===== */
+.pk-grid {
+  display: grid;
+  gap: 1px;
+  background: var(--k-ink, #15161a);
+  border: 1px solid var(--k-ink, #15161a);
+}
+@media (min-width: 768px) {
+  .pk-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (min-width: 1100px) {
+  .pk-grid { grid-template-columns: repeat(3, 1fr); }
+}
+
+.pk-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  padding: 28px 24px 24px;
+  text-decoration: none;
+  color: inherit;
+  transition: background-color 0.25s;
+}
+.pk-card:hover { background: #f6f7f2; }
+.pk-card-index {
+  position: absolute; top: 0; right: 0;
+  font-family: var(--k-mono, ui-monospace, monospace); font-size: 10px; letter-spacing: 0.1em;
+  padding: 4px 8px; background: var(--k-ink, #15161a); color: #fff;
+}
+.pk-card-soon { opacity: 0.55; }
+.pk-card-body { display: flex; flex: 1; flex-direction: column; }
+.pk-card-title { margin-top: 14px; }
+.pk-card-tag { margin-top: 10px; max-width: 34rem; color: var(--k-mute, #6b6e78); font-size: 15px; line-height: 1.55; flex: 1; }
+.pk-card-meta {
+  margin-top: 22px; display: flex; align-items: flex-end; justify-content: space-between; gap: 12px;
+  padding-top: 18px; border-top: 1px solid var(--k-ink, #15161a);
+}
+.pk-card-price { font-family: var(--font-heading), sans-serif; font-weight: 800; font-size: 22px; letter-spacing: -0.02em; }
+.pk-card-price small { display: block; margin-top: 3px; font-family: var(--k-mono, ui-monospace, monospace); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--k-mute, #6b6e78); }
+
+/* ===== Как выбрать: три листа ===== */
+.pk-pick { display: grid; gap: 1px; background: var(--k-ink, #15161a); border: 1px solid var(--k-ink, #15161a); }
+@media (min-width: 768px) { .pk-pick { grid-template-columns: repeat(3, 1fr); } }
+.pk-pick > div { background: #fff; padding: 28px 24px; display: flex; flex-direction: column; gap: 10px; }
+.pk-pick h3 { font-family: var(--font-heading), sans-serif; font-weight: 700; font-size: 22px; letter-spacing: -0.02em; margin: 0; }
+.pk-pick p { color: var(--k-mute, #6b6e78); font-size: 15px; line-height: 1.55; flex: 1; margin: 0; }
+
+/* ===== Строки: аside «с чего начать» ===== */
+.pk-rows-note { display: flex; flex-direction: column; }
+.pk-rows-note .k-row { align-items: baseline; gap: 6px 16px; grid-template-columns: 1fr; }
+.pk-rows-note .k-row p { margin: 0; font-size: 16px; line-height: 1.6; color: var(--k-mute, #6b6e78); }
+.pk-rows-note .k-row b { font-family: var(--font-heading), sans-serif; font-weight: 700; color: var(--k-ink, #15161a); }
+
+/* ===== Страница продукта: шапка (стоимость + покупка) ===== */
+.pk-hero-grid { display: grid; gap: 32px; align-items: start; }
+@media (min-width: 900px) { .pk-hero-grid { grid-template-columns: 1.4fr 1fr; gap: 48px; } }
+.pk-buy-sheet { display: flex; flex-direction: column; gap: 14px; }
+.pk-buy-sheet .pk-price { font-family: var(--font-heading), sans-serif; font-weight: 800; font-size: 44px; letter-spacing: -0.03em; margin: 8px 0 4px; }
+.pk-buy-sheet small { color: var(--k-mute, #6b6e78); font-size: 13px; line-height: 1.5; }
+/* BuyAction/ProgramButtons рендерят rz-btn/rz-btn--solid — перекрашиваем в кальку без правки логики. */
+.pk-buy-sheet .rz-btn,
+.pk-locked ~ .pk-hero-grid .rz-btn,
+.pk-final .rz-btn {
+  display: inline-flex; align-items: center; gap: 10px;
+  padding: 15px 24px; border: 1px solid var(--k-ink, #15161a); background: #fff; color: var(--k-ink, #15161a);
+  font-family: var(--font-body), sans-serif; font-size: 15px; font-weight: 600; line-height: 1;
+  text-decoration: none; transition: background-color 0.25s, color 0.25s;
+}
+.pk-buy-sheet .rz-btn--solid,
+.pk-final .rz-btn--solid { background: var(--k-ink, #15161a); color: #fff; }
+.pk-buy-sheet .rz-btn--solid:hover,
+.pk-final .rz-btn--solid:hover { background: #c8f04c; border-color: #c8f04c; color: var(--k-ink, #15161a); }
+.pk-buy-sheet .rz-btn:hover,
+.pk-final .rz-btn:hover { background: var(--k-ink, #15161a); color: #fff; }
+.pk-buy-sheet .rz-link,
+.pk-final .rz-link { font-size: 15px; text-decoration: underline; text-underline-offset: 3px; }
+
+.pk-cover-wrap { border: 1px solid var(--k-ink, #15161a); overflow: hidden; margin-top: 32px; }
+.pk-cover-wrap img { display: block; width: 100%; height: auto; }
+
+/* VSL: остаётся components/products/Vsl.tsx, рамкой в стиле листа. */
+.pk-vsl { border: 1px solid var(--k-ink, #15161a); margin-top: 32px; }
+
+.pk-locked {
+  border: 1px solid var(--k-ink, #15161a); background: #fff; padding: 14px 18px;
+  font-size: 14px; line-height: 1.5; margin-bottom: 24px; max-width: 46rem;
+}
+
+/* ===== Списки «Чему научишься» / «Для кого» / «Что внутри» ===== */
+.pk-list { border-top: 1px solid var(--k-ink, #15161a); }
+.pk-list li {
+  list-style: none; display: flex; gap: 14px; align-items: baseline;
+  padding: 14px 0; border-bottom: 1px solid var(--k-ink, #15161a);
+  font-size: 15px; line-height: 1.55; color: var(--k-ink, #15161a);
+}
+.pk-list li::before {
+  content: ""; flex: none; width: 6px; height: 6px; margin-top: 7px;
+  background: #c8f04c; border: 1px solid var(--k-ink, #15161a);
+}
+.pk-list--cols { columns: 1; column-gap: 40px; }
+@media (min-width: 900px) { .pk-list--cols { columns: 2; } }
+.pk-list--cols li { break-inside: avoid; }
+
+/* ===== Карта системы: калька-скин поверх components/products/SystemMap ===== */
+.pk-map { border: 1px solid var(--k-ink, #15161a); background: #fff; padding: 24px; }
+.pk-map .mm-node { border: 1px solid var(--k-ink, #15161a); background: #fff; border-radius: 0; box-shadow: none; }
+.pk-map .mm-node--branch { background: var(--k-ink, #15161a); color: #fff; }
+.pk-map .mm-center { border: 1px solid var(--k-ink, #15161a); background: #c8f04c; color: var(--k-ink, #15161a); border-radius: 0; box-shadow: none; }
+.pk-map .mm-links path { stroke: var(--k-ink, #15161a); }
+
+/* ===== Финал / next step ===== */
+.pk-final { border-top: 1px solid var(--k-ink, #15161a); }
+.pk-next {
+  display: block; border: 1px solid var(--k-ink, #15161a); padding: 24px; text-decoration: none; color: inherit;
+  transition: background-color 0.25s;
+}
+.pk-next:hover { background: #f6f7f2; }
+.pk-next h3 { font-family: var(--font-heading), sans-serif; font-weight: 700; font-size: 22px; letter-spacing: -0.02em; margin: 10px 0 8px; }
+.pk-next p { color: var(--k-mute, #6b6e78); font-size: 15px; line-height: 1.5; margin: 0; }
+.pk-next .pk-arrow { display: inline-block; margin-top: 14px; }
+
+/* ===== Waitlist-форма: калька-скин поверх components/products/WaitlistForm ===== */
+.pk-buy-sheet .rz-wait-row,
+.pk-final .rz-wait-row { display: flex; gap: 0; border: 1px solid var(--k-ink, #15161a); }
+.pk-buy-sheet .rz-wait-input,
+.pk-final .rz-wait-input {
+  flex: 1; border: 0; padding: 15px 16px; font-family: var(--font-body), sans-serif; font-size: 15px; background: #fff; color: var(--k-ink, #15161a);
+}
+.pk-buy-sheet .rz-wait-input:focus,
+.pk-final .rz-wait-input:focus { outline: none; background: #f6f7f2; }
+.pk-buy-sheet .rz-wait-input.is-invalid,
+.pk-final .rz-wait-input.is-invalid { background: #fff4f0; }
+.pk-buy-sheet .rz-wait-btn,
+.pk-final .rz-wait-btn {
+  border: 0; border-left: 1px solid var(--k-ink, #15161a); padding: 0 22px; background: var(--k-ink, #15161a); color: #fff;
+  font-family: var(--font-body), sans-serif; font-size: 15px; font-weight: 600; cursor: pointer; transition: background-color 0.25s;
+}
+.pk-buy-sheet .rz-wait-btn:hover,
+.pk-final .rz-wait-btn:hover { background: #c8f04c; color: var(--k-ink, #15161a); }
+.pk-buy-sheet .rz-wait-error,
+.pk-final .rz-wait-error { margin-top: 10px; font-size: 13px; color: #b3261e; }
+.pk-buy-sheet .rz-wait-ok,
+.pk-final .rz-wait-ok { border: 1px solid var(--k-ink, #15161a); padding: 14px 18px; font-size: 15px; }
+
+@media (max-width: 767px) {
+  .pk-card { padding: 22px 18px 18px; }
+  .pk-hero-grid { gap: 24px; }
+}
+
+/* Карточки тянутся на всю высоту ряда, иначе фон сетки (ink) виден под короткими */
+.pk-grid > *, .pk-pick > * { height: 100%; background: #fff; }
+.pk-grid > * > .pk-card { height: 100%; }

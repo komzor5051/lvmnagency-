@@ -1,0 +1,79 @@
+/* Шапка в стиле кальки (см. app/kalka.css, components/studio/footer.css).
+   Белый фон, тонкая чёрная линия снизу, прямые углы, без движения на hover. */
+.kn-shell {
+  --kn-ink: #15161a;
+  --kn-mute: #6b6e78;
+  position: sticky; top: 0; z-index: 60;
+  background: #fff;
+  border-bottom: 1px solid var(--kn-ink);
+  transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.kn-shell.is-hidden { transform: translateY(-100%); }
+/* Фокус с клавиатуры всегда возвращает шапку. */
+.kn-shell:focus-within { transform: none; }
+
+.kn-bar {
+  display: flex; align-items: center; justify-content: space-between; gap: 24px;
+  max-width: 1280px; height: 72px; margin: 0 auto; padding: 0 56px;
+}
+.kn-brand {
+  font-family: var(--font-heading), sans-serif; font-weight: 700;
+  font-size: 19px; letter-spacing: -0.01em;
+  color: var(--kn-ink); text-decoration: none;
+}
+
+.kn-links { display: flex; gap: 4px; }
+.kn-links a {
+  padding: 8px 12px;
+  font-family: var(--font-body), sans-serif; font-size: 15px; font-weight: 500;
+  color: var(--kn-mute); text-decoration: none;
+  transition: background-color 0.25s, color 0.25s;
+}
+.kn-links a:hover, .kn-links a:focus-visible { background: #f6f7f2; color: var(--kn-ink); }
+.kn-links a:focus-visible { outline: 2px solid var(--kn-ink); outline-offset: -2px; }
+
+.kn-cta { flex: none; }
+
+.kn-toggle { display: none; }
+
+.kn-menu {
+  display: none;
+  position: fixed; inset: 72px 0 0 0; z-index: 55; background: #fff;
+  flex-direction: column; padding: 8px 22px 32px;
+  transform: translateY(-8px); opacity: 0; pointer-events: none;
+  transition: opacity 0.3s, transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+  overflow-y: auto;
+}
+.kn-menu.is-open { opacity: 1; transform: none; pointer-events: auto; }
+.kn-menu a:not(.k-btn) {
+  display: flex; align-items: center;
+  padding: 20px 4px; border-bottom: 1px solid var(--kn-ink, #15161a);
+  font-family: var(--font-heading), sans-serif; font-weight: 700;
+  font-size: 30px; line-height: 1.1; letter-spacing: -0.02em;
+  color: var(--kn-ink, #15161a); text-decoration: none;
+}
+.kn-menu > .k-btn { margin-top: 28px; align-self: flex-start; }
+body.rz-menu-open { overflow: hidden; }
+
+@media (max-width: 900px) {
+  .kn-bar { padding: 0 20px; height: 64px; }
+  .kn-bar .kn-links, .kn-bar .kn-cta { display: none; }
+  .kn-menu { display: flex; top: 64px; }
+  .kn-toggle {
+    display: block; position: relative; width: 44px; height: 44px;
+    border: 0; background: none; padding: 0; cursor: pointer;
+  }
+  .kn-toggle span {
+    position: absolute; left: 11px; width: 22px; height: 1.5px; background: var(--kn-ink, #15161a);
+    transform-origin: center;
+    transition: top 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  .kn-toggle span:first-child { top: 17.5px; }
+  .kn-toggle span:last-child { top: 25px; }
+  .kn-toggle.is-open span:first-child { top: 21.25px; transform: rotate(45deg); }
+  .kn-toggle.is-open span:last-child { top: 21.25px; transform: rotate(-45deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .kn-shell, .kn-links a, .kn-menu, .kn-toggle span { transition: none; }
+}

@@ -3,8 +3,9 @@ import Link from "next/link";
 import { getProduct } from "@/lib/products";
 import { SITE_URL } from "@/lib/site";
 import { jsonLd } from "@/lib/json-ld";
-import { RzFaq } from "@/components/rz/RzFaq";
+import { Accordion, Crosshair } from "@/components/kalka/Interactive";
 import { TrackedLink } from "@/components/bento/TrackedLink";
+import "./products-kalka.css";
 
 const siteUrl = SITE_URL;
 
@@ -120,144 +121,143 @@ const pick = [
   },
 ];
 
+const start = [
+  { title: "Не знаешь, с чего начать", text: "бери гайд за 590 ₽, это самый дешёвый способ проверить." },
+  { title: "Есть конкретная задача", text: "час консультации, запускаем её на созвоне." },
+  { title: "Не хочешь застревать между встречами", text: "сопровождение, 10 000 ₽ в месяц." },
+  { title: "Хочешь разбор всех процессов", text: "аудит, две недели." },
+  { title: "Хочешь научиться делать сам", text: "личная программа, 6 недель." },
+];
+
 const faq = [
   {
-    q: "Чем аудит за 15 000 ₽ отличается от бесплатного на сайте?",
-    a: "Бесплатный: анкета из 7 вопросов, 5 минут и общая карта точек роста. Платный: две недели моей работы с твоими процессами и данными, на выходе план с расчётом по каждому пункту.",
+    title: "Чем аудит за 15 000 ₽ отличается от бесплатного на сайте?",
+    body: "Бесплатный: анкета из 7 вопросов, 5 минут и общая карта точек роста. Платный: две недели моей работы с твоими процессами и данными, на выходе план с расчётом по каждому пункту.",
   },
   {
-    q: "Как проходит оплата?",
-    a: "Гайды и консультация оплачиваются картой через lava.top. Гайд про Claude приходит сразу после оплаты, ContentOS выдаёт телеграм-бот. После оплаты консультации пишешь мне в Telegram, согласуем время. По аудиту условия обсуждаем до старта.",
+    title: "Как проходит оплата?",
+    body: "Гайды и консультация оплачиваются картой через lava.top. Гайд про Claude приходит сразу после оплаты, ContentOS выдаёт телеграм-бот. После оплаты консультации пишешь мне в Telegram, согласуем время. По аудиту условия обсуждаем до старта.",
   },
   {
-    q: "Что если задача окажется не твоей?",
-    a: "Скажу сразу и не возьму. Мне невыгодно браться за то, где эффект не считается: такие проекты не работают и не превращаются в кейс.",
+    title: "Что если задача окажется не твоей?",
+    body: "Скажу сразу и не возьму. Мне невыгодно браться за то, где эффект не считается: такие проекты не работают и не превращаются в кейс.",
   },
   {
-    q: "Нужно отдельно платить за Claude?",
-    a: "Да, подписка оформляется на тебя, так система остаётся твоей. Часть систем из гайда работает на бесплатном тарифе, для автоматизаций нужен платный. Оплату из России разбирает отдельное приложение в гайде.",
+    title: "Нужно отдельно платить за Claude?",
+    body: "Да, подписка оформляется на тебя, так система остаётся твоей. Часть систем из гайда работает на бесплатном тарифе, для автоматизаций нужен платный. Оплату из России разбирает отдельное приложение в гайде.",
   },
 ];
 
 export default function ProductsPage() {
   return (
-    <main className="rz">
-      <header className="rz-products-hero">
-        <div className="rz-wrap">
-          <div>
-            <p className="rz-mono" style={{ margin: "0 0 26px" }}>Продукты · 6 форматов</p>
-            <h1 className="rz-h1" data-m="lines" data-m-hero>
+    <div className="k-page">
+      <Crosshair />
+      <main>
+        <section className="k-section">
+          <div className="k-wrap">
+            <p className="k-mono inline-block bg-white pr-2">Продукты · 6 форматов</p>
+            <h1
+              data-m="lines"
+              data-m-hero
+              className="k-h1 mt-6"
+            >
               Мои <span className="rz-mark">продукты</span>
             </h1>
-            <p className="rz-lead">
+            <p data-m="reveal" data-m-delay="0.5" className="k-lead mt-8 bg-white/85 py-1">
               Два гайда, час один на один, помесячное сопровождение, аудит и личная программа
               на 6 недель. Форматы независимы: начать можно с любого и остановиться на нём же.
             </p>
-          </div>
-          <aside className="rz-products-aside">
-            <p>
-              <b>Не знаешь, с чего начать</b> — бери гайд за 590 ₽, это самый дешёвый способ
-              проверить.
-            </p>
-            <p>
-              <b>Есть конкретная задача</b> — час консультации, запускаем её на созвоне.
-            </p>
-            <p>
-              <b>Не хочешь застревать между встречами</b> — сопровождение, 10 000 ₽ в месяц.
-            </p>
-            <p>
-              <b>Хочешь разбор всех процессов</b> — аудит, две недели.
-            </p>
-            <p>
-              <b>Хочешь научиться делать сам</b> — личная программа, 6 недель.
-            </p>
-          </aside>
-        </div>
-      </header>
 
-      <section className="rz-section rz-section--list">
-        <div className="rz-wrap rz-grid" id="list" data-m="stagger">
-          {spreads.map((cfg, i) => {
-            const product = getProduct(cfg.id)!;
-            return (
-              <TrackedLink
-                key={cfg.id}
-                href={cfg.href}
-                className={`rz-card${product.price === null ? " rz-card--soon" : ""}`}
-                event="product_tile_click"
-                eventProps={{ product: cfg.id, position: i + 1, section: "products_page" }}
-                data-m-tilt=""
-              >
-                {product.cover ? (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img
-                    className="rz-card-cover"
-                    src={product.cover.src}
-                    alt={product.title}
-                    width={product.cover.width}
-                    height={product.cover.height}
-                    loading={i < 2 ? undefined : "lazy"}
-                    data-m-tilt-target=""
-                  />
-                ) : (
-                  <div className="rz-card-cover rz-card-cover--typo" data-m-tilt-target="">скоро</div>
-                )}
-                <div className="rz-card-body">
-                  <span className="rz-mono">{cfg.type}</span>
-                  <h3>{product.title}</h3>
-                  <p className="rz-card-tag">{product.tagline}</p>
-                  <div className="rz-card-meta">
-                    <span className="rz-card-price">
-                      {product.priceLabel}
-                      <small>{product.meta}</small>
-                    </span>
-                    <span className={`rz-btn${cfg.solid ? " rz-btn--solid" : ""}`}>{cfg.cta}</span>
-                  </div>
+            <div data-m="stagger" className="pk-rows-note k-rows mt-14 max-w-3xl">
+              {start.map((s) => (
+                <div key={s.title} data-m-item className="k-row">
+                  <p>
+                    <b>{s.title}</b> — {s.text}
+                  </p>
                 </div>
-              </TrackedLink>
-            );
-          })}
-        </div>
-      </section>
-
-      <section className="rz-section">
-        <div className="rz-wrap">
-          <div className="rz-sec-head">
-            <h2 className="rz-h2" data-m="lines">Как выбрать</h2>
-            <p data-m="reveal" data-m-delay="0.15">Три ситуации и что брать в каждой.</p>
+              ))}
+            </div>
           </div>
-          <div className="rz-pick" data-m="stagger">
-            {pick.map((item) => (
-              <div key={item.tag}>
-                <span className="rz-mono">{item.tag}</span>
-                <h3>{item.title}</h3>
-                <p>{item.text}</p>
-                <Link href={item.href} className="rz-link">
-                  {item.label}
-                </Link>
+        </section>
+
+        <section className="k-section">
+          <div className="k-wrap">
+            <div data-m="stagger" className="pk-grid">
+              {spreads.map((cfg, i) => {
+                const product = getProduct(cfg.id)!;
+                return (
+                  <div key={cfg.id} data-m-item>
+                    <TrackedLink
+                      href={cfg.href}
+                      className={`pk-card${product.price === null ? " pk-card-soon" : ""}`}
+                      event="product_tile_click"
+                      eventProps={{ product: cfg.id, position: i + 1, section: "products_page" }}
+                    >
+                      <span className="pk-card-index">{String(i + 1).padStart(2, "0")}</span>
+                      <div className="pk-card-body">
+                        <span className="k-mono !text-[#15161a]">{cfg.type}</span>
+                        <h3 className="pk-card-title font-heading text-2xl font-bold tracking-[-0.02em]">
+                          {product.title}
+                        </h3>
+                        <p className="pk-card-tag">{product.tagline}</p>
+                        <div className="pk-card-meta">
+                          <span className="pk-card-price">
+                            {product.priceLabel}
+                            <small>{product.meta}</small>
+                          </span>
+                          <span className={`k-btn${cfg.solid ? " k-btn--solid" : ""}`}>{cfg.cta}</span>
+                        </div>
+                      </div>
+                    </TrackedLink>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </section>
+
+        <section className="k-section">
+          <div className="k-wrap">
+            <p className="k-mono inline-block bg-white pr-2">Как выбрать</p>
+            <h2 data-m="lines" className="k-h2 mt-5">
+              Три ситуации и что брать в каждой
+            </h2>
+            <div data-m="stagger" className="pk-pick mt-14">
+              {pick.map((item) => (
+                <div key={item.tag} data-m-item>
+                  <span className="k-mono !text-[#15161a]">{item.tag}</span>
+                  <h3>{item.title}</h3>
+                  <p>{item.text}</p>
+                  <Link href={item.href} className="k-mono !text-[#15161a] underline underline-offset-4">
+                    {item.label} &rarr;
+                  </Link>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="k-section">
+          <div className="k-wrap">
+            <div className="grid gap-10 lg:grid-cols-[1fr_1.5fr] lg:gap-16">
+              <div>
+                <p className="k-mono inline-block bg-white pr-2">Вопросы</p>
+                <h2 data-m="lines" className="k-h2 mt-5">
+                  Оплата, выдача и что будет, если формат не подойдёт
+                </h2>
               </div>
-            ))}
+              <div data-m="stagger">
+                <Accordion items={faq} />
+              </div>
+            </div>
           </div>
-        </div>
-      </section>
-
-      <section className="rz-section">
-        <div className="rz-wrap">
-          <div className="rz-sec-head">
-            <h2 className="rz-h2" data-m="lines">Вопросы</h2>
-            <p data-m="reveal" data-m-delay="0.15">Оплата, выдача и что будет, если формат не подойдёт.</p>
-          </div>
-          <div data-m="reveal">
-            <RzFaq items={faq} schemaId="/products#faq" />
-          </div>
-        </div>
-      </section>
-
+        </section>
+      </main>
 
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: jsonLd(catalogSchema) }}
       />
-    </main>
+    </div>
   );
 }

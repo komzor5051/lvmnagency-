@@ -7,10 +7,10 @@ import { productExtras } from "../content";
 import { TrackedLink } from "@/components/bento/TrackedLink";
 import { Vsl } from "@/components/products/Vsl";
 import { SystemMap } from "@/components/products/SystemMap";
-import { RzFaq } from "@/components/rz/RzFaq";
+import { Accordion, Crosshair } from "@/components/kalka/Interactive";
 import { SITE_URL } from "@/lib/site";
 import { jsonLd } from "@/lib/json-ld";
-import "../products.css";
+import "../products-kalka.css";
 
 const siteUrl = SITE_URL;
 
@@ -138,165 +138,203 @@ export default async function ProductPage({
   if (!product) notFound();
 
   const extra = productExtras[product.id];
+  const faqItems = (product.faq ?? []).map((f) => ({ title: f.q, body: f.a }));
 
   return (
-    <main className="rz rz-product">
-      <section className="rz-product-hero">
-        <div className="rz-wrap">
-          <nav aria-label="Хлебные крошки" className="rz-crumb">
-            <Link href="/products" className="rz-link">
-              ← Все форматы
-            </Link>
-          </nav>
-          {locked && (
-            <p className="rz-locked">
-              Похоже, ты перешёл по неполной ссылке. Оформи покупку — доступ придёт на
-              почту, либо напиши в Telegram, если уже оплатил.
-            </p>
-          )}
-          <div className="rz-product-grid">
-            <header>
-              <p className="rz-mono">{metaLine(product)}</p>
-              <h1 className="rz-h1 rz-product-title">{product.title}</h1>
-              <p className="rz-lead">{product.tagline}</p>
-            </header>
-            <aside className="rz-product-buy">
-              <span className="rz-mono">Стоимость</span>
-              <p className="rz-product-price">{product.priceLabel}</p>
-              <BuyAction product={product} />
-              <small>Без скрытых условий. Детали формата ниже.</small>
-            </aside>
-          </div>
-          {product.vsl ? (
-            <Vsl product={product} />
-          ) : (
-            product.cover && (
-              <div className="rz-product-cover-wrap">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  className="rz-product-cover"
-                  src={product.cover.src}
-                  width={product.cover.width}
-                  height={product.cover.height}
-                  alt=""
-                  data-m="parallax"
-                  data-m-depth="6"
-                />
+    <div className="k-page">
+      <Crosshair />
+      <main>
+        <section className="k-section">
+          <div className="k-wrap">
+            <nav aria-label="Хлебные крошки">
+              <Link href="/products" className="k-mono -my-3 inline-block bg-white py-3 pr-2 hover:!text-[#15161a]">
+                &larr; Все форматы
+              </Link>
+            </nav>
+
+            {locked && (
+              <p className="pk-locked">
+                Похоже, ты перешёл по неполной ссылке. Оформи покупку — доступ придёт на
+                почту, либо напиши в Telegram, если уже оплатил.
+              </p>
+            )}
+
+            <div className="pk-hero-grid mt-10">
+              <header>
+                <p className="k-mono !text-[#15161a]">{metaLine(product)}</p>
+                <h1 data-m="lines" data-m-hero className="k-h1 mt-5">
+                  {product.title}
+                </h1>
+                <p data-m="reveal" data-m-delay="0.4" className="k-lead mt-6 bg-white/85 py-1">
+                  {product.tagline}
+                </p>
+              </header>
+              <aside data-m="reveal" data-m-delay="0.55" className="k-sheet pk-buy-sheet p-8">
+                <span className="k-sheet-index">цена</span>
+                <span className="k-mono !text-[#15161a]">Стоимость</span>
+                <p className="pk-price">{product.priceLabel}</p>
+                <BuyAction product={product} />
+                <small>Без скрытых условий. Детали формата ниже.</small>
+              </aside>
+            </div>
+
+            {product.vsl ? (
+              <div className="pk-vsl">
+                <Vsl product={product} />
               </div>
-            )
-          )}
-        </div>
-      </section>
+            ) : (
+              product.cover && (
+                <div className="pk-cover-wrap">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={product.cover.src}
+                    width={product.cover.width}
+                    height={product.cover.height}
+                    alt=""
+                    data-m="parallax"
+                    data-m-depth="6"
+                  />
+                </div>
+              )
+            )}
+          </div>
+        </section>
 
-      {extra?.outcomes?.length ? (
-        <section className="rz-section">
-          <div className="rz-wrap">
-            <div className="rz-sec-head">
-              <h2 className="rz-h2" data-m="lines">Чему научишься</h2>
+        {extra?.outcomes?.length ? (
+          <section className="k-section">
+            <div className="k-wrap">
+              <p className="k-mono inline-block bg-white pr-2">Чему научишься</p>
+              <h2 data-m="lines" className="k-h2 mt-5">
+                {product.title}: результат на языке дела
+              </h2>
+              <ul data-m="stagger" className="pk-list pk-list--cols mt-12">
+                {extra.outcomes.map((t) => (
+                  <li key={t} data-m-item>
+                    {t}
+                  </li>
+                ))}
+              </ul>
             </div>
-            <ul className="rz-list rz-list--cols" data-m="stagger">
-              {extra.outcomes.map((t) => (
-                <li key={t}>{t}</li>
+          </section>
+        ) : null}
+
+        {extra?.map && (
+          <section className="k-section">
+            <div className="k-wrap">
+              <p className="k-mono inline-block bg-white pr-2">Карта системы</p>
+              <h2 data-m="lines" className="k-h2 mt-5">
+                {extra.map.center}
+              </h2>
+              <p data-m="reveal" data-m-delay="0.15" className="mt-4 max-w-xl bg-white/85 text-[15px] leading-relaxed text-[#6b6e78]">
+                {extra.map.caption}
+              </p>
+              <div data-m="reveal" className="pk-map mt-12">
+                <SystemMap map={extra.map} />
+              </div>
+            </div>
+          </section>
+        )}
+
+        {extra && (
+          <section className="k-section">
+            <div className="k-wrap grid gap-12 md:grid-cols-2 md:gap-16">
+              <div>
+                <h2 data-m="lines" className="k-h3">
+                  Для кого
+                </h2>
+                <ul data-m="stagger" className="pk-list mt-6">
+                  {extra.forWhom.map((t) => (
+                    <li key={t} data-m-item>
+                      {t}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div>
+                <h2 data-m="lines" className="k-h3">
+                  Что внутри
+                </h2>
+                <ul data-m="stagger" className="pk-list mt-6">
+                  {extra.inside.map((t) => (
+                    <li key={t} data-m-item>
+                      {t}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </section>
+        )}
+
+        <section className="k-section">
+          <div className="k-wrap grid gap-10 md:grid-cols-[1fr_1.5fr]">
+            <h2 data-m="lines" className="k-h2">
+              Подробно
+            </h2>
+            <div data-m="reveal" className="space-y-4 text-[16px] leading-relaxed text-[#6b6e78]">
+              {product.description.map((p) => (
+                <p key={p}>{p}</p>
               ))}
-            </ul>
-          </div>
-        </section>
-      ) : null}
-
-      {extra?.map && (
-        <section className="rz-section">
-          <div className="rz-wrap">
-            <div className="rz-sec-head">
-              <h2 className="rz-h2" data-m="lines">Карта системы</h2>
-              <p data-m="reveal" data-m-delay="0.15">{extra.map.caption}</p>
-            </div>
-            <div data-m="reveal">
-              <SystemMap map={extra.map} />
             </div>
           </div>
         </section>
-      )}
 
-      {extra && (
-        <section className="rz-section">
-          <div className="rz-wrap rz-two">
-            <div>
-              <h2 className="rz-h2 rz-h2--sm" data-m="lines">Для кого</h2>
-              <ul className="rz-list" data-m="stagger">
-                {extra.forWhom.map((t) => (
-                  <li key={t}>{t}</li>
-                ))}
-              </ul>
+        {product.faq?.length ? (
+          <section className="k-section">
+            <div className="k-wrap">
+              <p className="k-mono inline-block bg-white pr-2">Вопросы</p>
+              <h2 data-m="lines" className="k-h2 mt-5">
+                Что обычно спрашивают
+              </h2>
+              <div data-m="stagger" className="mt-12">
+                <Accordion items={faqItems} />
+              </div>
             </div>
-            <div>
-              <h2 className="rz-h2 rz-h2--sm" data-m="lines">Что внутри</h2>
-              <ul className="rz-list" data-m="stagger">
-                {extra.inside.map((t) => (
-                  <li key={t}>{t}</li>
-                ))}
-              </ul>
+          </section>
+        ) : null}
+
+        <section className="pk-final">
+          <div className="k-wrap py-20 md:py-24">
+            <div data-m="reveal" className="grid gap-10 md:grid-cols-[1fr_1fr] md:items-end">
+              <div>
+                <p className="k-mono !text-[#15161a]">{metaLine(product)}</p>
+                <h2 className="k-h2 mt-4">{product.title}</h2>
+              </div>
+              <div className="pk-buy-sheet">
+                <p data-m="count" className="pk-price">
+                  {product.priceLabel}
+                </p>
+                <BuyAction product={product} />
+              </div>
             </div>
           </div>
         </section>
-      )}
 
-      <section className="rz-section">
-        <div className="rz-wrap rz-two">
-          <div className="rz-sec-head" style={{ marginBottom: 0 }}>
-            <h2 className="rz-h2" data-m="lines">Подробно</h2>
-          </div>
-          <div className="rz-copy" data-m="reveal">
-            {product.description.map((p) => (
-              <p key={p}>{p}</p>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {product.faq?.length ? (
-        <section className="rz-section">
-          <div className="rz-wrap">
-            <div className="rz-sec-head">
-              <h2 className="rz-h2" data-m="lines">Вопросы</h2>
+        {product.nextStep && (
+          <section className="k-section">
+            <div className="k-wrap">
+              <p className="k-mono !text-[#15161a]" data-m="reveal">
+                Что дальше
+              </p>
+              <div className="mt-6">
+                <TrackedLink
+                  href={`/products/${product.nextStep.slug}`}
+                  event="funnel_bridge_click"
+                  eventProps={{ from: product.id, to: product.nextStep.slug }}
+                  className="pk-next"
+                >
+                  <span className="k-mono !text-[#15161a]">Дальше</span>
+                  <h3>{product.nextStep.label}</h3>
+                  <p>{product.nextStep.text}</p>
+                  <span className="pk-arrow" aria-hidden="true">
+                    &rarr;
+                  </span>
+                </TrackedLink>
+              </div>
             </div>
-            <RzFaq items={product.faq} />
-          </div>
-        </section>
-      ) : null}
-
-      <section className="rz-section rz-product-final">
-        <div className="rz-wrap rz-two" data-m="reveal">
-          <div>
-            <p className="rz-mono">{metaLine(product)}</p>
-            <h2 className="rz-h2">{product.title}</h2>
-          </div>
-          <div className="rz-product-buy">
-            <p className="rz-product-price" data-m="count">{product.priceLabel}</p>
-            <BuyAction product={product} />
-          </div>
-        </div>
-      </section>
-
-      {product.nextStep && (
-        <section className="rz-section">
-          <div className="rz-wrap">
-            <p className="rz-mono" data-m="reveal">
-              Что дальше
-            </p>
-            <TrackedLink
-              href={`/products/${product.nextStep.slug}`}
-              event="funnel_bridge_click"
-              eventProps={{ from: product.id, to: product.nextStep.slug }}
-              className="rz-row rz-row--next"
-            >
-              <span className="rz-mono">Дальше</span>
-              <h3>{product.nextStep.label}</h3>
-              <span className="rz-row-desc">{product.nextStep.text}</span>
-              <span className="rz-row-price rz-row-arrow">→</span>
-            </TrackedLink>
-          </div>
-        </section>
-      )}
+          </section>
+        )}
+      </main>
 
       <script
         type="application/ld+json"
@@ -308,6 +346,6 @@ export default async function ProductPage({
           dangerouslySetInnerHTML={{ __html: jsonLd(faqSchema(product)) }}
         />
       )}
-    </main>
+    </div>
   );
 }

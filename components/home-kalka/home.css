@@ -1,0 +1,74 @@
+/* Главная в стиле кальки. Общий набор — app/kalka.css, components/kalka/*.
+   Здесь только то, что специфично для разметки главной. */
+
+.hk-facts {
+  border-top: 1px solid #15161a;
+  display: grid;
+  gap: 32px;
+  max-width: 46rem;
+  padding-top: 28px;
+}
+.hk-fact p:first-child { margin: 0; }
+.hk-fact p:last-child { margin: 6px 0 0; max-width: 16rem; }
+
+/* ===== Продукты: строки-каталог ===== */
+.hk-products { border-top: 1px solid #15161a; }
+.hk-product {
+  display: grid;
+  grid-template-columns: 96px 1.3fr 1.6fr auto;
+  align-items: center;
+  gap: 24px;
+  padding: 24px 4px;
+  border-bottom: 1px solid #15161a;
+  background: #fff;
+  color: #15161a;
+  text-decoration: none;
+  transition: background-color 0.25s;
+}
+.hk-product:hover { background: #f6f7f2; }
+.hk-product:focus-visible { outline: 2px solid #15161a; outline-offset: -2px; }
+.hk-product-title {
+  font-family: var(--font-heading), sans-serif; font-weight: 700;
+  font-size: 21px; line-height: 1.15; letter-spacing: -0.01em; margin: 0;
+}
+.hk-product-desc {
+  color: #6b6e78; font-size: 15px; line-height: 1.5;
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+}
+.hk-product-price {
+  text-align: right;
+  font-family: var(--font-heading), sans-serif; font-weight: 700; font-size: 19px;
+  font-variant-numeric: tabular-nums; white-space: nowrap;
+}
+.hk-product-price small {
+  display: block; margin-top: 4px;
+  font-family: var(--k-mono, var(--rz-mono)); font-size: 10px; letter-spacing: 0.1em;
+  text-transform: uppercase; color: #6b6e78; font-weight: 400;
+}
+.hk-product--soon .hk-product-title,
+.hk-product--soon .hk-product-price { color: #6b6e78; }
+
+/* ===== Обо мне ===== */
+.hk-about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; }
+.hk-portrait { position: relative; aspect-ratio: 4 / 5; overflow: hidden; border: 1px solid #15161a; background: #ececef; }
+.hk-portrait img { width: 100%; height: 100%; object-fit: cover; display: block; filter: grayscale(1) contrast(1.05); }
+
+/* ===== Блог ===== */
+.hk-posts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+.hk-post-date { display: block; margin-bottom: 14px; }
+.hk-post-title {
+  font-family: var(--font-heading), sans-serif; font-weight: 700;
+  font-size: 21px; line-height: 1.2; letter-spacing: -0.01em; margin: 0;
+  text-wrap: balance;
+}
+
+@media (max-width: 900px) {
+  .hk-product { grid-template-columns: 1fr; gap: 8px; padding: 20px 4px; }
+  .hk-product-price { text-align: left; }
+  .hk-about-grid { grid-template-columns: 1fr; gap: 32px; }
+  .hk-posts { grid-template-columns: 1fr; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hk-product { transition: none; }
+}

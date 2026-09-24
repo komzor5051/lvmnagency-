@@ -3,8 +3,8 @@
 import { useEffect, type ReactNode } from "react";
 import { track } from "@/lib/analytics";
 import { telegramHref, type Product } from "@/lib/products";
-import { useMagnet } from "./ProgramMotion";
 
+// Кнопки без движения при наведении (решение Влада 2026-09-24).
 function MagnetLink({
   children,
   href,
@@ -16,9 +16,8 @@ function MagnetLink({
   className: string;
   onClick: () => void;
 }) {
-  const ref = useMagnet<HTMLAnchorElement>();
   return (
-    <a ref={ref} className={className} href={href} target="_blank" rel="noopener noreferrer" onClick={onClick} data-magnet="own">
+    <a className={className} href={href} target="_blank" rel="noopener noreferrer" onClick={onClick}>
       {children}
     </a>
   );

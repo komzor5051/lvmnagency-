@@ -1,0 +1,106 @@
+/* ==========================================================================
+   Калька-скин поверх program.css (структурные сетки/motion-классы остаются:
+   program.css нужен ProgramMotion.tsx/ProgramClient.tsx — их нельзя
+   переписывать в этой задаче). Здесь только цвет, шрифт, рамки вместо теней
+   и градиентов. Подключать после program.css.
+   ========================================================================== */
+
+.program-page { color: var(--k-ink, #15161a); font-family: var(--font-body), sans-serif; }
+.program-page .rz-crumb { margin-bottom: 0; }
+
+/* Карточка маршрута: убираем офсетный «слой» и блик-градиент, лист кальки. */
+.program-hero-note {
+  background: #fff;
+  border: 1px solid var(--k-ink, #15161a);
+  color: var(--k-ink, #15161a);
+}
+.program-hero-note::before,
+.program-hero-note::after {
+  content: none;
+}
+.program-note-top,
+.program-note-flow li,
+.program-note-bottom {
+  border-color: rgba(21, 22, 26, 0.18);
+}
+.program-note-top,
+.program-note-flow li > span,
+.program-note-flow small,
+.program-note-bottom > span {
+  font-family: var(--k-mono, ui-monospace, monospace);
+  color: var(--k-mute, #6b6e78);
+}
+.program-note-title,
+.program-note-bottom strong {
+  font-family: var(--font-heading), sans-serif;
+  font-weight: 700;
+}
+.program-hero-note.is-idle { animation: none; }
+
+/* Кнопки: та же оболочка, что .k-btn, без ссылки на общий файл. */
+.program-page .rz-btn {
+  display: inline-flex; align-items: center; gap: 10px; padding: 15px 24px;
+  border: 1px solid var(--k-ink, #15161a); background: #fff; color: var(--k-ink, #15161a);
+  font-family: var(--font-body), sans-serif; font-size: 15px; font-weight: 600; line-height: 1;
+  text-decoration: none; border-radius: 0; transition: background-color 0.25s, color 0.25s, border-color 0.25s;
+}
+.program-page .rz-btn--solid { background: var(--k-ink, #15161a); color: #fff; }
+.program-page .rz-btn--solid:hover { background: #c8f04c; border-color: #c8f04c; color: var(--k-ink, #15161a); }
+.program-page .rz-btn:hover { background: var(--k-ink, #15161a); color: #fff; }
+
+.program-facts { border-color: var(--k-ink, #15161a); }
+.program-facts strong { font-family: var(--font-heading), sans-serif; font-weight: 800; letter-spacing: -0.03em; }
+.program-facts p { color: var(--k-mute, #6b6e78); }
+
+.program-examples { border-top: 1px solid var(--k-ink, #15161a); }
+.program-examples > div { border-right: 1px solid var(--k-ink, #15161a); padding: 24px; }
+.program-examples > div:last-child { border-right: 0; }
+.program-examples h3 { font-family: var(--font-heading), sans-serif; font-weight: 700; }
+.program-arrow { color: var(--k-mute, #6b6e78); }
+
+.program-video-placeholder {
+  background-color: var(--k-ink, #15161a);
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.08) 1px, transparent 1px);
+  background-size: 200px 200px;
+}
+.program-video-placeholder > p { font-family: var(--font-heading), sans-serif; font-weight: 800; letter-spacing: -0.02em; }
+
+.program-timeline .rz-tl-row {
+  border-bottom: 1px solid var(--k-ink, #15161a);
+  padding-block: 22px;
+}
+.program-timeline .rz-tl-year { font-family: var(--k-mono, ui-monospace, monospace); color: var(--k-mute, #6b6e78); }
+.program-timeline h3 { font-family: var(--font-heading), sans-serif; font-weight: 700; }
+.program-timeline p { color: var(--k-mute, #6b6e78); }
+
+.program-page .rz-list { list-style: none; padding: 0; margin: 0; border-top: 1px solid var(--k-ink, #15161a); }
+.program-page .rz-list li {
+  padding: 14px 0; border-bottom: 1px solid var(--k-ink, #15161a);
+  display: flex; gap: 14px; align-items: baseline; font-size: 15px; line-height: 1.55;
+}
+.program-page .rz-list li::before {
+  content: ""; flex: none; width: 6px; height: 6px; margin-top: 7px;
+  background: #c8f04c; border: 1px solid var(--k-ink, #15161a);
+}
+.program-page .rz-list--cols { columns: 1; }
+@media (min-width: 900px) { .program-page .rz-list--cols { columns: 2; column-gap: 40px; } }
+
+.program-portrait { border: 1px solid var(--k-ink, #15161a); }
+.program-portrait img { filter: grayscale(1) contrast(1.05); }
+.program-cite { font-family: var(--k-mono, ui-monospace, monospace); color: var(--k-mute, #6b6e78); }
+
+.program-page .rz-thesis {
+  font-family: var(--font-heading), sans-serif; font-weight: 700; font-size: 24px; line-height: 1.3;
+  letter-spacing: -0.01em; margin: 18px 0 6px;
+}
+
+@media (max-width: 767px) {
+  .program-examples > div { border-right: 0; border-bottom: 1px solid var(--k-ink, #15161a); }
+  .program-examples > div:nth-last-child(-n + 2) { border-bottom: 0; }
+}
+@media (max-width: 560px) {
+  .program-examples > div:nth-last-child(-n + 2) { border-bottom: 1px solid var(--k-ink, #15161a); }
+  .program-examples > div:last-child { border-bottom: 0; }
+}

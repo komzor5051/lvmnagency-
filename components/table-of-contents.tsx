@@ -59,7 +59,7 @@ export function TableOfContents({ html }: { html: string }) {
         <button
           onClick={() => setIsOpen(!isOpen)}
           aria-expanded={isOpen}
-          className="mono-label flex min-h-11 w-full items-center gap-2 border border-line px-3 py-2.5 text-ink"
+          className="k-mono flex min-h-11 w-full items-center gap-2 border border-[#15161a] px-3 py-2.5 !text-[#15161a]"
         >
           <svg className={`w-3.5 h-3.5 transition-transform ${isOpen ? "rotate-90" : ""}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -67,7 +67,7 @@ export function TableOfContents({ html }: { html: string }) {
           Оглавление
         </button>
         {isOpen && (
-          <ul className="space-y-0.5 border border-t-0 border-line px-3 py-2">
+          <ul className="space-y-0.5 border border-t-0 border-[#15161a] px-3 py-2">
             {items.map((item) => (
               <li key={item.id}>
                 <a
@@ -77,8 +77,8 @@ export function TableOfContents({ html }: { html: string }) {
                     item.level === 3 ? "pl-3" : ""
                   } ${
                     activeId === item.id
-                      ? "text-ink font-medium"
-                      : "text-ink-muted hover:text-ink"
+                      ? "font-medium text-[#15161a]"
+                      : "text-[#6b6e78] hover:text-[#15161a]"
                   }`}
                 >
                   {item.text}
@@ -94,10 +94,10 @@ export function TableOfContents({ html }: { html: string }) {
         className="hidden lg:block sticky top-24 self-start w-52 shrink-0 max-h-[calc(100vh-8rem)] overflow-y-auto"
         aria-label="Оглавление"
       >
-        <p className="mono-label mb-3 text-ink-muted">
+        <p className="k-mono mb-3">
           <span aria-hidden>{"//"}</span> Оглавление
         </p>
-        <ul className="space-y-0.5 border-l border-line">
+        <ul className="space-y-0.5 border-l border-[#15161a]">
           {items.map((item) => (
             <li key={item.id}>
               <a
@@ -106,8 +106,8 @@ export function TableOfContents({ html }: { html: string }) {
                   item.level === 3 ? "pl-5" : "pl-3"
                 } ${
                   activeId === item.id
-                    ? "border-lime text-ink font-medium"
-                    : "border-transparent text-ink-muted hover:text-ink hover:border-line"
+                    ? "border-[#c8f04c] font-medium text-[#15161a]"
+                    : "border-transparent text-[#6b6e78] hover:border-[#15161a] hover:text-[#15161a]"
                 }`}
               >
                 {item.text}

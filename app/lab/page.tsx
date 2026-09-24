@@ -163,7 +163,7 @@ export default function LabPage() {
               <h1
                 data-m="lines"
                 data-m-hero
-                className="font-heading mt-6 max-w-[15ch] text-balance text-[42px] font-black leading-[1.02] tracking-[-0.04em] sm:text-[56px] lg:max-w-[16ch] lg:text-[76px]"
+                className="font-heading mt-6 max-w-[15ch] text-balance text-[42px] font-extrabold leading-[1.02] tracking-[-0.04em] sm:text-[56px] lg:max-w-[16ch] lg:text-[76px]"
               >
                 Растим соцсети вместе, с нейросетями и <span className="rz-mark">открытыми цифрами</span>
               </h1>
@@ -198,7 +198,7 @@ export default function LabPage() {
             <p className="font-mono text-[11px] uppercase tracking-[0.12em] text-white/50">Главная идея</p>
             <h2
               data-m="lines"
-              className="font-heading mt-6 max-w-4xl text-balance text-3xl font-black leading-[1.08] tracking-[-0.03em] md:text-6xl"
+              className="font-heading mt-6 max-w-4xl text-balance text-3xl font-extrabold leading-[1.08] tracking-[-0.03em] md:text-6xl"
             >
               Соцсети ведёшь ты. Нейросети рядом: подсказывают темы, держат твой голос в текстах и забирают рутину.
             </h2>
@@ -272,7 +272,7 @@ export default function LabPage() {
                   data-m-item
                   className={`p-8 md:p-10 ${i > 0 ? "border-t border-[#15161a] sm:border-l sm:border-t-0" : ""}`}
                 >
-                  <p data-m="count" className="font-heading text-6xl font-black tracking-[-0.04em] md:text-7xl">
+                  <p data-m="count" className="font-heading text-6xl font-extrabold tracking-[-0.04em] md:text-7xl">
                     {s.value}
                   </p>
                   <p className="mt-4 max-w-[16rem] text-[15px] leading-relaxed text-[#6b6e78]">{s.label}</p>
@@ -292,7 +292,7 @@ export default function LabPage() {
             <div data-m="reveal" className="k-sheet grid gap-10 p-8 md:grid-cols-[1fr_1fr] md:gap-16 md:p-14">
               <span className="k-sheet-index">цена</span>
               <div>
-                <p className="font-heading text-7xl font-black tracking-[-0.04em] md:text-8xl">4 500 ₽</p>
+                <p className="font-heading text-7xl font-extrabold tracking-[-0.04em] md:text-8xl">4 500 ₽</p>
                 <p className="k-dim mt-5 max-w-xs">в месяц</p>
                 <div className="mt-10">
                   <Cta label="Занять место" />
@@ -333,7 +333,7 @@ export default function LabPage() {
           <div className="mx-auto max-w-7xl px-5 py-24 md:px-14 md:py-32">
             <h2
               data-m="lines"
-              className="font-heading max-w-3xl text-balance text-4xl font-black leading-[1.04] tracking-[-0.04em] md:text-6xl"
+              className="font-heading max-w-3xl text-balance text-4xl font-extrabold leading-[1.04] tracking-[-0.04em] md:text-6xl"
             >
               Десять мест в <span className="rz-mark">первом наборе</span>
             </h2>

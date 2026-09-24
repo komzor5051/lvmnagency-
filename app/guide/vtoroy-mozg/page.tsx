@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import DeskFooter from "@/components/desk/DeskFooter";
 
 // Unlisted lead-magnet page: reachable only via the direct URL handed out by
 // the ChatPlace "ГАЙД" Instagram automation after a subscription check. Not
@@ -12,6 +11,9 @@ export const metadata: Metadata = {
     "Гайд из 11 шагов: наведите Claude на хранилище Obsidian и больше не объясняйте себя заново.",
   robots: { index: false, follow: false },
 };
+
+// White + Lime kalka DS (app/kalka.css). Global StudioFooter (app/layout.tsx)
+// covers the footer, so no page-level one here.
 
 type Step = {
   n: string;
@@ -57,9 +59,7 @@ const steps: Step[] = [
   {
     n: "05",
     title: "Подключите Claude через MCP",
-    body: [
-      "На вкладке Code вставьте это, подставив свой ключ:",
-    ],
+    body: ["На вкладке Code вставьте это, подставив свой ключ:"],
     code: {
       text: `claude mcp add-json obsidian-vault '{
   "type": "stdio",
@@ -162,7 +162,7 @@ const steps: Step[] = [
 function CodeBlock({ text, wrap }: { text: string; wrap?: boolean }) {
   return (
     <pre
-      className={`mt-5 overflow-x-auto border border-line bg-ink px-5 py-4 font-mono text-[13px] leading-relaxed text-paper ${
+      className={`mt-5 overflow-x-auto border border-[#15161a] bg-[#15161a] px-5 py-4 font-mono text-[13px] leading-relaxed text-white ${
         wrap ? "whitespace-pre-wrap" : ""
       }`}
     >
@@ -173,84 +173,76 @@ function CodeBlock({ text, wrap }: { text: string; wrap?: boolean }) {
 
 export default function SecondBrainGuidePage() {
   return (
-    <div className="bg-paper text-ink">
+    <div className="k-page">
       <main>
         {/* Hero */}
-        <section className="mx-auto max-w-3xl px-5 pb-12 pt-24 md:px-10 md:pt-28">
-          <div data-m="stagger">
-            <p data-m-item className="font-mono text-xs uppercase tracking-[0.18em] text-accent">
-              Гайд из 11 шагов
-            </p>
+        <section className="border-b border-[#15161a]">
+          <div className="mx-auto max-w-3xl px-5 pb-12 pt-24 md:px-10 md:pt-28">
+            <p className="k-mono inline-block bg-white pr-2">Гайд из 11 шагов</p>
             <h1
-              data-m-item
-              className="font-heading mt-6 text-[32px] font-black leading-[1.05] tracking-[-0.03em] text-ink sm:text-[40px] lg:text-[48px]"
+              data-m="lines"
+              data-m-hero
+              className="font-heading mt-6 text-balance text-[30px] font-extrabold leading-[1.06] tracking-[-0.03em] sm:text-[38px] lg:text-[46px]"
             >
               Второй мозг: наведите Claude на хранилище Obsidian и больше не объясняйте себя заново
             </h1>
-            <p data-m-item className="mt-6 max-w-xl text-[17px] leading-[1.55] text-ink-muted">
-              Один вечер настройки — и хранилище, которое раскладывает себя в 7 утра, и модель, что
-              с первой секунды знает вашу работу.
+            <p data-m="reveal" className="mt-6 max-w-xl bg-white/85 text-[17px] leading-[1.55] text-[#6b6e78]">
+              Один вечер настройки — и хранилище, которое раскладывает себя в 7 утра, и модель, что с первой секунды
+              знает вашу работу.
             </p>
           </div>
         </section>
 
         {/* Intro */}
-        <section className="border-t border-line">
-          <div data-m="stagger" className="mx-auto max-w-3xl px-5 py-12 md:px-10 md:py-16">
-            <div data-m-item className="space-y-5 text-[16px] leading-relaxed text-ink">
+        <section className="border-b border-[#15161a]">
+          <div data-m="reveal" className="mx-auto max-w-3xl px-5 py-14 md:px-10 md:py-16">
+            <div className="space-y-5 text-[16px] leading-relaxed text-[#15161a]">
               <p>
-                30-летний фрилансер-разработчик из Лиссабона держал свои лучшие мысли сразу в 5
-                местах. Приложение для заметок, 30 вкладок в браузере, доска в Notion, которую он
-                перестал открывать, и 40 заброшенных чатов с Claude, которые он уже никогда не
-                найдёт. Каждый проект начинался одинаково: 20 минут на то, чтобы по памяти
-                восстановить контекст, а к пятнице большая часть его всё равно терялась.
+                30-летний фрилансер-разработчик из Лиссабона держал свои лучшие мысли сразу в 5 местах. Приложение
+                для заметок, 30 вкладок в браузере, доска в Notion, которую он перестал открывать, и 40 заброшенных
+                чатов с Claude, которые он уже никогда не найдёт. Каждый проект начинался одинаково: 20 минут на то,
+                чтобы по памяти восстановить контекст, а к пятнице большая часть его всё равно терялась.
               </p>
               <p>
-                Потом он перестал вываливать свою жизнь в окно чата и начал наводить Claude на
-                папку. Один вечер настройки. К концу месяца он открыл свой граф в Obsidian и замер,
-                потому что эта штука знала связи, о которых он сам уже забыл.
+                Потом он перестал вываливать свою жизнь в окно чата и начал наводить Claude на папку. Один вечер
+                настройки. К концу месяца он открыл свой граф в Obsidian и замер, потому что эта штука знала связи, о
+                которых он сам уже забыл.
               </p>
               <p>
-                Та же сборка, шаг за шагом, написанная для того, кто никогда не открывал ни Claude
-                Code, ни Obsidian. Один вечер настройки — и вы получаете хранилище, которое
-                раскладывает себя само в 7 утра, и модель, которая открывает каждую сессию, уже
-                зная вашу работу.
+                Та же сборка, шаг за шагом, написанная для того, кто никогда не открывал ни Claude Code, ни Obsidian.
+                Один вечер настройки — и вы получаете хранилище, которое раскладывает себя само в 7 утра, и модель,
+                которая открывает каждую сессию, уже зная вашу работу.
               </p>
             </div>
           </div>
         </section>
 
         {/* Steps */}
-        <section className="border-t border-line bg-white">
-          <div className="mx-auto max-w-3xl px-5 py-12 md:px-10 md:py-16">
+        <section className="border-b border-[#15161a] bg-white">
+          <div className="mx-auto max-w-3xl px-5 py-14 md:px-10 md:py-16">
             {steps.map((step, i) => (
-              <div data-m="stagger" key={i}>
-                <div
-                  data-m-item
-                  className={`grid gap-6 py-8 md:grid-cols-[88px_1fr] ${
-                    i > 0 ? "border-t border-line" : ""
+              <div
+                key={i}
+                data-m="reveal"
+                className={`grid min-w-0 gap-6 py-8 md:grid-cols-[88px_1fr] ${i > 0 ? "border-t border-[#15161a]" : ""}`}
+              >
+                <p
+                  className={`font-heading text-2xl font-bold text-[#15161a] ${
+                    step.title ? "" : "hidden md:block"
                   }`}
                 >
-                  <p
-                    className={`font-mono text-2xl font-bold text-accent ${
-                      step.title ? "" : "hidden md:block"
-                    }`}
-                  >
-                    {step.title ? step.n : ""}
-                  </p>
-                  <div>
-                    {step.title && (
-                      <h2 className="font-heading text-xl font-bold tracking-[-0.02em] text-ink md:text-2xl">
-                        {step.title}
-                      </h2>
-                    )}
-                    <div className={`space-y-4 text-[16px] leading-relaxed text-ink ${step.title ? "mt-4" : ""}`}>
-                      {step.body.map((p, j) => (
-                        <p key={j}>{p}</p>
-                      ))}
-                    </div>
-                    {step.code && <CodeBlock text={step.code.text} wrap={step.code.wrap} />}
+                  {step.title ? step.n : ""}
+                </p>
+                <div className="min-w-0">
+                  {step.title && (
+                    <h2 className="font-heading text-xl font-bold tracking-[-0.02em] md:text-2xl">{step.title}</h2>
+                  )}
+                  <div className={`space-y-4 text-[16px] leading-relaxed text-[#15161a] ${step.title ? "mt-4" : ""}`}>
+                    {step.body.map((p, j) => (
+                      <p key={j}>{p}</p>
+                    ))}
                   </div>
+                  {step.code && <CodeBlock text={step.code.text} wrap={step.code.wrap} />}
                 </div>
               </div>
             ))}
@@ -258,29 +250,27 @@ export default function SecondBrainGuidePage() {
         </section>
 
         {/* Outro */}
-        <section className="border-t border-line">
-          <div data-m="stagger" className="mx-auto max-w-3xl px-5 py-12 md:px-10 md:py-16">
-            <h2 data-m-item className="font-heading text-2xl font-extrabold tracking-[-0.02em] text-ink md:text-3xl">
-              Что у вас в итоге
-            </h2>
-            <div data-m-item className="mt-6 space-y-5 text-[16px] leading-relaxed text-ink">
+        <section>
+          <div data-m="reveal" className="mx-auto max-w-3xl px-5 py-14 md:px-10 md:py-16">
+            <h2 className="font-heading text-2xl font-extrabold tracking-[-0.02em] md:text-3xl">Что у вас в итоге</h2>
+            <div className="mt-6 space-y-5 text-[16px] leading-relaxed text-[#15161a]">
               <p>
-                До этого Claude забывает вас в ту же секунду, как вы закрываете вкладку. Весь
-                контекст держите вы — и большую часть его теряете.
+                До этого Claude забывает вас в ту же секунду, как вы закрываете вкладку. Весь контекст держите вы — и
+                большую часть его теряете.
               </p>
               <p>После — хранилище держит всё, а модель подхватывает с того места, где остановилась.</p>
               <p>
-                Поработайте так неделю — и это приложение для заметок. Поработайте месяц — и это
-                справочная система. Поработайте полгода — и это движок знаний, который не заменит
-                никакой объём гугления, потому что каждая новая заметка связывается со всем, что уже
-                накоплено.
+                Поработайте так неделю — и это приложение для заметок. Поработайте месяц — и это справочная система.
+                Поработайте полгода — и это движок знаний, который не заменит никакой объём гугления, потому что
+                каждая новая заметка связывается со всем, что уже накоплено.
               </p>
-              <p className="lime-mark inline font-bold">Та же подписка. Совершенно другая машина.</p>
+              <p className="font-bold">
+                <span className="rz-mark">Та же подписка. Совершенно другая машина.</span>
+              </p>
             </div>
           </div>
         </section>
       </main>
-      <DeskFooter />
     </div>
   );
 }

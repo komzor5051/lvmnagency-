@@ -7,6 +7,7 @@ import { CopyableCode } from "@/components/copyable-code";
 import ReadingProgress from "@/components/motion/ReadingProgress";
 import { SITE_URL } from "@/lib/site";
 import { jsonLd } from "@/lib/json-ld";
+import { Crosshair } from "@/components/kalka/Interactive";
 
 export const revalidate = 60;
 
@@ -190,142 +191,134 @@ export default async function ArticlePage({ params }: Props) {
   const howToSteps = extractHowToSteps(rawHtml);
 
   return (
-    <>
-      <ReadingProgress target=".studio-article" />
-      <article className="studio-article px-[6vw] pb-24 pt-[48px] max-md:px-4">
+    <div className="k-page">
+      <Crosshair />
+      <ReadingProgress target=".k-article" />
+      <article className="k-article px-[6vw] pb-24 pt-[48px] max-md:px-4">
         {/* Breadcrumbs — pt above is breathing room; the sticky nav reserves its own space in flow. */}
-        <nav className="mono-label mx-auto mb-8 max-w-[1200px] px-12 text-ink-muted max-md:px-5">
+        <nav className="k-mono mx-auto mb-8 max-w-[1200px] px-12 max-md:px-5">
           <Link
             href="/blog"
-            className="inline-block py-2 transition-colors hover:text-ink"
+            className="inline-block bg-white py-2 pr-2 transition-colors hover:text-[#15161a]"
           >
             &larr; Блог
           </Link>
         </nav>
 
-        {/* The article is one big paper sheet on the desk: header, body and
-            CTA live on it; the TOC sits in the sheet's left margin like
-            margin notes on a printout. */}
-        <div className="desk-sheet relative mx-auto max-w-[1200px] px-12 pt-14 pb-12 max-md:px-5 max-md:pt-10">
-        <span className="desk-tape" aria-hidden />
-
-        {/* Header — Tektur H1 on the article sheet, cover image below the
-            title (covers keep their cinematic style), mono byline/tags. */}
-        {/* Header column matches the centered 68ch text column, so the cover
-            image below the title is exactly text-width. */}
-        <header className="mx-auto mb-12 max-w-[68ch]">
-          <h1 className="desk-display text-balance text-[clamp(30px,4.4vw,52px)] text-ink">
-            {post.title}
-          </h1>
-          <div className="mono-label mt-6 flex flex-wrap items-center gap-x-3 gap-y-1 text-ink-muted">
-            <Link
-              href="/about"
-              className="text-ink transition-colors hover:text-lime-dark"
-            >
-              Влад Лямин
-            </Link>
-            <span aria-hidden>/</span>
-            <time dateTime={post.published_at}>{date}</time>
-            <span aria-hidden>/</span>
-            <span>{minutes} мин чтения</span>
-            {(post.tags ?? []).slice(0, 4).map((tag: string) => (
-              <span key={tag} className="inline-flex items-center gap-1">
-                <span aria-hidden>/</span>
-                {tag}
-              </span>
-            ))}
-          </div>
-          {post.cover_image && (
-            // Supabase public URLs — plain <img> avoids next/image remote config.
-            // eslint-disable-next-line @next/next/no-img-element
-            <img
-              src={post.cover_image}
-              alt={post.title}
-              width={1200}
-              height={630}
-              // The cover is the LCP element: load it eagerly at high priority
-              // while every in-body image below is deferred.
-              loading="eager"
-              fetchPriority="high"
-              decoding="async"
-              className="mt-8 aspect-[16/9] w-full border border-line object-cover sm:aspect-[2/1]"
-            />
-          )}
-        </header>
-
-        {/* Centered text column with symmetric side rails: TOC lives in the
-            left rail, the right rail stays empty — the 68ch content column
-            sits exactly in the page center, aligned with the header above. */}
-        <div className="flex flex-col gap-6 lg:grid lg:grid-cols-[13rem_minmax(0,68ch)_13rem] lg:justify-center lg:gap-10">
-          {/* TOC (handles mobile/desktop internally) */}
-          <TableOfContents html={contentHtml} />
-
-          {/* Article content — col-start-2 keeps it centered even when the
-              TOC renders nothing (fewer than 3 headings). */}
-          <div className="min-w-0 lg:col-start-2">
-            <CopyableCode html={contentHtml} />
-
-            {/* Prev/Next */}
-            {(prev || next) && (
-              <nav className="mt-12 grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
-                {prev ? (
-                  <a
-                    href={`/blog/${prev.slug}`}
-                    className="group relative p-4 border border-line bg-white overflow-hidden transition-colors duration-200 hover:border-ink"
-                  >
-                    <span className="font-mono text-[11px] uppercase tracking-wider text-ink-muted">
-                      ← Предыдущая
-                    </span>
-                    <p className="text-ink font-medium mt-1 line-clamp-2 group-hover:underline decoration-ink underline-offset-4">
-                      {prev.title}
-                    </p>
-                  </a>
-                ) : (
-                  <div className="max-sm:hidden" />
-                )}
-                {next ? (
-                  <a
-                    href={`/blog/${next.slug}`}
-                    className="group relative p-4 border border-line bg-white overflow-hidden text-right transition-colors duration-200 hover:border-ink"
-                  >
-                    <span className="font-mono text-[11px] uppercase tracking-wider text-ink-muted">
-                      Следующая →
-                    </span>
-                    <p className="text-ink font-medium mt-1 line-clamp-2 group-hover:underline decoration-ink underline-offset-4">
-                      {next.title}
-                    </p>
-                  </a>
-                ) : (
-                  <div className="max-sm:hidden" />
-                )}
-              </nav>
-            )}
-
-            {/* CTA. Copy follows the destination: posts that tease a product
-                point at it, everything else keeps the default audit offer. */}
-            <div className="relative mt-10 p-6 sm:p-8 bg-white border border-line text-center overflow-hidden">
-              <span aria-hidden className="absolute top-0 left-0 right-0 h-[3px] bg-lime" />
-              <p className="font-mono text-[11px] uppercase tracking-[0.15em] text-ink-muted mb-3">
-                {cta.eyebrow}
-              </p>
-              <p className="font-heading text-xl font-extrabold tracking-[-0.02em] text-ink mb-2">
-                {cta.title}
-              </p>
-              <p className="text-sm text-ink-muted mb-5 max-w-[48ch] mx-auto">
-                {cta.text}
-              </p>
-              <a
-                href={cta.href}
-                {...(cta.external
-                  ? { target: "_blank", rel: "noopener noreferrer" }
-                  : {})}
-                className="inline-block px-6 py-3 bg-ink text-paper text-sm font-medium hover:bg-black transition-colors"
+        {/* Статья — лист на кальке: заголовок, текст и CTA лежат на белой
+            подложке, TOC — на полях листа, как заметки на распечатке. */}
+        <div className="relative mx-auto max-w-[1200px] border border-[#15161a] bg-white px-12 pb-12 pt-14 max-md:px-5 max-md:pt-10">
+          {/* Header — заголовок Geologica на белом листе, обложка под ним
+              (обложки сохраняют свой кинематографичный стиль), моно-подпись/теги. */}
+          {/* Header column matches the centered 68ch text column, so the cover
+              image below the title is exactly text-width. */}
+          <header className="mx-auto mb-12 max-w-[68ch]">
+            <h1 className="font-heading text-balance text-[clamp(30px,4.4vw,52px)] font-extrabold leading-[1.05] tracking-[-0.03em] text-[#15161a]">
+              {post.title}
+            </h1>
+            <div className="k-mono mt-6 flex flex-wrap items-center gap-x-3 gap-y-1 normal-case !tracking-normal">
+              <Link
+                href="/about"
+                className="!text-[#15161a] transition-colors hover:!text-[#6b6e78]"
               >
-                {cta.label}
-              </a>
+                Влад Лямин
+              </Link>
+              <span aria-hidden>/</span>
+              <time dateTime={post.published_at}>{date}</time>
+              <span aria-hidden>/</span>
+              <span>{minutes} мин чтения</span>
+              {(post.tags ?? []).slice(0, 4).map((tag: string) => (
+                <span key={tag} className="inline-flex items-center gap-1">
+                  <span aria-hidden>/</span>
+                  {tag}
+                </span>
+              ))}
+            </div>
+            {post.cover_image && (
+              // Supabase public URLs — plain <img> avoids next/image remote config.
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                src={post.cover_image}
+                alt={post.title}
+                width={1200}
+                height={630}
+                // The cover is the LCP element: load it eagerly at high priority
+                // while every in-body image below is deferred.
+                loading="eager"
+                fetchPriority="high"
+                decoding="async"
+                className="mt-8 aspect-[16/9] w-full border border-[#15161a] object-cover sm:aspect-[2/1]"
+              />
+            )}
+          </header>
+
+          {/* Centered text column with symmetric side rails: TOC lives in the
+              left rail, the right rail stays empty — the 68ch content column
+              sits exactly in the page center, aligned with the header above. */}
+          <div className="flex flex-col gap-6 lg:grid lg:grid-cols-[13rem_minmax(0,68ch)_13rem] lg:justify-center lg:gap-10">
+            {/* TOC (handles mobile/desktop internally) */}
+            <TableOfContents html={contentHtml} />
+
+            {/* Article content — col-start-2 keeps it centered even when the
+                TOC renders nothing (fewer than 3 headings). */}
+            <div className="min-w-0 lg:col-start-2">
+              <CopyableCode html={contentHtml} />
+
+              {/* Prev/Next */}
+              {(prev || next) && (
+                <nav className="mt-12 grid grid-cols-1 gap-3 text-sm sm:grid-cols-2">
+                  {prev ? (
+                    <a
+                      href={`/blog/${prev.slug}`}
+                      className="group relative overflow-hidden border border-[#15161a] bg-white p-4 transition-colors duration-200 hover:bg-[#f6f7f2]"
+                    >
+                      <span className="k-mono">&larr; Предыдущая</span>
+                      <p className="mt-1 line-clamp-2 font-medium text-[#15161a] group-hover:underline">
+                        {prev.title}
+                      </p>
+                    </a>
+                  ) : (
+                    <div className="max-sm:hidden" />
+                  )}
+                  {next ? (
+                    <a
+                      href={`/blog/${next.slug}`}
+                      className="group relative overflow-hidden border border-[#15161a] bg-white p-4 text-right transition-colors duration-200 hover:bg-[#f6f7f2]"
+                    >
+                      <span className="k-mono">Следующая &rarr;</span>
+                      <p className="mt-1 line-clamp-2 font-medium text-[#15161a] group-hover:underline">
+                        {next.title}
+                      </p>
+                    </a>
+                  ) : (
+                    <div className="max-sm:hidden" />
+                  )}
+                </nav>
+              )}
+
+              {/* CTA. Copy follows the destination: posts that tease a product
+                  point at it, everything else keeps the default audit offer. */}
+              <div className="relative mt-10 overflow-hidden border border-[#15161a] bg-white p-6 text-center sm:p-8">
+                <span aria-hidden className="absolute left-0 right-0 top-0 h-[3px] bg-[#c8f04c]" />
+                <p className="k-mono mb-3">{cta.eyebrow}</p>
+                <p className="font-heading mb-2 text-xl font-extrabold tracking-[-0.02em] text-[#15161a]">
+                  {cta.title}
+                </p>
+                <p className="mx-auto mb-5 max-w-[48ch] text-sm text-[#6b6e78]">
+                  {cta.text}
+                </p>
+                <a
+                  href={cta.href}
+                  {...(cta.external
+                    ? { target: "_blank", rel: "noopener noreferrer" }
+                    : {})}
+                  className="k-btn k-btn--solid"
+                >
+                  {cta.label}
+                </a>
+              </div>
             </div>
           </div>
-        </div>
         </div>
       </article>
 
@@ -438,6 +431,6 @@ export default async function ArticlePage({ params }: Props) {
           }}
         />
       )}
-    </>
+    </div>
   );
 }

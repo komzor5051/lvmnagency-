@@ -32,7 +32,7 @@
 .ft-title {
   margin: 0; max-width: 16ch;
   font-family: var(--font-heading), sans-serif;
-  font-size: clamp(32px, 4.4vw, 60px); font-weight: 900; line-height: 1.02; letter-spacing: -.04em;
+  font-size: clamp(32px, 4.4vw, 60px); font-weight: 800; line-height: 1.02; letter-spacing: -.04em;
 }
 .ft-btn {
   display: inline-flex; align-items: center; gap: 12px;

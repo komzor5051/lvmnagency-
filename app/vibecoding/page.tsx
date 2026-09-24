@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import DeskFooter from "@/components/desk/DeskFooter";
 import { WaitlistForm } from "@/components/products/WaitlistForm";
+import { Accordion, Crosshair } from "@/components/kalka/Interactive";
+import { Rulers } from "@/components/kalka/Rulers";
 
 export const metadata: Metadata = {
   title: "Курс по вайбкодингу — свой продукт с нуля до запуска",
@@ -9,10 +10,10 @@ export const metadata: Metadata = {
     "8-недельный поток: с нуля собираешь свой работающий продукт — с базой данных, входом для пользователей и публикацией в интернете. Не туториал и не конструктор сайтов, а инженерный подход к работе с AI.",
 };
 
-// Standalone landing — reuses the home Footer and the White + Lime DS; the
-// global HUD (components/hud/HudFrame.tsx) replaces the old page-level Nav.
-// Content lives inline: one page, one source of truth.
-// Copy is written for a mixed-beginner audience — no engineering jargon.
+// Standalone landing — White + Lime kalka DS (app/kalka.css, components/kalka/*).
+// Global StudioFooter (app/layout.tsx) covers the footer, so no page-level one here.
+// Content lives inline: one page, one source of truth. Copy is written for a
+// mixed-beginner audience — no engineering jargon.
 
 const principles = [
   {
@@ -85,6 +86,7 @@ const weeks = [
 
 const tiers = [
   {
+    n: "01",
     name: "Базовый",
     price: "10 000 ₽",
     featured: false,
@@ -96,6 +98,7 @@ const tiers = [
     ],
   },
   {
+    n: "02",
     name: "Стандарт",
     price: "25 000 ₽",
     featured: true,
@@ -107,145 +110,118 @@ const tiers = [
     ],
   },
   {
+    n: "03",
     name: "Премиум",
     price: "40 000 ₽",
     featured: false,
-    items: [
-      "Всё из стандарта",
-      "2 личные встречи 1:1 по проекту",
-      "Личный разбор твоего проекта",
-    ],
+    items: ["Всё из стандарта", "2 личные встречи 1:1 по проекту", "Личный разбор твоего проекта"],
   },
 ];
 
 const faq = [
   {
-    q: "Я никогда не писал код — потяну?",
-    a: "Группа смешанная, и первая неделя выравнивает всех на общую базу. Дальше идём единым темпом, с проверкой и поддержкой на дедлайнах.",
+    title: "Я никогда не писал код — потяну?",
+    body: "Группа смешанная, и первая неделя выравнивает всех на общую базу. Дальше идём единым темпом, с проверкой и поддержкой на дедлайнах.",
   },
   {
-    q: "Чем это отличается от курсов про конструкторы сайтов?",
-    a: "Те учат тыкать в конструктор. Здесь — инженерный подход к работе с AI: настоящий продукт, настоящие инструменты, публикация в интернете. AI пишет код, но ты держишь структуру и понимаешь каждое решение.",
+    title: "Чем это отличается от курсов про конструкторы сайтов?",
+    body: "Те учат тыкать в конструктор. Здесь — инженерный подход к работе с AI: настоящий продукт, настоящие инструменты, публикация в интернете. AI пишет код, но ты держишь структуру и понимаешь каждое решение.",
   },
   {
-    q: "Что останется на руках в конце?",
-    a: "Работающий продукт в интернете — с базой данных и входом для пользователей — и навык, который переносится на любой следующий проект. Не учебная игрушка, а твоя собственная идея.",
+    title: "Что останется на руках в конце?",
+    body: "Работающий продукт в интернете — с базой данных и входом для пользователей — и навык, который переносится на любой следующий проект. Не учебная игрушка, а твоя собственная идея.",
   },
   {
-    q: "Сколько времени нужно в неделю?",
-    a: "Ориентир — 5–7 часов: материал, практика на своём экране и сдача работы к концу недели. Поток держит ритм, поэтому не получится откладывать на потом.",
+    title: "Сколько времени нужно в неделю?",
+    body: "Ориентир — 5–7 часов: материал, практика на своём экране и сдача работы к концу недели. Поток держит ритм, поэтому не получится откладывать на потом.",
   },
   {
-    q: "Нужно ли платить за инструменты?",
-    a: "Да, но немного: подписка на AI-инструмент и размещение продукта в интернете. На старте бесплатных тарифов хватает. Все расходы проговариваем заранее.",
+    title: "Нужно ли платить за инструменты?",
+    body: "Да, но немного: подписка на AI-инструмент и размещение продукта в интернете. На старте бесплатных тарифов хватает. Все расходы проговариваем заранее.",
   },
 ];
 
+const H2 =
+  "font-heading mt-5 max-w-3xl text-balance text-3xl font-extrabold leading-[1.05] tracking-[-0.03em] md:text-5xl";
+
+function WaitBlock({ note }: { note: string }) {
+  return (
+    <div className="mt-9 max-w-md">
+      <p className="k-mono mb-3 inline-block bg-white pr-2 !text-[#15161a]">Лист ожидания первого потока</p>
+      <WaitlistForm />
+      <p className="k-mono mt-3 !normal-case !tracking-normal">{note}</p>
+    </div>
+  );
+}
+
 export default function VibecodingPage() {
   return (
-    <div className="bg-paper text-ink">
+    <div className="k-page">
+      <Crosshair />
       <main>
-        {/* Hero */}
-        <section className="mx-auto max-w-7xl px-5 pb-16 pt-24 md:px-10 md:pt-28 lg:pb-24">
-          <nav aria-label="Хлебные крошки">
-            <Link
-              href="/products"
-              className="-my-3 inline-block py-3 font-mono text-xs tracking-[0.08em] text-ink-muted transition-colors hover:text-ink"
-            >
-              &larr; Все продукты
-            </Link>
-          </nav>
+        {/* Hero — лист с линейками */}
+        <section className="relative min-h-[min(90vh,840px)] overflow-hidden border-b border-[#15161a]">
+          <Rulers />
 
-          <div data-m="stagger" className="pt-12 md:pt-16">
-            <p
-              data-m-item
-              className="font-mono text-xs uppercase tracking-[0.18em] text-accent"
-            >
-              8-недельный онлайн-поток · от идеи до запуска
-            </p>
+          <div className="relative z-[2] mx-auto max-w-7xl px-5 pb-20 pl-10 pt-24 md:px-14 md:pt-28">
+            <nav aria-label="Хлебные крошки">
+              <Link href="/products" className="k-mono -my-3 inline-block bg-white py-3 pr-2 hover:text-[#15161a]">
+                &larr; Все продукты
+              </Link>
+            </nav>
 
-            <h1
-              data-m-item
-              className="font-heading mt-6 max-w-4xl text-balance text-[40px] font-black leading-[1.04] tracking-[-0.04em] text-ink sm:text-[52px] lg:text-[64px]"
-            >
-              Доведи свой продукт до{" "}
-              <span
-                // Inset lime band confined to its own line — a solid lime-mark
-                // would fill the full (tight, leading-1.0) line box and bleed
-                // up onto the line above. Gradient keeps it behind the word.
-                style={{
-                  background:
-                    "linear-gradient(transparent 0.16em, #c8f04c 0.16em, #c8f04c 0.92em, transparent 0.92em)",
-                  padding: "0 0.1em",
-                  boxDecorationBreak: "clone",
-                  WebkitBoxDecorationBreak: "clone",
-                }}
+            <div className="pt-10 md:pt-16">
+              <p className="k-mono inline-block bg-white pr-2">8 недель · от идеи до запуска</p>
+
+              <h1
+                data-m="lines"
+                data-m-hero
+                className="font-heading mt-6 max-w-[16ch] text-balance text-[38px] font-extrabold leading-[1.03] tracking-[-0.04em] sm:text-[48px] lg:text-[62px]"
               >
-                запуска
-              </span>{" "}
-              — не написав код вручную
-            </h1>
+                Доведи свой продукт до <span className="rz-mark">запуска</span> — не написав код вручную
+              </h1>
 
-            <p
-              data-m-item
-              className="mt-7 max-w-2xl text-[17px] leading-[1.55] text-ink-muted md:text-[18px]"
-            >
-              Не туториал и не конструктор сайтов. За 8 недель ты с нуля
-              собираешь свой работающий продукт — с базой данных, входом для
-              пользователей и публикацией в интернете — управляя AI как
-              помощником-разработчиком и понимая каждое решение.
-            </p>
+              <div data-m="reveal" data-m-delay="0.5" className="mt-8 max-w-xl bg-white/85 py-1">
+                <p className="text-[17px] leading-[1.6] text-[#6b6e78] md:text-[18px]">
+                  Не туториал и не конструктор сайтов. За 8 недель ты с нуля собираешь свой работающий продукт — с
+                  базой данных, входом для пользователей и публикацией в интернете — управляя AI как
+                  помощником-разработчиком и понимая каждое решение.
+                </p>
+              </div>
 
-            <div data-m-item className="mt-9 max-w-md">
-              <p className="mb-2 text-sm font-bold text-ink">
-                Записаться в лист ожидания первого потока
-              </p>
-              <WaitlistForm />
-              <p className="desk-script mt-3 font-hand text-[20px] font-semibold text-ink-muted">
-                ↳ участники потока узнают о старте первыми и получат стартовую цену
-              </p>
+              <WaitBlock note="участники потока узнают о старте первыми и получат стартовую цену" />
             </div>
           </div>
         </section>
 
-        {/* For whom / not for whom */}
-        <section className="border-t border-line">
-          <div data-m="stagger" className="mx-auto grid max-w-7xl gap-px bg-line px-0 md:grid-cols-2">
-            <div data-m-item className="bg-paper px-5 py-12 md:px-10">
-              <p className="font-mono text-xs uppercase tracking-[0.18em] text-accent">
-                Для кого
-              </p>
-              <ul className="mt-6 space-y-4 text-[16px] leading-relaxed text-ink">
+        {/* Для кого / не для кого */}
+        <section className="border-b border-[#15161a]">
+          <div data-m="stagger" className="grid md:grid-cols-2">
+            <div data-m-item className="border-b border-[#15161a] px-5 py-14 md:border-b-0 md:border-r md:px-14 md:py-20">
+              <p className="k-mono inline-block bg-white pr-2">Для кого</p>
+              <ul className="mt-8 space-y-4 text-[16px] leading-relaxed text-[#15161a]">
                 {[
                   "Фаундеры и соло-предприниматели, которым нужен свой продукт или внутренний инструмент",
                   "Те, кто хочет научиться доводить идею до запуска, а не собирать демо «для галочки»",
                   "Готовые разбираться: проверять, что сделал AI, замечать и чинить ошибки",
                 ].map((t) => (
                   <li key={t} className="flex gap-3">
-                    <span
-                      className="mt-2 inline-block h-[7px] w-[7px] shrink-0 bg-ink"
-                      aria-hidden="true"
-                    />
+                    <span className="mt-2 inline-block h-[7px] w-[7px] shrink-0 bg-[#c8f04c] ring-1 ring-[#15161a]" aria-hidden="true" />
                     {t}
                   </li>
                 ))}
               </ul>
             </div>
-            <div data-m-item className="bg-paper px-5 py-12 md:px-10">
-              <p className="font-mono text-xs uppercase tracking-[0.18em] text-ink-muted">
-                Не для кого
-              </p>
-              <ul className="mt-6 space-y-4 text-[16px] leading-relaxed text-ink-muted">
+            <div data-m-item className="px-5 py-14 md:px-14 md:py-20">
+              <p className="k-mono inline-block bg-white pr-2">Не для кого</p>
+              <ul className="mt-8 space-y-4 text-[16px] leading-relaxed text-[#6b6e78]">
                 {[
                   "Кто ищет «приложение за 10 минут» и кнопку «сделать красиво»",
                   "Кто хочет навсегда остаться внутри конструктора сайтов",
                   "Кто не готов вкладывать 5–7 часов в неделю и сдавать работы к дедлайну",
                 ].map((t) => (
                   <li key={t} className="flex gap-3">
-                    <span
-                      className="mt-2 inline-block h-[7px] w-[7px] shrink-0 border border-ink-muted"
-                      aria-hidden="true"
-                    />
+                    <span className="mt-2 inline-block h-[7px] w-[7px] shrink-0 border border-[#6b6e78]" aria-hidden="true" />
                     {t}
                   </li>
                 ))}
@@ -254,216 +230,144 @@ export default function VibecodingPage() {
           </div>
         </section>
 
-        {/* Principles */}
-        <section className="border-t border-line">
-          <div className="mx-auto max-w-7xl px-5 py-16 md:px-10 md:py-24">
-            <div data-m="stagger">
-              <p
-                data-m-item
-                className="font-mono text-xs uppercase tracking-[0.18em] text-accent"
-              >
-                Что отличает профессионала
-              </p>
-              <h2
-                data-m-item
-                className="font-heading mt-5 max-w-2xl text-3xl font-extrabold leading-[1.05] tracking-[-0.03em] text-ink md:text-4xl"
-              >
-                Три принципа, на которых стоит весь курс
-              </h2>
+        {/* Принципы — три листа */}
+        <section className="border-b border-[#15161a]">
+          <div className="mx-auto max-w-7xl px-5 py-20 md:px-14 md:py-28">
+            <p className="k-mono inline-block bg-white pr-2">Что отличает профессионала</p>
+            <h2 data-m="lines" className={H2}>
+              Три принципа, на которых стоит весь курс
+            </h2>
 
-              <div className="mt-12 grid gap-px bg-line md:grid-cols-3">
-                {principles.map((p) => (
-                  <div key={p.n} data-m-item className="bg-paper p-8">
-                    <p className="font-mono text-sm text-accent">{p.n}</p>
-                    <h3 className="font-heading mt-4 text-xl font-bold tracking-[-0.02em] text-ink">
-                      {p.title}
-                    </h3>
-                    <p className="mt-3 text-[15px] leading-relaxed text-ink-muted">
-                      {p.body}
-                    </p>
+            <div data-m="stagger" className="mt-14 grid gap-6 md:grid-cols-3 md:gap-8">
+              {principles.map((p) => (
+                <article key={p.n} data-m-item className="k-sheet p-7 pt-9 md:p-8">
+                  <span className="k-sheet-index">{p.n}</span>
+                  <h3 className="font-heading text-xl font-bold tracking-[-0.02em]">{p.title}</h3>
+                  <p className="mt-3 text-[15px] leading-relaxed text-[#6b6e78]">{p.body}</p>
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Программа — негатив кальки */}
+        <section
+          className="relative text-white"
+          style={{
+            backgroundColor: "#15161a",
+            backgroundImage:
+              "linear-gradient(rgba(255,255,255,.08) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.08) 1px, transparent 1px)",
+            backgroundSize: "200px 200px",
+          }}
+        >
+          <div className="mx-auto max-w-7xl px-5 py-20 md:px-14 md:py-28">
+            <p className="font-mono text-[11px] uppercase tracking-[0.12em] text-white/50">Программа · 8 недель</p>
+            <h2
+              data-m="lines"
+              className="font-heading mt-5 max-w-3xl text-balance text-3xl font-extrabold leading-[1.05] tracking-[-0.03em] md:text-5xl"
+            >
+              Первые 4 недели — общий продукт. Дальше — твой проект до запуска
+            </h2>
+            <p data-m="reveal" className="mt-6 max-w-2xl text-[16px] leading-relaxed text-white/65">
+              Сначала ведём всех по одному продукту — простой CRM, которая сама находит информацию о клиентах через
+              AI, чтобы пройти весь путь от идеи до публикации. Затем каждый берёт свою идею и доводит её до запуска
+              на отработанном подходе.
+            </p>
+
+            <div data-m="stagger" className="mt-14 border-t border-white/20">
+              {weeks.map((week) => (
+                <div
+                  key={week.w}
+                  data-m-item
+                  className="grid gap-2 border-b border-white/20 py-7 md:grid-cols-[140px_1fr_220px] md:gap-8"
+                >
+                  <p className="font-mono text-xs uppercase tracking-[0.12em] text-white/45">{week.w}</p>
+                  <div>
+                    <h3 className="font-heading text-lg font-bold tracking-[-0.02em] text-white">{week.title}</h3>
+                    <p className="mt-2 max-w-xl text-[15px] leading-relaxed text-white/65">{week.body}</p>
                   </div>
-                ))}
+                  <div className="md:text-right">
+                    <span className="k-mono inline-flex items-center gap-2 !text-white/70 md:justify-end">
+                      <span className="inline-block h-2 w-2 bg-[#c8f04c]" aria-hidden="true" />
+                      Сдача: {week.out}
+                    </span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Тарифы */}
+        <section className="border-b border-[#15161a]">
+          <div className="mx-auto max-w-7xl px-5 py-20 md:px-14 md:py-28">
+            <p className="k-mono inline-block bg-white pr-2">Тарифы</p>
+            <h2 data-m="lines" className={H2}>
+              Разница только в глубине сопровождения
+            </h2>
+
+            <div data-m="stagger" className="mt-14 grid gap-6 lg:grid-cols-3 lg:gap-8">
+              {tiers.map((tier) => (
+                <article
+                  key={tier.name}
+                  data-m-item
+                  className={`k-sheet p-8 pt-9 ${tier.featured ? "ring-1 ring-inset ring-[#15161a]" : ""}`}
+                >
+                  <span className="k-sheet-index">{tier.featured ? "★" : tier.n}</span>
+                  <p className="font-heading text-lg font-bold tracking-[-0.02em]">{tier.name}</p>
+                  <p className="font-heading mt-4 text-4xl font-extrabold tracking-[-0.03em]">{tier.price}</p>
+                  <ul className="mt-7 space-y-3 text-[15px] leading-relaxed text-[#15161a]">
+                    {tier.items.map((it) => (
+                      <li key={it} className="flex gap-3">
+                        <span className="mt-2 inline-block h-[7px] w-[7px] shrink-0 bg-[#c8f04c] ring-1 ring-[#15161a]" aria-hidden="true" />
+                        {it}
+                      </li>
+                    ))}
+                  </ul>
+                </article>
+              ))}
+            </div>
+
+            <p data-m="reveal" className="mt-8 max-w-2xl bg-white/85 text-[15px] leading-relaxed text-[#6b6e78]">
+              На тарифы 25 000 и 40 000 ₽ доступна рассрочка на два платежа. Гарантия: довёл продукт до запуска или
+              возврат — дедлайны и проверка не дадут отвалиться молча.
+            </p>
+          </div>
+        </section>
+
+        {/* Вопросы */}
+        <section className="border-b border-[#15161a]">
+          <div className="mx-auto max-w-7xl px-5 py-20 md:px-14 md:py-28">
+            <div className="grid gap-10 lg:grid-cols-[1fr_1.5fr] lg:gap-16">
+              <div>
+                <p className="k-mono inline-block bg-white pr-2">Вопросы</p>
+                <h2 data-m="lines" className={H2}>
+                  Частые вопросы
+                </h2>
+              </div>
+              <div data-m="stagger">
+                <Accordion items={faq} />
               </div>
             </div>
           </div>
         </section>
 
-        {/* Program */}
-        <section className="border-t border-line bg-white">
-          <div className="mx-auto max-w-7xl px-5 py-16 md:px-10 md:py-24">
-            <div data-m="stagger">
-              <p
-                data-m-item
-                className="font-mono text-xs uppercase tracking-[0.18em] text-accent"
-              >
-                Программа · 8 недель
-              </p>
-              <h2
-                data-m-item
-                className="font-heading mt-5 max-w-3xl text-3xl font-extrabold leading-[1.05] tracking-[-0.03em] text-ink md:text-4xl"
-              >
-                Первые 4 недели — общий продукт. Дальше — твой проект до запуска
-              </h2>
-              <p
-                data-m-item
-                className="mt-5 max-w-2xl text-[16px] leading-relaxed text-ink-muted"
-              >
-                Сначала ведём всех по одному продукту — простой CRM, которая сама
-                находит информацию о клиентах через AI, чтобы пройти весь путь от
-                идеи до публикации. Затем каждый берёт свою идею и доводит её до
-                запуска на отработанном подходе.
-              </p>
-
-              <div className="mt-12 border-t border-line">
-                {weeks.map((week) => (
-                  <div
-                    key={week.w}
-                    data-m-item
-                    className="grid gap-2 border-b border-line py-7 md:grid-cols-[160px_1fr_220px] md:gap-8"
-                  >
-                    <p className="font-mono text-xs uppercase tracking-[0.12em] text-ink-muted">
-                      {week.w}
-                    </p>
-                    <div>
-                      <h3 className="font-heading text-lg font-bold tracking-[-0.02em] text-ink">
-                        {week.title}
-                      </h3>
-                      <p className="mt-2 max-w-xl text-[15px] leading-relaxed text-ink-muted">
-                        {week.body}
-                      </p>
-                    </div>
-                    <div className="md:text-right">
-                      <span className="lime-mark font-mono text-xs">
-                        Сдача: {week.out}
-                      </span>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Pricing */}
-        <section className="border-t border-line">
-          <div className="mx-auto max-w-7xl px-5 py-16 md:px-10 md:py-24">
-            <div data-m="stagger">
-              <p
-                data-m-item
-                className="font-mono text-xs uppercase tracking-[0.18em] text-accent"
-              >
-                Тарифы
-              </p>
-              <h2
-                data-m-item
-                className="font-heading mt-5 max-w-2xl text-3xl font-extrabold leading-[1.05] tracking-[-0.03em] text-ink md:text-4xl"
-              >
-                Разница только в глубине сопровождения
-              </h2>
-
-              <div className="mt-12 grid gap-px bg-line lg:grid-cols-3">
-                {tiers.map((tier) => (
-                  <div
-                    key={tier.name}
-                    data-m-item
-                    className={
-                      tier.featured
-                        ? "relative bg-paper p-8 ring-2 ring-inset ring-ink"
-                        : "bg-paper p-8"
-                    }
-                  >
-                    {tier.featured && (
-                      <span className="lime-mark absolute right-8 top-8 font-mono text-[11px] font-bold uppercase tracking-[0.1em]">
-                        Рекомендуем
-                      </span>
-                    )}
-                    <p className="font-heading text-lg font-bold tracking-[-0.02em] text-ink">
-                      {tier.name}
-                    </p>
-                    <p className="font-heading mt-4 text-4xl font-black tracking-[-0.03em] text-ink">
-                      {tier.price}
-                    </p>
-                    <ul className="mt-7 space-y-3 text-[15px] leading-relaxed text-ink">
-                      {tier.items.map((it) => (
-                        <li key={it} className="flex gap-3">
-                          <span
-                            className="mt-2 inline-block h-[7px] w-[7px] shrink-0 bg-ink"
-                            aria-hidden="true"
-                          />
-                          {it}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                ))}
-              </div>
-
-              <p
-                data-m-item
-                className="mt-8 max-w-2xl text-[15px] leading-relaxed text-ink-muted"
-              >
-                На тарифы 25 000 и 40 000 ₽ доступна рассрочка на два платежа.
-                Гарантия: довёл продукт до запуска или возврат — дедлайны и
-                проверка не дадут отвалиться молча.
-              </p>
-            </div>
-          </div>
-        </section>
-
-        {/* FAQ */}
-        <section className="border-t border-line bg-white">
-          <div className="mx-auto max-w-7xl px-5 py-16 md:px-10 md:py-24">
-            <div data-m="stagger">
-              <h2
-                data-m-item
-                className="font-heading text-3xl font-extrabold leading-[1.05] tracking-[-0.03em] text-ink md:text-4xl"
-              >
-                Частые вопросы
-              </h2>
-              <div className="mt-10 border-t border-line">
-                {faq.map((item) => (
-                  <div
-                    key={item.q}
-                    data-m-item
-                    className="grid gap-2 border-b border-line py-7 md:grid-cols-[1fr_1.4fr] md:gap-12"
-                  >
-                    <h3 className="font-heading text-lg font-bold tracking-[-0.02em] text-ink">
-                      {item.q}
-                    </h3>
-                    <p className="max-w-2xl text-[15px] leading-relaxed text-ink-muted">
-                      {item.a}
-                    </p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Final CTA */}
-        <section className="border-t border-line">
-          <div className="mx-auto max-w-7xl px-5 py-20 md:px-10 md:py-28">
-            <div data-m="stagger">
-              <h2
-                data-m-item
-                className="font-heading max-w-3xl text-balance text-4xl font-black leading-[1.04] tracking-[-0.04em] text-ink md:text-5xl"
-              >
-                Первый поток ограничен. Оставь ник — напишу о старте лично
-              </h2>
-              <div data-m-item className="mt-9 max-w-md">
-                <WaitlistForm />
-              </div>
-              <p
-                data-m-item
-                className="desk-script mt-4 font-hand text-[22px] font-semibold text-ink-muted"
-              >
-                ↳ без спама — одно сообщение, когда откроются места
-              </p>
-            </div>
+        {/* Финал */}
+        <section>
+          <div className="mx-auto max-w-7xl px-5 py-24 md:px-14 md:py-32">
+            <h2
+              data-m="lines"
+              className="font-heading max-w-3xl text-balance text-4xl font-extrabold leading-[1.04] tracking-[-0.04em] md:text-6xl"
+            >
+              Первый поток <span className="rz-mark">ограничен</span>
+            </h2>
+            <p data-m="reveal" className="mt-6 max-w-xl bg-white/85 text-[17px] leading-[1.6] text-[#6b6e78]">
+              Оставь ник — напишу о старте лично.
+            </p>
+            <WaitBlock note="без спама — одно сообщение, когда откроются места" />
           </div>
         </section>
       </main>
-      <DeskFooter />
     </div>
   );
 }

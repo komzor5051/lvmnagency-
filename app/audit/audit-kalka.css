@@ -1,0 +1,214 @@
+/* Kalka re-theme for /audit — layered on top of app/globals.css and the
+   studio.css dark-carbon override (both use !important, so this file wins by
+   load order: it's imported from app/audit/page.tsx, which loads after the
+   global layout stylesheets). Step logic, validation, copy: untouched — this
+   file only repaints existing audit-* selectors.
+   Radius 0 everywhere, no shadows/gradients, lime as a fill only, ink borders
+   1px, Geologica headings + JetBrains Mono labels via the k- custom props. */
+
+.audit-page {
+  background: #fff !important;
+  color: #15161a !important;
+  font-family: var(--font-body), sans-serif !important;
+  --text: #15161a !important;
+  --text-2: #6b6e78 !important;
+  --text-3: #6b6e78 !important;
+  --border: #15161a !important;
+  --surface: #fff !important;
+  --accent: #c8f04c !important;
+  --accent-hover: #15161a !important;
+  --accent-subtle: rgba(200, 240, 76, 0.28) !important;
+  --accent-muted: #15161a !important;
+  --r-sm: 0px !important;
+  --r-md: 0px !important;
+  --r-lg: 0px !important;
+  --r-pill: 0px !important;
+}
+
+/* Калька-подложка вместо тёмного карбона: та же сетка, что и .k-page. */
+.audit-page.k-page {
+  background-image:
+    linear-gradient(rgba(21, 22, 26, 0.11) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(21, 22, 26, 0.11) 1px, transparent 1px),
+    linear-gradient(rgba(21, 22, 26, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(21, 22, 26, 0.045) 1px, transparent 1px);
+  background-size: 200px 200px, 200px 200px, 20px 20px, 20px 20px;
+  background-position: -1px -1px;
+}
+
+.audit-container--stage,
+.audit-result {
+  border: 1px solid #15161a !important;
+  border-radius: 0 !important;
+  background: #fff !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+}
+
+/* Лист вопроса: прямые углы, без скотча-плашки и теней. */
+.audit-step {
+  border: 1px solid #15161a !important;
+  box-shadow: none !important;
+  background: #fff !important;
+}
+.audit-step::before {
+  content: none !important;
+}
+
+.audit-step h2,
+.audit-result h1,
+.audit-loading h2 {
+  color: #15161a !important;
+  font-family: var(--font-heading), sans-serif !important;
+  font-weight: 800 !important;
+  letter-spacing: -0.03em !important;
+}
+
+.audit-label,
+.audit-step-num,
+.audit-hint,
+.audit-summary,
+.audit-auto-card p,
+.audit-loading p {
+  color: #6b6e78 !important;
+}
+
+.audit-step-num,
+.audit-hint {
+  font-family: var(--rz-mono, ui-monospace, Menlo, monospace) !important;
+  letter-spacing: 0.1em !important;
+  text-transform: uppercase !important;
+}
+
+/* Options: .k-btn look — border 1px ink, no radius, fill-only accent. */
+.audit-option {
+  border: 1px solid #15161a !important;
+  border-radius: 0 !important;
+  background: #fff !important;
+  color: #15161a !important;
+  transition: background-color 0.25s, color 0.25s !important;
+}
+.audit-option:hover {
+  border-color: #15161a !important;
+  background: #15161a !important;
+  color: #fff !important;
+}
+.audit-option.selected {
+  border-color: #15161a !important;
+  background: #c8f04c !important;
+  color: #15161a !important;
+}
+
+.audit-input,
+.audit-textarea {
+  border: 1px solid #15161a !important;
+  border-radius: 0 !important;
+  background: #fff !important;
+  color: #15161a !important;
+}
+.audit-input:focus,
+.audit-textarea:focus {
+  border-color: #15161a !important;
+  box-shadow: none !important;
+  outline: 2px solid #15161a !important;
+  outline-offset: 2px !important;
+}
+.audit-input::placeholder,
+.audit-textarea::placeholder {
+  color: #6b6e78 !important;
+}
+
+.audit-option:focus-visible,
+.audit-btn-back:focus-visible,
+.audit-btn-next:focus-visible,
+.audit-cta-btn:focus-visible {
+  outline: 2px solid #15161a !important;
+  outline-offset: 2px !important;
+}
+
+/* Buttons: same grammar as .k-btn / .k-btn--lime, no radius, colour-only hover. */
+.audit-btn-back {
+  border: 1px solid #15161a !important;
+  border-radius: 0 !important;
+  background: #fff !important;
+  color: #6b6e78 !important;
+}
+.audit-btn-back:hover {
+  border-color: #15161a !important;
+  color: #15161a !important;
+}
+.audit-btn-next,
+.audit-cta-btn {
+  border: 1px solid #15161a !important;
+  border-radius: 0 !important;
+  background: #c8f04c !important;
+  color: #15161a !important;
+}
+.audit-btn-next:hover,
+.audit-cta-btn:hover {
+  background: #15161a !important;
+  border-color: #15161a !important;
+  color: #fff !important;
+}
+.audit-btn-next:disabled {
+  opacity: 0.4 !important;
+}
+
+.audit-progress {
+  background: rgba(21, 22, 26, 0.12) !important;
+  border-radius: 0 !important;
+}
+.audit-progress-fill {
+  background: #15161a !important;
+}
+
+.audit-error {
+  border: 1px solid #b91c1c !important;
+  border-radius: 0 !important;
+  background: rgba(185, 28, 28, 0.06) !important;
+  color: #b91c1c !important;
+}
+
+.audit-spinner {
+  border-color: #15161a !important;
+  border-top-color: #c8f04c !important;
+  border-radius: 50%; /* the one circle on this page — the spinner reads as a
+                          dial, not brand decoration; everything else stays sharp */
+}
+
+/* Results */
+.audit-label {
+  display: inline-block;
+  border: 1px solid #15161a !important;
+  border-radius: 0 !important;
+  background: #c8f04c !important;
+  color: #15161a !important;
+}
+.audit-result-header h1 {
+  font-family: var(--font-heading), sans-serif !important;
+}
+
+.audit-stat,
+.audit-auto-card,
+.audit-first-step,
+.audit-cta-block {
+  border: 1px solid #15161a !important;
+  border-radius: 0 !important;
+  background: #fff !important;
+  box-shadow: none !important;
+}
+.audit-first-step {
+  background: rgba(200, 240, 76, 0.18) !important;
+}
+.audit-stat-value,
+.audit-auto-card h3,
+.audit-first-step h3,
+.audit-cta-block h3 {
+  color: #15161a !important;
+  font-family: var(--font-heading), sans-serif !important;
+}
+.audit-auto-priority,
+.audit-auto-time {
+  color: #15161a !important;
+  font-family: var(--rz-mono, ui-monospace, Menlo, monospace) !important;
+}

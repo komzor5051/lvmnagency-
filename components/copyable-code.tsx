@@ -10,18 +10,18 @@ function addCopyButton(el: HTMLElement, getText: () => string) {
 
   const btn = document.createElement("button");
   btn.className =
-    "copy-btn absolute top-2 right-2 px-2 py-1 text-xs font-mono font-medium " +
-    "bg-neutral-800 text-neutral-300 border border-neutral-700 hover:bg-neutral-700 hover:text-white " +
-    "lg:opacity-0 lg:group-hover:opacity-100 focus-visible:opacity-100 transition-opacity cursor-pointer z-10";
+    "copy-btn absolute top-2 right-2 px-2 py-1 text-[11px] font-mono uppercase tracking-[0.08em] " +
+    "bg-[#15161a] text-white border border-[#15161a] hover:bg-[#c8f04c] hover:text-[#15161a] hover:border-[#c8f04c] " +
+    "lg:opacity-0 lg:group-hover:opacity-100 focus-visible:opacity-100 transition-colors cursor-pointer z-10";
   btn.textContent = "Скопировать";
 
   btn.addEventListener("click", async () => {
     await navigator.clipboard.writeText(getText().trim());
     btn.textContent = "Скопировано";
-    btn.classList.add("!bg-white", "!text-neutral-900");
+    btn.classList.add("!bg-[#c8f04c]", "!text-[#15161a]", "!border-[#c8f04c]");
     setTimeout(() => {
       btn.textContent = "Скопировать";
-      btn.classList.remove("!bg-white", "!text-neutral-900");
+      btn.classList.remove("!bg-[#c8f04c]", "!text-[#15161a]", "!border-[#c8f04c]");
     }, 2000);
   });
 

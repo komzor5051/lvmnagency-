@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { gsap } from "@/components/motion/gsap";
 import { EASE } from "@/components/motion/tokens";
 import { useReducedMotion } from "@/components/motion/useReducedMotion";
+import "./audit-kalka.css";
 
 /* ------------------------------------------------------------------ */
 /*  Data                                                               */
@@ -219,7 +220,7 @@ export default function AuditPage() {
 
   if (result) {
     return (
-      <div className="audit-page">
+      <div className="k-page audit-page">
         <div className="audit-container">
           <div className="audit-result">
             <div className="audit-result-header">
@@ -315,7 +316,7 @@ export default function AuditPage() {
 
   if (loading) {
     return (
-      <div className="audit-page">
+      <div className="k-page audit-page">
         <div className="audit-container">
           <div className="audit-loading">
             <div className="audit-spinner" />
@@ -332,7 +333,7 @@ export default function AuditPage() {
   /* ---------------------------------------------------------------- */
 
   return (
-    <div className="audit-page">
+    <div className="k-page audit-page">
       <div className="audit-container audit-container--stage">
         {/* The quiz UI is all step-level H2s, so the crawled page had no H1 at
             all. Visually hidden keeps the stage design untouched. */}
