@@ -2,32 +2,67 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import DeskFooter from "@/components/desk/DeskFooter";
 import { TELEGRAM_URL } from "@/lib/products";
+import { Accordion, Crosshair } from "./LabInteractive";
+import "./lab.css";
 
 export const metadata: Metadata = {
   title: "Лаборатория — растим соцсети вместе с Claude",
   description:
-    "Раз в неделю живая настройка в зуме: банк тем, голос, форматы и очередь публикаций на Claude. Общая таблица роста и открытые цифры. Первый набор на десять мест, 4 500 ₽ в месяц.",
+    "Закрытый канал и чат, где растим свои аккаунты вместе. Созвон раз в неделю на полтора-два часа, вопросы в любой момент, открытые цифры. Первый набор на десять мест, 4 500 ₽ в месяц.",
 };
 
 // Standalone landing for the paid community «Лаборатория».
-// Same structure and DS as /vibecoding: content inline, one source of truth.
-// Copy passed ~/.tov/tovlint.mjs — keep edits in Влад's voice (ты, no «!»).
+// Visual: white engineering tracing paper (lab.css). Copy passed
+// ~/.tov/tovlint.mjs — keep edits in Влад's voice (ты, no «!», AI helps,
+// never «пишет за тебя»).
 
-const principles = [
+const inside = [
   {
     n: "01",
-    title: "Система важнее вдохновения",
-    body: "Темы лежат в банке, голос записан в шаблон, публикации стоят в очереди. Садишься за стол и выпускаешь пост, даже если сегодня ничего не хочется писать и в голове пусто с самого утра.",
+    title: "Закрытый канал",
+    body: "Мои разборы, находки с готовыми файлами, стройка своих аккаунтов с цифрами и провалы с ценой в часах или рублях.",
+    note: "материалы копятся",
   },
   {
     n: "02",
-    title: "Цифры открыты",
-    body: "Раз в неделю я пишу в общую таблицу своих подписчиков и охваты. Ты пишешь свои. Плохую неделю видно так же, как хорошую.",
+    title: "Чат участников",
+    body: "Вопрос задаёшь, когда он возник, ждать созвона не нужно. Отвечаю я, подключаются участники.",
+    note: "открыт всегда",
   },
   {
     n: "03",
-    title: "Делаем у тебя",
-    body: "С четверга уходишь с настроенной частью системы в своём аккаунте. Конспекта мало, нужна работающая вещь.",
+    title: "Созвон раз в неделю",
+    body: "Живой разговор: обсуждаем, что у кого вышло, разбираем аккаунты и публикации, отвечаю на вопросы голосом. Запись остаётся в канале.",
+    dim: "1,5–2 часа",
+  },
+  {
+    n: "04",
+    title: "Общая таблица роста",
+    body: "Раз в неделю каждый вписывает своих подписчиков и охваты, я вписываю свои. Плохую неделю видно так же, как хорошую.",
+    chart: true,
+  },
+];
+
+const topics = [
+  {
+    title: "Темы",
+    body: "Где брать темы из своего опыта, историй и вопросов клиентов, чтобы банк не пустел. Claude помогает раскопать то, что ты сам считаешь очевидным.",
+  },
+  {
+    title: "Голос",
+    body: "Как сделать, чтобы черновик от Claude звучал как ты, без интонации пресс-релиза. Разбираем шаблон голоса и проверку текста.",
+  },
+  {
+    title: "Форматы",
+    body: "Одна мысль раскладывается в рилс, тред, карусель и пост. Смотрим, какой формат работает у тебя.",
+  },
+  {
+    title: "Регулярность",
+    body: "Как публиковаться без подвигов: очередь публикаций, отложенный постинг, неделя контента за один вечер.",
+  },
+  {
+    title: "Цифры",
+    body: "Что замерять, где смотреть охваты и как понять, какая тема сработала. Здесь же общая таблица.",
   },
 ];
 
@@ -37,426 +72,296 @@ const stats = [
   { value: "112", label: "своих рилсов разобрал по замерам" },
 ];
 
-const rhythm = [
-  { when: "Четверг", what: "Живая настройка в зуме, 60 минут. Одна часть системы у каждого." },
-  { when: "Пятница", what: "Запись встречи и пошаговый чек-лист." },
-  { when: "Вторник", what: "Находка недели с готовым файлом из моих сессий." },
-  { when: "Раз в 2 недели", what: "Стройка: что я делаю со своими аккаунтами и с какими цифрами." },
-  { when: "Раз в месяц", what: "Факап с ценой в часах или рублях." },
-  { when: "Вт и пт", what: "Чат участников с окном ответов." },
-  { when: "Каждую неделю", what: "Общая таблица роста, куда каждый вписывает свои цифры." },
-];
-
-const weeks = [
-  {
-    w: "Неделя 1",
-    title: "Распаковка",
-    body: "Claude вытаскивает темы из твоего опыта, историй и вопросов клиентов.",
-    out: "банк тем на месяц",
-  },
-  {
-    w: "Неделя 2",
-    title: "Голос",
-    body: "Отдаёшь Claude свои тексты и получаешь шаблон голоса с проверкой.",
-    out: "публикации звучат как ты",
-  },
-  {
-    w: "Неделя 3",
-    title: "Форматы",
-    body: "Одну тему раскладываем в рилс, тред и карусель.",
-    out: "три готовые публикации",
-  },
-  {
-    w: "Неделя 4",
-    title: "Конвейер и замер",
-    body: "Ставим неделю публикаций в отложенный постинг и заводим таблицу охватов.",
-    out: "неделя в очереди",
-  },
-];
-
-const forWhom = [
-  "Эксперт с опытом и своей практикой, который ведёт соцсети урывками или не ведёт совсем",
-  "Тот, кто готов час в неделю сидеть в зуме и выпускать публикации между встречами",
-  "Тот, кто хочет работать в Claude каждый день",
-];
-
-const notForWhom = [
-  "Кто ищет накрутку и вирусность за неделю",
-  "Кто хочет отдать аккаунт в чужие руки",
-  "Кто ждёт гарантию на число подписчиков",
-];
-
 const faq = [
+  { title: "Какие соцсети?", body: "Instagram, Threads и Telegram. Работаем с теми, где ты уже есть." },
   {
-    q: "Какие соцсети?",
-    a: "Instagram, Threads и Telegram. Работаем с теми, где ты уже есть.",
+    title: "Claude будет писать посты за меня?",
+    body: "Писать будешь ты. Claude помогает найти тему, собрать черновик и проверить, что текст звучит как ты.",
+  },
+  { title: "Когда можно зайти?", body: "В любой день. Записи прошлых созвонов и материалы лежат в канале." },
+  { title: "Я пропущу созвон, что тогда?", body: "Запись появится в канале, а вопросы можно задать в чате." },
+  {
+    title: "Нужен ли опыт с Claude?",
+    body: "Опыт не нужен. В канале есть чек-лист, как настроить доступ из России и начать.",
   },
   {
-    q: "Нужен ли опыт с Claude?",
-    a: "Опыт не нужен. На первой встрече настраиваем доступ и профиль, для России есть отдельный чек-лист.",
+    title: "Сколько подписчиков я наберу?",
+    body: "Не знаю и не обещаю. Знаю, что рядом будут люди на том же пути и мои открытые цифры.",
   },
   {
-    q: "Я не могу в четверг, что делать?",
-    a: "В пятницу приходит запись и чек-лист, вопросы задаёшь в чате.",
-  },
-  {
-    q: "Сколько подписчиков я наберу?",
-    a: "Не знаю и не обещаю. Знаю, что через месяц у тебя будет банк тем, голос и очередь публикаций.",
-  },
-  {
-    q: "Чем это отличается от консультации?",
-    a: "Консультация идёт час один на один и стоит 3 850 ₽. В Лаборатории четыре часа в месяц в группе, общая таблица и чат.",
-  },
-  {
-    q: "Как оплатить?",
-    a: "Напиши мне в Telegram, пришлю ссылку. Принимаю карты российских и иностранных банков.",
+    title: "Как оплатить?",
+    body: "Напиши мне в Telegram, пришлю ссылку. Принимаю карты российских и иностранных банков.",
   },
 ];
 
-function CtaButton({ label }: { label: string }) {
+const H2 =
+  "font-heading mt-5 max-w-3xl text-balance text-3xl font-extrabold leading-[1.05] tracking-[-0.03em] md:text-5xl";
+
+function Cta({ label }: { label: string }) {
   return (
-    <a
-      href={TELEGRAM_URL}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="inline-flex items-center gap-3 bg-ink px-7 py-4 font-heading text-[15px] font-bold tracking-[-0.01em] text-paper transition-transform hover:-translate-y-0.5"
-    >
+    <a href={TELEGRAM_URL} target="_blank" rel="noopener noreferrer" className="rz-btn rz-btn--solid">
       {label}
       <span aria-hidden="true">&rarr;</span>
     </a>
   );
 }
 
-function Eyebrow({ children, muted = false }: { children: React.ReactNode; muted?: boolean }) {
+// Линейки первого экрана: деления рисует CSS, цифры — здесь.
+function Rulers() {
   return (
-    <p
-      data-m-item
-      className={`font-mono text-xs uppercase tracking-[0.18em] ${muted ? "text-ink-muted" : "text-accent"}`}
-    >
-      {children}
-    </p>
+    <>
+      <div className="lab-ruler-corner" aria-hidden="true" />
+      <div className="lab-ruler lab-ruler--top" aria-hidden="true">
+        {Array.from({ length: 60 }, (_, i) => (
+          <span key={i} style={{ left: i * 40 }}>{i > 0 ? i : ""}</span>
+        ))}
+      </div>
+      <div className="lab-ruler lab-ruler--left" aria-hidden="true">
+        {Array.from({ length: 30 }, (_, i) => (
+          <span key={i} style={{ top: i * 40 }}>{i > 0 ? i : ""}</span>
+        ))}
+      </div>
+    </>
+  );
+}
+
+// Линия роста: сплошная до «мы здесь», пунктир до «?».
+function GrowthLine() {
+  const point = "lab-point absolute flex items-center gap-2 font-mono text-[11px] tracking-[0.06em]";
+  return (
+    <div className="pointer-events-none absolute inset-0 left-[28px] top-[28px] opacity-30 md:opacity-100" aria-hidden="true">
+      <svg className="lab-diagonal lab-draw absolute inset-0 h-full w-full" viewBox="0 0 100 100" preserveAspectRatio="none">
+        <path d="M58 92 L77 58" vectorEffect="non-scaling-stroke" />
+      </svg>
+      <svg className="lab-diagonal lab-draw lab-draw--late absolute inset-0 h-full w-full" viewBox="0 0 100 100" preserveAspectRatio="none">
+        <path className="lab-diagonal--ghost" d="M77 58 L96 10" vectorEffect="non-scaling-stroke" />
+      </svg>
+      <div className={point} style={{ left: "58%", top: "92%", transform: "translate(-4px,-4px)", animationDelay: ".4s" }}>
+        <span className="block h-2 w-2 bg-[#15161a]" />
+        <span className="hidden bg-white px-1 md:inline">старт · 287</span>
+      </div>
+      <div className={point} style={{ left: "77%", top: "58%", transform: "translate(-4px,-4px)", animationDelay: "2.1s" }}>
+        <span className="block h-2 w-2 bg-[#15161a]" />
+        <span className="hidden bg-white px-1 md:inline">мы здесь</span>
+      </div>
+      <div className={point} style={{ left: "96%", top: "10%", transform: "translate(-6px,-6px)", animationDelay: "2.6s" }}>
+        <span className="block h-3 w-3 border border-[#15161a] bg-[#c8f04c]" />
+        <span className="hidden -translate-x-[calc(100%+32px)] bg-white px-1 md:inline">?</span>
+      </div>
+    </div>
+  );
+}
+
+function MiniChart() {
+  return (
+    <svg viewBox="0 0 200 60" preserveAspectRatio="none" className="lab-diagonal lab-chart mt-6 h-16 w-full" aria-hidden="true">
+      <path d="M0 52 L40 46 L80 49 L120 34 L160 30 L200 12" vectorEffect="non-scaling-stroke" />
+    </svg>
   );
 }
 
 export default function LabPage() {
   return (
-    <div className="bg-paper text-ink">
+    <div className="lab">
+      <Crosshair />
       <main>
-        {/* Hero */}
-        <section className="mx-auto max-w-7xl px-5 pb-16 pt-24 md:px-10 md:pt-28 lg:pb-24">
-          <nav aria-label="Хлебные крошки">
-            <Link
-              href="/products"
-              className="-my-3 inline-block py-3 font-mono text-xs tracking-[0.08em] text-ink-muted transition-colors hover:text-ink"
-            >
-              &larr; Все продукты
-            </Link>
-          </nav>
+        {/* Hero — лист с линейками */}
+        <section className="relative min-h-[min(92vh,880px)] overflow-hidden border-b border-[#15161a]">
+          <Rulers />
+          <GrowthLine />
 
-          <div data-m="stagger" className="pt-12 md:pt-16">
-            <Eyebrow>Лаборатория · первый набор · 10 мест</Eyebrow>
+          <div className="relative z-[2] mx-auto max-w-7xl px-5 pb-20 pl-10 pt-24 md:px-14 md:pt-28">
+            <nav aria-label="Хлебные крошки">
+              <Link href="/products" className="lab-mono -my-3 inline-block bg-white py-3 pr-2 hover:text-[#15161a]">
+                &larr; Все продукты
+              </Link>
+            </nav>
 
-            <h1
-              data-m-item
-              className="font-heading mt-6 max-w-4xl text-balance text-[40px] font-black leading-[1.04] tracking-[-0.04em] text-ink sm:text-[52px] lg:text-[64px]"
-            >
-              Растим соцсети вместе, с Claude и{" "}
-              <span
-                // Inset lime band, same technique as /vibecoding: a solid
-                // lime-mark would bleed onto the line above at leading 1.04.
-                style={{
-                  background:
-                    "linear-gradient(transparent 0.16em, #c8f04c 0.16em, #c8f04c 0.92em, transparent 0.92em)",
-                  padding: "0 0.1em",
-                  boxDecorationBreak: "clone",
-                  WebkitBoxDecorationBreak: "clone",
-                }}
+            <div className="pt-10 md:pt-16">
+              <p className="lab-mono inline-block bg-white pr-2">Лаборатория · первый набор · 10 мест</p>
+
+              <h1
+                data-m="lines"
+                data-m-hero
+                className="font-heading mt-6 max-w-[15ch] text-balance text-[42px] font-black leading-[1.02] tracking-[-0.04em] sm:text-[56px] lg:max-w-[16ch] lg:text-[76px]"
               >
-                открытыми цифрами
-              </span>
-            </h1>
+                Растим соцсети вместе, с Claude и <span className="rz-mark">открытыми цифрами</span>
+              </h1>
 
-            <p
-              data-m-item
-              className="mt-7 max-w-2xl text-[17px] leading-[1.55] text-ink-muted md:text-[18px]"
-            >
-              Раз в неделю созваниваемся в зуме на час. За этот час у тебя
-              появляется одна рабочая часть контент-системы. Я расту
-              параллельно и показываю свои цифры каждую неделю, включая
-              провальные.
-            </p>
+              <div data-m="reveal" data-m-delay="0.5" className="mt-8 max-w-xl bg-white/85 py-1">
+                <p className="text-[17px] leading-[1.6] text-[#6b6e78] md:text-[18px]">
+                  Закрытый канал и чат, где каждый растит свой аккаунт, а спрашивать можно в любой момент. Раз в неделю
+                  созваниваемся на полтора-два часа и разбираем, что получилось. Я расту рядом и показываю свои цифры,
+                  включая провальные.
+                </p>
+              </div>
 
-            <div data-m-item className="mt-9 flex flex-wrap items-center gap-x-6 gap-y-3">
-              <CtaButton label="Занять место" />
-              <p className="font-mono text-sm text-ink">4 500 ₽ / месяц</p>
+              <div className="lab-point mt-10 flex flex-wrap items-center gap-x-6 gap-y-3" style={{ animationDelay: "0.9s" }}>
+                <Cta label="Занять место" />
+                <span className="lab-mono bg-white px-1 !text-[#15161a]">4 500 ₽ / месяц</span>
+              </div>
             </div>
-            <p
-              data-m-item
-              className="desk-script mt-4 font-hand text-[20px] font-semibold text-ink-muted"
-            >
-              ↳ напиши в Telegram слово «лаборатория»
-            </p>
           </div>
         </section>
 
-        {/* Big idea — inverted */}
-        <section className="bg-ink text-paper">
-          <div data-m="stagger" className="mx-auto max-w-7xl px-5 py-20 md:px-10 md:py-28">
-            <p data-m-item className="font-mono text-xs uppercase tracking-[0.18em] text-paper/60">
-              Главная идея
-            </p>
+        {/* Главная идея — негатив кальки */}
+        <section
+          className="relative text-white"
+          style={{
+            backgroundColor: "#15161a",
+            backgroundImage:
+              "linear-gradient(rgba(255,255,255,.08) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.08) 1px, transparent 1px)",
+            backgroundSize: "200px 200px",
+          }}
+        >
+          <div className="mx-auto max-w-7xl px-5 py-24 md:px-14 md:py-32">
+            <p className="font-mono text-[11px] uppercase tracking-[0.12em] text-white/50">Главная идея</p>
             <h2
-              data-m-item
-              className="font-heading mt-6 max-w-4xl text-balance text-3xl font-black leading-[1.08] tracking-[-0.03em] md:text-5xl"
+              data-m="lines"
+              className="font-heading mt-6 max-w-4xl text-balance text-3xl font-black leading-[1.08] tracking-[-0.03em] md:text-6xl"
             >
-              Соцсети эксперта ведёт система, которую он собрал сам.
-              Вдохновение и контент-менеджер тут не нужны.
+              Соцсети ведёшь ты. Claude рядом: подсказывает темы, держит твой голос в текстах и забирает рутину.
             </h2>
-            <p
-              data-m-item
-              className="mt-8 max-w-2xl text-[17px] leading-[1.6] text-paper/70"
-            >
-              Банк тем, голос, сценарии и очередь публикаций собираются
-              руками. У тебя, на твоём материале, пока я рядом. Через месяц
-              пост выходит и в день без настроения.
+            <p data-m="reveal" className="mt-10 max-w-2xl text-[17px] leading-[1.65] text-white/65">
+              Готовых постов за тебя никто писать не будет. Будет компания людей, которые идут тем же путём, и помощник,
+              который экономит часы на каждой публикации.
             </p>
           </div>
         </section>
 
-        {/* Principles */}
-        <section className="border-t border-line">
-          <div className="mx-auto max-w-7xl px-5 py-16 md:px-10 md:py-24">
-            <div data-m="stagger">
-              <Eyebrow>Как мы работаем</Eyebrow>
-              <h2
-                data-m-item
-                className="font-heading mt-5 max-w-2xl text-3xl font-extrabold leading-[1.05] tracking-[-0.03em] text-ink md:text-4xl"
-              >
-                Три правила Лаборатории
-              </h2>
+        {/* Что внутри — четыре листа */}
+        <section className="border-b border-[#15161a]">
+          <div className="mx-auto max-w-7xl px-5 py-20 md:px-14 md:py-28">
+            <p className="lab-mono inline-block bg-white pr-2">Что внутри</p>
+            <h2 data-m="lines" className={H2}>
+              Канал, чат, созвон и таблица, где видно, кто куда вырос
+            </h2>
 
-              <div className="mt-12 grid gap-px bg-line md:grid-cols-3">
-                {principles.map((p) => (
-                  <div key={p.n} data-m-item className="bg-paper p-8">
-                    <p className="font-mono text-sm text-accent">{p.n}</p>
-                    <h3 className="font-heading mt-4 text-xl font-bold tracking-[-0.02em] text-ink">
-                      {p.title}
-                    </h3>
-                    <p className="mt-3 text-[15px] leading-relaxed text-ink-muted">{p.body}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Starting point */}
-        <section className="border-t border-line bg-white">
-          <div className="mx-auto max-w-7xl px-5 py-16 md:px-10 md:py-24">
-            <div data-m="stagger">
-              <Eyebrow>Откуда я начинаю</Eyebrow>
-              <h2
-                data-m-item
-                className="font-heading mt-5 max-w-3xl text-3xl font-extrabold leading-[1.05] tracking-[-0.03em] text-ink md:text-4xl"
-              >
-                Миллиона подписчиков у меня нет. Иду этим путём рядом с тобой
-              </h2>
-
-              <div className="mt-12 grid gap-px bg-line sm:grid-cols-3">
-                {stats.map((s) => (
-                  <div key={s.value} data-m-item className="bg-paper p-8">
-                    <p className="font-heading text-5xl font-black tracking-[-0.04em] text-ink md:text-6xl">
-                      {s.value}
+            <div data-m="stagger" className="mt-14 grid gap-6 md:grid-cols-2 md:gap-8">
+              {inside.map((it) => (
+                <article key={it.n} data-m-item className="lab-sheet p-7 pt-9 md:p-10">
+                  <span className="lab-sheet-index">{it.n}</span>
+                  <h3 className="font-heading text-2xl font-bold tracking-[-0.02em]">{it.title}</h3>
+                  <p className="mt-3 max-w-md text-[16px] leading-relaxed text-[#6b6e78]">{it.body}</p>
+                  {it.note && (
+                    <p className="lab-mono mt-7 flex items-center gap-2 !text-[#15161a]">
+                      <span className="inline-block h-2 w-2 bg-[#c8f04c] ring-1 ring-[#15161a]" aria-hidden="true" />
+                      {it.note}
                     </p>
-                    <p className="mt-3 max-w-[16rem] text-[15px] leading-relaxed text-ink-muted">
-                      {s.label}
-                    </p>
-                  </div>
-                ))}
-              </div>
-
-              <p data-m-item className="mt-8 max-w-2xl text-[16px] leading-relaxed text-ink-muted">
-                Знаю, какие приёмы у меня работают, и показываю каждый шаг,
-                включая недели, когда охваты падают вдвое.
-              </p>
+                  )}
+                  {it.dim && <p className="lab-dim mt-8">{it.dim}</p>}
+                  {it.chart && <MiniChart />}
+                </article>
+              ))}
             </div>
           </div>
         </section>
 
-        {/* For whom / not for whom */}
-        <section className="border-t border-line">
-          <div data-m="stagger" className="mx-auto grid max-w-7xl gap-px bg-line px-0 md:grid-cols-2">
-            <div data-m-item className="bg-paper px-5 py-12 md:px-10">
-              <p className="font-mono text-xs uppercase tracking-[0.18em] text-accent">Для кого</p>
-              <ul className="mt-6 space-y-4 text-[16px] leading-relaxed text-ink">
-                {forWhom.map((t) => (
-                  <li key={t} className="flex gap-3">
-                    <span className="mt-2 inline-block h-[7px] w-[7px] shrink-0 bg-ink" aria-hidden="true" />
-                    {t}
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div data-m-item className="bg-paper px-5 py-12 md:px-10">
-              <p className="font-mono text-xs uppercase tracking-[0.18em] text-ink-muted">Не для кого</p>
-              <ul className="mt-6 space-y-4 text-[16px] leading-relaxed text-ink-muted">
-                {notForWhom.map((t) => (
-                  <li key={t} className="flex gap-3">
-                    <span
-                      className="mt-2 inline-block h-[7px] w-[7px] shrink-0 border border-ink-muted"
-                      aria-hidden="true"
-                    />
-                    {t}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-        </section>
-
-        {/* What's inside */}
-        <section className="border-t border-line bg-white">
-          <div className="mx-auto max-w-7xl px-5 py-16 md:px-10 md:py-24">
-            <div data-m="stagger">
-              <Eyebrow>Что внутри</Eyebrow>
-              <h2
-                data-m-item
-                className="font-heading mt-5 max-w-2xl text-3xl font-extrabold leading-[1.05] tracking-[-0.03em] text-ink md:text-4xl"
-              >
-                Ритм недели
-              </h2>
-              <div className="mt-12 border-t border-line">
-                {rhythm.map((r) => (
-                  <div
-                    key={r.when}
-                    data-m-item
-                    className="grid gap-1 border-b border-line py-5 md:grid-cols-[200px_1fr] md:gap-8"
-                  >
-                    <p className="font-mono text-xs uppercase tracking-[0.12em] text-ink-muted md:pt-1">
-                      {r.when}
-                    </p>
-                    <p className="text-[16px] leading-relaxed text-ink">{r.what}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Program */}
-        <section className="border-t border-line">
-          <div className="mx-auto max-w-7xl px-5 py-16 md:px-10 md:py-24">
-            <div data-m="stagger">
-              <Eyebrow>Программа · первый месяц</Eyebrow>
-              <h2
-                data-m-item
-                className="font-heading mt-5 max-w-3xl text-3xl font-extrabold leading-[1.05] tracking-[-0.03em] text-ink md:text-4xl"
-              >
-                Четыре четверга, четыре части системы
-              </h2>
-
-              <div className="mt-12 border-t border-line">
-                {weeks.map((week) => (
-                  <div
-                    key={week.w}
-                    data-m-item
-                    className="grid gap-2 border-b border-line py-7 md:grid-cols-[160px_1fr_240px] md:gap-8"
-                  >
-                    <p className="font-mono text-xs uppercase tracking-[0.12em] text-ink-muted">{week.w}</p>
-                    <div>
-                      <h3 className="font-heading text-lg font-bold tracking-[-0.02em] text-ink">{week.title}</h3>
-                      <p className="mt-2 max-w-xl text-[15px] leading-relaxed text-ink-muted">{week.body}</p>
-                    </div>
-                    <div className="md:text-right">
-                      <span className="lime-mark font-mono text-xs">Итог: {week.out}</span>
-                    </div>
-                  </div>
-                ))}
-              </div>
-
-              <p data-m-item className="mt-8 max-w-2xl text-[15px] leading-relaxed text-ink-muted">
-                В конце месяца открытый разбор аккаунта одного участника.
-              </p>
-            </div>
-          </div>
-        </section>
-
-        {/* Price */}
-        <section className="border-t border-line bg-white">
-          <div className="mx-auto max-w-7xl px-5 py-16 md:px-10 md:py-24">
-            <div data-m="stagger" className="grid gap-12 md:grid-cols-[1fr_1fr] md:gap-16">
+        {/* О чём говорим */}
+        <section className="border-b border-[#15161a]">
+          <div className="mx-auto max-w-7xl px-5 py-20 md:px-14 md:py-28">
+            <div className="grid gap-10 lg:grid-cols-[1fr_1.5fr] lg:gap-16">
               <div>
-                <Eyebrow>Цена</Eyebrow>
-                <p
+                <p className="lab-mono inline-block bg-white pr-2">О чём говорим</p>
+                <h2 data-m="lines" className={H2}>
+                  Пять тем, к которым возвращаемся
+                </h2>
+                <p data-m="reveal" className="mt-6 max-w-sm bg-white/85 text-[16px] leading-relaxed text-[#6b6e78]">
+                  Порядок задаёт чат. Нажми на тему, чтобы раскрыть.
+                </p>
+              </div>
+              <div data-m="stagger">
+                <Accordion items={topics} firstOpen />
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Откуда я начинаю */}
+        <section className="border-b border-[#15161a]">
+          <div className="mx-auto max-w-7xl px-5 py-20 md:px-14 md:py-28">
+            <p className="lab-mono inline-block bg-white pr-2">Откуда я начинаю</p>
+            <h2 data-m="lines" className={H2}>
+              Миллиона подписчиков у меня нет. Иду этим путём рядом с тобой
+            </h2>
+
+            <div data-m="stagger" className="mt-14 grid border border-[#15161a] bg-white sm:grid-cols-3">
+              {stats.map((s, i) => (
+                <div
+                  key={s.value}
                   data-m-item
-                  className="font-heading mt-5 text-6xl font-black tracking-[-0.04em] text-ink md:text-7xl"
+                  className={`p-8 md:p-10 ${i > 0 ? "border-t border-[#15161a] sm:border-l sm:border-t-0" : ""}`}
                 >
-                  4 500 ₽
-                </p>
-                <p data-m-item className="mt-2 font-mono text-sm text-ink-muted">
-                  в месяц · 10 мест в первом наборе
-                </p>
-                <div data-m-item className="mt-9">
-                  <CtaButton label="Занять место" />
+                  <p data-m="count" className="font-heading text-6xl font-black tracking-[-0.04em] md:text-7xl">
+                    {s.value}
+                  </p>
+                  <p className="mt-4 max-w-[16rem] text-[15px] leading-relaxed text-[#6b6e78]">{s.label}</p>
+                </div>
+              ))}
+            </div>
+
+            <p data-m="reveal" className="mt-8 max-w-2xl bg-white/85 text-[16px] leading-relaxed text-[#6b6e78]">
+              Знаю, какие приёмы у меня работают, и показываю каждый шаг, включая недели, когда охваты падают вдвое.
+            </p>
+          </div>
+        </section>
+
+        {/* Цена */}
+        <section className="border-b border-[#15161a]">
+          <div className="mx-auto max-w-7xl px-5 py-20 md:px-14 md:py-28">
+            <div data-m="reveal" className="lab-sheet grid gap-10 p-8 md:grid-cols-[1fr_1fr] md:gap-16 md:p-14">
+              <span className="lab-sheet-index">цена</span>
+              <div>
+                <p className="font-heading text-7xl font-black tracking-[-0.04em] md:text-8xl">4 500 ₽</p>
+                <p className="lab-dim mt-5 max-w-xs">в месяц</p>
+                <div className="mt-10">
+                  <Cta label="Занять место" />
                 </div>
               </div>
-              <div data-m-item className="space-y-4 text-[16px] leading-relaxed text-ink-muted md:pt-10">
+              <div className="space-y-4 text-[16px] leading-relaxed text-[#6b6e78] md:pt-4">
                 <p>
-                  Час консультации со мной стоит 3 850 ₽. В месяце Лаборатории
-                  четыре живых часа.
+                  Час консультации со мной стоит 3 850 ₽. В месяце Лаборатории четыре созвона по полтора-два часа и
+                  чат, где можно спросить в любой день.
                 </p>
-                <p>
-                  Роста в подписчиках не обещаю. Обещаю четыре настройки в
-                  месяц и открытые цифры.
-                </p>
+                <p>Роста в подписчиках не обещаю.</p>
                 <p>Отменить можно перед любым следующим месяцем.</p>
+                <p className="lab-mono pt-4 !text-[#15161a]">10 мест в первом наборе</p>
               </div>
             </div>
           </div>
         </section>
 
-        {/* FAQ */}
-        <section className="border-t border-line">
-          <div className="mx-auto max-w-7xl px-5 py-16 md:px-10 md:py-24">
-            <div data-m="stagger">
-              <h2
-                data-m-item
-                className="font-heading text-3xl font-extrabold leading-[1.05] tracking-[-0.03em] text-ink md:text-4xl"
-              >
-                Вопросы
-              </h2>
-              <div className="mt-10 border-t border-line">
-                {faq.map((item) => (
-                  <div
-                    key={item.q}
-                    data-m-item
-                    className="grid gap-2 border-b border-line py-7 md:grid-cols-[1fr_1.4fr] md:gap-12"
-                  >
-                    <h3 className="font-heading text-lg font-bold tracking-[-0.02em] text-ink">{item.q}</h3>
-                    <p className="max-w-2xl text-[15px] leading-relaxed text-ink-muted">{item.a}</p>
-                  </div>
-                ))}
+        {/* Вопросы */}
+        <section className="border-b border-[#15161a]">
+          <div className="mx-auto max-w-7xl px-5 py-20 md:px-14 md:py-28">
+            <div className="grid gap-10 lg:grid-cols-[1fr_1.5fr] lg:gap-16">
+              <div>
+                <p className="lab-mono inline-block bg-white pr-2">Вопросы</p>
+                <h2 data-m="lines" className={H2}>
+                  Что обычно спрашивают
+                </h2>
+              </div>
+              <div data-m="stagger">
+                <Accordion items={faq} />
               </div>
             </div>
           </div>
         </section>
 
-        {/* Final CTA */}
-        <section className="border-t border-line bg-white">
-          <div className="mx-auto max-w-7xl px-5 py-20 md:px-10 md:py-28">
-            <div data-m="stagger">
-              <h2
-                data-m-item
-                className="font-heading max-w-3xl text-balance text-4xl font-black leading-[1.04] tracking-[-0.04em] text-ink md:text-5xl"
-              >
-                Десять мест в первом наборе
-              </h2>
-              <p data-m-item className="mt-5 max-w-xl text-[17px] leading-[1.55] text-ink-muted">
-                Напиши в Telegram слово «лаборатория», и я пришлю детали.
-              </p>
-              <div data-m-item className="mt-9">
-                <CtaButton label="Написать в Telegram" />
-              </div>
+        {/* Финал */}
+        <section>
+          <div className="mx-auto max-w-7xl px-5 py-24 md:px-14 md:py-32">
+            <h2
+              data-m="lines"
+              className="font-heading max-w-3xl text-balance text-4xl font-black leading-[1.04] tracking-[-0.04em] md:text-6xl"
+            >
+              Десять мест в <span className="rz-mark">первом наборе</span>
+            </h2>
+            <p data-m="reveal" className="mt-6 max-w-xl bg-white/85 text-[17px] leading-[1.6] text-[#6b6e78]">
+              Напиши в Telegram слово «лаборатория», и я пришлю детали.
+            </p>
+            <div data-m="reveal" className="mt-10">
+              <Cta label="Написать в Telegram" />
             </div>
           </div>
         </section>
