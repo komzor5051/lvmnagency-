@@ -7,7 +7,7 @@ import { Rulers } from "@/components/kalka/Rulers";
 export const metadata: Metadata = {
   title: "Лаборатория — растим соцсети вместе с нейросетями",
   description:
-    "Закрытый канал и чат, где растим свои аккаунты вместе. Созвон раз в неделю на полтора-два часа, вопросы в любой момент, открытые цифры. Первый набор на десять мест, 4 500 ₽ в месяц.",
+    "Закрытый канал и чат, где растим свои аккаунты вместе. Созвон раз в неделю на полтора-два часа, вопросы в любой момент, открытые цифры. Первый набор на десять мест, 4500 ₽ в месяц.",
 };
 
 // Standalone landing for the paid community «Лаборатория».
@@ -178,7 +178,7 @@ export default function LabPage() {
 
               <div className="k-point mt-10 flex flex-wrap items-center gap-x-6 gap-y-3" style={{ animationDelay: "0.9s" }}>
                 <Cta label="Занять место" />
-                <span className="k-mono bg-white px-1 !text-[#15161a]">4 500 ₽ / месяц</span>
+                <span className="k-mono bg-white px-1 !text-[#15161a]">4500 ₽ / месяц</span>
               </div>
             </div>
           </div>
@@ -292,7 +292,7 @@ export default function LabPage() {
             <div data-m="reveal" className="k-sheet grid gap-10 p-8 md:grid-cols-[1fr_1fr] md:gap-16 md:p-14">
               <span className="k-sheet-index">цена</span>
               <div>
-                <p className="font-heading text-7xl font-extrabold tracking-[-0.04em] md:text-8xl">4 500 ₽</p>
+                <p className="font-heading text-7xl font-extrabold tracking-[-0.04em] md:text-8xl">4500 ₽</p>
                 <p className="k-dim mt-5 max-w-xs">в месяц</p>
                 <div className="mt-10">
                   <Cta label="Занять место" />
@@ -300,7 +300,7 @@ export default function LabPage() {
               </div>
               <div className="space-y-4 text-[16px] leading-relaxed text-[#6b6e78] md:pt-4">
                 <p>
-                  Час консультации со мной стоит 3 850 ₽. В месяце Лаборатории четыре созвона по полтора-два часа и
+                  Час консультации со мной стоит 3850 ₽. В месяце Лаборатории четыре созвона по полтора-два часа и
                   чат, где можно спросить в любой день.
                 </p>
                 <p>Роста в подписчиках не обещаю.</p>

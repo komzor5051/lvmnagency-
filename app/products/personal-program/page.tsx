@@ -160,7 +160,7 @@ export default function PersonalProgramPage() {
                 <p>Ты повторяешь действия на новых материалах и присылаешь попытку. Я проверяю результат и помогаю исправить ошибки.</p>
                 <p>Если что-то ломается во вторник, пишешь в Telegram. Я отвечаю в течение 24 часов.</p>
                 <p>В {product.priceLabel} входят диагностика до старта, маршрут на 6 недель, проверка практики, поддержка и материалы по двум процессам.</p>
-                <p><Link className="underline underline-offset-4" href="/products/consultation">Нужен один разбор? Есть консультация за 3 850 ₽</Link></p>
+                <p><Link className="underline underline-offset-4" href="/products/consultation">Нужен один разбор? Есть консультация за 3850 ₽</Link></p>
               </div>
             </div>
           </div>
