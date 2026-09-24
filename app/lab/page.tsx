@@ -1,12 +1,11 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import DeskFooter from "@/components/desk/DeskFooter";
 import { TELEGRAM_URL } from "@/lib/products";
 import { Accordion, Crosshair } from "./LabInteractive";
 import "./lab.css";
 
 export const metadata: Metadata = {
-  title: "Лаборатория — растим соцсети вместе с Claude",
+  title: "Лаборатория — растим соцсети вместе с нейросетями",
   description:
     "Закрытый канал и чат, где растим свои аккаунты вместе. Созвон раз в неделю на полтора-два часа, вопросы в любой момент, открытые цифры. Первый набор на десять мест, 4 500 ₽ в месяц.",
 };
@@ -46,11 +45,11 @@ const inside = [
 const topics = [
   {
     title: "Темы",
-    body: "Где брать темы из своего опыта, историй и вопросов клиентов, чтобы банк не пустел. Claude помогает раскопать то, что ты сам считаешь очевидным.",
+    body: "Где брать темы из своего опыта, историй и вопросов клиентов, чтобы банк не пустел. Нейросеть помогает раскопать то, что ты сам считаешь очевидным.",
   },
   {
     title: "Голос",
-    body: "Как сделать, чтобы черновик от Claude звучал как ты, без интонации пресс-релиза. Разбираем шаблон голоса и проверку текста.",
+    body: "Как сделать, чтобы черновик от нейросети звучал как ты, без интонации пресс-релиза. Разбираем шаблон голоса и проверку текста.",
   },
   {
     title: "Форматы",
@@ -75,13 +74,13 @@ const stats = [
 const faq = [
   { title: "Какие соцсети?", body: "Instagram, Threads и Telegram. Работаем с теми, где ты уже есть." },
   {
-    title: "Claude будет писать посты за меня?",
-    body: "Писать будешь ты. Claude помогает найти тему, собрать черновик и проверить, что текст звучит как ты.",
+    title: "Нейросеть будет писать посты за меня?",
+    body: "Писать будешь ты. Нейросеть помогает найти тему, собрать черновик и проверить, что текст звучит как ты.",
   },
   { title: "Когда можно зайти?", body: "В любой день. Записи прошлых созвонов и материалы лежат в канале." },
   { title: "Я пропущу созвон, что тогда?", body: "Запись появится в канале, а вопросы можно задать в чате." },
   {
-    title: "Нужен ли опыт с Claude?",
+    title: "Нужен ли опыт с нейросетями?",
     body: "Опыт не нужен. В канале есть чек-лист, как настроить доступ из России и начать.",
   },
   {
@@ -185,7 +184,7 @@ export default function LabPage() {
                 data-m-hero
                 className="font-heading mt-6 max-w-[15ch] text-balance text-[42px] font-black leading-[1.02] tracking-[-0.04em] sm:text-[56px] lg:max-w-[16ch] lg:text-[76px]"
               >
-                Растим соцсети вместе, с Claude и <span className="rz-mark">открытыми цифрами</span>
+                Растим соцсети вместе, с нейросетями и <span className="rz-mark">открытыми цифрами</span>
               </h1>
 
               <div data-m="reveal" data-m-delay="0.5" className="mt-8 max-w-xl bg-white/85 py-1">
@@ -220,7 +219,7 @@ export default function LabPage() {
               data-m="lines"
               className="font-heading mt-6 max-w-4xl text-balance text-3xl font-black leading-[1.08] tracking-[-0.03em] md:text-6xl"
             >
-              Соцсети ведёшь ты. Claude рядом: подсказывает темы, держит твой голос в текстах и забирает рутину.
+              Соцсети ведёшь ты. Нейросети рядом: подсказывают темы, держат твой голос в текстах и забирают рутину.
             </h2>
             <p data-m="reveal" className="mt-10 max-w-2xl text-[17px] leading-[1.65] text-white/65">
               Готовых постов за тебя никто писать не будет. Будет компания людей, которые идут тем же путём, и помощник,
@@ -366,7 +365,6 @@ export default function LabPage() {
           </div>
         </section>
       </main>
-      <DeskFooter />
     </div>
   );
 }

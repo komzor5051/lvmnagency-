@@ -4,7 +4,7 @@ import { usePathname } from "next/navigation";
 import { useGSAP, ScrollTrigger, prefersReducedMotion, hasFinePointer } from "./gsap";
 import { resolveTier, effectiveKind, isMotionKind } from "./logic";
 import { runners, markIn, type RunCtx } from "./runners";
-import { bindMagnets, bindTilts } from "./interactions";
+import { bindTilts } from "./interactions";
 
 // Оживляет разметку data-m на любой странице. Страницы остаются серверными:
 // атрибуты стоят в HTML, скрытие делает GSAP после гидратации.
@@ -40,7 +40,7 @@ export default function MotionLayer() {
         }
         runners[kind](el, ctx);
       }
-      if (tier === "full") cleanups.push(bindMagnets(), bindTilts());
+      if (tier === "full") cleanups.push(bindTilts());
       ScrollTrigger.refresh();
       // Шрифты меняют высоту заголовков: без пересчёта пин каталога стартует не с того места.
       document.fonts.ready.then(ctx.safe(() => ScrollTrigger.refresh()));
