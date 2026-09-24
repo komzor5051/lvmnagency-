@@ -7,7 +7,7 @@ import { Rulers } from "@/components/kalka/Rulers";
 export const metadata: Metadata = {
   title: "Лаборатория — растим соцсети вместе с нейросетями",
   description:
-    "Закрытый канал и чат, где растим свои аккаунты вместе. Созвон раз в неделю на полтора-два часа, вопросы в любой момент, открытые цифры. Первый набор на десять мест, 4500 ₽ в месяц.",
+    "Закрытый канал и чат, где растим свои аккаунты вместе. Созвон раз в неделю на полтора-два часа, вопросы в любой момент, открытые цифры. Первый набор на десять мест, 3500 ₽ в месяц.",
 };
 
 // Standalone landing for the paid community «Лаборатория».
@@ -89,16 +89,20 @@ const faq = [
   },
   {
     title: "Как оплатить?",
-    body: "Напиши мне в Telegram, пришлю ссылку. Принимаю карты российских и иностранных банков.",
+    body: "Картой через lava.top по кнопке «Занять место», подходят карты российских и иностранных банков. После оплаты напиши мне в Telegram, и я пришлю доступ в канал и чат.",
   },
 ];
 
 const H2 =
   "font-heading mt-5 max-w-3xl text-balance text-3xl font-extrabold leading-[1.05] tracking-[-0.03em] md:text-5xl";
 
-function Cta({ label }: { label: string }) {
+// Оплата подписки на lava.top. domainName держит атрибуцию платежа за сайтом, как у гайда.
+const PAY_URL =
+  "https://app.lava.top/products/9f03530c-8cb3-4304-91bc-ce29f75a0280/1e32c571-d7db-46aa-a331-243d771eb66d?currency=RUB&domainId=2b8044d9-fd3c-47ce-ad84-1cb65c1e0fc8&domainName=vladlyamin.ru";
+
+function Cta({ label, href = PAY_URL, ghost = false }: { label: string; href?: string; ghost?: boolean }) {
   return (
-    <a href={TELEGRAM_URL} target="_blank" rel="noopener noreferrer" className="rz-btn rz-btn--solid">
+    <a href={href} target="_blank" rel="noopener noreferrer" className={ghost ? "k-btn" : "rz-btn rz-btn--solid"}>
       {label}
       <span aria-hidden="true">&rarr;</span>
     </a>
@@ -178,7 +182,7 @@ export default function LabPage() {
 
               <div className="k-point mt-10 flex flex-wrap items-center gap-x-6 gap-y-3" style={{ animationDelay: "0.9s" }}>
                 <Cta label="Занять место" />
-                <span className="k-mono bg-white px-1 !text-[#15161a]">4500 ₽ / месяц</span>
+                <span className="k-mono bg-white px-1 !text-[#15161a]">3500 ₽ / месяц</span>
               </div>
             </div>
           </div>
@@ -292,7 +296,7 @@ export default function LabPage() {
             <div data-m="reveal" className="k-sheet grid gap-10 p-8 md:grid-cols-[1fr_1fr] md:gap-16 md:p-14">
               <span className="k-sheet-index">цена</span>
               <div>
-                <p className="font-heading text-7xl font-extrabold tracking-[-0.04em] md:text-8xl">4500 ₽</p>
+                <p className="font-heading text-7xl font-extrabold tracking-[-0.04em] md:text-8xl">3500 ₽</p>
                 <p className="k-dim mt-5 max-w-xs">в месяц</p>
                 <div className="mt-10">
                   <Cta label="Занять место" />
@@ -338,10 +342,12 @@ export default function LabPage() {
               Десять мест в <span className="rz-mark">первом наборе</span>
             </h2>
             <p data-m="reveal" className="mt-6 max-w-xl bg-white/85 text-[17px] leading-[1.6] text-[#6b6e78]">
-              Напиши в Telegram слово «лаборатория», и я пришлю детали.
+              Оплачиваешь картой, потом пишешь мне в Telegram, и я присылаю доступ в канал и чат. С вопросами
+              тоже пиши туда.
             </p>
-            <div data-m="reveal" className="mt-10">
-              <Cta label="Написать в Telegram" />
+            <div data-m="reveal" className="mt-10 flex flex-wrap gap-4">
+              <Cta label="Занять место" />
+              <Cta label="Написать в Telegram" href={TELEGRAM_URL} ghost />
             </div>
           </div>
         </section>
