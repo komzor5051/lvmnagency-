@@ -25,7 +25,7 @@ const showcase: { id: string; kind: string; note: string }[] = [
 ];
 
 const facts = [
-  { n: "50+", text: "человек научил работать с Claude" },
+  { n: "200+", text: "человек научил работать с Claude/Codex" },
   { n: "40+", text: "систем собрал руками" },
   { n: "2022", text: "с этого года работаю с AI каждый день" },
 ];
@@ -50,7 +50,7 @@ export default async function HomePage() {
           <Rulers />
 
           <div className="relative z-[2] mx-auto max-w-7xl px-5 pb-20 pl-10 pt-24 md:px-14 md:pt-28">
-            <p className="k-mono inline-block bg-white pr-2">Обучение · консультации · гайды по Claude</p>
+            <p className="k-mono inline-block bg-white pr-2">Обучение · консультации · гайды по Claude/Codex</p>
 
             <h1
               data-m="lines"
@@ -94,7 +94,7 @@ export default async function HomePage() {
           <div className="mx-auto max-w-7xl px-5 py-20 md:px-14 md:py-28">
             <p className="k-mono inline-block bg-white pr-2">Продукты</p>
             <h2 data-m="lines" className={H2}>
-              Пять форматов. Начать можно с любого, дальше идти необязательно
+              Продукты
             </h2>
 
             <div data-m="stagger" className="hk-products mt-14">
@@ -148,11 +148,11 @@ export default async function HomePage() {
               <div>
                 <p className="k-mono inline-block bg-white pr-2">Обо мне</p>
                 <h2 data-m="lines" className={H2}>
-                  Четвёртый год работаю с Claude каждый день
+                  Четвёртый год работаю с нейросетями каждый день
                 </h2>
                 <p data-m="reveal" className="mt-6 max-w-md text-[18px] font-medium leading-[1.35] text-[#15161a]">
-                  Не внедряю AI в чужие команды. Показываю одному человеку, как собрать систему, которая
-                  работает без команды.
+                  Внедряю AI в бизнесы, обучаю команды, а также показываю, как одному человеку собрать
+                  систему, которая работает без команды.
                 </p>
                 <p data-m="reveal" className="mt-6 max-w-md text-[16px] leading-relaxed text-[#6b6e78]">
                   Пишу гайды, провожу консультации и аудиты. Всё, что советую, сначала проверяю на себе: этот
@@ -174,7 +174,7 @@ export default async function HomePage() {
             <div className="mx-auto max-w-7xl px-5 py-20 md:px-14 md:py-28">
               <p className="k-mono inline-block bg-white pr-2">Блог</p>
               <h2 data-m="lines" className={H2}>
-                Заметки о Claude и Claude Code
+                Заметки о Claude/Codex
               </h2>
               <p data-m="reveal" className="mt-4 max-w-xl bg-white/85 text-[16px] leading-relaxed text-[#6b6e78]">
                 Что сработало, что нет и сколько стоило.
@@ -184,7 +184,7 @@ export default async function HomePage() {
                 {posts.map((post) => (
                   <Link href={`/blog/${post.slug}`} key={post.slug} className="k-sheet p-6 pt-8" data-m-item>
                     <span className="k-mono hk-post-date">
-                      {formatDate(post.published_at)} · {(post.tags ?? [])[0] ?? "Claude"}
+                      {formatDate(post.published_at)} · {(post.tags ?? [])[0] ?? "Claude/Codex"}
                     </span>
                     <h3 className="hk-post-title">{post.title}</h3>
                   </Link>
@@ -208,10 +208,10 @@ export default async function HomePage() {
               data-m="lines"
               className="font-heading mt-5 max-w-3xl text-balance text-4xl font-extrabold leading-[1.06] tracking-[-0.04em] md:text-6xl"
             >
-              Начни с гайда <span className="rz-mark">за {guide?.priceLabel ?? "590 ₽"}</span>
+              Начни с <span className="rz-mark">азов</span>
             </h2>
             <p data-m="reveal" className="mt-6 max-w-xl text-[17px] leading-[1.6] text-[#6b6e78]">
-              Самый дешёвый способ проверить, встроится ли Claude в твою работу. Файл приходит сразу после
+              Самый дешёвый способ проверить, встроится ли Claude/Codex в твою работу. Файл приходит сразу после
               оплаты.
             </p>
             <p data-m="reveal" className="mt-10">
@@ -221,7 +221,7 @@ export default async function HomePage() {
                 eventProps={{ product: "guide", position: 1, section: "final" }}
                 className="k-btn k-btn--solid"
               >
-                Получить гайд
+                Получить материал
               </TrackedLink>
             </p>
           </div>

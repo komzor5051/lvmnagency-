@@ -28,11 +28,11 @@ export const metadata: Metadata = {
   title: {
     // Kept under ~60 chars so Google shows it whole; the long-form pitch lives
     // in the description below.
-    default: "Влад Лямин — обучение работе с нейросетями и Claude",
+    default: "Влад Лямин — обучение работе с нейросетями и Claude/Codex",
     template: "%s — Влад Лямин",
   },
   description:
-    "Учу экспертов и предпринимателей работать с нейросетями: гайды по Claude, консультации один на один и аудит. 50+ человек уже обучил.",
+    "Учу экспертов и предпринимателей работать с нейросетями: гайды по Claude/Codex, консультации один на один и аудит. 200+ человек уже обучил.",
   metadataBase: new URL(siteUrl),
   openGraph: {
     type: "website",
@@ -43,7 +43,7 @@ export const metadata: Metadata = {
         url: "/og-studio.png",
         width: 1536,
         height: 1024,
-        alt: "Влад Лямин — обучение работе с нейросетями и Claude",
+        alt: "Влад Лямин — обучение работе с нейросетями и Claude/Codex",
       },
     ],
   },
@@ -87,10 +87,10 @@ const personSchema = {
   url: siteUrl,
   image: `${siteUrl}/portrait.jpg`,
   description:
-    "Учу экспертов и предпринимателей работать с нейросетями и Claude: гайды, консультации, аудит. 50+ человек обучил, 40+ систем собрал с 2022 года.",
-  jobTitle: "AI-консультант, автор гайдов по Claude",
+    "Учу экспертов и предпринимателей работать с нейросетями и Claude/Codex: гайды, консультации, аудит. 200+ человек обучил, 40+ систем собрал с 2022 года.",
+  jobTitle: "AI-консультант, автор гайдов по Claude/Codex",
   knowsAbout: [
-    "Claude",
+    "Claude/Codex",
     "Claude Code",
     "Личная AI-система",
     "Обучение работе с AI",
@@ -112,14 +112,14 @@ const organizationSchema = {
   logo: `${siteUrl}/favicon.png`,
   image: `${siteUrl}/portrait.jpg`,
   description:
-    "Личная практика Влада Лямина: гайды по Claude, консультации один на один и аудит процессов.",
+    "Личная практика Влада Лямина: гайды по Claude/Codex, консультации один на один и аудит процессов.",
   founder: { "@id": `${siteUrl}/#person` },
   employee: { "@id": `${siteUrl}/#person` },
   areaServed: "Worldwide",
   availableLanguage: ["ru", "en"],
   sameAs: ["https://telegram.me/lyaminvl"],
   knowsAbout: [
-    "Claude",
+    "Claude/Codex",
     "Claude Code",
     "Личная AI-система",
     "Обучение работе с AI",
