@@ -1,0 +1,217 @@
+/* Калька: общий визуальный набор сайта (белая инженерная калька).
+   Шаг сетки 40px (одно деление линейки), жирная линия каждые 5 делений.
+   Классы k-*: сетка .k-page, линейки, листы, аккордеон, перекрестие. */
+
+.k-page {
+  --k-ink: #15161a;
+  --k-mute: #6b6e78;
+  --k-u: 40px;
+  --k-minor: rgba(21, 22, 26, 0.045);
+  --k-major: rgba(21, 22, 26, 0.11);
+  --k-mono: var(--rz-mono, ui-monospace, Menlo, monospace);
+  position: relative;
+  color: var(--k-ink);
+  background-color: #fff;
+  background-image:
+    linear-gradient(var(--k-major) 1px, transparent 1px),
+    linear-gradient(90deg, var(--k-major) 1px, transparent 1px),
+    linear-gradient(var(--k-minor) 1px, transparent 1px),
+    linear-gradient(90deg, var(--k-minor) 1px, transparent 1px);
+  background-size:
+    calc(var(--k-u) * 5) calc(var(--k-u) * 5),
+    calc(var(--k-u) * 5) calc(var(--k-u) * 5),
+    calc(var(--k-u) / 2) calc(var(--k-u) / 2),
+    calc(var(--k-u) / 2) calc(var(--k-u) / 2);
+  background-position: -1px -1px;
+}
+
+.k-mono {
+  font-family: var(--k-mono);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--k-mute);
+}
+
+/* ===== Линейки первого экрана ===== */
+.k-ruler {
+  position: absolute;
+  pointer-events: none;
+  color: var(--k-mute);
+  font-family: var(--k-mono);
+  font-size: 10px;
+  overflow: hidden;
+  z-index: 1;
+}
+.k-ruler--top {
+  top: 0; left: 28px; right: 0; height: 28px;
+  border-bottom: 1px solid var(--k-ink);
+  background-image:
+    linear-gradient(90deg, var(--k-ink) 1px, transparent 1px),
+    linear-gradient(90deg, var(--k-ink) 1px, transparent 1px);
+  background-size: var(--k-u) 10px, calc(var(--k-u) / 5) 5px;
+  background-repeat: repeat-x;
+  background-position: 0 100%, 0 100%;
+}
+.k-ruler--left {
+  top: 28px; left: 0; bottom: 0; width: 28px;
+  border-right: 1px solid var(--k-ink);
+  background-image:
+    linear-gradient(var(--k-ink) 1px, transparent 1px),
+    linear-gradient(var(--k-ink) 1px, transparent 1px);
+  background-size: 10px var(--k-u), 5px calc(var(--k-u) / 5);
+  background-repeat: repeat-y;
+  background-position: 100% 0, 100% 0;
+}
+.k-ruler span { position: absolute; line-height: 1; }
+.k-ruler--top span { top: 5px; transform: translateX(-50%); }
+.k-ruler--left span { left: 4px; transform: translateY(-50%); }
+.k-ruler-corner {
+  position: absolute; top: 0; left: 0; width: 28px; height: 28px; z-index: 2;
+  border-right: 1px solid var(--k-ink); border-bottom: 1px solid var(--k-ink);
+  background: #fff;
+}
+
+/* ===== Диагональ роста =====
+   non-scaling-stroke держит толщину при растянутом viewBox, поэтому дорисовку
+   делаем не через dashoffset, а через clip-path слоя: линия растёт слева направо. */
+.k-diagonal path { fill: none; stroke: var(--k-ink); stroke-width: 1.5; }
+.k-diagonal path.k-diagonal--ghost { stroke-width: 1; stroke-dasharray: 4 6; opacity: .55; }
+.k-draw { clip-path: inset(0 100% 0 0); animation: k-draw 1.6s cubic-bezier(.7, 0, .2, 1) .5s forwards; }
+.k-draw--late { animation-delay: 2s; animation-duration: 1.2s; }
+.k-point { opacity: 0; animation: k-fade .5s ease forwards; }
+@keyframes k-draw { to { clip-path: inset(0 0 0 0); } }
+@keyframes k-fade { to { opacity: 1; } }
+/* Мини-график в карточке рисуется, когда карточка въехала (stagger вешает .is-in) */
+.k-chart { clip-path: inset(0 100% 0 0); transition: clip-path 1.4s cubic-bezier(.7, 0, .2, 1) .3s; }
+.k-sheet:hover .k-chart, .is-in .k-chart, .k-chart.is-in { clip-path: inset(0 0 0 0); }
+
+/* ===== Перекрестие за курсором ===== */
+.k-cross { position: fixed; inset: 0; pointer-events: none; z-index: 40; opacity: 0; transition: opacity .25s; }
+.k-cross.is-on { opacity: 1; }
+.k-cross-x, .k-cross-y { position: absolute; background: rgba(21, 22, 26, 0.18); }
+.k-cross-x { left: 0; right: 0; height: 1px; top: 0; }
+.k-cross-y { top: 0; bottom: 0; width: 1px; left: 0; }
+.k-cross-tag {
+  position: absolute; top: 0; left: 0;
+  font-family: var(--k-mono); font-size: 10px; letter-spacing: .06em;
+  padding: 3px 6px; background: var(--k-ink); color: #fff; white-space: nowrap;
+}
+
+/* ===== Листы на кальке ===== */
+.k-sheet { background: #fff; border: 1px solid var(--k-ink); position: relative; }
+/* Метки обреза по углам: появляются при наведении */
+.k-sheet::before, .k-sheet::after {
+  content: ""; position: absolute; width: 14px; height: 14px; pointer-events: none;
+  opacity: 0; transition: opacity .3s, transform .3s var(--rz-ease, ease);
+}
+.k-sheet::before { top: -8px; left: -8px; border-top: 1px solid var(--k-ink); border-left: 1px solid var(--k-ink); transform: translate(4px, 4px); }
+.k-sheet::after { bottom: -8px; right: -8px; border-bottom: 1px solid var(--k-ink); border-right: 1px solid var(--k-ink); transform: translate(-4px, -4px); }
+.k-sheet:hover::before, .k-sheet:hover::after { opacity: 1; transform: none; }
+
+.k-sheet-index {
+  position: absolute; top: -1px; right: -1px;
+  font-family: var(--k-mono); font-size: 10px; letter-spacing: .1em;
+  padding: 4px 8px; background: var(--k-ink); color: #fff;
+}
+
+/* Размерная линия: |<—— 1,5–2 ч ——>| */
+.k-dim { display: flex; align-items: center; gap: 8px; font-family: var(--k-mono); font-size: 11px; color: var(--k-ink); }
+.k-dim::before, .k-dim::after {
+  content: ""; flex: 1; height: 9px;
+  border-left: 1px solid var(--k-ink);
+  background: linear-gradient(var(--k-ink), var(--k-ink)) center / 100% 1px no-repeat;
+}
+.k-dim::after { border-left: 0; border-right: 1px solid var(--k-ink); }
+
+/* ===== Аккордеон ===== */
+.k-acc { border-top: 1px solid var(--k-ink); }
+.k-acc-item { border-bottom: 1px solid var(--k-ink); background: #fff; }
+.k-acc-btn {
+  width: 100%; display: grid; grid-template-columns: 56px 1fr 32px; align-items: center; gap: 16px;
+  padding: 22px 20px; text-align: left; cursor: pointer; background: none; border: 0; color: inherit;
+  transition: background-color .3s;
+}
+.k-acc-btn:hover { background: #f6f7f2; }
+.k-acc-btn:focus-visible { outline: 2px solid var(--k-ink); outline-offset: -2px; }
+.k-acc-sign { position: relative; width: 14px; height: 14px; justify-self: end; }
+.k-acc-sign::before, .k-acc-sign::after {
+  content: ""; position: absolute; left: 0; top: 50%; width: 14px; height: 1.5px; background: var(--k-ink);
+  transition: transform .4s var(--rz-ease-in-out, ease);
+}
+.k-acc-sign::after { transform: rotate(90deg); }
+.k-acc-item.is-open .k-acc-sign::after { transform: rotate(0deg); }
+.k-acc-panel { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .5s var(--rz-ease-in-out, ease); }
+.k-acc-item.is-open .k-acc-panel { grid-template-rows: 1fr; }
+.k-acc-panel > div { overflow: hidden; }
+.k-acc-body { padding: 0 20px 24px 92px; max-width: 760px; color: var(--k-mute); font-size: 16px; line-height: 1.6; }
+.k-acc-item.is-open .k-acc-btn { background: #f6f7f2; }
+.k-acc-item.is-open .k-acc-num { background: var(--rz-lime, #c8f04c); }
+.k-acc-num { font-family: var(--k-mono); font-size: 11px; padding: 3px 6px; justify-self: start; transition: background-color .3s; }
+
+@media (max-width: 767px) {
+  .k-page { --k-u: 32px; }
+  .k-acc-btn { grid-template-columns: 40px 1fr 24px; padding: 18px 14px; gap: 10px; }
+  .k-acc-body { padding: 0 14px 20px 64px; }
+  .k-ruler--top { left: 20px; height: 20px; }
+  .k-ruler--left { top: 20px; width: 20px; }
+  .k-ruler-corner { width: 20px; height: 20px; }
+  .k-ruler span { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .k-draw, .k-point { animation: none; clip-path: none; opacity: 1; }
+  .k-chart { clip-path: none; transition: none; }
+  .k-acc-panel, .k-acc-sign::after, .k-sheet::before, .k-sheet::after { transition: none; }
+}
+
+/* ===== Базовые элементы для всех страниц =====
+   Шрифт: Geologica (var(--font-heading)), подписи: JetBrains Mono (.k-mono).
+   Углы прямые, теней нет, кнопки не двигаются при наведении. Лайм — только заливка. */
+.k-wrap { max-width: 80rem; margin: 0 auto; padding: 0 56px; }
+.k-section { border-bottom: 1px solid var(--k-ink, #15161a); padding: 112px 0; }
+.k-eyebrow { display: inline-block; background: #fff; padding-right: 8px; }
+.k-h1 {
+  font-family: var(--font-heading), sans-serif; font-weight: 800;
+  font-size: clamp(42px, 6vw, 80px); line-height: 1.02; letter-spacing: -.04em;
+  text-wrap: balance; margin: 0;
+}
+.k-h2 {
+  font-family: var(--font-heading), sans-serif; font-weight: 700;
+  font-size: clamp(30px, 3.6vw, 52px); line-height: 1.05; letter-spacing: -.03em;
+  text-wrap: balance; margin: 0;
+}
+.k-h3 { font-family: var(--font-heading), sans-serif; font-weight: 700; font-size: 22px; line-height: 1.2; letter-spacing: -.02em; margin: 0; }
+.k-lead { font-size: 18px; line-height: 1.6; color: #6b6e78; max-width: 40rem; }
+.k-mark {
+  background: linear-gradient(transparent .16em, #c8f04c .16em, #c8f04c .92em, transparent .92em);
+  padding: 0 .08em; -webkit-box-decoration-break: clone; box-decoration-break: clone;
+}
+.k-btn {
+  display: inline-flex; align-items: center; gap: 12px; padding: 15px 26px;
+  border: 1px solid #15161a; background: #fff; color: #15161a;
+  font-family: var(--font-body), sans-serif; font-size: 15px; font-weight: 600; line-height: 1;
+  text-decoration: none; cursor: pointer; transition: background-color .25s, color .25s, border-color .25s;
+}
+.k-btn:hover { background: #15161a; color: #fff; }
+.k-btn--solid { background: #15161a; color: #fff; }
+.k-btn--solid:hover { background: #c8f04c; border-color: #c8f04c; color: #15161a; }
+.k-btn--lime { background: #c8f04c; border-color: #c8f04c; color: #15161a; }
+.k-btn--lime:hover { background: #fff; border-color: #fff; }
+.k-btn:focus-visible { outline: 2px solid #15161a; outline-offset: 3px; }
+.k-dark {
+  background-color: #15161a; color: #fff;
+  background-image:
+    linear-gradient(rgba(255,255,255,.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.08) 1px, transparent 1px);
+  background-size: 200px 200px;
+}
+.k-dark .k-mono { color: rgba(255,255,255,.5); }
+/* Таблица-список на кальке: строки через тонкую чёрную линию */
+.k-rows { border-top: 1px solid #15161a; }
+.k-row { display: grid; gap: 24px; padding: 24px 0; border-bottom: 1px solid #15161a; background: #fff; }
+
+@media (max-width: 767px) {
+  .k-wrap { padding: 0 20px; }
+  .k-section { padding: 72px 0; }
+}

@@ -117,7 +117,6 @@ body.studio-menu-open { overflow: hidden; }
   transition: transform 180ms ease;
 }
 
-.studio-button:hover { transform: translateY(-2px); }
 .studio-button:hover b { width: 2.65rem; transform: translateX(2px); }
 .studio-button:active { transform: none; }
 

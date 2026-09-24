@@ -1,3 +1,22 @@
+/* Geologica — основной шрифт сайта (заголовки и текст), вариативный 100-900. */
+@font-face {
+  font-family: "Geologica";
+  src: url("/fonts/geologica-cyrillic-wght.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+
+@font-face {
+  font-family: "Geologica";
+  src: url("/fonts/geologica-latin-wght.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
 @font-face {
   font-family: "Onest";
   src: url("/fonts/onest-cyrillic.woff2") format("woff2");
@@ -50,9 +69,9 @@
 }
 
 :root {
-  --font-body: "Onest", ui-sans-serif, sans-serif;
-  --font-heading: "Onest", ui-sans-serif, sans-serif;
-  --font-tektur: "Tektur", ui-sans-serif, sans-serif;
+  --font-body: "Geologica", ui-sans-serif, sans-serif;
+  --font-heading: "Geologica", ui-sans-serif, sans-serif;
+  --font-tektur: "Geologica", ui-sans-serif, sans-serif;
   --font-display: Georgia, "Times New Roman", serif;
   --font-serif: Georgia, "Times New Roman", serif;
   --font-mono-brand: "JetBrains Mono", ui-monospace, monospace;
@@ -152,7 +171,6 @@ body.studio-menu-open { overflow: hidden; }
   transition: transform 600ms var(--studio-ease);
 }
 
-.studio-button:hover { transform: translateY(-3px); }
 
 .studio-button:focus-visible,
 .studio-nav-cta:focus-visible,
@@ -293,7 +311,7 @@ body.studio-menu-open { overflow: hidden; }
   text-decoration: none;
   transition: background 250ms ease, transform 250ms ease;
 }
-.studio-nav-cta:hover { background: var(--studio-lime); transform: translateY(-1px); }
+.studio-nav-cta:hover { background: var(--studio-lime); }
 .studio-nav-cta span {
   display: grid;
   width: 3rem;
@@ -572,7 +590,6 @@ body.studio-menu-open { overflow: hidden; }
 .studio-product-hero-grid aside > strong { margin: 2.5rem 0 auto; font-family: var(--font-tektur), sans-serif; font-size: clamp(2.5rem,4vw,4.5rem); letter-spacing: -.07em; }
 .studio-product-hero-grid aside > small { margin-top: 1rem; color: rgba(10,11,10,.5); font-size: .65rem; }
 .studio-buy-action { display: inline-flex; width: 100%; min-height: 54px; align-items: center; justify-content: center; padding: .8rem 1.1rem; border: 1px solid var(--studio-carbon); border-radius: 999px; font-size: .78rem; font-weight: 750; text-decoration: none; transition: transform 250ms ease, background 250ms ease; }
-.studio-buy-action:hover { transform: translateY(-2px); }
 .studio-buy-action--solid { background: var(--studio-carbon); color: var(--studio-white); }
 .studio-buy-action--outline { background: transparent; color: var(--studio-carbon); }
 .studio-buy-action--outline:hover { background: var(--studio-carbon); color: var(--studio-white); }
@@ -948,7 +965,6 @@ body.studio-menu-open { overflow: hidden; }
   text-decoration: none;
   transition: transform 180ms ease;
 }
-.bento-btn:hover { transform: translateY(-2px); }
 .bento-btn:focus-visible { outline: 3px solid var(--studio-carbon); outline-offset: 3px; }
 .bento-tile--carbon .bento-btn:focus-visible { outline-color: var(--studio-white); }
 

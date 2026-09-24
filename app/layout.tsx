@@ -12,6 +12,7 @@ import "./globals.css";
 import "./studio.css";
 import "./personal.css";
 import "./razvorot.css";
+import "./kalka.css";
 import { jsonLd } from "@/lib/json-ld";
 
 // Self-hosted fonts keep production builds independent from Google Fonts.

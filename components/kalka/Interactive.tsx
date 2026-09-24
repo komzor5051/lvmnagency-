@@ -48,10 +48,10 @@ export function Crosshair() {
   }, []);
 
   return (
-    <div ref={root} className="lab-cross" aria-hidden="true">
-      <div ref={x} className="lab-cross-x" />
-      <div ref={y} className="lab-cross-y" />
-      <div ref={tag} className="lab-cross-tag" />
+    <div ref={root} className="k-cross" aria-hidden="true">
+      <div ref={x} className="k-cross-x" />
+      <div ref={y} className="k-cross-y" />
+      <div ref={tag} className="k-cross-tag" />
     </div>
   );
 }
@@ -62,26 +62,26 @@ export function Accordion({ items, firstOpen = false }: { items: AccItem[]; firs
   const [open, setOpen] = useState<number | null>(firstOpen ? 0 : null);
 
   return (
-    <div className="lab-acc">
+    <div className="k-acc">
       {items.map((item, i) => {
         const isOpen = open === i;
-        const id = `lab-acc-${item.title.replace(/\s+/g, "-")}`;
+        const id = `k-acc-${item.title.replace(/\s+/g, "-")}`;
         return (
-          <div key={item.title} data-m-item className={`lab-acc-item${isOpen ? " is-open" : ""}`}>
+          <div key={item.title} data-m-item className={`k-acc-item${isOpen ? " is-open" : ""}`}>
             <button
               type="button"
-              className="lab-acc-btn"
+              className="k-acc-btn"
               aria-expanded={isOpen}
               aria-controls={id}
               onClick={() => setOpen(isOpen ? null : i)}
             >
-              <span className="lab-acc-num">{String(i + 1).padStart(2, "0")}</span>
+              <span className="k-acc-num">{String(i + 1).padStart(2, "0")}</span>
               <span className="font-heading text-lg font-bold tracking-[-0.02em] md:text-xl">{item.title}</span>
-              <span className="lab-acc-sign" aria-hidden="true" />
+              <span className="k-acc-sign" aria-hidden="true" />
             </button>
-            <div id={id} className="lab-acc-panel" role="region">
+            <div id={id} className="k-acc-panel" role="region">
               <div>
-                <p className="lab-acc-body">{item.body}</p>
+                <p className="k-acc-body">{item.body}</p>
               </div>
             </div>
           </div>

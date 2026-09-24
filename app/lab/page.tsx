@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { TELEGRAM_URL } from "@/lib/products";
-import { Accordion, Crosshair } from "./LabInteractive";
-import "./lab.css";
+import { Accordion, Crosshair } from "@/components/kalka/Interactive";
+import { Rulers } from "@/components/kalka/Rulers";
 
 export const metadata: Metadata = {
   title: "Лаборатория — растим соцсети вместе с нейросетями",
@@ -105,35 +105,16 @@ function Cta({ label }: { label: string }) {
   );
 }
 
-// Линейки первого экрана: деления рисует CSS, цифры — здесь.
-function Rulers() {
-  return (
-    <>
-      <div className="lab-ruler-corner" aria-hidden="true" />
-      <div className="lab-ruler lab-ruler--top" aria-hidden="true">
-        {Array.from({ length: 60 }, (_, i) => (
-          <span key={i} style={{ left: i * 40 }}>{i > 0 ? i : ""}</span>
-        ))}
-      </div>
-      <div className="lab-ruler lab-ruler--left" aria-hidden="true">
-        {Array.from({ length: 30 }, (_, i) => (
-          <span key={i} style={{ top: i * 40 }}>{i > 0 ? i : ""}</span>
-        ))}
-      </div>
-    </>
-  );
-}
-
 // Линия роста: сплошная до «мы здесь», пунктир до «?».
 function GrowthLine() {
-  const point = "lab-point absolute flex items-center gap-2 font-mono text-[11px] tracking-[0.06em]";
+  const point = "k-point absolute flex items-center gap-2 font-mono text-[11px] tracking-[0.06em]";
   return (
     <div className="pointer-events-none absolute inset-0 left-[28px] top-[28px] opacity-30 md:opacity-100" aria-hidden="true">
-      <svg className="lab-diagonal lab-draw absolute inset-0 h-full w-full" viewBox="0 0 100 100" preserveAspectRatio="none">
+      <svg className="k-diagonal k-draw absolute inset-0 h-full w-full" viewBox="0 0 100 100" preserveAspectRatio="none">
         <path d="M58 92 L77 58" vectorEffect="non-scaling-stroke" />
       </svg>
-      <svg className="lab-diagonal lab-draw lab-draw--late absolute inset-0 h-full w-full" viewBox="0 0 100 100" preserveAspectRatio="none">
-        <path className="lab-diagonal--ghost" d="M77 58 L96 10" vectorEffect="non-scaling-stroke" />
+      <svg className="k-diagonal k-draw k-draw--late absolute inset-0 h-full w-full" viewBox="0 0 100 100" preserveAspectRatio="none">
+        <path className="k-diagonal--ghost" d="M77 58 L96 10" vectorEffect="non-scaling-stroke" />
       </svg>
       <div className={point} style={{ left: "58%", top: "92%", transform: "translate(-4px,-4px)", animationDelay: ".4s" }}>
         <span className="block h-2 w-2 bg-[#15161a]" />
@@ -153,7 +134,7 @@ function GrowthLine() {
 
 function MiniChart() {
   return (
-    <svg viewBox="0 0 200 60" preserveAspectRatio="none" className="lab-diagonal lab-chart mt-6 h-16 w-full" aria-hidden="true">
+    <svg viewBox="0 0 200 60" preserveAspectRatio="none" className="k-diagonal k-chart mt-6 h-16 w-full" aria-hidden="true">
       <path d="M0 52 L40 46 L80 49 L120 34 L160 30 L200 12" vectorEffect="non-scaling-stroke" />
     </svg>
   );
@@ -161,7 +142,7 @@ function MiniChart() {
 
 export default function LabPage() {
   return (
-    <div className="lab">
+    <div className="k-page">
       <Crosshair />
       <main>
         {/* Hero — лист с линейками */}
@@ -171,13 +152,13 @@ export default function LabPage() {
 
           <div className="relative z-[2] mx-auto max-w-7xl px-5 pb-20 pl-10 pt-24 md:px-14 md:pt-28">
             <nav aria-label="Хлебные крошки">
-              <Link href="/products" className="lab-mono -my-3 inline-block bg-white py-3 pr-2 hover:text-[#15161a]">
+              <Link href="/products" className="k-mono -my-3 inline-block bg-white py-3 pr-2 hover:text-[#15161a]">
                 &larr; Все продукты
               </Link>
             </nav>
 
             <div className="pt-10 md:pt-16">
-              <p className="lab-mono inline-block bg-white pr-2">Лаборатория · первый набор · 10 мест</p>
+              <p className="k-mono inline-block bg-white pr-2">Лаборатория · первый набор · 10 мест</p>
 
               <h1
                 data-m="lines"
@@ -195,9 +176,9 @@ export default function LabPage() {
                 </p>
               </div>
 
-              <div className="lab-point mt-10 flex flex-wrap items-center gap-x-6 gap-y-3" style={{ animationDelay: "0.9s" }}>
+              <div className="k-point mt-10 flex flex-wrap items-center gap-x-6 gap-y-3" style={{ animationDelay: "0.9s" }}>
                 <Cta label="Занять место" />
-                <span className="lab-mono bg-white px-1 !text-[#15161a]">4 500 ₽ / месяц</span>
+                <span className="k-mono bg-white px-1 !text-[#15161a]">4 500 ₽ / месяц</span>
               </div>
             </div>
           </div>
@@ -231,24 +212,24 @@ export default function LabPage() {
         {/* Что внутри — четыре листа */}
         <section className="border-b border-[#15161a]">
           <div className="mx-auto max-w-7xl px-5 py-20 md:px-14 md:py-28">
-            <p className="lab-mono inline-block bg-white pr-2">Что внутри</p>
+            <p className="k-mono inline-block bg-white pr-2">Что внутри</p>
             <h2 data-m="lines" className={H2}>
               Канал, чат, созвон и таблица, где видно, кто куда вырос
             </h2>
 
             <div data-m="stagger" className="mt-14 grid gap-6 md:grid-cols-2 md:gap-8">
               {inside.map((it) => (
-                <article key={it.n} data-m-item className="lab-sheet p-7 pt-9 md:p-10">
-                  <span className="lab-sheet-index">{it.n}</span>
+                <article key={it.n} data-m-item className="k-sheet p-7 pt-9 md:p-10">
+                  <span className="k-sheet-index">{it.n}</span>
                   <h3 className="font-heading text-2xl font-bold tracking-[-0.02em]">{it.title}</h3>
                   <p className="mt-3 max-w-md text-[16px] leading-relaxed text-[#6b6e78]">{it.body}</p>
                   {it.note && (
-                    <p className="lab-mono mt-7 flex items-center gap-2 !text-[#15161a]">
+                    <p className="k-mono mt-7 flex items-center gap-2 !text-[#15161a]">
                       <span className="inline-block h-2 w-2 bg-[#c8f04c] ring-1 ring-[#15161a]" aria-hidden="true" />
                       {it.note}
                     </p>
                   )}
-                  {it.dim && <p className="lab-dim mt-8">{it.dim}</p>}
+                  {it.dim && <p className="k-dim mt-8">{it.dim}</p>}
                   {it.chart && <MiniChart />}
                 </article>
               ))}
@@ -261,7 +242,7 @@ export default function LabPage() {
           <div className="mx-auto max-w-7xl px-5 py-20 md:px-14 md:py-28">
             <div className="grid gap-10 lg:grid-cols-[1fr_1.5fr] lg:gap-16">
               <div>
-                <p className="lab-mono inline-block bg-white pr-2">О чём говорим</p>
+                <p className="k-mono inline-block bg-white pr-2">О чём говорим</p>
                 <h2 data-m="lines" className={H2}>
                   Пять тем, к которым возвращаемся
                 </h2>
@@ -279,7 +260,7 @@ export default function LabPage() {
         {/* Откуда я начинаю */}
         <section className="border-b border-[#15161a]">
           <div className="mx-auto max-w-7xl px-5 py-20 md:px-14 md:py-28">
-            <p className="lab-mono inline-block bg-white pr-2">Откуда я начинаю</p>
+            <p className="k-mono inline-block bg-white pr-2">Откуда я начинаю</p>
             <h2 data-m="lines" className={H2}>
               Миллиона подписчиков у меня нет. Иду этим путём рядом с тобой
             </h2>
@@ -308,11 +289,11 @@ export default function LabPage() {
         {/* Цена */}
         <section className="border-b border-[#15161a]">
           <div className="mx-auto max-w-7xl px-5 py-20 md:px-14 md:py-28">
-            <div data-m="reveal" className="lab-sheet grid gap-10 p-8 md:grid-cols-[1fr_1fr] md:gap-16 md:p-14">
-              <span className="lab-sheet-index">цена</span>
+            <div data-m="reveal" className="k-sheet grid gap-10 p-8 md:grid-cols-[1fr_1fr] md:gap-16 md:p-14">
+              <span className="k-sheet-index">цена</span>
               <div>
                 <p className="font-heading text-7xl font-black tracking-[-0.04em] md:text-8xl">4 500 ₽</p>
-                <p className="lab-dim mt-5 max-w-xs">в месяц</p>
+                <p className="k-dim mt-5 max-w-xs">в месяц</p>
                 <div className="mt-10">
                   <Cta label="Занять место" />
                 </div>
@@ -324,7 +305,7 @@ export default function LabPage() {
                 </p>
                 <p>Роста в подписчиках не обещаю.</p>
                 <p>Отменить можно перед любым следующим месяцем.</p>
-                <p className="lab-mono pt-4 !text-[#15161a]">10 мест в первом наборе</p>
+                <p className="k-mono pt-4 !text-[#15161a]">10 мест в первом наборе</p>
               </div>
             </div>
           </div>
@@ -335,7 +316,7 @@ export default function LabPage() {
           <div className="mx-auto max-w-7xl px-5 py-20 md:px-14 md:py-28">
             <div className="grid gap-10 lg:grid-cols-[1fr_1.5fr] lg:gap-16">
               <div>
-                <p className="lab-mono inline-block bg-white pr-2">Вопросы</p>
+                <p className="k-mono inline-block bg-white pr-2">Вопросы</p>
                 <h2 data-m="lines" className={H2}>
                   Что обычно спрашивают
                 </h2>
