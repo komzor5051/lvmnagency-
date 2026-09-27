@@ -46,6 +46,24 @@ const voiceRules = [
   "Ноль восклицательных знаков. В корпусе из 775 предложений нет ни одного.",
 ];
 
+const tools = [
+  {
+    n: "01",
+    title: "Компьютер",
+    body: "Ноутбук или настольный. С телефона файлы не собрать: придётся работать с текстами и папками.",
+  },
+  {
+    n: "02",
+    title: "Claude или Codex",
+    body: "Доступ с компьютера к одному из них. Лучше платная подписка: на бесплатной лимиты кончатся на середине.",
+  },
+  {
+    n: "03",
+    title: "Твои материалы",
+    body: "5 старых постов или расшифровок голосовых. По ним собираем файл голоса.",
+  },
+];
+
 const files = [
   {
     n: "01",
@@ -68,7 +86,7 @@ const files = [
 ];
 
 const program = [
-  { title: "0:00–0:20 · Доступ", body: "Настраиваем доступ к ИИ у всех, кто не успел. Это часть практикума, а не домашнее задание." },
+  { title: "0:00–0:20 · Доступ", body: "Проверяем, что Claude или Codex открываются с компьютера у всех. У кого не открываются, настраиваем вместе." },
   { title: "0:20–1:00 · Голос", body: "Собираем файл голоса по твоим постам и проверяем, похож ли черновик на тебя." },
   { title: "1:00–1:50 · Темы", body: "Банк из 30 тем из твоей практики. У каждой темы есть повод, с которого удобно начать." },
   { title: "1:50–2:40 · Конвейер", body: "Из голосовой в пост, рилс и карусель. На выходе 5 черновиков на человека." },
@@ -102,7 +120,7 @@ const faq = [
   },
   {
     title: "Что за разбор за 9900 ₽?",
-    body: "Через неделю после практикума 30 минут один на один: смотрю твой аккаунт и то, что ты опубликовал по новым файлам. Таких мест 5.",
+    body: "Через неделю после практикума 60 минут один на один: смотрю твой аккаунт и то, что ты опубликовал по новым файлам. Таких мест 5.",
   },
 ];
 
@@ -298,6 +316,29 @@ export default function WorkshopPage() {
           </section>
         )}
 
+        {/* Что понадобится */}
+        <section className="border-b border-[#15161a]">
+          <div className="mx-auto max-w-7xl px-5 py-20 md:px-14 md:py-28">
+            <p className="k-mono inline-block bg-white pr-2">Что понадобится</p>
+            <h2 data-m="lines" className={H2}>
+              Три вещи, которые нужны на встрече
+            </h2>
+
+            <div data-m="stagger" className="mt-14 grid gap-6 md:grid-cols-3 md:gap-8">
+              {tools.map((it) => (
+                <article key={it.n} data-m-item className="k-sheet p-7 pt-9 md:p-10">
+                  <span className="k-sheet-index">{it.n}</span>
+                  <h3 className="font-heading text-2xl font-bold tracking-[-0.02em]">{it.title}</h3>
+                  <p className="mt-3 max-w-md text-[16px] leading-relaxed text-[#6b6e78]">{it.body}</p>
+                </article>
+              ))}
+            </div>
+            <p data-m="reveal" className="mt-8 max-w-2xl bg-white/85 text-[16px] leading-relaxed text-[#6b6e78]">
+              Если доступа к Claude или Codex нет, напиши мне после оплаты. Настроим до практикума или в первые 20 минут.
+            </p>
+          </div>
+        </section>
+
         {/* Цена */}
         <section className="border-b border-[#15161a]">
           <div className="mx-auto max-w-7xl px-5 py-20 md:px-14 md:py-28">
@@ -318,7 +359,7 @@ export default function WorkshopPage() {
                 <span className="k-sheet-index">с разбором</span>
                 <p className="font-heading text-6xl font-extrabold tracking-[-0.04em] md:text-7xl">9900 ₽</p>
                 <div className="mt-6 space-y-3 text-[16px] leading-relaxed text-[#6b6e78]">
-                  <p>Всё то же плюс 30 минут один на один через неделю.</p>
+                  <p>Всё то же плюс 60 минут один на один через неделю.</p>
                   <p>Смотрю аккаунт и то, что ты опубликовал по новым файлам.</p>
                   <p className="k-mono pt-2 !text-[#15161a]">5 мест</p>
                 </div>
