@@ -19,8 +19,8 @@ function parts(ms: number) {
   ];
 }
 
-export function WorkshopBanner() {
-  // null до монтирования: сервер и клиент рисуют одинаковые «--», цифры появляются после гидрации.
+// null до монтирования: сервер и клиент рисуют одинаковые «--», цифры появляются после гидрации.
+function useNow() {
   const [now, setNow] = useState<number | null>(null);
 
   useEffect(() => {
@@ -28,6 +28,51 @@ export function WorkshopBanner() {
     const id = setInterval(() => setNow(Date.now()), 1000);
     return () => clearInterval(id);
   }, []);
+
+  return now;
+}
+
+// Карточка в правом верхнем углу первого экрана главной. Только на широких экранах.
+export function WorkshopHeroCard() {
+  const now = useNow();
+  if (now !== null && now >= START) return null;
+  const left = now === null ? null : parts(START - now);
+
+  return (
+    <aside className="absolute right-6 top-28 z-[3] hidden w-[300px] border border-[#15161a] bg-white min-[1360px]:block">
+      <div className="flex items-center justify-between bg-[#15161a] px-4 py-2.5 font-mono text-[11px] uppercase tracking-[0.12em] text-white">
+        <span>До старта практикума</span>
+        <span className="text-[#c8f04c]">11.10</span>
+      </div>
+      <div className="grid grid-cols-4 border-b border-[#15161a]">
+        {(left ?? parts(0)).map((p, i) => (
+          <div key={p.l} className={`px-2 py-4 text-center ${i > 0 ? "border-l border-[#15161a]/15" : ""}`}>
+            <span className="font-heading block text-[30px] font-extrabold leading-none tracking-[-0.03em] tabular-nums">
+              {left ? String(p.v).padStart(2, "0") : "--"}
+            </span>
+            <span className="mt-2 block font-mono text-[10px] uppercase tracking-[0.1em] text-[#6b6e78]">{p.l}</span>
+          </div>
+        ))}
+      </div>
+      <div className="p-4">
+        <p className="font-heading text-[17px] font-bold leading-snug tracking-[-0.02em]">
+          Как внедрить ИИ в&nbsp;свой контент за&nbsp;3&nbsp;часа
+        </p>
+        <p className="mt-2 font-mono text-[11px] uppercase tracking-[0.1em] text-[#6b6e78]">{seatsLabel}</p>
+        <Link
+          href="/workshop"
+          onClick={() => track("workshop_home_click", { cta: "hero_card" })}
+          className="mt-4 flex items-center justify-between bg-[#c8f04c] px-4 py-3 text-[15px] font-semibold text-[#15161a] transition-colors hover:bg-[#15161a] hover:text-white"
+        >
+          Записаться за 4900 ₽ <span aria-hidden="true">&rarr;</span>
+        </Link>
+      </div>
+    </aside>
+  );
+}
+
+export function WorkshopBanner() {
+  const now = useNow();
 
   if (now !== null && now >= START) return null;
 

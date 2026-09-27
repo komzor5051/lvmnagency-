@@ -6,7 +6,7 @@ import { TrackedLink } from "@/components/bento/TrackedLink";
 import { StickyGuideCta } from "@/components/bento/StickyGuideCta";
 import { Crosshair } from "@/components/kalka/Interactive";
 import { Rulers } from "@/components/kalka/Rulers";
-import { WorkshopBanner } from "@/components/home-kalka/WorkshopBanner";
+import { WorkshopBanner, WorkshopHeroCard } from "@/components/home-kalka/WorkshopBanner";
 import "@/components/home-kalka/home.css";
 
 export const metadata: Metadata = {
@@ -51,6 +51,8 @@ export default async function HomePage() {
           <Rulers />
 
           <div className="relative z-[2] mx-auto max-w-7xl px-5 pb-20 pl-10 pt-24 md:px-14 md:pt-28">
+            <WorkshopHeroCard />
+
             <p className="k-mono inline-block bg-white pr-2">Обучение · консультации · гайды по Claude/Codex</p>
 
             <h1
