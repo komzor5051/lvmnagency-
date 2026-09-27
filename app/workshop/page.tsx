@@ -7,7 +7,7 @@ import { Rulers } from "@/components/kalka/Rulers";
 export const metadata: Metadata = {
   title: "Практикум «Система контента за 3 часа» — 11 октября",
   description:
-    "Три часа в Zoom, группа до 15 человек. Уходишь с файлом голоса, банком из 30 тем и пятью черновиками. 11 октября, 12:00 МСК, 4900 ₽.",
+    "Практикум для экспертов с практикой. За 3 часа в Zoom собираешь файл голоса, банк из 30 тем и 5 черновиков на своих материалах. 11 октября, 12:00 МСК, 4900 ₽.",
 };
 
 // Landing for the one-day workshop, same tracing-paper visual as /lab.
@@ -20,6 +20,31 @@ const PAY_URL_REVIEW = "";
 
 const payBase = PAY_URL_BASE || TELEGRAM_URL;
 const payReview = PAY_URL_REVIEW || TELEGRAM_URL;
+
+const scenes = [
+  {
+    n: "01",
+    title: "Пост пишется два часа",
+    body: "Садишься писать, два часа подбираешь слова, а потом не публикуешь, потому что звучит не так.",
+  },
+  {
+    n: "02",
+    title: "Аккаунт живёт неделю",
+    body: "Неделю публикуешь каждый день, потом пропадаешь на месяц. Темы кончились, а клиенты никуда не делись.",
+  },
+  {
+    n: "03",
+    title: "Нейросеть пишет не тобой",
+    body: "Пробовал просить нейросеть, получил текст как из пресс-релиза. Переписывать его дольше, чем писать самому.",
+  },
+];
+
+const voiceRules = [
+  "Первое предложение — факт, цифра или сцена. Ни одного вводного оборота.",
+  "Медиана предложения — 8 слов. Треть предложений короче шести.",
+  "Каждое утверждение о результате несёт число. Нет замера — утверждение вычёркивается.",
+  "Ноль восклицательных знаков. В корпусе из 775 предложений нет ни одного.",
+];
 
 const files = [
   {
@@ -51,7 +76,7 @@ const program = [
 ];
 
 const stats = [
-  { value: "5 из 11", label: "моих клиентов пришли с одним запросом: экспертиза есть, соцсети не живут" },
+  { value: "5 из 11", label: "последних клиентов пришли с одним запросом: экспертиза есть, соцсети не живут" },
   { value: "727", label: "человек читают мой Telegram, он держится на этих трёх файлах" },
   { value: "112", label: "своих рилсов я разобрал по замерам" },
 ];
@@ -80,10 +105,6 @@ const faq = [
   {
     title: "Что за разбор за 9900 ₽?",
     body: "Через неделю после практикума 30 минут один на один: смотрю твой аккаунт и то, что ты опубликовал по новым файлам. Таких мест 5.",
-  },
-  {
-    title: "А если не получится?",
-    body: "Если за 3 часа у тебя не появились три файла, верну деньги.",
   },
 ];
 
@@ -116,20 +137,20 @@ export default function WorkshopPage() {
             </nav>
 
             <div className="pt-10 md:pt-16">
-              <p className="k-mono inline-block bg-white pr-2">Практикум · 11 октября · 12:00 МСК · Zoom</p>
+              <p className="k-mono inline-block bg-white pr-2">Практикум «Система контента» · 11 октября · 12:00 МСК · Zoom</p>
 
               <h1
                 data-m="lines"
                 data-m-hero
                 className="font-heading mt-6 max-w-[15ch] text-balance text-[42px] font-extrabold leading-[1.02] tracking-[-0.04em] sm:text-[56px] lg:max-w-[16ch] lg:text-[76px]"
               >
-                Система контента <span className="rz-mark">за 3 часа</span>
+                30&nbsp;тем и 5&nbsp;черновиков <span className="rz-mark">в твоём голосе</span> за 3&nbsp;часа
               </h1>
 
               <div data-m="reveal" data-m-delay="0.5" className="mt-8 max-w-xl bg-white/85 py-1">
                 <p className="text-[17px] leading-[1.6] text-[#6b6e78] md:text-[18px]">
-                  Экспертиза есть, практика есть, а соцсети живут неделю и умирают. За 3 часа собираем вживую три файла,
-                  на которых держится регулярный контент. Собираем на твоих материалах, в группе до 15 человек.
+                  Для экспертов с практикой: психологов, коучей, дизайнеров, нутрициологов. Собираем вживую на твоих
+                  старых постах три файла, на которых держится регулярный контент. Группа до 15 человек.
                 </p>
               </div>
 
@@ -137,6 +158,26 @@ export default function WorkshopPage() {
                 <Cta label="Записаться" />
                 <span className="k-mono bg-white px-1 !text-[#15161a]">4900 ₽ · запись остаётся</span>
               </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Узнаёшь себя */}
+        <section className="border-b border-[#15161a]">
+          <div className="mx-auto max-w-7xl px-5 py-20 md:px-14 md:py-28">
+            <p className="k-mono inline-block bg-white pr-2">Узнаёшь себя</p>
+            <h2 data-m="lines" className={H2}>
+              Экспертиза есть, а соцсети живут неделю и умирают
+            </h2>
+
+            <div data-m="stagger" className="mt-14 grid gap-6 md:grid-cols-3 md:gap-8">
+              {scenes.map((it) => (
+                <article key={it.n} data-m-item className="k-sheet p-7 pt-9 md:p-10">
+                  <span className="k-sheet-index">{it.n}</span>
+                  <h3 className="font-heading text-2xl font-bold tracking-[-0.02em]">{it.title}</h3>
+                  <p className="mt-3 max-w-md text-[16px] leading-relaxed text-[#6b6e78]">{it.body}</p>
+                </article>
+              ))}
             </div>
           </div>
         </section>
@@ -187,6 +228,34 @@ export default function WorkshopPage() {
           </div>
         </section>
 
+        {/* Пример файла голоса */}
+        <section className="border-b border-[#15161a]">
+          <div className="mx-auto max-w-7xl px-5 py-20 md:px-14 md:py-28">
+            <div className="grid gap-10 lg:grid-cols-[1fr_1.5fr] lg:gap-16">
+              <div>
+                <p className="k-mono inline-block bg-white pr-2">Пример</p>
+                <h2 data-m="lines" className={H2}>
+                  Так выглядит мой файл голоса
+                </h2>
+                <p data-m="reveal" className="mt-6 max-w-sm bg-white/85 text-[16px] leading-relaxed text-[#6b6e78]">
+                  В нём 15 правил, по ним проверяется каждый мой пост. Твой соберём по твоим постам, правила будут другими.
+                </p>
+              </div>
+              <div data-m="reveal" className="k-sheet p-7 pt-9 md:p-10">
+                <span className="k-sheet-index">голос.md</span>
+                <ol className="space-y-4 font-mono text-[14px] leading-relaxed text-[#15161a]">
+                  {voiceRules.map((rule, i) => (
+                    <li key={rule} className="flex gap-4">
+                      <span className="text-[#6b6e78]">{String(i + 1).padStart(2, "0")}</span>
+                      <span>{rule}</span>
+                    </li>
+                  ))}
+                </ol>
+              </div>
+            </div>
+          </div>
+        </section>
+
         {/* Программа */}
         <section className="border-b border-[#15161a]">
           <div className="mx-auto max-w-7xl px-5 py-20 md:px-14 md:py-28">
@@ -222,7 +291,7 @@ export default function WorkshopPage() {
                   data-m-item
                   className={`p-8 md:p-10 ${i > 0 ? "border-t border-[#15161a] sm:border-l sm:border-t-0" : ""}`}
                 >
-                  <p className="font-heading text-6xl font-extrabold tracking-[-0.04em] md:text-7xl">{s.value}</p>
+                  <p className="font-heading whitespace-nowrap text-5xl font-extrabold tracking-[-0.04em] lg:text-7xl">{s.value}</p>
                   <p className="mt-4 max-w-[16rem] text-[15px] leading-relaxed text-[#6b6e78]">{s.label}</p>
                 </div>
               ))}
@@ -260,8 +329,7 @@ export default function WorkshopPage() {
               </div>
             </div>
             <p data-m="reveal" className="mt-8 max-w-2xl bg-white/85 text-[16px] leading-relaxed text-[#6b6e78]">
-              Если за 3 часа у тебя не появились три файла, верну деньги. Группа до 15 человек, запись закрываю 9
-              октября.
+              Три часа со мной один на один стоят 11 550 ₽. На практикуме те же три часа, но в группе, поэтому 4900 ₽.
             </p>
           </div>
         </section>
@@ -290,7 +358,7 @@ export default function WorkshopPage() {
               data-m="lines"
               className="font-heading max-w-3xl text-balance text-4xl font-extrabold leading-[1.04] tracking-[-0.04em] md:text-6xl"
             >
-              15 мест, запись до <span className="rz-mark">9 октября</span>
+              Воскресенье, <span className="rz-mark">11 октября</span>, 12:00 МСК
             </h2>
             <p data-m="reveal" className="mt-6 max-w-xl bg-white/85 text-[17px] leading-[1.6] text-[#6b6e78]">
               После оплаты напиши мне в Telegram. Пришлю ссылку на Zoom и форму из трёх вопросов.
