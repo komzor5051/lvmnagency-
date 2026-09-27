@@ -6,6 +6,7 @@ import { TrackedLink } from "@/components/bento/TrackedLink";
 import { StickyGuideCta } from "@/components/bento/StickyGuideCta";
 import { Crosshair } from "@/components/kalka/Interactive";
 import { Rulers } from "@/components/kalka/Rulers";
+import { WorkshopBanner } from "@/components/home-kalka/WorkshopBanner";
 import "@/components/home-kalka/home.css";
 
 export const metadata: Metadata = {
@@ -88,6 +89,9 @@ export default async function HomePage() {
             </div>
           </div>
         </header>
+
+        {/* 1a. Ближайший практикум с обратным отсчётом, исчезает после старта */}
+        <WorkshopBanner />
 
         {/* 2. Продукты — каталог строк */}
         <section className="border-b border-[#15161a]" id="products">
