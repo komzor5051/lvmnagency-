@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { TELEGRAM_URL } from "@/lib/products";
-import { Accordion, Crosshair } from "@/components/kalka/Interactive";
+import { Accordion } from "@/components/kalka/Interactive";
 import { Rulers } from "@/components/kalka/Rulers";
 
 export const metadata: Metadata = {
@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 
 // Landing for the one-day workshop, same tracing-paper visual as /lab.
 // Copy passed ~/.tov/tovlint.mjs — keep edits in Влад's voice (ты, no «!»,
-// «нейросети» in public copy, never «пишет за тебя»).
+// «ИИ» in public copy, never «пишет за тебя»).
 
 // Ссылки lava.top. Пока продукты не созданы, кнопки ведут в Telegram.
 const PAY_URL_BASE = "";
@@ -34,8 +34,8 @@ const scenes = [
   },
   {
     n: "03",
-    title: "Нейросеть пишет не тобой",
-    body: "Пробовал просить нейросеть, получил текст как из пресс-релиза. Переписывать его дольше, чем писать самому.",
+    title: "ИИ пишет не тобой",
+    body: "Пробовал просить ИИ, получил текст как из пресс-релиза. Переписывать его дольше, чем писать самому.",
   },
 ];
 
@@ -50,7 +50,7 @@ const files = [
   {
     n: "01",
     title: "Файл голоса",
-    body: "Нейросеть читает твои старые посты или расшифровки. Получаем правила, по которым звучишь ты, и проверяем их на новом тексте.",
+    body: "ИИ читает твои старые посты или расшифровки. Получаем правила, по которым звучишь ты, и проверяем их на новом тексте.",
     dim: "40 минут",
   },
   {
@@ -68,27 +68,25 @@ const files = [
 ];
 
 const program = [
-  { title: "0:00–0:20 · Доступ", body: "Настраиваем доступ к нейросети у всех, кто не успел. Это часть практикума, а не домашнее задание." },
+  { title: "0:00–0:20 · Доступ", body: "Настраиваем доступ к ИИ у всех, кто не успел. Это часть практикума, а не домашнее задание." },
   { title: "0:20–1:00 · Голос", body: "Собираем файл голоса по твоим постам и проверяем, похож ли черновик на тебя." },
   { title: "1:00–1:50 · Темы", body: "Банк из 30 тем из твоей практики. У каждой темы есть повод, с которого удобно начать." },
   { title: "1:50–2:40 · Конвейер", body: "Из голосовой в пост, рилс и карусель. На выходе 5 черновиков на человека." },
   { title: "2:40–3:00 · План", body: "Раскладываем черновики на две недели публикаций. Отвечаю на вопросы." },
 ];
 
-const stats = [
-  { value: "5 из 11", label: "последних клиентов пришли с одним запросом: экспертиза есть, соцсети не живут" },
-  { value: "727", label: "человек читают мой Telegram, он держится на этих трёх файлах" },
-  { value: "112", label: "своих рилсов я разобрал по замерам" },
-];
+// Результаты клиентов: только замеренные цифры и дословные цитаты.
+// Пока массив пуст, блок на странице не показывается.
+const results: { who: string; value: string; label: string; quote?: string }[] = [];
 
 const faq = [
   {
-    title: "Я не разбираюсь в нейросетях",
+    title: "Я не разбираюсь в ИИ",
     body: "Опыт не нужен. Первые 20 минут настраиваем доступ у каждого, дальше идём по шагам вместе.",
   },
   {
-    title: "Нейросеть будет писать за меня?",
-    body: "Писать будешь ты. Нейросеть подсказывает темы, собирает черновик и проверяет, что текст звучит как ты.",
+    title: "ИИ будет писать за меня?",
+    body: "Писать будешь ты. ИИ подсказывает темы, собирает черновик и проверяет, что текст звучит как ты.",
   },
   {
     title: "У меня нет времени",
@@ -123,7 +121,6 @@ function Cta({ label, href = payBase, ghost = false }: { label: string; href?: s
 export default function WorkshopPage() {
   return (
     <div className="k-page">
-      <Crosshair />
       <main>
         {/* Hero */}
         <section className="relative min-h-[min(92vh,880px)] overflow-hidden border-b border-[#15161a]">
@@ -198,7 +195,7 @@ export default function WorkshopPage() {
               data-m="lines"
               className="font-heading mt-6 max-w-4xl text-balance text-3xl font-extrabold leading-[1.08] tracking-[-0.03em] md:text-6xl"
             >
-              Пишешь ты. Нейросети подсказывают темы и проверяют голос.
+              Пишешь ты. ИИ подсказывает темы и проверяет голос.
             </h2>
             <p data-m="reveal" className="mt-10 max-w-2xl text-[17px] leading-[1.65] text-white/65">
               Контент бросают, когда каждый раз приходится заново искать тему и подбирать слова. Три файла снимают обе
@@ -276,28 +273,30 @@ export default function WorkshopPage() {
           </div>
         </section>
 
-        {/* Откуда это */}
-        <section className="border-b border-[#15161a]">
-          <div className="mx-auto max-w-7xl px-5 py-20 md:px-14 md:py-28">
-            <p className="k-mono inline-block bg-white pr-2">Откуда это</p>
-            <h2 data-m="lines" className={H2}>
-              Сам веду контент на этих трёх файлах
-            </h2>
+        {/* Результаты клиентов */}
+        {results.length > 0 && (
+          <section className="border-b border-[#15161a]">
+            <div className="mx-auto max-w-7xl px-5 py-20 md:px-14 md:py-28">
+              <p className="k-mono inline-block bg-white pr-2">Результаты</p>
+              <h2 data-m="lines" className={H2}>
+                Что получилось у тех, кто собрал эти файлы
+              </h2>
 
-            <div data-m="stagger" className="mt-14 grid border border-[#15161a] bg-white sm:grid-cols-3">
-              {stats.map((s, i) => (
-                <div
-                  key={s.value}
-                  data-m-item
-                  className={`p-8 md:p-10 ${i > 0 ? "border-t border-[#15161a] sm:border-l sm:border-t-0" : ""}`}
-                >
-                  <p className="font-heading whitespace-nowrap text-5xl font-extrabold tracking-[-0.04em] lg:text-7xl">{s.value}</p>
-                  <p className="mt-4 max-w-[16rem] text-[15px] leading-relaxed text-[#6b6e78]">{s.label}</p>
-                </div>
-              ))}
+              <div data-m="stagger" className="mt-14 grid gap-6 md:grid-cols-3 md:gap-8">
+                {results.map((r) => (
+                  <article key={r.who} data-m-item className="k-sheet p-7 pt-9 md:p-10">
+                    <span className="k-sheet-index">{r.who}</span>
+                    <p className="font-heading whitespace-nowrap text-5xl font-extrabold tracking-[-0.04em] lg:text-6xl">
+                      {r.value}
+                    </p>
+                    <p className="mt-4 text-[15px] leading-relaxed text-[#6b6e78]">{r.label}</p>
+                    {r.quote && <p className="mt-6 border-l-2 border-[#c8f04c] pl-4 text-[15px] leading-relaxed">«{r.quote}»</p>}
+                  </article>
+                ))}
+              </div>
             </div>
-          </div>
-        </section>
+          </section>
+        )}
 
         {/* Цена */}
         <section className="border-b border-[#15161a]">
