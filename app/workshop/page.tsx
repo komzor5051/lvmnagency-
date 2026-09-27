@@ -339,36 +339,56 @@ export default function WorkshopPage() {
           </div>
         </section>
 
-        {/* Цена */}
-        <section className="border-b border-[#15161a]">
-          <div className="mx-auto max-w-7xl px-5 py-20 md:px-14 md:py-28">
-            <p className="k-mono inline-block bg-white pr-2">Цена</p>
-            <div data-m="stagger" className="mt-10 grid gap-6 md:grid-cols-2 md:gap-8">
-              <div data-m-item className="k-sheet p-8 md:p-12">
+        {/* Цена — тёмный лист, чтобы блок было видно при быстрой прокрутке */}
+        <section
+          id="price"
+          className="relative text-white"
+          style={{
+            backgroundColor: "#15161a",
+            backgroundImage:
+              "linear-gradient(rgba(255,255,255,.08) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.08) 1px, transparent 1px)",
+            backgroundSize: "200px 200px",
+          }}
+        >
+          <div className="mx-auto max-w-7xl px-5 py-24 md:px-14 md:py-32">
+            <p className="font-mono text-[11px] uppercase tracking-[0.12em] text-white/50">Цена</p>
+            <h2
+              data-m="lines"
+              className="font-heading mt-5 max-w-3xl text-balance text-4xl font-extrabold leading-[1.05] tracking-[-0.03em] md:text-6xl"
+            >
+              Два варианта участия
+            </h2>
+
+            <div data-m="stagger" className="mt-14 grid gap-6 text-[#15161a] md:grid-cols-2 md:gap-8">
+              <div data-m-item className="k-sheet flex flex-col p-8 md:p-12">
                 <span className="k-sheet-index">участие</span>
                 <p className="font-heading text-6xl font-extrabold tracking-[-0.04em] md:text-7xl">4900 ₽</p>
                 <div className="mt-6 space-y-3 text-[16px] leading-relaxed text-[#6b6e78]">
                   <p>3 часа в Zoom, три файла на твоих материалах.</p>
                   <p>Запись остаётся у тебя.</p>
                 </div>
-                <div className="mt-10">
+                <div className="mt-auto pt-10">
                   <Cta label="Записаться" />
                 </div>
               </div>
-              <div data-m-item className="k-sheet p-8 md:p-12">
+              <div data-m-item className="k-sheet flex flex-col p-8 md:p-12" style={{ background: "#c8f04c" }}>
                 <span className="k-sheet-index">с разбором</span>
-                <p className="font-heading text-6xl font-extrabold tracking-[-0.04em] md:text-7xl">7900 ₽</p>
-                <div className="mt-6 space-y-3 text-[16px] leading-relaxed text-[#6b6e78]">
+                <p className="k-mono inline-block self-start border border-[#15161a] px-2 py-1 !text-[#15161a]">
+                  выгоднее на 850 ₽
+                </p>
+                <p className="font-heading mt-4 text-6xl font-extrabold tracking-[-0.04em] md:text-7xl">7900 ₽</p>
+                <div className="mt-6 space-y-3 text-[16px] leading-relaxed text-[#15161a]/80">
                   <p>Всё то же плюс 60 минут один на один через неделю.</p>
                   <p>Смотрю аккаунт и то, что ты опубликовал по новым файлам.</p>
+                  <p>Отдельно практикум и час со мной стоят 8750 ₽.</p>
                   <p className="k-mono pt-2 !text-[#15161a]">5 мест</p>
                 </div>
-                <div className="mt-10">
+                <div className="mt-auto pt-10">
                   <Cta label="Записаться с разбором" href={payReview} />
                 </div>
               </div>
             </div>
-            <p data-m="reveal" className="mt-8 max-w-2xl bg-white/85 text-[16px] leading-relaxed text-[#6b6e78]">
+            <p data-m="reveal" className="mt-10 max-w-2xl text-[17px] leading-[1.65] text-white/65">
               Три часа со мной один на один стоят 11 550 ₽. На практикуме те же три часа, но в группе, поэтому 4900 ₽.
             </p>
           </div>
