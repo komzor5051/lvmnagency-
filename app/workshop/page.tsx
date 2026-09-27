@@ -15,9 +15,10 @@ export const metadata: Metadata = {
 // Copy passed ~/.tov/tovlint.mjs — keep edits in Влад's voice (ты, no «!»,
 // «ИИ» in public copy, never «пишет за тебя»).
 
-// Ссылки lava.top. Пока продукты не созданы, кнопки ведут в Telegram.
-const PAY_URL_BASE = "";
-const PAY_URL_REVIEW = "";
+// Ссылки lava.top. domainName держит атрибуцию платежа за сайтом, как у /lab.
+const LAVA_QS = "?currency=RUB&domainId=2b8044d9-fd3c-47ce-ad84-1cb65c1e0fc8&domainName=vladlyamin.ru";
+const PAY_URL_BASE = `https://app.lava.top/products/8e3f5a89-2b4c-435f-b438-1c8818b9b45b${LAVA_QS}`;
+const PAY_URL_REVIEW = `https://app.lava.top/products/f7833839-d743-444c-9a30-af033e55ef31${LAVA_QS}`;
 
 const payBase = PAY_URL_BASE || TELEGRAM_URL;
 const payReview = PAY_URL_REVIEW || TELEGRAM_URL;
