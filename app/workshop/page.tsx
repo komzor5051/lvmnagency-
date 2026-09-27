@@ -171,10 +171,26 @@ export default function WorkshopPage() {
                 </p>
               </div>
 
-              <div className="k-point mt-10 flex flex-wrap items-center gap-x-6 gap-y-3" style={{ animationDelay: "0.9s" }}>
-                <Cta label="Записаться" />
-                <span className="k-mono bg-white px-1 !text-[#15161a]">4900 ₽ · {seatsLabel}</span>
+              {/* Оба тарифа сразу на первом экране */}
+              <div className="k-point mt-10 grid max-w-3xl gap-4 sm:grid-cols-2" style={{ animationDelay: "0.9s" }}>
+                <div className="flex flex-col border border-[#15161a] bg-white p-6">
+                  <p className="k-mono !text-[#6b6e78]">Участие</p>
+                  <p className="font-heading mt-3 text-5xl font-extrabold tracking-[-0.04em]">4900 ₽</p>
+                  <p className="mt-3 text-[15px] leading-relaxed text-[#6b6e78]">3 часа в Zoom, три файла, запись остаётся.</p>
+                  <div className="mt-auto pt-6">
+                    <Cta label="Записаться" />
+                  </div>
+                </div>
+                <div className="flex flex-col border border-[#15161a] bg-[#c8f04c] p-6">
+                  <p className="k-mono !text-[#15161a]">С разбором 1:1 · 5 мест</p>
+                  <p className="font-heading mt-3 text-5xl font-extrabold tracking-[-0.04em]">7900 ₽</p>
+                  <p className="mt-3 text-[15px] leading-relaxed text-[#15161a]/80">Всё то же плюс 60 минут один на один через неделю.</p>
+                  <div className="mt-auto pt-6">
+                    <Cta label="С разбором" href={payReview} />
+                  </div>
+                </div>
               </div>
+              <p className="k-mono mt-4 inline-block bg-white px-1 !text-[#15161a]">{seatsLabel}</p>
             </div>
           </div>
         </section>
