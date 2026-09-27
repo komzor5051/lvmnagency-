@@ -119,7 +119,7 @@ const faq = [
     body: "Запись остаётся у тебя. Но файлы собираются на твоих материалах, поэтому лучше быть в Zoom.",
   },
   {
-    title: "Что за разбор за 9900 ₽?",
+    title: "Что за разбор за 7900 ₽?",
     body: "Через неделю после практикума 60 минут один на один: смотрю твой аккаунт и то, что ты опубликовал по новым файлам. Таких мест 5.",
   },
 ];
@@ -357,7 +357,7 @@ export default function WorkshopPage() {
               </div>
               <div data-m-item className="k-sheet p-8 md:p-12">
                 <span className="k-sheet-index">с разбором</span>
-                <p className="font-heading text-6xl font-extrabold tracking-[-0.04em] md:text-7xl">9900 ₽</p>
+                <p className="font-heading text-6xl font-extrabold tracking-[-0.04em] md:text-7xl">7900 ₽</p>
                 <div className="mt-6 space-y-3 text-[16px] leading-relaxed text-[#6b6e78]">
                   <p>Всё то же плюс 60 минут один на один через неделю.</p>
                   <p>Смотрю аккаунт и то, что ты опубликовал по новым файлам.</p>
