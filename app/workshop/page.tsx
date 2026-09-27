@@ -144,13 +144,13 @@ export default function WorkshopPage() {
                 data-m-hero
                 className="font-heading mt-6 max-w-[15ch] text-balance text-[42px] font-extrabold leading-[1.02] tracking-[-0.04em] sm:text-[56px] lg:max-w-[16ch] lg:text-[76px]"
               >
-                30&nbsp;тем и 5&nbsp;черновиков <span className="rz-mark">в твоём голосе</span> за 3&nbsp;часа
+                Как внедрить ИИ в&nbsp;свой контент <span className="rz-mark">за 3&nbsp;часа</span>
               </h1>
 
               <div data-m="reveal" data-m-delay="0.5" className="mt-8 max-w-xl bg-white/85 py-1">
                 <p className="text-[17px] leading-[1.6] text-[#6b6e78] md:text-[18px]">
-                  Для экспертов с практикой: психологов, коучей, дизайнеров, нутрициологов. Собираем вживую на твоих
-                  старых постах три файла, на которых держится регулярный контент. Группа до 15 человек.
+                  Для экспертов с практикой: психологов, коучей, дизайнеров, нутрициологов. Вживую, на твоих старых
+                  постах, собираем файл голоса, 30 тем и 5 черновиков. Группа до 15 человек.
                 </p>
               </div>
 
