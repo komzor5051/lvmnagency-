@@ -3,9 +3,9 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { track } from "@/lib/analytics";
+import { WORKSHOP_START as START, SEATS_TOTAL, SEATS_TAKEN, seatsLabel } from "@/lib/workshop";
 
-// Практикум 11.10.2026, 12:00 МСК (UTC+3). После старта секция пропадает сама.
-const START = Date.UTC(2026, 9, 11, 9, 0, 0);
+// После старта практикума секция пропадает сама.
 
 const files = ["Файл голоса по твоим постам", "Банк из 30 тем из практики", "5 черновиков постов и рилсов"];
 
@@ -96,9 +96,17 @@ export function WorkshopBanner() {
               </div>
             ))}
           </div>
-          <p className="mt-6 font-mono text-[12px] leading-relaxed text-white/60">
-            Воскресенье, 11 октября · 3 часа · до 15 мест
-          </p>
+          <div className="mt-8">
+            <div className="flex items-baseline justify-between gap-4 font-mono text-[11px] uppercase tracking-[0.12em]">
+              <span className="text-white/50">Места</span>
+              <span className="text-[#c8f04c]">{seatsLabel}</span>
+            </div>
+            <div className="mt-3 flex gap-1" aria-hidden="true">
+              {Array.from({ length: SEATS_TOTAL }, (_, i) => (
+                <span key={i} className={`h-2 flex-1 ${i < SEATS_TAKEN ? "bg-white/25" : "bg-[#c8f04c]"}`} />
+              ))}
+            </div>
+          </div>
         </div>
       </div>
     </section>

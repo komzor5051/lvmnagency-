@@ -3,6 +3,7 @@ import Link from "next/link";
 import { TELEGRAM_URL } from "@/lib/products";
 import { Accordion } from "@/components/kalka/Interactive";
 import { Rulers } from "@/components/kalka/Rulers";
+import { SEATS_TOTAL, seatsLabel } from "@/lib/workshop";
 
 export const metadata: Metadata = {
   title: "Практикум «Система контента за 3 часа» — 11 октября",
@@ -171,7 +172,7 @@ export default function WorkshopPage() {
 
               <div className="k-point mt-10 flex flex-wrap items-center gap-x-6 gap-y-3" style={{ animationDelay: "0.9s" }}>
                 <Cta label="Записаться" />
-                <span className="k-mono bg-white px-1 !text-[#15161a]">4900 ₽ · запись остаётся</span>
+                <span className="k-mono bg-white px-1 !text-[#15161a]">4900 ₽ · {seatsLabel}</span>
               </div>
             </div>
           </div>
@@ -389,7 +390,7 @@ export default function WorkshopPage() {
               </div>
             </div>
             <p data-m="reveal" className="mt-10 max-w-2xl text-[17px] leading-[1.65] text-white/65">
-              Три часа со мной один на один стоят 11 550 ₽. На практикуме те же три часа, но в группе, поэтому 4900 ₽.
+              Три часа со мной один на один стоят 11 550 ₽. На практикуме те же три часа, но в группе, поэтому 4900 ₽. Группа до {SEATS_TOTAL} человек, сейчас {seatsLabel}.
             </p>
           </div>
         </section>
