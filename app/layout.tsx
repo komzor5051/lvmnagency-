@@ -7,6 +7,7 @@ import LenisProvider from "@/components/motion/LenisProvider";
 import StudioNav from "@/components/studio/StudioNav";
 import StudioFooter from "@/components/studio/StudioFooter";
 import MotionLayer from "@/components/motion/MotionLayer";
+import CookieNotice from "@/components/CookieNotice";
 import { SITE_URL } from "@/lib/site";
 import "./globals.css";
 import "./studio.css";
@@ -168,6 +169,7 @@ export default function RootLayout({
           <StudioFooter />
           <YandexMetrika />
           <TrafficSource />
+          <CookieNotice />
           <script
             type="application/ld+json"
             dangerouslySetInnerHTML={{ __html: jsonLd(personSchema) }}
