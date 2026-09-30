@@ -8,7 +8,7 @@ import { SEATS_TOTAL, seatsLabel } from "@/lib/workshop";
 export const metadata: Metadata = {
   title: "Практикум «Система контента за 3 часа» — 11 октября",
   description:
-    "Практикум для экспертов с практикой. За 3 часа в Zoom собираешь файл голоса, банк из 30 тем и 5 черновиков на своих материалах. 11 октября, 12:00 МСК, 4900 ₽.",
+    "Практикум для экспертов с практикой. За 3 часа в Zoom собираешь файл голоса, банк из 30 тем и 5 черновиков на своих материалах. 11 октября, 12:00 МСК, 2000 ₽.",
 };
 
 // Landing for the one-day workshop, same tracing-paper visual as /lab.
@@ -121,7 +121,7 @@ const faq = [
     body: "Запись остаётся у тебя. Но файлы собираются на твоих материалах, поэтому лучше быть в Zoom.",
   },
   {
-    title: "Что за разбор за 7900 ₽?",
+    title: "Что за разбор за 5000 ₽?",
     body: "Через неделю после практикума 60 минут один на один: смотрю твой аккаунт и то, что ты опубликовал по новым файлам. Таких мест 5.",
   },
 ];
@@ -175,7 +175,7 @@ export default function WorkshopPage() {
               <div className="k-point mt-10 grid max-w-3xl gap-4 sm:grid-cols-2" style={{ animationDelay: "0.9s" }}>
                 <div className="flex flex-col border border-[#15161a] bg-white p-6">
                   <p className="k-mono !text-[#6b6e78]">Участие</p>
-                  <p className="font-heading mt-3 text-5xl font-extrabold tracking-[-0.04em]">4900 ₽</p>
+                  <p className="font-heading mt-3 text-5xl font-extrabold tracking-[-0.04em]">2000 ₽</p>
                   <p className="mt-3 text-[15px] leading-relaxed text-[#6b6e78]">3 часа в Zoom, три файла, запись остаётся.</p>
                   <div className="mt-auto pt-6">
                     <Cta label="Записаться" />
@@ -183,7 +183,7 @@ export default function WorkshopPage() {
                 </div>
                 <div className="flex flex-col border border-[#15161a] bg-[#c8f04c] p-6">
                   <p className="k-mono !text-[#15161a]">С разбором 1:1 · 5 мест</p>
-                  <p className="font-heading mt-3 text-5xl font-extrabold tracking-[-0.04em]">7900 ₽</p>
+                  <p className="font-heading mt-3 text-5xl font-extrabold tracking-[-0.04em]">5000 ₽</p>
                   <p className="mt-3 text-[15px] leading-relaxed text-[#15161a]/80">Всё то же плюс 60 минут один на один через неделю.</p>
                   <div className="mt-auto pt-6">
                     <Cta label="С разбором" href={payReview} />
@@ -380,7 +380,7 @@ export default function WorkshopPage() {
             <div data-m="stagger" className="mt-14 grid gap-6 text-[#15161a] md:grid-cols-2 md:gap-8">
               <div data-m-item className="k-sheet flex flex-col p-8 md:p-12">
                 <span className="k-sheet-index">участие</span>
-                <p className="font-heading text-6xl font-extrabold tracking-[-0.04em] md:text-7xl">4900 ₽</p>
+                <p className="font-heading text-6xl font-extrabold tracking-[-0.04em] md:text-7xl">2000 ₽</p>
                 <div className="mt-6 space-y-3 text-[16px] leading-relaxed text-[#6b6e78]">
                   <p>3 часа в Zoom, три файла на твоих материалах.</p>
                   <p>Запись остаётся у тебя.</p>
@@ -394,7 +394,7 @@ export default function WorkshopPage() {
                 <p className="k-mono inline-block self-start border border-[#15161a] px-2 py-1 !text-[#15161a]">
                   выгоднее на 850 ₽
                 </p>
-                <p className="font-heading mt-4 text-6xl font-extrabold tracking-[-0.04em] md:text-7xl">7900 ₽</p>
+                <p className="font-heading mt-4 text-6xl font-extrabold tracking-[-0.04em] md:text-7xl">5000 ₽</p>
                 <div className="mt-6 space-y-3 text-[16px] leading-relaxed text-[#15161a]/80">
                   <p>Всё то же плюс 60 минут один на один через неделю.</p>
                   <p>Смотрю аккаунт и то, что ты опубликовал по новым файлам.</p>
@@ -407,7 +407,7 @@ export default function WorkshopPage() {
               </div>
             </div>
             <p data-m="reveal" className="mt-10 max-w-2xl text-[17px] leading-[1.65] text-white/65">
-              Три часа со мной один на один стоят 11 550 ₽. На практикуме те же три часа, но в группе, поэтому 4900 ₽. Группа до {SEATS_TOTAL} человек, сейчас {seatsLabel}.
+              Три часа со мной один на один стоят 11 550 ₽. На практикуме те же три часа, но в группе, поэтому 2000 ₽. Группа до {SEATS_TOTAL} человек, сейчас {seatsLabel}.
             </p>
           </div>
         </section>

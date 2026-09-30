@@ -58,13 +58,17 @@ export function WorkshopHeroCard() {
         <p className="font-heading text-[17px] font-bold leading-snug tracking-[-0.02em]">
           Как внедрить ИИ в&nbsp;свой контент за&nbsp;3&nbsp;часа
         </p>
-        <p className="mt-2 font-mono text-[11px] uppercase tracking-[0.1em] text-[#6b6e78]">{seatsLabel}</p>
+        <p className="font-heading mt-3 text-[34px] font-extrabold leading-none tracking-[-0.04em]">2000 ₽</p>
+        <p className="mt-2 text-[13px] leading-snug text-[#6b6e78]">
+          Файл голоса, 30 тем и 5 черновиков. С личным разбором 5000 ₽.
+        </p>
+        <p className="mt-3 font-mono text-[11px] uppercase tracking-[0.1em] text-[#6b6e78]">{seatsLabel}</p>
         <Link
           href="/workshop"
           onClick={() => track("workshop_home_click", { cta: "hero_card" })}
           className="mt-4 flex items-center justify-between bg-[#c8f04c] px-4 py-3 text-[15px] font-semibold text-[#15161a] transition-colors hover:bg-[#15161a] hover:text-white"
         >
-          Записаться за 4900 ₽ <span aria-hidden="true">&rarr;</span>
+          Записаться за 2000 ₽ <span aria-hidden="true">&rarr;</span>
         </Link>
       </div>
     </aside>
@@ -99,7 +103,7 @@ export function WorkshopBanner() {
             <span className="bg-[#c8f04c] px-1 text-[#15161a]">за&nbsp;3&nbsp;часа</span>
           </h2>
           <p className="mt-8 max-w-xl text-[17px] leading-[1.65] text-white/65">
-            Собираем вживую на твоих старых постах. Группа до 15 человек, запись остаётся у тебя.
+            Собираем вживую на твоих старых постах. Группа до 15 человек, запись остаётся у тебя. Три часа со мной один на один стоят 11&nbsp;550&nbsp;₽, в группе это 2000&nbsp;₽.
           </p>
 
           <ul className="mt-8 space-y-3">
@@ -111,20 +115,31 @@ export function WorkshopBanner() {
             ))}
           </ul>
 
-          <div className="mt-10 flex flex-wrap items-center gap-4">
+          <div className="mt-10 grid max-w-xl grid-cols-2 gap-px bg-white/20">
+            <div className="bg-[#15161a] p-5">
+              <p className="font-heading text-4xl font-extrabold leading-none tracking-[-0.04em] md:text-5xl">2000 ₽</p>
+              <p className="mt-3 font-mono text-[11px] uppercase tracking-[0.12em] text-white/50">Практикум</p>
+            </div>
+            <div className="bg-[#15161a] p-5">
+              <p className="font-heading text-4xl font-extrabold leading-none tracking-[-0.04em] md:text-5xl">5000 ₽</p>
+              <p className="mt-3 font-mono text-[11px] uppercase tracking-[0.12em] text-white/50">С личным разбором</p>
+            </div>
+          </div>
+
+          <div className="mt-6 flex flex-wrap items-center gap-4">
             <Link
               href="/workshop"
               onClick={() => track("workshop_home_click", { cta: "primary" })}
               className="inline-flex items-center gap-2 bg-[#c8f04c] px-6 py-4 text-[16px] font-semibold text-[#15161a] transition-colors hover:bg-white"
             >
-              Записаться за 4900 ₽ <span aria-hidden="true">&rarr;</span>
+              Записаться за 2000 ₽ <span aria-hidden="true">&rarr;</span>
             </Link>
             <Link
               href="/workshop"
-              onClick={() => track("workshop_home_click", { cta: "program" })}
+              onClick={() => track("workshop_home_click", { cta: "review" })}
               className="inline-flex items-center gap-2 border border-white/40 px-6 py-4 text-[16px] font-semibold transition-colors hover:border-white"
             >
-              Программа по минутам
+              С разбором за 5000 ₽
             </Link>
           </div>
         </div>
