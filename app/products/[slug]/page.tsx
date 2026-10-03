@@ -144,7 +144,7 @@ export default async function ProductPage({
     <div className="k-page">
       <Crosshair />
       <main>
-        <section className="k-section">
+        <section className="k-section pk-hero-section">
           <div className="k-wrap">
             <nav aria-label="Хлебные крошки">
               <Link href="/products" className="k-mono -my-3 inline-block bg-white py-3 pr-2 hover:!text-[#15161a]">
@@ -165,9 +165,20 @@ export default async function ProductPage({
                 <h1 data-m="lines" data-m-hero className="k-h1 mt-5">
                   {product.title}
                 </h1>
-                <p data-m="reveal" data-m-delay="0.4" className="k-lead mt-6 bg-white/85 py-1">
+                <p
+                  data-m="reveal"
+                  data-m-delay="0.4"
+                  className={`k-lead mt-6 bg-white/85 py-1${extra?.heroPoints?.length ? " pk-tagline--long" : ""}`}
+                >
                   {product.tagline}
                 </p>
+                {extra?.heroPoints?.length ? (
+                  <ul className="pk-hero-points">
+                    {extra.heroPoints.map((t) => (
+                      <li key={t}>{t}</li>
+                    ))}
+                  </ul>
+                ) : null}
               </header>
               <aside data-m="reveal" data-m-delay="0.55" className="k-sheet pk-buy-sheet p-8">
                 <span className="k-sheet-index">цена</span>

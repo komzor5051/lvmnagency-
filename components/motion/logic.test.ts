@@ -21,6 +21,9 @@ test("resolveTier: reduced-motion важнее указателя", () => {
 
 test("effectiveKind: на таче тяжёлые сцены упрощаются", () => {
   assert.equal(effectiveKind("pin", "touch"), "stagger");
+  assert.equal(effectiveKind("reveal", "touch"), null);
+  assert.equal(effectiveKind("stagger", "touch"), null);
+  assert.equal(effectiveKind("reveal", "full"), "reveal");
   assert.equal(effectiveKind("parallax", "touch"), null);
   assert.equal(effectiveKind("draw", "touch"), null);
   assert.equal(effectiveKind("lines", "touch"), "lines");

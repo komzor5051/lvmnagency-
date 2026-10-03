@@ -15,9 +15,13 @@ export function resolveTier(env: { reduced: boolean; finePointer: boolean }): Ti
 }
 
 // Пин и скраб во встроенном браузере Instagram дёргают скролл.
-// На таче пин-сцена становится каскадом, параллакс и линия стоят на месте.
+// На таче параллакс и линия стоят на месте, пин-сцена становится каскадом.
+// Появление блоков (reveal, stagger) отключено: продающий текст виден сразу,
+// а не после скролла.
 const TOUCH_FALLBACK: Partial<Record<MotionKind, MotionKind | null>> = {
   pin: "stagger",
+  reveal: null,
+  stagger: null,
   parallax: null,
   draw: null,
 };

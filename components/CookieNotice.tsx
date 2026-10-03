@@ -10,12 +10,32 @@ const STORAGE_KEY = "cookie-notice-accepted";
 export default function CookieNotice() {
   const [visible, setVisible] = useState(false);
 
+  // Баннер не должен закрывать цену и кнопку оплаты на первом экране телефона.
+  // Показываем после первого движения (скролл, касание, клавиша) или через 6 секунд.
   useEffect(() => {
+    let accepted = false;
     try {
-      if (!localStorage.getItem(STORAGE_KEY)) setVisible(true);
-    } catch {
+      accepted = !!localStorage.getItem(STORAGE_KEY);
+    } catch {}
+    if (accepted) return;
+    const events = ["scroll", "touchmove", "keydown", "wheel"] as const;
+    let timer: ReturnType<typeof setTimeout>;
+    const show = () => {
+      clearTimeout(timer);
+      events.forEach((e) => window.removeEventListener(e, onEvent));
       setVisible(true);
-    }
+    };
+    // Программный scroll при загрузке (восстановление позиции, Lenis) не считаем движением.
+    const onEvent = (ev: Event) => {
+      if (ev.type === "scroll" && window.scrollY < 24) return;
+      show();
+    };
+    events.forEach((e) => window.addEventListener(e, onEvent, { passive: true }));
+    timer = setTimeout(show, 6000);
+    return () => {
+      clearTimeout(timer);
+      events.forEach((e) => window.removeEventListener(e, onEvent));
+    };
   }, []);
 
   if (!visible) return null;

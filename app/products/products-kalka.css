@@ -155,6 +155,24 @@
   .pk-hero-grid { gap: 24px; }
 }
 
+/* Первый экран: что получает покупатель. Видно сразу, без скролла и анимации. */
+.pk-hero-points { list-style: none; margin: 20px 0 0; padding: 0; display: grid; gap: 10px; background: rgba(255, 255, 255, 0.85); }
+.pk-hero-points li { position: relative; padding-left: 20px; font-size: 16px; line-height: 1.4; color: var(--k-ink, #15161a); }
+.pk-hero-points li::before { content: ""; position: absolute; left: 0; top: 0.5em; width: 8px; height: 8px; background: #c8f04c; border: 1px solid var(--k-ink, #15161a); }
+@media (max-width: 899px) {
+  /* Длинное описание (термины, жаргон) уступает место конкретным результатам. Остаётся в DOM для поиска. */
+  .pk-tagline--long { display: none; }
+  .pk-hero-grid { gap: 20px; }
+  /* Меньше воздуха сверху: цена и кнопка должны попасть в первый экран телефона. */
+  .pk-hero-section { padding-top: 28px; }
+  .pk-hero-section .pk-hero-grid { margin-top: 20px; }
+  .pk-hero-grid .pk-buy-sheet { padding: 16px 18px; gap: 10px; }
+  .pk-hero-grid .pk-buy-sheet .k-sheet-index,
+  .pk-hero-grid .pk-buy-sheet .k-mono { display: none; }
+  .pk-hero-grid .pk-buy-sheet .pk-price { font-size: 32px; margin: 0; }
+  .pk-hero-grid .pk-buy-sheet small { font-size: 12px; line-height: 1.35; }
+}
+
 /* Карточки тянутся на всю высоту ряда, иначе фон сетки (ink) виден под короткими */
 .pk-grid > *, .pk-pick > * { height: 100%; background: #fff; }
 .pk-grid > * > .pk-card { height: 100%; }
