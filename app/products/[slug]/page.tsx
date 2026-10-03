@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getProduct, products, type Product } from "@/lib/products";
 import { BuyAction } from "../BuyAction";
+import { StickyBuy } from "@/components/products/StickyBuy";
 import { productExtras } from "../content";
 import { TrackedLink } from "@/components/bento/TrackedLink";
 import { Vsl } from "@/components/products/Vsl";
@@ -174,7 +175,7 @@ export default async function ProductPage({
                   </ul>
                 ) : null}
               </header>
-              <aside data-m="reveal" data-m-delay="0.55" className="k-sheet pk-buy-sheet p-8">
+              <aside data-m="reveal" data-m-delay="0.55" data-sticky-hide className="k-sheet pk-buy-sheet p-8">
                 <span className="k-sheet-index">цена</span>
                 <span className="k-mono !text-[#15161a]">Стоимость</span>
                 <p className="pk-price">{product.priceLabel}</p>
@@ -318,7 +319,7 @@ export default async function ProductPage({
           </section>
         ) : null}
 
-        <section className="pk-final">
+        <section className="pk-final" data-sticky-hide>
           <div className="k-wrap py-20 md:py-24">
             <div data-m="reveal" className="grid gap-10 md:grid-cols-[1fr_1fr] md:items-end">
               <div>
@@ -359,6 +360,14 @@ export default async function ProductPage({
           </section>
         )}
       </main>
+      {product.buy.kind === "lava" && product.buy.url ? (
+        <StickyBuy
+          href={product.buy.url}
+          label={product.cta?.buy ?? "Оформить"}
+          price={product.priceLabel}
+          product={product.id}
+        />
+      ) : null}
 
       <script
         type="application/ld+json"

@@ -212,6 +212,18 @@
 .k-row { display: grid; gap: 24px; padding: 24px 0; border-bottom: 1px solid #15161a; background: #fff; }
 
 @media (max-width: 767px) {
+  /* Подписи не мельче 12px: на телефоне 10-11px не читаются. */
+  .k-mono { font-size: 12px; letter-spacing: 0.08em; }
   .k-wrap { padding: 0 20px; }
   .k-section { padding: 72px 0; }
+}
+
+/* Нижняя граница читаемости на телефоне: подписи, индексы и мелкие цены не мельче 12px.
+   Правило лежит в одном месте, чтобы не править десятки разбросанных 10-11px. */
+@media (max-width: 767px) {
+  .k-cross-tag, .k-sheet-index, .pk-card-index, .k-dim, .k-acc-num,
+  .pk-card-price small, .rz-row-price small, .rz-spread-price small,
+  .rz-card-price small, .hk-product-price small, .mm-num, .mm-node--kid small,
+  .ft-mono, .text-\[10px\], .text-\[11px\] { font-size: 12px !important; }
+  .text-\[10px\] small, small.text-\[10px\] { font-size: 12px !important; }
 }

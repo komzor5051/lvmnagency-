@@ -4,6 +4,7 @@ import { TELEGRAM_URL } from "@/lib/products";
 import { Accordion } from "@/components/kalka/Interactive";
 import { Rulers } from "@/components/kalka/Rulers";
 import { SEATS_TOTAL, seatsLabel } from "@/lib/workshop";
+import { StickyBuy } from "@/components/products/StickyBuy";
 
 export const metadata: Metadata = {
   title: "Практикум «Система контента за 3 часа» — 11 октября",
@@ -146,46 +147,46 @@ export default function WorkshopPage() {
         <section className="relative min-h-[min(92vh,880px)] overflow-hidden border-b border-[#15161a]">
           <Rulers />
 
-          <div className="relative z-[2] mx-auto max-w-7xl px-5 pb-20 pl-10 pt-24 md:px-14 md:pt-28">
+          <div className="relative z-[2] mx-auto max-w-7xl px-5 pb-12 pl-10 pt-8 md:px-14 md:pb-20 md:pt-28">
             <nav aria-label="Хлебные крошки">
               <Link href="/products" className="k-mono -my-3 inline-block bg-white py-3 pr-2 hover:text-[#15161a]">
                 &larr; Все продукты
               </Link>
             </nav>
 
-            <div className="pt-10 md:pt-16">
+            <div className="pt-5 md:pt-16">
               <p className="k-mono inline-block bg-white pr-2">Практикум «Система контента» · 11 октября · 12:00 МСК · Zoom</p>
 
               <h1
                 data-m="lines"
                 data-m-hero
-                className="font-heading mt-6 max-w-[15ch] text-balance text-[42px] font-extrabold leading-[1.02] tracking-[-0.04em] sm:text-[56px] lg:max-w-[16ch] lg:text-[76px]"
+                className="font-heading mt-4 max-w-[15ch] text-balance text-[36px] font-extrabold md:mt-6 min-[400px]:text-[40px] leading-[1.02] tracking-[-0.04em] sm:text-[56px] lg:max-w-[16ch] lg:text-[76px]"
               >
                 Как внедрить ИИ в&nbsp;свой контент <span className="rz-mark">за 3&nbsp;часа</span>
               </h1>
 
-              <div data-m="reveal" data-m-delay="0.5" className="mt-8 max-w-xl bg-white/85 py-1">
-                <p className="text-[17px] leading-[1.6] text-[#6b6e78] md:text-[18px]">
+              <div data-m="reveal" data-m-delay="0.5" className="mt-4 max-w-xl bg-white/85 py-1 md:mt-8">
+                <p className="text-[16px] leading-[1.6] text-[#6b6e78] md:text-[18px]">
                   Для экспертов с практикой: психологов, коучей, дизайнеров, нутрициологов. Вживую, на твоих старых
                   постах, собираем файл голоса, 30 тем и 5 черновиков. Группа до 15 человек.
                 </p>
               </div>
 
               {/* Оба тарифа сразу на первом экране */}
-              <div className="k-point mt-10 grid max-w-3xl gap-4 sm:grid-cols-2" style={{ animationDelay: "0.9s" }}>
-                <div className="flex flex-col border border-[#15161a] bg-white p-6">
+              <div data-sticky-hide className="k-point mt-5 grid max-w-3xl gap-3 sm:mt-10 sm:grid-cols-2 sm:gap-4" style={{ animationDelay: "0.9s" }}>
+                <div className="flex flex-col border border-[#15161a] bg-white p-4 sm:p-6">
                   <p className="k-mono !text-[#6b6e78]">Участие</p>
-                  <p className="font-heading mt-3 text-5xl font-extrabold tracking-[-0.04em]">2000 ₽</p>
-                  <p className="mt-3 text-[15px] leading-relaxed text-[#6b6e78]">3 часа в Zoom, три файла, запись остаётся.</p>
-                  <div className="mt-auto pt-6">
+                  <p className="font-heading mt-2 text-4xl font-extrabold tracking-[-0.04em] sm:mt-3 sm:text-5xl">2000 ₽</p>
+                  <p className="mt-2 text-[15px] leading-relaxed text-[#6b6e78] sm:mt-3">3 часа в Zoom, три файла, запись остаётся.</p>
+                  <div className="mt-auto pt-4 sm:pt-6">
                     <Cta label="Записаться" />
                   </div>
                 </div>
-                <div className="flex flex-col border border-[#15161a] bg-[#c8f04c] p-6">
+                <div className="flex flex-col border border-[#15161a] bg-[#c8f04c] p-4 sm:p-6">
                   <p className="k-mono !text-[#15161a]">С разбором 1:1 · 5 мест</p>
-                  <p className="font-heading mt-3 text-5xl font-extrabold tracking-[-0.04em]">5000 ₽</p>
-                  <p className="mt-3 text-[15px] leading-relaxed text-[#15161a]/80">Всё то же плюс 60 минут один на один через неделю.</p>
-                  <div className="mt-auto pt-6">
+                  <p className="font-heading mt-2 text-4xl font-extrabold tracking-[-0.04em] sm:mt-3 sm:text-5xl">5000 ₽</p>
+                  <p className="mt-2 text-[15px] leading-relaxed text-[#15161a]/80 sm:mt-3">Всё то же плюс 60 минут один на один через неделю.</p>
+                  <div className="mt-auto pt-4 sm:pt-6">
                     <Cta label="С разбором" href={payReview} />
                   </div>
                 </div>
@@ -377,7 +378,7 @@ export default function WorkshopPage() {
               Два варианта участия
             </h2>
 
-            <div data-m="stagger" className="mt-14 grid gap-6 text-[#15161a] md:grid-cols-2 md:gap-8">
+            <div data-m="stagger" data-sticky-hide className="mt-14 grid gap-6 text-[#15161a] md:grid-cols-2 md:gap-8">
               <div data-m-item className="k-sheet flex flex-col p-8 md:p-12">
                 <span className="k-sheet-index">участие</span>
                 <p className="font-heading text-6xl font-extrabold tracking-[-0.04em] md:text-7xl">2000 ₽</p>
@@ -430,7 +431,7 @@ export default function WorkshopPage() {
         </section>
 
         {/* Финал */}
-        <section>
+        <section data-sticky-hide>
           <div className="mx-auto max-w-7xl px-5 py-24 md:px-14 md:py-32">
             <h2
               data-m="lines"
@@ -448,6 +449,7 @@ export default function WorkshopPage() {
           </div>
         </section>
       </main>
+      <StickyBuy href={payBase} label="Записаться" price="2000 ₽" product="workshop" />
     </div>
   );
 }

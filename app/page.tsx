@@ -58,9 +58,9 @@ export default async function HomePage() {
             <h1
               data-m="lines"
               data-m-hero
-              className="font-heading mt-6 max-w-[16ch] text-balance text-[42px] font-extrabold leading-[1.02] tracking-[-0.04em] sm:text-[56px] lg:max-w-[19ch] lg:text-[72px]"
+              className="font-heading mt-6 max-w-[16ch] text-balance text-[36px] font-extrabold leading-[1.02] tracking-[-0.04em] sm:text-[56px] lg:max-w-[19ch] lg:text-[72px]"
             >
-              Учу экспертов и предпринимателей работать с <span className="rz-mark">нейросетями</span>
+              Учу экспертов и предприни­mателей работать с <span className="rz-mark">нейросетями</span>
             </h1>
 
             <div data-m="reveal" data-m-delay="0.5" className="mt-8 max-w-xl bg-white/85 py-1">

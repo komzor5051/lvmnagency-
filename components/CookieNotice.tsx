@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import "./cookie-notice.css";
 
 const STORAGE_KEY = "cookie-notice-accepted";
@@ -9,6 +9,24 @@ const STORAGE_KEY = "cookie-notice-accepted";
 // продолжая пользоваться сайтом, человек соглашается. Выбор хранится в localStorage.
 export default function CookieNotice() {
   const [visible, setVisible] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+
+  // Высота баннера нужна липкой полосе покупки, чтобы встать над ним, а не под него.
+  useEffect(() => {
+    const root = document.documentElement;
+    if (!visible || !ref.current) {
+      root.style.setProperty("--ck-h", "0px");
+      return;
+    }
+    const el = ref.current;
+    const set = () => root.style.setProperty("--ck-h", `${el.offsetHeight}px`);
+    set();
+    window.addEventListener("resize", set);
+    return () => {
+      window.removeEventListener("resize", set);
+      root.style.setProperty("--ck-h", "0px");
+    };
+  }, [visible]);
 
   // Баннер не должен закрывать цену и кнопку оплаты на первом экране телефона.
   // Показываем после первого движения (скролл, касание, клавиша) или через 6 секунд.
@@ -19,7 +37,6 @@ export default function CookieNotice() {
     } catch {}
     if (accepted) return;
     const events = ["scroll", "touchmove", "keydown", "wheel"] as const;
-    let timer: ReturnType<typeof setTimeout>;
     const show = () => {
       clearTimeout(timer);
       events.forEach((e) => window.removeEventListener(e, onEvent));
@@ -31,7 +48,7 @@ export default function CookieNotice() {
       show();
     };
     events.forEach((e) => window.addEventListener(e, onEvent, { passive: true }));
-    timer = setTimeout(show, 6000);
+    const timer = setTimeout(show, 6000);
     return () => {
       clearTimeout(timer);
       events.forEach((e) => window.removeEventListener(e, onEvent));
@@ -48,7 +65,7 @@ export default function CookieNotice() {
   };
 
   return (
-    <div className="ck" role="region" aria-label="Использование cookie">
+    <div ref={ref} className="ck" role="region" aria-label="Использование cookie">
       <p className="ck-text">
         Мы используем cookie-файлы. Это нужно для лучшей работы сайта. Продолжая
         пользоваться сайтом, вы соглашаетесь с этим.
