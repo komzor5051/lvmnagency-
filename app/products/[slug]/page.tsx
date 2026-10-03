@@ -193,6 +193,26 @@ export default async function ProductPage({
               <div className="pk-vsl">
                 <Vsl product={product} />
               </div>
+            ) : extra?.heroImage ? (
+              <div className="pk-cover-wrap">
+                <picture>
+                  {extra.heroImage.mobile && (
+                    <source
+                      media="(max-width: 767px)"
+                      srcSet={extra.heroImage.mobile.src}
+                      width={extra.heroImage.mobile.width}
+                      height={extra.heroImage.mobile.height}
+                    />
+                  )}
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={extra.heroImage.src}
+                    width={extra.heroImage.width}
+                    height={extra.heroImage.height}
+                    alt={extra.heroImage.alt}
+                  />
+                </picture>
+              </div>
             ) : (
               product.cover && (
                 <div className="pk-cover-wrap">
