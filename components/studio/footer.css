@@ -5,13 +5,6 @@
   border-top: 1px solid var(--ft-ink);
   color: var(--ft-ink);
   background-color: #fff;
-  background-image:
-    linear-gradient(rgba(21, 22, 26, .11) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(21, 22, 26, .11) 1px, transparent 1px),
-    linear-gradient(rgba(21, 22, 26, .045) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(21, 22, 26, .045) 1px, transparent 1px);
-  background-size: 200px 200px, 200px 200px, 20px 20px, 20px 20px;
-  background-position: -1px -1px;
 }
 .ft-wrap { max-width: 80rem; margin: 0 auto; padding: 80px 56px 32px; }
 .ft-grid { display: grid; grid-template-columns: 2fr 1fr; border: 1px solid var(--ft-ink); }
@@ -25,9 +18,6 @@
   display: flex; flex-direction: column; align-items: flex-start; gap: 28px;
   padding: 48px; background-color: var(--ft-ink); color: #fff;
   background-image:
-    linear-gradient(rgba(255, 255, 255, .07) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, .07) 1px, transparent 1px);
-  background-size: 200px 200px;
 }
 .ft-title {
   margin: 0; max-width: 16ch;

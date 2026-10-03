@@ -835,13 +835,7 @@ body {
    docs/design-concepts/variant-b2-desk.html
    ============================================================================= */
 body {
-  background-color: #f8f8f5;
-  background-image:
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cpath d='M100 92v16M92 100h16' stroke='%23111111' stroke-opacity='0.13' stroke-width='1'/%3E%3C/svg%3E"),
-    repeating-linear-gradient(0deg, transparent 0 39px, rgba(17, 17, 17, 0.04) 39px 40px),
-    repeating-linear-gradient(90deg, transparent 0 39px, rgba(17, 17, 17, 0.04) 39px 40px),
-    repeating-linear-gradient(0deg, transparent 0 7px, rgba(17, 17, 17, 0.016) 7px 8px),
-    repeating-linear-gradient(90deg, transparent 0 7px, rgba(17, 17, 17, 0.016) 7px 8px);
+  background-color: #fff;
 }
 
 /* Component classes live in the components layer so Tailwind utilities

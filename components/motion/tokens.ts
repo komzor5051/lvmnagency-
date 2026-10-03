@@ -9,3 +9,5 @@ export const TRIGGER_START = "top 85%";
 export const TILT_MAX = 6; // градусов, наклон обложки за курсором
 export const MAGNET = { radius: 110, pull: 12 } as const;
 export const NAV_HIDE_AFTER = 120; // px, раньше шапку не прячем
+// Анимации появления блоков и параллакс выключены: простой сайт, контент виден сразу.
+export const MOTION_ENABLED = false;

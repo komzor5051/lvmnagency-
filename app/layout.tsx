@@ -14,6 +14,7 @@ import "./studio.css";
 import "./personal.css";
 import "./razvorot.css";
 import "./kalka.css";
+import "./typography.css";
 import { jsonLd } from "@/lib/json-ld";
 
 // Self-hosted fonts keep production builds independent from Google Fonts.
@@ -76,7 +77,7 @@ export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   viewportFit: "cover",
-  themeColor: "#fbfaf4",
+  themeColor: "#ffffff",
 };
 
 const personSchema = {

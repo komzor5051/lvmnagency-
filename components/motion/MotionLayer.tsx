@@ -5,6 +5,7 @@ import { useGSAP, ScrollTrigger, prefersReducedMotion, hasFinePointer } from "./
 import { resolveTier, effectiveKind, isMotionKind } from "./logic";
 import { runners, markIn, type RunCtx } from "./runners";
 import { bindTilts } from "./interactions";
+import { MOTION_ENABLED } from "./tokens";
 
 // Оживляет разметку data-m на любой странице. Страницы остаются серверными:
 // атрибуты стоят в HTML, скрытие делает GSAP после гидратации.
@@ -14,7 +15,9 @@ export default function MotionLayer() {
 
   useGSAP(
     (_context, contextSafe) => {
-      const tier = resolveTier({ reduced: prefersReducedMotion(), finePointer: hasFinePointer() });
+      const tier = MOTION_ENABLED
+        ? resolveTier({ reduced: prefersReducedMotion(), finePointer: hasFinePointer() })
+        : "off";
       const nodes = Array.from(document.querySelectorAll<HTMLElement>("[data-m]"));
       if (tier === "off") {
         nodes.forEach(markIn);

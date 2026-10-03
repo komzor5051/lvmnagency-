@@ -12,17 +12,6 @@
   position: relative;
   color: var(--k-ink);
   background-color: #fff;
-  background-image:
-    linear-gradient(var(--k-major) 1px, transparent 1px),
-    linear-gradient(90deg, var(--k-major) 1px, transparent 1px),
-    linear-gradient(var(--k-minor) 1px, transparent 1px),
-    linear-gradient(90deg, var(--k-minor) 1px, transparent 1px);
-  background-size:
-    calc(var(--k-u) * 5) calc(var(--k-u) * 5),
-    calc(var(--k-u) * 5) calc(var(--k-u) * 5),
-    calc(var(--k-u) / 2) calc(var(--k-u) / 2),
-    calc(var(--k-u) / 2) calc(var(--k-u) / 2);
-  background-position: -1px -1px;
 }
 
 .k-mono {
@@ -201,10 +190,6 @@
 .k-btn:focus-visible { outline: 2px solid #15161a; outline-offset: 3px; }
 .k-dark {
   background-color: #15161a; color: #fff;
-  background-image:
-    linear-gradient(rgba(255,255,255,.08) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,.08) 1px, transparent 1px);
-  background-size: 200px 200px;
 }
 .k-dark .k-mono { color: rgba(255,255,255,.5); }
 /* Таблица-список на кальке: строки через тонкую чёрную линию */
@@ -227,3 +212,7 @@
   .ft-mono, .text-\[10px\], .text-\[11px\] { font-size: 12px !important; }
   .text-\[10px\] small, small.text-\[10px\] { font-size: 12px !important; }
 }
+
+/* Упрощение: без клетки, линеек, перекрестия курсора и декоративных индексов.
+   Внимание на тексте и кнопках покупки. Разметка Rulers/Crosshair остаётся в страницах, но не рисуется. */
+.k-ruler, .k-ruler-corner, .k-cross, .k-sheet-index, .k-cross-tag { display: none !important; }

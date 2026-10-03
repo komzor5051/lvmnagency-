@@ -135,26 +135,8 @@ body.rz-menu-open { overflow: hidden; }
 .rz-hero-aside { border-left: 1px solid var(--rz-line); padding-left: 36px; }
 .rz-hero-aside p { margin: 0 0 22px; font-size: 15px; color: var(--rz-mute); }
 .rz-hero-aside strong { display: block; font-family: var(--rz-serif); font-size: 44px; font-weight: 500; line-height: 1; color: var(--rz-ink); margin-bottom: 6px; }
-/* Вход hero живёт в components/motion/HomeMotion.tsx (GSAP).
-   Класс html.js ставит инлайн-скрипт в layout до первой отрисовки: без JS
-   и при reduced-motion статика видна сразу, с JS hero ждёт сцену.
-   Страховка: если сцена не стартовала за 4 с, всё проявляется само. */
-@media (prefers-reduced-motion: no-preference) {
-  html.js .rz-hero:not(.is-in) .rz-hero-eyebrow,
-  html.js .rz-hero:not(.is-in) .rz-h1,
-  html.js .rz-hero:not(.is-in) .rz-hero-lead,
-  html.js .rz-hero:not(.is-in) .rz-hero-acts,
-  html.js .rz-hero:not(.is-in) .rz-hero-aside { opacity: 0; animation: rz-safety 0s 4s forwards; }
-  html.js .rz-hero:not(.is-in) .rz-mark { --mark-w: 0%; }
-}
+/* Первый экран виден сразу: анимации появления отключены (components/motion/tokens.ts, MOTION_ENABLED). */
 @keyframes rz-safety { to { opacity: 1; } }
-
-/* Заголовки первого экрана с data-m-hero ждут MotionLayer, как hero главной.
-   Страховка та же: через 4 с проявятся сами. */
-@media (prefers-reduced-motion: no-preference) {
-  html.js [data-m="lines"][data-m-hero]:not(.is-in) { opacity: 0; animation: rz-safety 0s 4s forwards; }
-  html.js [data-m-hero]:not(.is-in) .rz-mark { --mark-w: 0%; }
-}
 
 /* ===== Продукты (1a) ===== */
 .rz-index { border-top: 1px solid var(--rz-line); }
