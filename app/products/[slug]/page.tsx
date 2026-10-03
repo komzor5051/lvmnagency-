@@ -120,11 +120,6 @@ export async function generateMetadata({
   };
 }
 
-function metaLine(product: Product): string {
-  const label = typeLabels[product.type];
-  return product.meta.startsWith(label) ? product.meta : `${label} · ${product.meta}`;
-}
-
 export default async function ProductPage({
   params,
   searchParams,
@@ -161,8 +156,7 @@ export default async function ProductPage({
 
             <div className="pk-hero-grid mt-10">
               <header>
-                <p className="k-mono !text-[#15161a]">{metaLine(product)}</p>
-                <h1 data-m="lines" data-m-hero className="k-h1 mt-5">
+                <h1 data-m="lines" data-m-hero className="k-h1">
                   {product.title}
                 </h1>
                 <p
@@ -328,8 +322,7 @@ export default async function ProductPage({
           <div className="k-wrap py-20 md:py-24">
             <div data-m="reveal" className="grid gap-10 md:grid-cols-[1fr_1fr] md:items-end">
               <div>
-                <p className="k-mono !text-[#15161a]">{metaLine(product)}</p>
-                <h2 className="k-h2 mt-4">{product.title}</h2>
+                <h2 className="k-h2">{product.title}</h2>
               </div>
               <div className="pk-buy-sheet">
                 <p data-m="count" className="pk-price">
