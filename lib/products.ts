@@ -215,7 +215,7 @@ export const products: Product[] = [
     cover: { src: "/consultation-cover.webp", width: 1440, height: 810 },
     buy: {
       kind: "lava",
-      url: "https://app.lava.top/products/00229885-2a19-4b39-84e8-ce18c868c955/content",
+      url: "https://app.lava.top/products/00229885-2a19-4b39-84e8-ce18c868c955?currency=RUB&domainId=2b8044d9-fd3c-47ce-ad84-1cb65c1e0fc8&domainName=vladlyamin.ru",
     },
     cta: { buy: "Забронировать час", fallback: "Забронировать в Telegram" },
     telegramText:
