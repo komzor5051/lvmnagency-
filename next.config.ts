@@ -10,6 +10,8 @@ const nextConfig: NextConfig = {
       { source: "/products/ai-os", destination: "/products/audit", permanent: true },
       { source: "/ai-audit", destination: "/audit", permanent: true },
       { source: "/employees", destination: "/", permanent: true },
+      // Продажи практикума закрыты; временный, чтобы адрес можно было вернуть под следующий поток.
+      { source: "/workshop", destination: "/", permanent: false },
       {
         // www served a full 200 copy of the site — a duplicate of every URL.
         // Collapse it onto the bare domain so link equity lands in one place.
